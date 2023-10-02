@@ -66,11 +66,14 @@ describe('Creating string attribute', () => {
 
 describe('Value validation', () => {
   describe('Default validation', () => {
-    it('should throw error if value is not a string', () => {
-      expect(() => new StringAttribute('attribute-name', 1 as any)).toThrow(
-        InvalidAttributeValueError,
-      );
-    });
+    it.each([[undefined], [null], [false], [1]])(
+      `should throw error if value is %s`,
+      (value) => {
+        expect(
+          () => new StringAttribute('attribute-name', value as any),
+        ).toThrow(InvalidAttributeValueError);
+      },
+    );
 
     it('should now throw error if value is a string', () => {
       expect(() => new StringAttribute('attribute-name', 'a')).not.toThrow();
@@ -102,6 +105,86 @@ describe('Value validation', () => {
             new StringAttribute('attribute-name', value, { validationSchema }),
         ).not.toThrow();
       });
+    });
+  });
+});
+
+describe('Setting value', () => {
+  it('should set a new value', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+    stringAttribute.setValue('new-value');
+
+    expect(stringAttribute.value).toBe('new-value');
+  });
+
+  it.each([[undefined], [null], [false], [1]])(
+    `should throw error if value is %s`,
+    (value) => {
+      const stringAttribute = new StringAttribute(
+        'attribute-name',
+        'attribute-value',
+      );
+
+      expect(() => stringAttribute.setValue(value as any)).toThrow(
+        InvalidAttributeValueError,
+      );
+    },
+  );
+
+  describe('Custom validation', () => {
+    describe('Value does not pass validation', () => {
+      it.each([
+        ['is empty string', 'a', '', z.string().min(1)],
+        [
+          'is not an email',
+          'email@email.com',
+          'not-an-email',
+          z.string().email(),
+        ],
+        ['is not a url', 'https://www.url.com', 'not-a-url', z.string().url()],
+      ])(
+        `should throw error if value %s`,
+        (_, value, newValue, validationSchema) => {
+          const stringAttribute = new StringAttribute('attribute-name', value, {
+            validationSchema,
+          });
+
+          expect(() => stringAttribute.setValue(newValue)).toThrow(
+            InvalidAttributeValueError,
+          );
+        },
+      );
+    });
+
+    describe('Value passes validation', () => {
+      it.each([
+        ['is not empty string', 'a', 'b', z.string().min(1)],
+        [
+          'is an email',
+          'email@email.com',
+          'another-email@email.com',
+          z.string().email(),
+        ],
+        [
+          'is a url',
+          'https://www.url.com',
+          'https://www.url.com',
+          z.string().url(),
+        ],
+      ])(
+        `should not throw error if value %s`,
+        (_, value, newValue, validationSchema) => {
+          const stringAttribute = new StringAttribute('attribute-name', value, {
+            validationSchema,
+          });
+
+          expect(() => stringAttribute.setValue(newValue)).not.toThrow();
+          expect(stringAttribute.value).toBe(newValue);
+        },
+      );
     });
   });
 });
