@@ -1,6 +1,10 @@
 import { describe, it, expect } from '@jest/globals';
+import { z } from 'zod';
 import { StringAttribute } from '../../src/attribute/StringAttribute.js';
-import { InvalidAttributeNameError } from '../../src/attribute/error/index.js';
+import {
+  InvalidAttributeNameError,
+  InvalidAttributeValueError,
+} from '../../src/attribute/error/index.js';
 
 describe('Creating string attribute', () => {
   it('should return name', () => {
@@ -57,5 +61,47 @@ describe('Creating string attribute', () => {
         );
       },
     );
+  });
+});
+
+describe('Value validation', () => {
+  describe('Default validation', () => {
+    it('should throw error if value is not a string', () => {
+      expect(() => new StringAttribute('attribute-name', 1 as any)).toThrow(
+        InvalidAttributeValueError,
+      );
+    });
+
+    it('should now throw error if value is a string', () => {
+      expect(() => new StringAttribute('attribute-name', 'a')).not.toThrow();
+    });
+  });
+
+  describe('Custom validation', () => {
+    describe('Value does not pass validation', () => {
+      it.each([
+        ['is empty string', '', z.string().min(1)],
+        ['is not an email', 'not-an-email', z.string().email()],
+        ['is not a url', 'not-a-url', z.string().url()],
+      ])(`should throw error if value %s`, (_, value, validationSchema) => {
+        expect(
+          () =>
+            new StringAttribute('attribute-name', value, { validationSchema }),
+        ).toThrow(InvalidAttributeValueError);
+      });
+    });
+
+    describe('Value passes validation', () => {
+      it.each([
+        ['is not empty string', 'a', z.string().min(1)],
+        ['is an email', 'email@email.com', z.string().email()],
+        ['is a url', 'https://www.url.com', z.string().url()],
+      ])(`should not throw error if value %s`, (_, value, validationSchema) => {
+        expect(
+          () =>
+            new StringAttribute('attribute-name', value, { validationSchema }),
+        ).not.toThrow();
+      });
+    });
   });
 });
