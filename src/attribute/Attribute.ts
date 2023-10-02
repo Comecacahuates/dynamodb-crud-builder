@@ -58,4 +58,8 @@ export abstract class Attribute<V = unknown> {
 
     return parsingResult.data;
   }
+
+  public setValue(value: V) {
+    this.internalValue = this.parseValue(value);
+  }
 }
