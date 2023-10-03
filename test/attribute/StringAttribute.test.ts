@@ -54,8 +54,8 @@ describe('Creating string attribute', () => {
 
   describe('Name validation', () => {
     it.each([['attribute-name-with-#'], ['attribute-name-with-:']])(
-      `should throw error if name is not valid: %s`,
-      (name) => {
+      `should throw error if name is %s`,
+      (name: string) => {
         expect(() => new StringAttribute(name, 'a')).toThrow(
           InvalidAttributeNameError,
         );
@@ -65,131 +65,158 @@ describe('Creating string attribute', () => {
 });
 
 describe('Value validation', () => {
-  describe('Default validation', () => {
+  describe('Default validation schema', () => {
+    it('should now throw error if value is a string', () => {
+      expect(() => new StringAttribute('attribute-name', 'a')).not.toThrow();
+    });
+
     it.each([[undefined], [null], [false], [1]])(
       `should throw error if value is %s`,
-      (value) => {
+      (value: any) => {
         expect(
           () => new StringAttribute('attribute-name', value as any),
         ).toThrow(InvalidAttributeValueError);
       },
     );
-
-    it('should now throw error if value is a string', () => {
-      expect(() => new StringAttribute('attribute-name', 'a')).not.toThrow();
-    });
   });
 
-  describe('Custom validation', () => {
-    describe('Value does not pass validation', () => {
-      it.each([
-        ['is empty string', '', z.string().min(1)],
-        ['is not an email', 'not-an-email', z.string().email()],
-        ['is not a url', 'not-a-url', z.string().url()],
-      ])(`should throw error if value %s`, (_, value, validationSchema) => {
-        expect(
-          () =>
-            new StringAttribute('attribute-name', value, { validationSchema }),
-        ).toThrow(InvalidAttributeValueError);
-      });
+  describe('Custom validation schema', () => {
+    describe.each([
+      [
+        'non empty string',
+        z.string().min(1),
+        'a',
+        [[undefined], [null], [false], [1], ['']],
+      ],
+      [
+        'an email',
+        z.string().email(),
+        'email@email.com',
+        [[undefined], [null], [false], [1], ['not-an-email']],
+      ],
+      [
+        'a url',
+        z.string().url(),
+        'https://www.url.com',
+        [[undefined], [null], [false], [1], ['not-a-url']],
+      ],
+    ])(
+      `Validate value is %s`,
+      (
+        _,
+        validationSchema: z.ZodString,
+        validValue: string,
+        invalidValues: any[],
+      ) => {
+        it(`should not throw error if value is ${validValue}`, () => {
+          expect(() => {
+            new StringAttribute('attribute-name', validValue, {
+              validationSchema,
+            });
+          }).not.toThrow();
+        });
 
-      describe('Value passes validation', () => {
-        it.each([
-          ['is not empty string', 'a', z.string().min(1)],
-          ['is an email', 'email@email.com', z.string().email()],
-          ['is a url', 'https://www.url.com', z.string().url()],
-        ])(
-          `should not throw error if value %s`,
-          (_, value, validationSchema) => {
-            expect(
-              () =>
-                new StringAttribute('attribute-name', value, {
-                  validationSchema,
-                }),
-            ).not.toThrow();
+        it.each(invalidValues)(
+          `should throw error if value is %s`,
+          (invalidValue) => {
+            expect(() => {
+              new StringAttribute('attribute-name', invalidValue, {
+                validationSchema,
+              });
+            }).toThrow(InvalidAttributeValueError);
           },
         );
-      });
-    });
+      },
+    );
   });
 });
 
 describe('Setting value', () => {
-  it('should set a new value', () => {
-    const stringAttribute = new StringAttribute(
-      'attribute-name',
-      'attribute-value',
-    );
-    stringAttribute.setValue('new-value');
-
-    expect(stringAttribute.value).toBe('new-value');
-  });
-
-  it.each([[undefined], [null], [false], [1]])(
-    `should throw error if value is %s`,
-    (value) => {
+  describe('Default validation schema', () => {
+    it('should set a new value', () => {
       const stringAttribute = new StringAttribute(
         'attribute-name',
         'attribute-value',
       );
+      stringAttribute.setValue('new-value');
 
-      expect(() => stringAttribute.setValue(value as any)).toThrow(
-        InvalidAttributeValueError,
-      );
-    },
-  );
+      expect(stringAttribute.value).toBe('new-value');
+    });
 
-  describe('Custom validation', () => {
-    describe('Value does not pass validation', () => {
-      it.each([
-        ['is empty string', 'a', '', z.string().min(1)],
-        [
-          'is not an email',
-          'email@email.com',
-          'not-an-email',
-          z.string().email(),
-        ],
-        ['is not a url', 'https://www.url.com', 'not-a-url', z.string().url()],
-      ])(
-        `should throw error if value %s`,
-        (_, value, newValue, validationSchema) => {
-          const stringAttribute = new StringAttribute('attribute-name', value, {
-            validationSchema,
-          });
+    it.each([[undefined], [null], [false], [1]])(
+      `should throw error if value is %s`,
+      (value: any) => {
+        const stringAttribute = new StringAttribute(
+          'attribute-name',
+          'attribute-value',
+        );
 
-          expect(() => stringAttribute.setValue(newValue)).toThrow(
-            InvalidAttributeValueError,
+        expect(() => stringAttribute.setValue(value)).toThrow(
+          InvalidAttributeValueError,
+        );
+      },
+    );
+  });
+
+  describe('Custom validation schema', () => {
+    describe.each([
+      [
+        'non empty string',
+        z.string().min(1),
+        'a',
+        'b',
+        [[undefined], [null], [false], [1], ['']],
+      ],
+      [
+        'an email',
+        z.string().email(),
+        'email@email.com',
+        'new-email@email.com',
+        [[undefined], [null], [false], [1], ['not-an-email']],
+      ],
+      [
+        'a url',
+        z.string().url(),
+        'https://www.url.com',
+        'https://www.new.url.com',
+        [[undefined], [null], [false], [1], ['not-a-url']],
+      ],
+    ])(
+      `Validate value is %s`,
+      (
+        _,
+        validationSchema: z.ZodString,
+        originalValue: string,
+        newValidValue: string,
+        newInvalidValues: any[],
+      ) => {
+        it(`should not throw error if value is ${newValidValue}`, () => {
+          const stringAttribute = new StringAttribute(
+            'attribute-name',
+            originalValue,
+            { validationSchema },
           );
-        },
-      );
-    });
 
-    describe('Value passes validation', () => {
-      it.each([
-        ['is not empty string', 'a', 'b', z.string().min(1)],
-        [
-          'is an email',
-          'email@email.com',
-          'another-email@email.com',
-          z.string().email(),
-        ],
-        [
-          'is a url',
-          'https://www.url.com',
-          'https://www.url.com',
-          z.string().url(),
-        ],
-      ])(
-        `should not throw error if value %s`,
-        (_, value, newValue, validationSchema) => {
-          const stringAttribute = new StringAttribute('attribute-name', value, {
-            validationSchema,
-          });
+          expect(() => {
+            stringAttribute.setValue(newValidValue);
+          }).not.toThrow();
+        });
 
-          expect(() => stringAttribute.setValue(newValue)).not.toThrow();
-          expect(stringAttribute.value).toBe(newValue);
-        },
-      );
-    });
+        it.each(newInvalidValues)(
+          `should throw error if value is %s`,
+          (newInvalidValue: any) => {
+            const stringAttribute = new StringAttribute(
+              'attribute-name',
+              originalValue,
+              { validationSchema },
+            );
+
+            expect(() => {
+              stringAttribute.setValue(newInvalidValue as any);
+            }).toThrow(InvalidAttributeValueError);
+          },
+        );
+      },
+    );
   });
 });
