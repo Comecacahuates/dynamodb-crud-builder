@@ -64,16 +64,14 @@ describe('Creating string attribute', () => {
 });
 
 describe('Setting value', () => {
-  describe('Default validation schema', () => {
-    it('should set a new value', () => {
-      const stringAttribute = new StringAttribute(
-        'attribute-name',
-        'attribute-value',
-      );
-      stringAttribute.setValue('new-value');
+  it('should set a new value', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+    stringAttribute.setValue('new-value');
 
-      expect(stringAttribute.value).toBe('new-value');
-    });
+    expect(stringAttribute.value).toBe('new-value');
   });
 });
 
