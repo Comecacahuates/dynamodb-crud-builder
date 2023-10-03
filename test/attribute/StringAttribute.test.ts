@@ -76,7 +76,7 @@ describe('Setting value', () => {
 });
 
 describe('Parsing DynamoDB value', () => {
-  it('should parse value', () => {
+  it('should parse value in DynamoDB item', () => {
     const stringAttribute = StringAttribute.parse('attribute-name', {
       'attribute-name': { S: 'attribute-value' },
     });
@@ -85,7 +85,7 @@ describe('Parsing DynamoDB value', () => {
     expect(stringAttribute!.value).toBe('attribute-value');
   });
 
-  it('should return undefined if value is not present', () => {
+  it('should return undefined if value is not present in DynamoDB item', () => {
     const stringAttribute = StringAttribute.parse('attribute-name', {});
 
     expect(stringAttribute).toBeUndefined();
