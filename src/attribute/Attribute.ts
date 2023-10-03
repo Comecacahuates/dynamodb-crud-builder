@@ -28,7 +28,11 @@ export abstract class Attribute<V = unknown> {
     return this.internalValue;
   }
 
-  public abstract get dynamoDbValue(): AttributeValue;
+  public abstract get dynamodbValue(): AttributeValue;
+
+  public get dynamodbItem(): Record<string, AttributeValue> {
+    return { [this.name]: this.dynamodbValue };
+  }
 
   public get namePlaceholder(): string {
     return `#${this.name}`;

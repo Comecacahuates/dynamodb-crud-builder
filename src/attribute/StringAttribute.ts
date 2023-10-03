@@ -8,7 +8,7 @@ export class StringAttribute extends Attribute<string> {
     super(name, value);
   }
 
-  public override get dynamoDbValue(): AttributeValue {
+  public override get dynamodbValue(): AttributeValue {
     return { S: this.value };
   }
 

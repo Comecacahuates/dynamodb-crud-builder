@@ -9,7 +9,7 @@ export class DateAttribute extends Attribute<Date> {
     super(name, value);
   }
 
-  public override get dynamoDbValue(): AttributeValue {
+  public override get dynamodbValue(): AttributeValue {
     return { S: this.value.toISOString() };
   }
 
