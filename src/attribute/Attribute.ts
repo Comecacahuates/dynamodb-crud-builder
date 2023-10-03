@@ -21,7 +21,6 @@ export abstract class Attribute<V = unknown> {
     }
 
     this.name = name;
-
     this.internalValue = value;
   }
 
