@@ -30,7 +30,18 @@ describe('Creating string attribute', () => {
       'attribute-value',
     );
 
-    expect(stringAttribute.dynamoDbValue).toEqual({ S: 'attribute-value' });
+    expect(stringAttribute.dynamodbValue).toEqual({ S: 'attribute-value' });
+  });
+
+  it('should return DynamoDB item', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+
+    expect(stringAttribute.dynamodbItem).toEqual({
+      'attribute-name': { S: 'attribute-value' },
+    });
   });
 
   it('should return attribute name placeholder', () => {

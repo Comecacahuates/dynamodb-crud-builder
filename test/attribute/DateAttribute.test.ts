@@ -30,8 +30,19 @@ describe('Creating date attribute', () => {
       new Date('2021-01-01T00:00:00.000Z'),
     );
 
-    expect(dateAttribute.dynamoDbValue).toEqual({
+    expect(dateAttribute.dynamodbValue).toEqual({
       S: '2021-01-01T00:00:00.000Z',
+    });
+  });
+
+  it('should return DynamoDB item', () => {
+    const dateAttribute = new DateAttribute(
+      'attribute-name',
+      new Date('2021-01-01T00:00:00.000Z'),
+    );
+
+    expect(dateAttribute.dynamodbItem).toEqual({
+      'attribute-name': { S: '2021-01-01T00:00:00.000Z' },
     });
   });
 
