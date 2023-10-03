@@ -17,20 +17,15 @@ export class DateAttribute extends Attribute<Date> {
     attributeName: string,
     dynamodbItem: Record<string, AttributeValue>,
   ): DateAttribute | undefined {
+    const isValidDateString = (value: unknown): boolean => {
+      const dateValidationSchema = z.string().datetime();
+      const dateParsingResult = dateValidationSchema.safeParse(value);
+      return dateParsingResult.success;
+    };
+
     return match(dynamodbItem)
       .with(
-        {
-          [attributeName]: {
-            S: P.select(
-              P.when((value) => {
-                const dateValidationSchema = z.string().datetime();
-                const dateParsingResult = dateValidationSchema.safeParse(value);
-                const isValidDate = dateParsingResult.success;
-                return isValidDate;
-              }),
-            ),
-          },
-        },
+        { [attributeName]: { S: P.select(P.when(isValidDateString)) } },
         (value) => new DateAttribute(attributeName, new Date(value!)),
       )
       .with({ [attributeName]: P.select() }, (dynamodbValue) => {
