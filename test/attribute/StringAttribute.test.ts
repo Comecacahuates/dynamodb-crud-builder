@@ -92,18 +92,23 @@ describe('Value validation', () => {
             new StringAttribute('attribute-name', value, { validationSchema }),
         ).toThrow(InvalidAttributeValueError);
       });
-    });
 
-    describe('Value passes validation', () => {
-      it.each([
-        ['is not empty string', 'a', z.string().min(1)],
-        ['is an email', 'email@email.com', z.string().email()],
-        ['is a url', 'https://www.url.com', z.string().url()],
-      ])(`should not throw error if value %s`, (_, value, validationSchema) => {
-        expect(
-          () =>
-            new StringAttribute('attribute-name', value, { validationSchema }),
-        ).not.toThrow();
+      describe('Value passes validation', () => {
+        it.each([
+          ['is not empty string', 'a', z.string().min(1)],
+          ['is an email', 'email@email.com', z.string().email()],
+          ['is a url', 'https://www.url.com', z.string().url()],
+        ])(
+          `should not throw error if value %s`,
+          (_, value, validationSchema) => {
+            expect(
+              () =>
+                new StringAttribute('attribute-name', value, {
+                  validationSchema,
+                }),
+            ).not.toThrow();
+          },
+        );
       });
     });
   });

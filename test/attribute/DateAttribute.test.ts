@@ -65,3 +65,59 @@ describe('Creating date attribute', () => {
     );
   });
 });
+
+describe('Value validation', () => {
+  describe('Default validation', () => {
+    it.each([
+      ['string'],
+      [1],
+      [true],
+      [{}],
+      [[]],
+      [null],
+      [new Date('invalid-date')],
+    ])('should throw error if value is %s', (value) => {
+      expect(() => new DateAttribute('attribute-name', value as any)).toThrow(
+        InvalidAttributeValueError,
+      );
+    });
+  });
+
+  describe('Custom validation', () => {
+    describe.each([
+      [
+        'greater than 2021-01-01T00:00:00.000Z',
+        z.date().min(new Date('2021-01-01T00:00:00.000Z')),
+        new Date('2021-01-02T00:00:00.000Z'),
+        new Date('2020-12-31T00:00:00.000Z'),
+      ],
+      [
+        'less than 2021-01-01T00:00:00.000Z',
+        z.date().max(new Date('2021-01-01T00:00:00.000Z')),
+        new Date('2020-12-31T00:00:00.000Z'),
+        new Date('2021-01-02T00:00:00.000Z'),
+      ],
+    ])(
+      `Validate date is %s`,
+      (_, validationSchema, validValue, invalidValue) => {
+        it(`should not throw error if value is ${validValue}`, () => {
+          expect(
+            () =>
+              new DateAttribute('attribute-name', validValue, {
+                validationSchema,
+              }),
+          ).not.toThrow();
+        });
+
+        it(`should throw error if value is ${invalidValue}`, () => {
+          expect(
+            () =>
+              new DateAttribute('attribute-name', invalidValue, {
+                validationSchema,
+              }),
+          ).toThrow(InvalidAttributeValueError);
+        });
+      },
+    );
+  });
+});
