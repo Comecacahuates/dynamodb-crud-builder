@@ -1,5 +1,5 @@
 import type { AttributeValue } from '@aws-sdk/client-dynamodb';
-import { z, ZodType } from 'zod';
+import { z } from 'zod';
 import {
   InvalidAttributeNameError,
   InvalidAttributeValueError,
@@ -11,8 +11,8 @@ const AttributeNameSchema = z
   .max(255)
   .regex(/^[a-zA-Z0-9._-]+$/);
 
-export interface AttributeOptions {
-  readonly validationSchema: ZodType;
+export interface AttributeOptions<Z = z.ZodType> {
+  readonly validationSchema: Z;
 }
 
 export abstract class Attribute<V = unknown> {
