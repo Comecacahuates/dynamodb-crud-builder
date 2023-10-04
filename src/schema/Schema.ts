@@ -1,4 +1,9 @@
-import { StringAttribute, DateAttribute } from '../attribute/index.js';
+import { AttributeValue } from '@aws-sdk/client-dynamodb';
+import {
+  StringAttribute,
+  DateAttribute,
+  Attribute,
+} from '../attribute/index.js';
 
 export abstract class Schema {
   public readonly entityName: StringAttribute;
@@ -48,4 +53,6 @@ export abstract class Schema {
   }
 
   public abstract getGsi2skValue(): string;
+
+  public abstract toAttributesList(): Attribute[];
 }

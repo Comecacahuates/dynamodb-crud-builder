@@ -1,6 +1,6 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { Schema } from '../../src/schema/Schema.js';
-import { StringAttribute } from '../../src/attribute/index.js';
+import { Attribute, StringAttribute } from '../../src/attribute/index.js';
 
 export class MockSchema extends Schema {
   public readonly attribute0: StringAttribute;
@@ -32,24 +32,24 @@ export class MockSchema extends Schema {
     return `SECONDARY_INDEX_2_SORT_KEY#${this.attribute0.value}`;
   }
 
+  public override toAttributesList(): Attribute[] {
+    const { attribute0, attribute1, creationTime, updateTime } = this;
+    return [attribute0, attribute1, creationTime, updateTime];
+  }
+
   public static parse(
     dynamodbItem: Record<string, AttributeValue>,
   ): MockSchema | undefined {
     const mockSchema = new MockSchema('', '');
 
-    mockSchema.entityName.parse(dynamodbItem);
-    if (mockSchema.entityName.value !== 'MockSchema') {
+    const { entityName } = mockSchema;
+    entityName.parse(dynamodbItem);
+    if (entityName.value !== mockSchema.getEntityNameValue()) {
       return undefined;
     }
 
-    const { attribute0, attribute1, creationTime, updateTime } = mockSchema;
-    const attributesToParse = [
-      attribute0,
-      attribute1,
-      creationTime,
-      updateTime,
-    ];
-    attributesToParse.forEach((attribute) => {
+    const attributes = mockSchema.toAttributesList();
+    attributes.forEach((attribute) => {
       attribute.parse(dynamodbItem);
     });
 
