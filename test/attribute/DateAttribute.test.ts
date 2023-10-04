@@ -1,66 +1,46 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { DateAttribute } from '../../src/attribute/DateAttribute.js';
 import {
   InvalidAttributeNameError,
   InvalidAttributeTypeError,
+  UndefinedAttributeError,
 } from '../../src/attribute/error/index.js';
 
 describe('Creating date attribute', () => {
-  it('should return name', () => {
-    const dateAttribute = new DateAttribute(
+  let dateAttribute: DateAttribute;
+
+  beforeEach(() => {
+    dateAttribute = new DateAttribute(
       'attribute-name',
       new Date('2021-01-01T00:00:00.000Z'),
     );
+  });
 
+  it('should return name', () => {
     expect(dateAttribute.name).toBe('attribute-name');
   });
 
   it('should return value', () => {
-    const dateAttribute = new DateAttribute(
-      'attribute-name',
-      new Date('2021-01-01T00:00:00.000Z'),
-    );
-
     expect(dateAttribute.value).toEqual(new Date('2021-01-01T00:00:00.000Z'));
   });
 
   it('should return DynamoDB value', () => {
-    const dateAttribute = new DateAttribute(
-      'attribute-name',
-      new Date('2021-01-01T00:00:00.000Z'),
-    );
-
     expect(dateAttribute.dynamodbValue).toEqual({
       S: '2021-01-01T00:00:00.000Z',
     });
   });
 
   it('should return DynamoDB item', () => {
-    const dateAttribute = new DateAttribute(
-      'attribute-name',
-      new Date('2021-01-01T00:00:00.000Z'),
-    );
-
     expect(dateAttribute.dynamodbItem).toEqual({
       'attribute-name': { S: '2021-01-01T00:00:00.000Z' },
     });
   });
 
   it('should return attribute name placeholder', () => {
-    const dateAttribute = new DateAttribute(
-      'attribute-name',
-      new Date('2021-01-01T00:00:00.000Z'),
-    );
-
     expect(dateAttribute.namePlaceholder).toBe('#attribute-name');
   });
 
   it('should return attribute value placeholder', () => {
-    const dateAttribute = new DateAttribute(
-      'attribute-name',
-      new Date('2021-01-01T00:00:00.000Z'),
-    );
-
     expect(dateAttribute.valuePlaceholder).toBe(':attribute-name');
   });
 
@@ -77,11 +57,16 @@ describe('Creating date attribute', () => {
 });
 
 describe('Setting value', () => {
-  it('should set a new value', () => {
-    const dateAttribute = new DateAttribute(
+  let dateAttribute: DateAttribute;
+
+  beforeEach(() => {
+    dateAttribute = new DateAttribute(
       'attribute-name',
       new Date('2021-01-01T00:00:00.000Z'),
     );
+  });
+
+  it('should set a new value', () => {
     dateAttribute.setValue(new Date('2021-01-02T00:00:00.000Z'));
 
     expect(dateAttribute.value).toEqual(new Date('2021-01-02T00:00:00.000Z'));
@@ -89,32 +74,36 @@ describe('Setting value', () => {
 });
 
 describe('Parsing DynamoDB value', () => {
+  let dateAttribute: DateAttribute;
+
+  beforeEach(() => {
+    dateAttribute = new DateAttribute(
+      'attribute-name',
+      new Date('2021-01-01T00:00:00.000Z'),
+    );
+  });
+
   it('should parse value in DynamoDB item', () => {
-    const dateAttribute = DateAttribute.parse('attribute-name', {
+    dateAttribute.parse({
       'attribute-name': { S: '2021-01-01T00:00:00.000Z' },
     });
 
-    expect(dateAttribute).toBeDefined();
-    expect(dateAttribute!.value).toEqual(new Date('2021-01-01T00:00:00.000Z'));
+    expect(dateAttribute.value).toEqual(new Date('2021-01-01T00:00:00.000Z'));
   });
 
-  it('should return undefined if value is not present in DynamoDB item', () => {
-    const dateAttribute = DateAttribute.parse('attribute-name', {});
-
-    expect(dateAttribute).toBeUndefined();
+  it('should throw error if value is not present in DynamoDB item', () => {
+    expect(() => dateAttribute.parse({})).toThrow(UndefinedAttributeError);
   });
 
   it('should throw error if attribute descriptor is not S', () => {
-    expect(() =>
-      DateAttribute.parse('attribute-name', { 'attribute-name': { N: '1' } }),
-    ).toThrow(InvalidAttributeTypeError);
+    expect(() => dateAttribute.parse({ 'attribute-name': { N: '1' } })).toThrow(
+      InvalidAttributeTypeError,
+    );
   });
 
   it('should throw error if attribute value is not a valid date string', () => {
     expect(() =>
-      DateAttribute.parse('attribute-name', {
-        'attribute-name': { S: 'invalid-date' },
-      }),
+      dateAttribute.parse({ 'attribute-name': { S: 'invalid-date' } }),
     ).toThrow(InvalidAttributeTypeError);
   });
 });

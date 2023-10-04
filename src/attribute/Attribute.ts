@@ -42,6 +42,8 @@ export abstract class Attribute<V = unknown> {
     return `:${this.name}`;
   }
 
+  public abstract parse(dynamodbItem: Record<string, AttributeValue>): void;
+
   public setValue(value: V) {
     this.internalValue = value;
   }

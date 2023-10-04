@@ -15,22 +15,19 @@ export class StringAttribute extends Attribute<string> {
     return { S: this.value };
   }
 
-  public parse(
-    attributeName: string,
-    dynamodbItem: Record<string, AttributeValue>,
-  ) {
+  public override parse(dynamodbItem: Record<string, AttributeValue>) {
     this.internalValue = match(dynamodbItem)
-      .with({ [attributeName]: { S: P.select(P.string) } }, (value) => value)
-      .with({ [attributeName]: P.select() }, (dynamodbValue) => {
+      .with({ [this.name]: { S: P.select(P.string) } }, (value) => value)
+      .with({ [this.name]: P.select() }, (dynamodbValue) => {
         throw new InvalidAttributeTypeError(
-          attributeName,
+          this.name,
           'S',
           'string',
           dynamodbValue,
         );
       })
       .otherwise(() => {
-        throw new UndefinedAttributeError(attributeName, 'string');
+        throw new UndefinedAttributeError(this.name, 'string');
       });
   }
 }

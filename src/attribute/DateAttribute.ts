@@ -2,7 +2,10 @@ import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { match, P } from 'ts-pattern';
 import { z } from 'zod';
 import { Attribute } from './Attribute.js';
-import { InvalidAttributeTypeError } from './error/index.js';
+import {
+  InvalidAttributeTypeError,
+  UndefinedAttributeError,
+} from './error/index.js';
 
 export class DateAttribute extends Attribute<Date> {
   public constructor(name: string, value: Date) {
@@ -13,29 +16,28 @@ export class DateAttribute extends Attribute<Date> {
     return { S: this.value.toISOString() };
   }
 
-  public static parse(
-    attributeName: string,
-    dynamodbItem: Record<string, AttributeValue>,
-  ): DateAttribute | undefined {
+  public override parse(dynamodbItem: Record<string, AttributeValue>) {
     const isValidDateString = (value: unknown): boolean => {
       const dateValidationSchema = z.string().datetime();
       const dateParsingResult = dateValidationSchema.safeParse(value);
       return dateParsingResult.success;
     };
 
-    return match(dynamodbItem)
+    this.internalValue = match(dynamodbItem)
       .with(
-        { [attributeName]: { S: P.select(P.when(isValidDateString)) } },
-        (value) => new DateAttribute(attributeName, new Date(value!)),
+        { [this.name]: { S: P.select(P.when(isValidDateString)) } },
+        (value) => new Date(value!),
       )
-      .with({ [attributeName]: P.select() }, (dynamodbValue) => {
+      .with({ [this.name]: P.select() }, (dynamodbValue) => {
         throw new InvalidAttributeTypeError(
-          attributeName,
+          this.name,
           'S',
           'string',
           dynamodbValue,
         );
       })
-      .otherwise(() => undefined);
+      .otherwise(() => {
+        throw new UndefinedAttributeError(this.name, 'string');
+      });
   }
 }
