@@ -15,6 +15,7 @@ import {
 import type {
   PutItemCommandInput,
   AttributeValue,
+  TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 import clone from 'just-clone';
@@ -176,5 +177,41 @@ describe('Put item', () => {
         .intoTable('table-name')
         .now(),
     ).rejects.toThrow(WritingToTableError);
+  });
+});
+
+describe('Build transaction item', () => {
+  let putCommandBuilder: PutCommandBuilder;
+
+  beforeEach(() => {
+    putCommandBuilder = new PutCommandBuilder();
+  });
+
+  it('should put multiple attributes', () => {
+    const putCommand: TransactWriteItem = putCommandBuilder
+      .put('attribute0', 'attribute0-value')
+      .put('attribute1', 1)
+      .put('attribute2', true)
+      .put('attribute3', new Date('2021-01-01T00:00:00.000Z'))
+      .put('attribute4', new Set<number>([1, 2, 3]))
+      .intoTable('table-name')
+      .inTransaction();
+
+    expect(putCommand).toHaveProperty('Put', {
+      TableName: 'table-name',
+      Item: {
+        attribute0: { S: 'attribute0-value' },
+        attribute1: { N: '1' },
+        attribute2: { BOOL: true },
+        attribute3: { S: '2021-01-01T00:00:00.000Z' },
+        attribute4: { NS: ['1', '2', '3'] },
+      },
+    });
+  });
+
+  it('should throw error if table name is not set', () => {
+    expect(() =>
+      putCommandBuilder.put('attribute0', 'attribute0-value').inTransaction(),
+    ).toThrow(MissingTableError);
   });
 });
