@@ -1,7 +1,10 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { match, P } from 'ts-pattern';
 import { Attribute } from './Attribute.js';
-import { InvalidAttributeTypeError } from './error/index.js';
+import {
+  InvalidAttributeTypeError,
+  UndefinedAttributeError,
+} from './error/index.js';
 
 export class StringAttribute extends Attribute<string> {
   public constructor(name: string, value: string) {
@@ -12,15 +15,12 @@ export class StringAttribute extends Attribute<string> {
     return { S: this.value };
   }
 
-  public static parse(
+  public parse(
     attributeName: string,
     dynamodbItem: Record<string, AttributeValue>,
-  ): StringAttribute | undefined {
-    return match(dynamodbItem)
-      .with(
-        { [attributeName]: { S: P.select(P.string) } },
-        (value) => new StringAttribute(attributeName, value),
-      )
+  ) {
+    this.internalValue = match(dynamodbItem)
+      .with({ [attributeName]: { S: P.select(P.string) } }, (value) => value)
       .with({ [attributeName]: P.select() }, (dynamodbValue) => {
         throw new InvalidAttributeTypeError(
           attributeName,
@@ -29,6 +29,8 @@ export class StringAttribute extends Attribute<string> {
           dynamodbValue,
         );
       })
-      .otherwise(() => undefined);
+      .otherwise(() => {
+        throw new UndefinedAttributeError(attributeName, 'string');
+      });
   }
 }

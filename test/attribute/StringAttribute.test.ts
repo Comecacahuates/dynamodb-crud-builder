@@ -2,6 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { StringAttribute } from '../../src/attribute/StringAttribute.js';
 import {
   InvalidAttributeNameError,
+  UndefinedAttributeError,
   InvalidAttributeTypeError,
 } from '../../src/attribute/error/index.js';
 
@@ -88,29 +89,46 @@ describe('Setting value', () => {
 
 describe('Parsing DynamoDB value', () => {
   it('should parse value in DynamoDB item', () => {
-    const stringAttribute = StringAttribute.parse('attribute-name', {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+    stringAttribute.parse('attribute-name', {
       'attribute-name': { S: 'attribute-value' },
     });
 
-    expect(stringAttribute).toBeDefined();
-    expect(stringAttribute!.value).toBe('attribute-value');
+    expect(stringAttribute.value).toBe('attribute-value');
   });
 
-  it('should return undefined if value is not present in DynamoDB item', () => {
-    const stringAttribute = StringAttribute.parse('attribute-name', {});
-
-    expect(stringAttribute).toBeUndefined();
+  it('should throw error if value is not present in DynamoDB item', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+    expect(() => stringAttribute.parse('attribute-name', {})).toThrow(
+      UndefinedAttributeError,
+    );
   });
 
   it('should throw error if attribute descriptor is not S', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+
     expect(() =>
-      StringAttribute.parse('attribute-name', { 'attribute-name': { N: '1' } }),
+      stringAttribute.parse('attribute-name', { 'attribute-name': { N: '1' } }),
     ).toThrow(InvalidAttributeTypeError);
   });
 
   it('should throw error if dynamodb attribute value is not string', () => {
+    const stringAttribute = new StringAttribute(
+      'attribute-name',
+      'attribute-value',
+    );
+
     expect(() =>
-      StringAttribute.parse('attribute-name', {
+      stringAttribute.parse('attribute-name', {
         'attribute-name': { S: 1 },
       } as any),
     ).toThrow(InvalidAttributeTypeError);

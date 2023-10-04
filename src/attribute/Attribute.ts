@@ -9,7 +9,7 @@ const AttributeNameSchema = z
   .regex(/^[a-zA-Z0-9._-]+$/);
 
 export abstract class Attribute<V = unknown> {
-  private internalValue: V;
+  protected internalValue: V;
 
   public constructor(
     public readonly name: string,
