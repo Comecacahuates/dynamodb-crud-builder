@@ -2,6 +2,7 @@ import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import type { PutItemInput, AttributeValue } from '@aws-sdk/client-dynamodb';
 import { Attribute } from '../attribute/Attribute.js';
 import type { AttributeType } from '../attribute/Attribute.js';
+import { MissingTableError } from './error/index.js';
 
 export class PutCommandBuilder {
   private internalPutItemInput: PutItemInput = {
@@ -26,6 +27,10 @@ export class PutCommandBuilder {
   }
 
   public later(): PutItemCommand {
+    if (!this.internalPutItemInput.TableName) {
+      throw new MissingTableError();
+    }
+
     return new PutItemCommand(this.internalPutItemInput);
   }
 }
