@@ -1,20 +1,9 @@
-import { AttributeValue } from '@aws-sdk/client-dynamodb';
-
 export class InvalidAttributeTypeError extends Error {
   public override readonly name = 'InvalidAttributeTypeError';
 
-  public constructor(
-    attributeName: string,
-    expectedDescriptor: string,
-    expectedType: string,
-    actualAttributeValue: AttributeValue,
-  ) {
+  public constructor(dynamodbAttributeValue: unknown) {
     super(
-      `Invalid attribute type for ${attributeName}: expected { ${expectedDescriptor}: <${expectedType}> }, got { ${JSON.stringify(
-        actualAttributeValue,
-        null,
-        2,
-      )} }`,
+      `Attribute value ${dynamodbAttributeValue} cannot be converted to a DynamoDB attribute value`,
     );
   }
 }

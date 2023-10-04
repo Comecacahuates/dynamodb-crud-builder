@@ -1,50 +1,49 @@
 import type { AttributeValue } from '@aws-sdk/client-dynamodb';
-import { z } from 'zod';
-import { InvalidAttributeNameError } from './error/index.js';
+import { match, P } from 'ts-pattern';
+import { InvalidAttributeTypeError } from './error/index.js';
 
-const AttributeNameSchema = z
-  .string()
-  .min(1)
-  .max(255)
-  .regex(/^[a-zA-Z0-9._-]+$/);
+// const AttributeNameSchema = z
+//   .string()
+//   .min(1)
+//   .max(255)
+//   .regex(/^[a-zA-Z0-9._-]+$/);
 
-export abstract class Attribute<V = unknown> {
-  protected internalValue: V;
+export abstract class Attribute {
+  public static buildDynamodbValue(value: unknown): AttributeValue {
+    return match<unknown, AttributeValue>(value)
+      .with(P.string, (string) => ({ S: string }))
 
-  public constructor(
-    public readonly name: string,
-    value: V,
-  ) {
-    const nameParsingResult = AttributeNameSchema.safeParse(name);
-    if (!nameParsingResult.success) {
-      throw new InvalidAttributeNameError(name);
-    }
+      .with(P.instanceOf(Date), (date) => ({ S: date.toISOString() }))
 
-    this.name = name;
-    this.internalValue = value;
-  }
+      .with(P.number, (number) => ({ N: number.toString() }))
 
-  public get value(): V {
-    return this.internalValue;
-  }
+      .with(P.boolean, (boolean) => ({ BOOL: boolean }))
 
-  public abstract get dynamodbValue(): AttributeValue;
+      .with(null, () => ({ NULL: true }))
 
-  public get dynamodbItem(): Record<string, AttributeValue> {
-    return { [this.name]: this.dynamodbValue };
-  }
+      .with(P.set(P.number), (numberSet) => ({
+        NS: [...numberSet].map(String),
+      }))
 
-  public get namePlaceholder(): string {
-    return `#${this.name}`;
-  }
+      .with(P.set(P.string), (stringSet) => ({
+        SS: [...stringSet],
+      }))
 
-  public get valuePlaceholder(): string {
-    return `:${this.name}`;
-  }
+      .with(P.array(P.any), (list) => ({
+        L: list.map((item) => this.buildDynamodbValue(item)),
+      }))
 
-  public abstract parse(dynamodbItem: Record<string, AttributeValue>): void;
+      .with(undefined, () => {
+        throw new InvalidAttributeTypeError(undefined);
+      })
 
-  public setValue(value: V) {
-    this.internalValue = value;
+      .otherwise((object) => ({
+        M: Object.fromEntries(
+          Object.entries(object as object).map(([key, value]) => [
+            key,
+            this.buildDynamodbValue(value),
+          ]),
+        ),
+      }));
   }
 }
