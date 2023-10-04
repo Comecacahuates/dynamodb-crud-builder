@@ -1,11 +1,15 @@
 import { PutItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import type { PutItemInput, AttributeValue } from '@aws-sdk/client-dynamodb';
+import type {
+  PutItemInput,
+  AttributeValue,
+  TransactWriteItem,
+} from '@aws-sdk/client-dynamodb';
 import { Attribute } from '../attribute/Attribute.js';
 import type { AttributeType } from '../attribute/Attribute.js';
 import { MissingTableError, WritingToTableError } from './error/index.js';
 
 export class PutCommandBuilder {
-  private internalPutItemInput: PutItemInput = {
+  private putItemInput: PutItemInput = {
     TableName: undefined,
     Item: {},
   };
@@ -17,21 +21,21 @@ export class PutCommandBuilder {
     const dynamodbAttributeValue: AttributeValue =
       Attribute.buildDynamodbValue(attributeValue);
 
-    this.internalPutItemInput.Item![attributeName] = dynamodbAttributeValue;
+    this.putItemInput.Item![attributeName] = dynamodbAttributeValue;
     return this;
   }
 
   public intoTable(tableName: string): PutCommandBuilder {
-    this.internalPutItemInput.TableName = tableName;
+    this.putItemInput.TableName = tableName;
     return this;
   }
 
   public later(): PutItemCommand {
-    if (!this.internalPutItemInput.TableName) {
+    if (!this.putItemInput.TableName) {
       throw new MissingTableError();
     }
 
-    return new PutItemCommand(this.internalPutItemInput);
+    return new PutItemCommand(this.putItemInput);
   }
 
   public async now(): Promise<void> {
@@ -46,10 +50,15 @@ export class PutCommandBuilder {
       const putCommand = this.later();
       await client.send(putCommand);
     } catch (error) {
-      throw new WritingToTableError(
-        this.internalPutItemInput.TableName!,
-        error,
-      );
+      throw new WritingToTableError(this.putItemInput.TableName!, error);
     }
+  }
+
+  public inTransaction(): TransactWriteItem {
+    if (!this.putItemInput.TableName) {
+      throw new MissingTableError();
+    }
+
+    return { Put: this.putItemInput };
   }
 }
