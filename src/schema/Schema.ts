@@ -1,58 +1,27 @@
-import { AttributeValue } from '@aws-sdk/client-dynamodb';
-import {
-  StringAttribute,
-  DateAttribute,
-  Attribute,
-} from '../attribute/index.js';
-
 export abstract class Schema {
-  public readonly entityName: StringAttribute;
-  public readonly creationTime: DateAttribute = new DateAttribute(
-    '_ct',
-    new Date(),
-  );
-  public readonly updateTime: DateAttribute = new DateAttribute(
-    '_ut',
-    new Date(),
-  );
+  private internalCreationTime = new Date();
+  private internalUpdateTime = new Date();
 
-  public constructor() {
-    this.entityName = new StringAttribute('_et', this.getEntityNameValue());
+  public constructor() {}
+
+  public abstract get entityName(): string;
+
+  public get creationTime(): Date {
+    return this.internalCreationTime;
   }
 
-  public abstract getEntityNameValue(): string;
-
-  public get pk(): StringAttribute {
-    return new StringAttribute('PK', this.getPkValue());
+  public get updateTime(): Date {
+    return this.internalUpdateTime;
   }
 
-  public abstract getPkValue(): string;
-
-  public get sk(): StringAttribute {
-    return new StringAttribute('SK', this.getSkValue());
-  }
-
-  public abstract getSkValue(): string;
-
-  public get gsi1pk(): StringAttribute {
+  public abstract get pk(): string;
+  public abstract get sk(): string;
+  public get gsi1pk(): string {
     return this.sk;
   }
-
-  public get gsi1sk(): StringAttribute {
+  public get gsi1sk(): string {
     return this.pk;
   }
-
-  public get gsi2pk(): StringAttribute {
-    return new StringAttribute('GSI2PK', this.getGsi2pkValue());
-  }
-
-  public abstract getGsi2pkValue(): string;
-
-  public get gsi2sk(): StringAttribute {
-    return new StringAttribute('GSI2SK', this.getGsi2skValue());
-  }
-
-  public abstract getGsi2skValue(): string;
-
-  public abstract toAttributesList(): Attribute[];
+  public abstract get gsi2pk(): string;
+  public abstract get gsi2sk(): string;
 }
