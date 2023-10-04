@@ -11,9 +11,11 @@ export abstract class Schema {
     new Date(),
   );
 
-  public constructor(entityName: string) {
-    this.entityName = new StringAttribute('_et', entityName);
+  public constructor() {
+    this.entityName = new StringAttribute('_et', this.getEntityNameValue());
   }
+
+  public abstract getEntityNameValue(): string;
 
   public get pk(): StringAttribute {
     return new StringAttribute('PK', this.getPkValue());
