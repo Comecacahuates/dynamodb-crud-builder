@@ -1,13 +1,12 @@
 import { Schema } from '../../src/schema/Schema.js';
+import { PutCommandBuilder } from '../../src/write/PutCommandBuilder.js';
 
 export class MockSchema extends Schema {
-  public readonly attribute0: string;
-  public readonly attribute1: string;
-
-  public constructor(attribute0: string, attribute1: string) {
+  public constructor(
+    public attribute0: string,
+    public attribute1: string,
+  ) {
     super();
-    this.attribute0 = attribute0;
-    this.attribute1 = attribute1;
   }
 
   public override get entityName(): string {
@@ -28,5 +27,12 @@ export class MockSchema extends Schema {
 
   public override get gsi2sk(): string {
     return `GIS2_SORT_KEY#${this.attribute0}`;
+  }
+
+  public override put(): PutCommandBuilder {
+    return super
+      .put()
+      .put('attr0', this.attribute0)
+      .put('attr1', this.attribute1);
   }
 }
