@@ -7,10 +7,23 @@ import {
   afterAll,
   jest,
 } from '@jest/globals';
-import { AttributeValue, PutItemCommand } from '@aws-sdk/client-dynamodb';
+import {
+  PutItemCommand,
+  DynamoDBClient,
+  DynamoDBServiceException,
+} from '@aws-sdk/client-dynamodb';
+import type {
+  PutItemCommandInput,
+  AttributeValue,
+} from '@aws-sdk/client-dynamodb';
+import { mockClient } from 'aws-sdk-client-mock';
+import clone from 'just-clone';
 import { PutCommandBuilder } from '../../src/write/PutCommandBuilder.js';
 import type { AttributeType } from '../../src/attribute/index.js';
-import { MissingTableError } from '../../src/write/error/index.js';
+import {
+  MissingTableError,
+  WritingToTableError,
+} from '../../src/write/error/index.js';
 
 beforeAll(() => {
   jest.useFakeTimers({
@@ -102,5 +115,66 @@ describe('Build put command', () => {
     expect(() =>
       putCommandBuilder.put('attribute0', 'attribute0-value').later(),
     ).toThrow(MissingTableError);
+  });
+});
+
+describe('Put item', () => {
+  const mockDynamodbClient = mockClient(DynamoDBClient);
+
+  let putCommandBuilder: PutCommandBuilder;
+  const mockPutItemCommandInput: PutItemCommandInput = {
+    TableName: 'table-name',
+    Item: {
+      attribute0: { S: 'attribute0-value' },
+      attribute1: { N: '1' },
+      attribute2: { BOOL: true },
+      attribute3: { S: '2021-01-01T00:00:00.000Z' },
+      attribute4: { NS: ['1', '2', '3'] },
+    },
+  };
+  const initialConditions = { itemIsInTable: false };
+  let finalConditions = clone(initialConditions);
+
+  beforeEach(() => {
+    putCommandBuilder = new PutCommandBuilder();
+
+    finalConditions = clone(initialConditions);
+    mockDynamodbClient
+      .on(PutItemCommand, mockPutItemCommandInput)
+      .callsFake(() => {
+        finalConditions.itemIsInTable = true;
+      });
+  });
+
+  it('should put item', async () => {
+    await putCommandBuilder
+      .put('attribute0', 'attribute0-value')
+      .put('attribute1', 1)
+      .put('attribute2', true)
+      .put('attribute3', new Date('2021-01-01T00:00:00.000Z'))
+      .put('attribute4', new Set<number>([1, 2, 3]))
+      .intoTable('table-name')
+      .now();
+  });
+
+  it('should throw error if writing to table fails', async () => {
+    mockDynamodbClient.on(PutItemCommand).rejects(
+      new DynamoDBServiceException({
+        name: 'DynamoDBServiceException',
+        $fault: 'client',
+        $metadata: {},
+      }),
+    );
+
+    await expect(
+      putCommandBuilder
+        .put('attribute0', 'attribute0-value')
+        .put('attribute1', 1)
+        .put('attribute2', true)
+        .put('attribute3', new Date('2021-01-01T00:00:00.000Z'))
+        .put('attribute4', new Set<number>([1, 2, 3]))
+        .intoTable('table-name')
+        .now(),
+    ).rejects.toThrow(WritingToTableError);
   });
 });
