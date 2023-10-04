@@ -1,8 +1,8 @@
-import { PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { PutItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import type { PutItemInput, AttributeValue } from '@aws-sdk/client-dynamodb';
 import { Attribute } from '../attribute/Attribute.js';
 import type { AttributeType } from '../attribute/Attribute.js';
-import { MissingTableError } from './error/index.js';
+import { MissingTableError, WritingToTableError } from './error/index.js';
 
 export class PutCommandBuilder {
   private internalPutItemInput: PutItemInput = {
@@ -32,5 +32,24 @@ export class PutCommandBuilder {
     }
 
     return new PutItemCommand(this.internalPutItemInput);
+  }
+
+  public async now(): Promise<void> {
+    try {
+      const client = new DynamoDBClient({
+        region: 'us-east-1',
+        endpointProvider: () => ({
+          url: new URL('https://dynamodb.us-east-1.amazonaws.com'),
+        }),
+      });
+
+      const putCommand = this.later();
+      await client.send(putCommand);
+    } catch (error) {
+      throw new WritingToTableError(
+        this.internalPutItemInput.TableName!,
+        error,
+      );
+    }
   }
 }
