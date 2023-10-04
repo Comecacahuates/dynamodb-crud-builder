@@ -9,7 +9,8 @@ import {
 } from '@jest/globals';
 import { AttributeValue, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { PutCommandBuilder } from '../../src/write/PutCommandBuilder.js';
-import type { AttributeType } from '../../src/attribute/Attribute.js';
+import type { AttributeType } from '../../src/attribute/index.js';
+import { MissingTableError } from '../../src/write/error/index.js';
 
 beforeAll(() => {
   jest.useFakeTimers({
@@ -95,5 +96,11 @@ describe('Build put command', () => {
         attribute4: { NS: ['1', '2', '3'] },
       },
     });
+  });
+
+  it('should throw error if table name is not set', () => {
+    expect(() =>
+      putCommandBuilder.put('attribute0', 'attribute0-value').later(),
+    ).toThrow(MissingTableError);
   });
 });
