@@ -31,3 +31,9 @@ export function parseStringSet(
 ): Set<string> {
   return new Set(attributeValue.SS);
 }
+
+export function parseNumberSet(
+  attributeValue: AttributeValue.NSMember,
+): Set<number> {
+  return new Set(attributeValue.NS.map(Number));
+}
