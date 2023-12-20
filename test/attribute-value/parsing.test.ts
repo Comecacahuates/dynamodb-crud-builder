@@ -43,3 +43,11 @@ describe('Parsing string set DynamoDB attribute value', () => {
     );
   });
 });
+
+describe('Parsing number set DynamoDB attribute value', () => {
+  it('should return number set value', () => {
+    expect(Attribute.parseNumberSet({ NS: ['123', '456'] })).toEqual(
+      new Set([123, 456]),
+    );
+  });
+});
