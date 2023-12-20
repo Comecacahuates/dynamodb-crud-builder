@@ -15,3 +15,9 @@ describe('Parsing number DynamoDB attribute value', () => {
     expect(Attribute.parseNumber({ N: '123' })).toBe(123);
   });
 });
+
+describe('Parsing boolean DynamoDB attribute value', () => {
+  it('should return boolean value', () => {
+    expect(Attribute.parseBoolean({ BOOL: true })).toBe(true);
+  });
+});
