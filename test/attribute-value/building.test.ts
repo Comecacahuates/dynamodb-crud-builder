@@ -4,6 +4,7 @@ import {
   buildStringAttributeValue,
   buildNumberAttributeValue,
   buildBooleanAttributeValue,
+  buildStringSetAttributeValue,
 } from '../../src/attribute-value/building.js';
 
 describe('Building string DynamoDB attribute value', () => {
@@ -30,5 +31,14 @@ describe('Building boolean DynamoDB attribute value', () => {
       buildBooleanAttributeValue(true);
 
     expect(attributeValue).toEqual({ BOOL: true });
+  });
+});
+
+describe('Building string set DynamoDB attribute value', () => {
+  it('should build string set attribute value', () => {
+    const attributeValue: AttributeValue.SSMember =
+      buildStringSetAttributeValue(new Set(['value1', 'value2']));
+
+    expect(attributeValue).toEqual({ SS: ['value1', 'value2'] });
   });
 });
