@@ -7,6 +7,7 @@ import {
   buildBinary,
   buildStringSet,
   buildNumberSet,
+  buildBinarySet,
 } from '../../src/attribute-value/building.js';
 
 describe('Building string DynamoDB attribute value', () => {
@@ -61,5 +62,17 @@ describe('Building number set DynamoDB attribute value', () => {
     );
 
     expect(attributeValue).toEqual({ NS: ['123', '456'] });
+  });
+});
+
+describe('Build binary set DynamoDB attribute value', () => {
+  it('should build binary set attribute value', () => {
+    const attributeValue: AttributeValue.BSMember = buildBinarySet(
+      new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
+    );
+
+    expect(attributeValue).toEqual({
+      BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
+    });
   });
 });
