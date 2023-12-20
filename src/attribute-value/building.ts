@@ -11,3 +11,9 @@ export function buildNumberAttributeValue(
 ): AttributeValue.NMember {
   return { N: String(attributeValue) };
 }
+
+export function buildBooleanAttributeValue(
+  attributeValue: boolean,
+): AttributeValue.BOOLMember {
+  return { BOOL: attributeValue };
+}
