@@ -35,3 +35,11 @@ describe('Parsing binary DynamoDB attribute value', () => {
     );
   });
 });
+
+describe('Parsing string set DynamoDB attribute value', () => {
+  it('should return string set value', () => {
+    expect(Attribute.parseStringSet({ SS: ['value1', 'value2'] })).toEqual(
+      new Set(['value1', 'value2']),
+    );
+  });
+});
