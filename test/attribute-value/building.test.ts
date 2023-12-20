@@ -3,7 +3,7 @@ import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../../src/attribute-value/index.js';
 
 describe('Building string DynamoDB attribute value', () => {
-  it('should build string attribute value', () => {
+  it('should return string attribute value', () => {
     const attributeValue: AttributeValue.SMember =
       Attribute.buildString('attribute-value');
 
@@ -12,7 +12,7 @@ describe('Building string DynamoDB attribute value', () => {
 });
 
 describe('Building number DynamoDB attribute value', () => {
-  it('should build number attribute value', () => {
+  it('should return number attribute value', () => {
     const attributeValue: AttributeValue.NMember = Attribute.buildNumber(123);
 
     expect(attributeValue).toEqual({ N: '123' });
@@ -20,7 +20,7 @@ describe('Building number DynamoDB attribute value', () => {
 });
 
 describe('Building boolean DynamoDB attribute value', () => {
-  it('should build boolean attribute value', () => {
+  it('should return boolean attribute value', () => {
     const attributeValue: AttributeValue.BOOLMember =
       Attribute.buildBoolean(true);
 
@@ -29,7 +29,7 @@ describe('Building boolean DynamoDB attribute value', () => {
 });
 
 describe('Building binary DynamoDB attribute value', () => {
-  it('should build binary attribute value', () => {
+  it('should return binary attribute value', () => {
     const attributeValue: AttributeValue.BMember = Attribute.buildBinary(
       new Uint8Array([1, 2, 3]),
     );
@@ -39,7 +39,7 @@ describe('Building binary DynamoDB attribute value', () => {
 });
 
 describe('Building string set DynamoDB attribute value', () => {
-  it('should build string set attribute value', () => {
+  it('should return string set attribute value', () => {
     const attributeValue: AttributeValue.SSMember = Attribute.buildStringSet(
       new Set(['value1', 'value2']),
     );
@@ -49,7 +49,7 @@ describe('Building string set DynamoDB attribute value', () => {
 });
 
 describe('Building number set DynamoDB attribute value', () => {
-  it('should build number set attribute value', () => {
+  it('should return number set attribute value', () => {
     const attributeValue: AttributeValue.NSMember = Attribute.buildNumberSet(
       new Set([123, 456]),
     );
@@ -59,7 +59,7 @@ describe('Building number set DynamoDB attribute value', () => {
 });
 
 describe('Build binary set DynamoDB attribute value', () => {
-  it('should build binary set attribute value', () => {
+  it('should return binary set attribute value', () => {
     const attributeValue: AttributeValue.BSMember = Attribute.buildBinarySet(
       new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
     );
@@ -71,31 +71,31 @@ describe('Build binary set DynamoDB attribute value', () => {
 });
 
 describe('Build DynamoDB attribute value', () => {
-  it('should build null attribute value', () => {
+  it('should return null attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(null);
 
     expect(attributeValue).toEqual({ NULL: true });
   });
 
-  it('should build string attribute value', () => {
+  it('should return string attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build('attribute-value');
 
     expect(attributeValue).toEqual({ S: 'attribute-value' });
   });
 
-  it('should build number attribute value', () => {
+  it('should return number attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(123);
 
     expect(attributeValue).toEqual({ N: '123' });
   });
 
-  it('should build boolean attribute value', () => {
+  it('should return boolean attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(true);
 
     expect(attributeValue).toEqual({ BOOL: true });
   });
 
-  it('should build binary attribute value', () => {
+  it('should return binary attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(
       new Uint8Array([1, 2, 3]),
     );
@@ -103,7 +103,7 @@ describe('Build DynamoDB attribute value', () => {
     expect(attributeValue).toEqual({ B: new Uint8Array([1, 2, 3]) });
   });
 
-  it('should build string set attribute value', () => {
+  it('should return string set attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(
       new Set(['value1', 'value2']),
     );
@@ -111,13 +111,13 @@ describe('Build DynamoDB attribute value', () => {
     expect(attributeValue).toEqual({ SS: ['value1', 'value2'] });
   });
 
-  it('should build number set attribute value', () => {
+  it('should return number set attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(new Set([123, 456]));
 
     expect(attributeValue).toEqual({ NS: ['123', '456'] });
   });
 
-  it('should build binary set attribute value', () => {
+  it('should return binary set attribute value', () => {
     const attributeValue: AttributeValue = Attribute.build(
       new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
     );
@@ -128,13 +128,13 @@ describe('Build DynamoDB attribute value', () => {
   });
 
   describe('Building list DynamoDB attribute value', () => {
-    it('should build empty list attribute value', () => {
+    it('should return empty list attribute value', () => {
       const attributeValue: AttributeValue = Attribute.build([]);
 
       expect(attributeValue).toEqual({ L: [] });
     });
 
-    it('should build list attribute value only with nulls', () => {
+    it('should return list attribute value only with nulls', () => {
       const attributeValue: AttributeValue = Attribute.build([null, null]);
 
       expect(attributeValue).toEqual({
@@ -142,7 +142,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with strings', () => {
+    it('should return list attribute value only with strings', () => {
       const attributeValue: AttributeValue = Attribute.build([
         'value1',
         'value2',
@@ -153,7 +153,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with numbers', () => {
+    it('should return list attribute value only with numbers', () => {
       const attributeValue: AttributeValue = Attribute.build([123, 456]);
 
       expect(attributeValue).toEqual({
@@ -161,7 +161,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with booleans', () => {
+    it('should return list attribute value only with booleans', () => {
       const attributeValue: AttributeValue = Attribute.build([true, false]);
 
       expect(attributeValue).toEqual({
@@ -169,7 +169,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with binaries', () => {
+    it('should return list attribute value only with binaries', () => {
       const attributeValue: AttributeValue = Attribute.build([
         new Uint8Array([1, 2, 3]),
         new Uint8Array([4, 5, 6]),
@@ -180,7 +180,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with strings sets', () => {
+    it('should return list attribute value only with strings sets', () => {
       const attributeValue: AttributeValue = Attribute.build([
         new Set(['value1', 'value2']),
         new Set(['value3', 'value4']),
@@ -191,7 +191,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with number sets', () => {
+    it('should return list attribute value only with number sets', () => {
       const attributeValue: AttributeValue = Attribute.build([
         new Set([123, 456]),
         new Set([789, 101112]),
@@ -202,7 +202,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with binary sets', () => {
+    it('should return list attribute value only with binary sets', () => {
       const attributeValue: AttributeValue = Attribute.build([
         new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
         new Set([new Uint8Array([7, 8, 9]), new Uint8Array([10, 11, 12])]),
@@ -220,7 +220,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with lists', () => {
+    it('should return list attribute value only with lists', () => {
       const attributeValue: AttributeValue = Attribute.build([
         ['value1', 'value2'],
         ['value3', 'value4'],
@@ -234,7 +234,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value only with objects', () => {
+    it('should return list attribute value only with objects', () => {
       const attributeValue: AttributeValue = Attribute.build([
         { attr1: 'value1', attr2: 'value2' },
         { attr3: 'value3', attr4: 'value4' },
@@ -248,7 +248,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build list attribute value with different types of items', () => {
+    it('should return list attribute value with different types of items', () => {
       const attributeValue: AttributeValue = Attribute.build([
         null,
         'value1',
@@ -294,13 +294,13 @@ describe('Build DynamoDB attribute value', () => {
   });
 
   describe('Building object DynamoDB attribute value', () => {
-    it('should build empty object attribute value', () => {
+    it('should return empty object attribute value', () => {
       const attributeValue: AttributeValue = Attribute.build({});
 
       expect(attributeValue).toEqual({ M: {} });
     });
 
-    it('should build object attribute value only with nulls', () => {
+    it('should return object attribute value only with nulls', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: null,
         attr2: null,
@@ -311,7 +311,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with strings', () => {
+    it('should return object attribute value only with strings', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: 'value1',
         attr2: 'value2',
@@ -322,7 +322,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with numbers', () => {
+    it('should return object attribute value only with numbers', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: 123,
         attr2: 456,
@@ -333,7 +333,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with booleans', () => {
+    it('should return object attribute value only with booleans', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: true,
         attr2: false,
@@ -344,7 +344,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with binaries', () => {
+    it('should return object attribute value only with binaries', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: new Uint8Array([1, 2, 3]),
         attr2: new Uint8Array([4, 5, 6]),
@@ -358,7 +358,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with strings sets', () => {
+    it('should return object attribute value only with strings sets', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: new Set(['value1', 'value2']),
         attr2: new Set(['value3', 'value4']),
@@ -372,7 +372,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with number sets', () => {
+    it('should return object attribute value only with number sets', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: new Set([123, 456]),
         attr2: new Set([789, 101112]),
@@ -386,7 +386,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with binary sets', () => {
+    it('should return object attribute value only with binary sets', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
         attr2: new Set([
@@ -407,7 +407,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value only with lists', () => {
+    it('should return object attribute value only with lists', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: ['value1', 'value2'],
         attr2: ['value3', 'value4'],
@@ -421,7 +421,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value with different types of items', () => {
+    it('should return object attribute value with different types of items', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: null,
         attr2: 'value1',
@@ -445,7 +445,7 @@ describe('Build DynamoDB attribute value', () => {
       });
     });
 
-    it('should build object attribute value with nested objects', () => {
+    it('should return object attribute value with nested objects', () => {
       const attributeValue: AttributeValue = Attribute.build({
         attr1: { attr2: { attr3: 'value1' } },
         attr4: { attr5: { attr6: 'value2' } },
