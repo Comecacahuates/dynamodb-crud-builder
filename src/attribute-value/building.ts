@@ -5,3 +5,9 @@ export function buildStringAttributeValue(
 ): AttributeValue.SMember {
   return { S: attributeValue };
 }
+
+export function buildNumberAttributeValue(
+  attributeValue: number,
+): AttributeValue.NMember {
+  return { N: String(attributeValue) };
+}
