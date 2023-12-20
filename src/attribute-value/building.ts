@@ -33,3 +33,9 @@ export function buildNumberSet(
 ): AttributeValue.NSMember {
   return { NS: [...attributeValue].map(String) };
 }
+
+export function buildBinarySet(
+  attributeValue: Set<Uint8Array>,
+): AttributeValue.BSMember {
+  return { BS: [...attributeValue] };
+}
