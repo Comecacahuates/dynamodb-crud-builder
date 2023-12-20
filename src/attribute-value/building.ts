@@ -1,26 +1,22 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 
-export const NULL_ATTRIBUTE_VALUE: AttributeValue.NULLMember = { NULL: true };
+export const NULL: AttributeValue.NULLMember = { NULL: true };
 
-export function buildStringAttributeValue(
-  attributeValue: string,
-): AttributeValue.SMember {
+export function buildString(attributeValue: string): AttributeValue.SMember {
   return { S: attributeValue };
 }
 
-export function buildNumberAttributeValue(
-  attributeValue: number,
-): AttributeValue.NMember {
+export function buildNumber(attributeValue: number): AttributeValue.NMember {
   return { N: String(attributeValue) };
 }
 
-export function buildBooleanAttributeValue(
+export function buildBoolean(
   attributeValue: boolean,
 ): AttributeValue.BOOLMember {
   return { BOOL: attributeValue };
 }
 
-export function buildStringSetAttributeValue(
+export function buildStringSet(
   attributeValue: Set<string>,
 ): AttributeValue.SSMember {
   return { SS: [...attributeValue] };
