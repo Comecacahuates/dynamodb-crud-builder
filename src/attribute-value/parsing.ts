@@ -25,3 +25,9 @@ export function parseBinary(
 ): Uint8Array {
   return attributeValue.B;
 }
+
+export function parseStringSet(
+  attributeValue: AttributeValue.SSMember,
+): Set<string> {
+  return new Set(attributeValue.SS);
+}
