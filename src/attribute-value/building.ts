@@ -21,3 +21,9 @@ export function buildStringSet(
 ): AttributeValue.SSMember {
   return { SS: [...attributeValue] };
 }
+
+export function buildNumberSet(
+  attributeValue: Set<number>,
+): AttributeValue.NSMember {
+  return { NS: [...attributeValue].map(String) };
+}
