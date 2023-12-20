@@ -9,3 +9,9 @@ describe('Parsing string DynamoDB attribute value', () => {
     );
   });
 });
+
+describe('Parsing number DynamoDB attribute value', () => {
+  it('should return number value', () => {
+    expect(Attribute.parseNumber({ N: '123' })).toBe(123);
+  });
+});
