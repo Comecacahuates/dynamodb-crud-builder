@@ -2,6 +2,12 @@ import { describe, it, expect } from '@jest/globals';
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../../src/attribute-value/index.js';
 
+describe('Parsing null DynamoDB attribute value', () => {
+  it('should return null value', () => {
+    expect(Attribute.parseNull({ NULL: true })).toBe(null);
+  });
+});
+
 describe('Parsing string DynamoDB attribute value', () => {
   it('should return string value', () => {
     expect(Attribute.parseString({ S: 'attribute-value' })).toBe(
@@ -19,5 +25,13 @@ describe('Parsing number DynamoDB attribute value', () => {
 describe('Parsing boolean DynamoDB attribute value', () => {
   it('should return boolean value', () => {
     expect(Attribute.parseBoolean({ BOOL: true })).toBe(true);
+  });
+});
+
+describe('Parsing binary DynamoDB attribute value', () => {
+  it('should return binary value', () => {
+    expect(Attribute.parseBinary({ B: new Uint8Array([1, 2, 3]) })).toEqual(
+      new Uint8Array([1, 2, 3]),
+    );
   });
 });
