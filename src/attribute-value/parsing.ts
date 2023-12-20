@@ -9,3 +9,9 @@ export function parseString(attributeValue: AttributeValue.SMember): string {
 export function parseNumber(attributeValue: AttributeValue.NMember): number {
   return Number(attributeValue.N);
 }
+
+export function parseBoolean(
+  attributeValue: AttributeValue.BOOLMember,
+): boolean {
+  return attributeValue.BOOL;
+}
