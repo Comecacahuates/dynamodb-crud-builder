@@ -51,3 +51,13 @@ describe('Parsing number set DynamoDB attribute value', () => {
     );
   });
 });
+
+describe('Parsing binary set DynamoDB attribute value', () => {
+  it('should return binary set value', () => {
+    expect(
+      Attribute.parseBinarySet({
+        BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
+      }),
+    ).toEqual(new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]));
+  });
+});
