@@ -4,6 +4,7 @@ import {
   buildString,
   buildNumber,
   buildBoolean,
+  buildBinary,
   buildStringSet,
   buildNumberSet,
 } from '../../src/attribute-value/building.js';
@@ -30,6 +31,16 @@ describe('Building boolean DynamoDB attribute value', () => {
     const attributeValue: AttributeValue.BOOLMember = buildBoolean(true);
 
     expect(attributeValue).toEqual({ BOOL: true });
+  });
+});
+
+describe('Building binary DynamoDB attribute value', () => {
+  it('should build binary attribute value', () => {
+    const attributeValue: AttributeValue.BMember = buildBinary(
+      new Uint8Array([1, 2, 3]),
+    );
+
+    expect(attributeValue).toEqual({ B: new Uint8Array([1, 2, 3]) });
   });
 });
 
