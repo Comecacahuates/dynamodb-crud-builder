@@ -3,6 +3,7 @@ import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import {
   buildStringAttributeValue,
   buildNumberAttributeValue,
+  buildBooleanAttributeValue,
 } from '../../src/attribute-value/building.js';
 
 describe('Building string DynamoDB attribute value', () => {
@@ -20,5 +21,14 @@ describe('Building number DynamoDB attribute value', () => {
       buildNumberAttributeValue(123);
 
     expect(attributeValue).toEqual({ N: '123' });
+  });
+});
+
+describe('Building boolean DynamoDB attribute value', () => {
+  it('should build boolean attribute value', () => {
+    const attributeValue: AttributeValue.BOOLMember =
+      buildBooleanAttributeValue(true);
+
+    expect(attributeValue).toEqual({ BOOL: true });
   });
 });
