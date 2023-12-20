@@ -37,3 +37,9 @@ export function parseNumberSet(
 ): Set<number> {
   return new Set(attributeValue.NS.map(Number));
 }
+
+export function parseBinarySet(
+  attributeValue: AttributeValue.BSMember,
+): Set<Uint8Array> {
+  return new Set(attributeValue.BS);
+}
