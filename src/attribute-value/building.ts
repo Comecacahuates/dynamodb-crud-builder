@@ -16,6 +16,12 @@ export function buildBoolean(
   return { BOOL: attributeValue };
 }
 
+export function buildBinary(
+  attributeValue: Uint8Array,
+): AttributeValue.BMember {
+  return { B: attributeValue };
+}
+
 export function buildStringSet(
   attributeValue: Set<string>,
 ): AttributeValue.SSMember {
