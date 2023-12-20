@@ -5,3 +5,7 @@ import { AttributeType } from './types.js';
 export function parseString(attributeValue: AttributeValue.SMember): string {
   return attributeValue.S;
 }
+
+export function parseNumber(attributeValue: AttributeValue.NMember): number {
+  return Number(attributeValue.N);
+}
