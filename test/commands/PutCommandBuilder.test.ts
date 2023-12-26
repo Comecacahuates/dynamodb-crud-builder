@@ -147,4 +147,15 @@ describe('Build put command', () => {
       },
     });
   });
+
+  describe('Table name', () => {
+    it('should build put command with table name', () => {
+      const putCommand = putCommandBuilder
+        .putNull('attribute-name')
+        .intoTable('table-name')
+        .build();
+
+      expect(putCommand).toHaveProperty('input.TableName', 'table-name');
+    });
+  });
 });
