@@ -1,22 +1,22 @@
-import { type PutItemInput, PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { type PutItemInput } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../../src/attribute-value/index.js';
 
-export class PutCommandBuilder {
+export class PutItemInputBuilder {
   private putItemInput: PutItemInput = {
     TableName: undefined,
     Item: {},
   };
 
-  public build(): PutItemCommand {
-    return new PutItemCommand(this.putItemInput);
+  public build(): PutItemInput {
+    return this.putItemInput;
   }
 
-  public intoTable(tableName: string): PutCommandBuilder {
+  public intoTable(tableName: string): PutItemInputBuilder {
     this.putItemInput.TableName = tableName;
     return this;
   }
 
-  public putNull(attributeName: string): PutCommandBuilder {
+  public putNull(attributeName: string): PutItemInputBuilder {
     this.putItemInput.Item![attributeName] = Attribute.NULL;
     return this;
   }
@@ -24,7 +24,7 @@ export class PutCommandBuilder {
   public putString(
     attributeName: string,
     numberValue: string,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildString(numberValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -33,7 +33,7 @@ export class PutCommandBuilder {
   public putNumber(
     attributeName: string,
     stringValue: number,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildNumber(stringValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -42,7 +42,7 @@ export class PutCommandBuilder {
   public putBoolean(
     attributeName: string,
     booleanValue: boolean,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildBoolean(booleanValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -51,7 +51,7 @@ export class PutCommandBuilder {
   public putBinary(
     attributeName: string,
     binaryValue: Uint8Array,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildBinary(binaryValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -60,7 +60,7 @@ export class PutCommandBuilder {
   public putStringSet(
     attributeName: string,
     stringSetValue: Set<string>,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildStringSet(stringSetValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -69,7 +69,7 @@ export class PutCommandBuilder {
   public putNumberSet(
     attributeName: string,
     numberSetValue: Set<number>,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildNumberSet(numberSetValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -78,7 +78,7 @@ export class PutCommandBuilder {
   public putBinarySet(
     attributeName: string,
     binarySetValue: Set<Uint8Array>,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.buildBinarySet(binarySetValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -87,7 +87,7 @@ export class PutCommandBuilder {
   public putList(
     attributeName: string,
     listValue: Attribute.AttributeType[],
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.build(listValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
@@ -96,7 +96,7 @@ export class PutCommandBuilder {
   public putObject(
     attributeName: string,
     mapValue: Attribute.AttributeType,
-  ): PutCommandBuilder {
+  ): PutItemInputBuilder {
     const attributeValue = Attribute.build(mapValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;

@@ -1,90 +1,90 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { PutCommandBuilder } from '../../src/commands/PutCommandBuilder.js';
+import { PutItemInputBuilder } from '../../src/commands/PutItemInputBuilder.js';
 
 describe('Build put command', () => {
-  let putCommandBuilder: PutCommandBuilder;
+  let putItemInputBuilder: PutItemInputBuilder;
 
   beforeEach(() => {
-    putCommandBuilder = new PutCommandBuilder();
+    putItemInputBuilder = new PutItemInputBuilder();
   });
 
   it('should build put command with single null attribute', () => {
-    const putCommand = putCommandBuilder.putNull('attribute-name').build();
+    const putCommand = putItemInputBuilder.putNull('attribute-name').build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { NULL: true },
     });
   });
 
   it('should build put command with single string attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putString('attribute-name', 'attribute-value')
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { S: 'attribute-value' },
     });
   });
 
   it('should build put command with single number attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putNumber('attribute-name', 123)
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { N: '123' },
     });
   });
 
   it('should build put command with single boolean attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putBoolean('attribute-name', true)
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { BOOL: true },
     });
   });
 
   it('should build put command with single binary', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putBinary('attribute-name', new Uint8Array([1, 2, 3]))
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { B: new Uint8Array([1, 2, 3]) },
     });
   });
 
   it('should build put command with single string set attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putStringSet('attribute-name', new Set(['value1', 'value2']))
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { SS: ['value1', 'value2'] },
     });
   });
 
   it('should build put command with single number set attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putNumberSet('attribute-name', new Set([123, 456]))
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { NS: ['123', '456'] },
     });
   });
 
   it('should build put command with single binary set attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putBinarySet(
         'attribute-name',
         new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
       )
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': {
         BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
       },
@@ -92,21 +92,21 @@ describe('Build put command', () => {
   });
 
   it('should build put command with single list attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putList('attribute-name', ['value1', 'value2'])
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': { L: [{ S: 'value1' }, { S: 'value2' }] },
     });
   });
 
   it('should build put command with single object attribute', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putObject('attribute-name', { key1: 'value1', key2: 'value2' })
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name': {
         M: { key1: { S: 'value1' }, key2: { S: 'value2' } },
       },
@@ -114,7 +114,7 @@ describe('Build put command', () => {
   });
 
   it('should build put command with multiple attributes', () => {
-    const putCommand = putCommandBuilder
+    const putCommand = putItemInputBuilder
       .putNull('attribute-name1')
       .putString('attribute-name2', 'attribute-value2')
       .putNumber('attribute-name3', 123)
@@ -130,7 +130,7 @@ describe('Build put command', () => {
       .putObject('attribute-name10', { key1: 'value1', key2: 'value2' })
       .build();
 
-    expect(putCommand).toHaveProperty('input.Item', {
+    expect(putCommand).toHaveProperty('Item', {
       'attribute-name1': { NULL: true },
       'attribute-name2': { S: 'attribute-value2' },
       'attribute-name3': { N: '123' },
@@ -150,12 +150,12 @@ describe('Build put command', () => {
 
   describe('Table name', () => {
     it('should build put command with table name', () => {
-      const putCommand = putCommandBuilder
+      const putCommand = putItemInputBuilder
         .putNull('attribute-name')
         .intoTable('table-name')
         .build();
 
-      expect(putCommand).toHaveProperty('input.TableName', 'table-name');
+      expect(putCommand).toHaveProperty('TableName', 'table-name');
     });
   });
 });
