@@ -11,6 +11,11 @@ export class PutCommandBuilder {
     return new PutItemCommand(this.putItemInput);
   }
 
+  public intoTable(tableName: string): PutCommandBuilder {
+    this.putItemInput.TableName = tableName;
+    return this;
+  }
+
   public putNull(attributeName: string): PutCommandBuilder {
     this.putItemInput.Item![attributeName] = Attribute.NULL;
     return this;
