@@ -1,9 +1,10 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
+import { P, match } from 'ts-pattern';
 
 export type ItemMapping = {
   [key: string]: {
     mappedName: string;
-    nestedMapping?: ItemMapping;
+    nestedAttributesMapping?: ItemMapping;
   };
 };
 
@@ -18,16 +19,35 @@ export function mapItem(
         return { ...mappedItem, [attributeName]: attributeValue };
       }
 
-      const { mappedName, nestedMapping = {} } = attributeNameMapping;
+      const { mappedName, nestedAttributesMapping = {} } = attributeNameMapping;
 
-      const attributeTypeIsMap = attributeValue.M;
-      if (attributeTypeIsMap) {
-        const mappedAttributeValue = mapItem(attributeValue.M, nestedMapping);
-        return { ...mappedItem, [mappedName]: { M: mappedAttributeValue } };
-      }
+      const mappedAttributeValue = attributeValue.M
+        ? { M: mapItem(attributeValue.M, nestedAttributesMapping) }
+        : attributeValue;
 
-      return { ...mappedItem, [mappedName]: attributeValue };
+      return { ...mappedItem, [mappedName]: mappedAttributeValue };
     },
     {} as Record<string, AttributeValue>,
+  );
+}
+
+export function buildReverseItemMapping(itemMapping: ItemMapping): ItemMapping {
+  return Object.entries(itemMapping).reduce(
+    (reverseItemMapping, [attributeName, attributeMapping]) => {
+      const { mappedName, nestedAttributesMapping } = attributeMapping;
+
+      const reverseNestedAttributesMapping =
+        nestedAttributesMapping &&
+        buildReverseItemMapping(nestedAttributesMapping);
+
+      return {
+        ...reverseItemMapping,
+        [mappedName]: {
+          mappedName: attributeName,
+          nestedAttributesMapping: reverseNestedAttributesMapping,
+        },
+      };
+    },
+    {} as ItemMapping,
   );
 }
