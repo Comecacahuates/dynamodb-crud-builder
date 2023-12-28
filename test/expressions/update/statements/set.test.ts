@@ -7,6 +7,14 @@ describe('Building assign value statement', () => {
 
     expect(statement).toBe('#a.#b.#c = :abc');
   });
+
+  it('should return statement string preventing overwrite', () => {
+    const statement = Set.buildAssignValueStatement(['a', 'b', 'c'], {
+      preventOverwriting: true,
+    });
+
+    expect(statement).toBe('#a.#b.#c = if_not_exists(#a.#b.#c, :abc)');
+  });
 });
 
 describe('Building assign item of list statement', () => {
