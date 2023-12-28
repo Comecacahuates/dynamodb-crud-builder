@@ -12,9 +12,9 @@ export function buildFromAttributeName(
 }
 
 export function buildFromAttributePath(
-  path: Array<string>,
+  attributePath: Array<string>,
 ): Record<string, string> {
-  return path.reduce(
+  return attributePath.reduce(
     (attributeNames, pathPart) => ({
       ...attributeNames,
       ...buildFromAttributeName(pathPart),
