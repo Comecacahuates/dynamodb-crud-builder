@@ -5,6 +5,13 @@ export type Options = {
   preventOverwriting?: boolean;
 };
 
+export function buildOverwritePrevention(
+  attributePathPlaceholder: string,
+  valueToAssign: string,
+): string {
+  return `if_not_exists(${attributePathPlaceholder}, ${valueToAssign})`;
+}
+
 export function buildAssignValueStatement(
   attributePath: Array<string>,
   options: Options = {},
