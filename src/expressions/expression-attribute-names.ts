@@ -4,6 +4,12 @@ export function buildPlaceholderFromAttributeName(
   return `#${attributeName}`;
 }
 
+export function buildPlaceholderFromAttributePath(
+  attributePath: Array<string>,
+): string {
+  return attributePath.map(buildPlaceholderFromAttributeName).join('.');
+}
+
 export function buildFromAttributeName(
   attributeName: string,
 ): Record<string, string> {
