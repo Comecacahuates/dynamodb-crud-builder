@@ -10,3 +10,15 @@ export function buildFromAttributeName(
     [placeholder]: attributeName,
   };
 }
+
+export function buildFromAttributePath(
+  path: Array<string>,
+): Record<string, string> {
+  return path.reduce(
+    (attributeNames, pathPart) => ({
+      ...attributeNames,
+      ...buildFromAttributeName(pathPart),
+    }),
+    {},
+  );
+}
