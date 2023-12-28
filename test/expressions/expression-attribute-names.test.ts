@@ -1,12 +1,25 @@
 import { describe, it, expect } from '@jest/globals';
 import { ExpressionAttributeNames } from '../../src/expressions/index.js';
 
-describe('Building placeholder', () => {
-  it('should build placeholder', () => {
+describe('Building placeholder from attribute name', () => {
+  it('should return placeholder from attribute name', () => {
     const placeholder =
       ExpressionAttributeNames.buildPlaceholderFromAttributeName('id');
 
     expect(placeholder).toBe('#id');
+  });
+});
+
+describe('Building placeholder from attribute path', () => {
+  it('should return placeholder from attribute path', () => {
+    const placeholder =
+      ExpressionAttributeNames.buildPlaceholderFromAttributePath([
+        'a',
+        'b',
+        'c',
+      ]);
+
+    expect(placeholder).toBe('#a.#b.#c');
   });
 });
 
