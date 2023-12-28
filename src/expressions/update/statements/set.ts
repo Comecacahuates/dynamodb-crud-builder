@@ -5,32 +5,22 @@ export type Options = {
   preventOverwriting?: boolean;
 };
 
-export function buildValueWithOverwritePrevention(
-  attributePathPlaceholder: string,
-  valueToAssign: string,
-): string {
-  return `if_not_exists(${attributePathPlaceholder}, ${valueToAssign})`;
-}
-
 export function buildAssignValueStatement(
   attributePath: Array<string>,
   options: Options = {},
 ): string {
-  const { preventOverwriting: avoidOverwriting = false } = options;
+  const { preventOverwriting = false } = options;
 
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =
     ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
 
-  const value = avoidOverwriting
-    ? buildValueWithOverwritePrevention(
-        attributePathPlaceholder,
-        attributeValuePlaceholder,
-      )
-    : attributeValuePlaceholder;
+  if (preventOverwriting) {
+    return `${attributePathPlaceholder} = if_not_exists(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
+  }
 
-  return `${attributePathPlaceholder} = ${value}`;
+  return `${attributePathPlaceholder} = ${attributeValuePlaceholder}`;
 }
 
 export function buildAssignItemOfListStatement(
@@ -38,7 +28,7 @@ export function buildAssignItemOfListStatement(
   index: number,
   options: Options = {},
 ): string {
-  const { preventOverwriting: avoidOverwriting = false } = options;
+  const { preventOverwriting = false } = options;
 
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
@@ -47,14 +37,11 @@ export function buildAssignItemOfListStatement(
 
   const itemPathPlaceholder = `${attributePathPlaceholder}[${index}]`;
 
-  const value = avoidOverwriting
-    ? buildValueWithOverwritePrevention(
-        itemPathPlaceholder,
-        attributeValuePlaceholder,
-      )
-    : attributeValuePlaceholder;
+  if (preventOverwriting) {
+    return `${itemPathPlaceholder} = if_not_exists(${itemPathPlaceholder}, ${attributeValuePlaceholder})`;
+  }
 
-  return `${itemPathPlaceholder} = ${value}`;
+  return `${itemPathPlaceholder} = ${attributeValuePlaceholder}`;
 }
 
 export function buildAppendItemToListStatement(
