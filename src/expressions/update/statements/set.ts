@@ -23,11 +23,14 @@ export function buildAssignValueStatement(
   const attributeValuePlaceholder =
     ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
 
-  if (avoidOverwriting) {
-    return `${attributePathPlaceholder} = if_not_exists(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
-  }
+  const value = avoidOverwriting
+    ? buildValueWithOverwritePrevention(
+        attributePathPlaceholder,
+        attributeValuePlaceholder,
+      )
+    : attributeValuePlaceholder;
 
-  return `${attributePathPlaceholder} = ${attributeValuePlaceholder}`;
+  return `${attributePathPlaceholder} = ${value}`;
 }
 
 export function buildAssignItemOfListStatement(
