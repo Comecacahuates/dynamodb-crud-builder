@@ -8,3 +8,12 @@ describe('Building placeholder', () => {
     expect(placeholder).toBe('#id');
   });
 });
+
+describe('Building from attribute name', () => {
+  it('should build from attribute name', () => {
+    const fromAttributeName =
+      ExpressionAttributeNames.buildFromAttributeName('id');
+
+    expect(fromAttributeName).toEqual({ '#id': 'id' });
+  });
+});
