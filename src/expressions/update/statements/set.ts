@@ -11,3 +11,15 @@ export function buildAssignValueStatement(
 
   return `${attributePathPlaceholder} = ${attributeValuePlaceholder}`;
 }
+
+export function buildAssignItemOfList(
+  attributePath: Array<string>,
+  index: number,
+): string {
+  const attributePathPlaceholder =
+    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
+  const attributeValuePlaceholder =
+    ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
+
+  return `${attributePathPlaceholder}[${index}] = ${attributeValuePlaceholder}`;
+}
