@@ -36,13 +36,25 @@ export function buildAssignValueStatement(
 export function buildAssignItemOfListStatement(
   attributePath: Array<string>,
   index: number,
+  options: Options = {},
 ): string {
+  const { preventOverwriting: avoidOverwriting = false } = options;
+
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =
     ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
 
-  return `${attributePathPlaceholder}[${index}] = ${attributeValuePlaceholder}`;
+  const itemPathPlaceholder = `${attributePathPlaceholder}[${index}]`;
+
+  const value = avoidOverwriting
+    ? buildValueWithOverwritePrevention(
+        itemPathPlaceholder,
+        attributeValuePlaceholder,
+      )
+    : attributeValuePlaceholder;
+
+  return `${itemPathPlaceholder} = ${value}`;
 }
 
 export function buildAppendItemToListStatement(
