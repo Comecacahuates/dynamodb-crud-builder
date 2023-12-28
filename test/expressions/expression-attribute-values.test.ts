@@ -10,6 +10,19 @@ describe('Building placeholder from attribute name', () => {
   });
 });
 
+describe('Building placeholder from attribute path', () => {
+  it('should return placeholder from attribute path', () => {
+    const placeholder =
+      ExpressionAttributeValues.buildPlaceholderFromAttributePath([
+        'a',
+        'b',
+        'c',
+      ]);
+
+    expect(placeholder).toBe(':abc');
+  });
+});
+
 describe('Building from attribute name and value', () => {
   it('should return expression attribute value', () => {
     const fromAttributeNameAndValue =
