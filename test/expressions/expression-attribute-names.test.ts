@@ -3,7 +3,8 @@ import { ExpressionAttributeNames } from '../../src/expressions/index.js';
 
 describe('Building placeholder', () => {
   it('should build placeholder', () => {
-    const placeholder = ExpressionAttributeNames.buildPlaceholder('id');
+    const placeholder =
+      ExpressionAttributeNames.buildPlaceholderFromAttributeName('id');
 
     expect(placeholder).toBe('#id');
   });

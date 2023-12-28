@@ -1,11 +1,13 @@
-export function buildPlaceholder(attributeName: string): string {
+export function buildPlaceholderFromAttributeName(
+  attributeName: string,
+): string {
   return `#${attributeName}`;
 }
 
 export function buildFromAttributeName(
   attributeName: string,
 ): Record<string, string> {
-  const placeholder = buildPlaceholder(attributeName);
+  const placeholder = buildPlaceholderFromAttributeName(attributeName);
   return {
     [placeholder]: attributeName,
   };
