@@ -34,3 +34,12 @@ export function buildAppendItemToListStatement(
 
   return `${attributePathPlaceholder} = list_append(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
 }
+
+export function buildAddValueStatement(attributePath: Array<string>): string {
+  const attributePathPlaceholder =
+    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
+  const attributeValuePlaceholder =
+    ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
+
+  return `${attributePathPlaceholder} = ${attributePathPlaceholder} + ${attributeValuePlaceholder}`;
+}
