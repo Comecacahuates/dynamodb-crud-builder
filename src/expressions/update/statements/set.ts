@@ -1,13 +1,24 @@
 import * as ExpressionAttributeNames from '../../expression-attribute-names.js';
 import * as ExpressionAttributeValues from '../../expression-attribute-values.js';
 
+export type Options = {
+  preventOverwriting?: boolean;
+};
+
 export function buildAssignValueStatement(
   attributePath: Array<string>,
+  options: Options = {},
 ): string {
+  const { preventOverwriting: avoidOverwriting = false } = options;
+
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =
     ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
+
+  if (avoidOverwriting) {
+    return `${attributePathPlaceholder} = if_not_exists(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
+  }
 
   return `${attributePathPlaceholder} = ${attributeValuePlaceholder}`;
 }
