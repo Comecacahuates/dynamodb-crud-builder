@@ -5,7 +5,7 @@ export type Options = {
   preventOverwriting?: boolean;
 };
 
-export function buildOverwritePrevention(
+export function buildValueWithOverwritePrevention(
   attributePathPlaceholder: string,
   valueToAssign: string,
 ): string {

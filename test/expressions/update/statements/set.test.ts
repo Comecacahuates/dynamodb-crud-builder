@@ -1,6 +1,14 @@
 import { describe, it, expect } from '@jest/globals';
 import { Set } from '../../../../src/expressions/update/statements/index.js';
 
+describe('Building value with overwrite prevention', () => {
+  it('should return statement string', () => {
+    const statement = Set.buildValueWithOverwritePrevention('#a.#b.#c', ':abc');
+
+    expect(statement).toBe('if_not_exists(#a.#b.#c, :abc)');
+  });
+});
+
 describe('Building assign value statement', () => {
   it('should return statement string', () => {
     const statement = Set.buildAssignValueStatement(['a', 'b', 'c']);
