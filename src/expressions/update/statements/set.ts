@@ -56,7 +56,7 @@ export function buildAppendItemToListStatement(
   return `${attributePathPlaceholder} = list_append(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
 }
 
-export function buildAddValueStatement(attributePath: AttributePath): string {
+export function buildAddNumberStatement(attributePath: AttributePath): string {
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =
@@ -65,7 +65,7 @@ export function buildAddValueStatement(attributePath: AttributePath): string {
   return `${attributePathPlaceholder} = ${attributePathPlaceholder} + ${attributeValuePlaceholder}`;
 }
 
-export function buildSubtractValueStatement(
+export function buildSubtractNumberStatement(
   attributePath: AttributePath,
 ): string {
   const attributePathPlaceholder =

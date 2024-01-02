@@ -41,17 +41,17 @@ describe('Building append item to list statement', () => {
   });
 });
 
-describe('Building add value statement', () => {
+describe('Building add number statement', () => {
   it('should return statement string', () => {
-    const statement = Set.buildAddValueStatement(['a', 'b', 'c']);
+    const statement = Set.buildAddNumberStatement(['a', 'b', 'c']);
 
     expect(statement).toBe('#a.#b.#c = #a.#b.#c + :abc');
   });
 });
 
-describe('Building subtract value statement', () => {
+describe('Building subtract number statement', () => {
   it('should return statement string', () => {
-    const statement = Set.buildSubtractValueStatement(['a', 'b', 'c']);
+    const statement = Set.buildSubtractNumberStatement(['a', 'b', 'c']);
 
     expect(statement).toBe('#a.#b.#c = #a.#b.#c - :abc');
   });
