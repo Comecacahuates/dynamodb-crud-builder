@@ -48,3 +48,11 @@ describe('Building add value statement', () => {
     expect(statement).toBe('#a.#b.#c = #a.#b.#c + :abc');
   });
 });
+
+describe('Building subtract value statement', () => {
+  it('should return statement string', () => {
+    const statement = Set.buildSubtractValueStatement(['a', 'b', 'c']);
+
+    expect(statement).toBe('#a.#b.#c = #a.#b.#c - :abc');
+  });
+});

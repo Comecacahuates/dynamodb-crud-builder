@@ -64,3 +64,14 @@ export function buildAddValueStatement(attributePath: AttributePath): string {
 
   return `${attributePathPlaceholder} = ${attributePathPlaceholder} + ${attributeValuePlaceholder}`;
 }
+
+export function buildSubtractValueStatement(
+  attributePath: AttributePath,
+): string {
+  const attributePathPlaceholder =
+    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
+  const attributeValuePlaceholder =
+    ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
+
+  return `${attributePathPlaceholder} = ${attributePathPlaceholder} - ${attributeValuePlaceholder}`;
+}
