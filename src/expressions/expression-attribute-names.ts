@@ -1,3 +1,5 @@
+import { type AttributePath } from '../types.js';
+
 export function buildPlaceholderFromAttributeName(
   attributeName: string,
 ): string {
@@ -5,7 +7,7 @@ export function buildPlaceholderFromAttributeName(
 }
 
 export function buildPlaceholderFromAttributePath(
-  attributePath: Array<string>,
+  attributePath: AttributePath,
 ): string {
   return attributePath.map(buildPlaceholderFromAttributeName).join('.');
 }
@@ -20,7 +22,7 @@ export function buildFromAttributeName(
 }
 
 export function buildFromAttributePath(
-  attributePath: Array<string>,
+  attributePath: AttributePath,
 ): Record<string, string> {
   return attributePath.reduce(
     (attributeNames, pathPart) => ({

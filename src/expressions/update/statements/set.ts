@@ -1,12 +1,13 @@
 import * as ExpressionAttributeNames from '../../expression-attribute-names.js';
 import * as ExpressionAttributeValues from '../../expression-attribute-values.js';
+import { type AttributePath } from '../../../types.js';
 
 export type Options = {
   preventOverwriting?: boolean;
 };
 
 export function buildAssignValueStatement(
-  attributePath: Array<string>,
+  attributePath: AttributePath,
   options: Options = {},
 ): string {
   const { preventOverwriting = false } = options;
@@ -24,7 +25,7 @@ export function buildAssignValueStatement(
 }
 
 export function buildAssignItemOfListStatement(
-  attributePath: Array<string>,
+  attributePath: AttributePath,
   index: number,
   options: Options = {},
 ): string {
@@ -45,7 +46,7 @@ export function buildAssignItemOfListStatement(
 }
 
 export function buildAppendItemToListStatement(
-  attributePath: Array<string>,
+  attributePath: AttributePath,
 ): string {
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
@@ -55,7 +56,7 @@ export function buildAppendItemToListStatement(
   return `${attributePathPlaceholder} = list_append(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
 }
 
-export function buildAddValueStatement(attributePath: Array<string>): string {
+export function buildAddValueStatement(attributePath: AttributePath): string {
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =

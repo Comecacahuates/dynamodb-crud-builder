@@ -1,5 +1,6 @@
-import { AttributeValue } from '@aws-sdk/client-dynamodb';
+import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { PathMappingError } from '../errors/index.js';
+import { type AttributePath } from '../types.js';
 
 export type ItemMapping = {
   [key: string]: {
@@ -53,15 +54,15 @@ export function buildReverseItemMapping(itemMapping: ItemMapping): ItemMapping {
 }
 
 export function mapAttributePath(
-  path: Array<string>,
+  attributePath: AttributePath,
   itemMapping: ItemMapping,
-): Array<string> {
-  const { mappedPath } = path.reduce(
+): AttributePath {
+  const { mappedPath } = attributePath.reduce(
     ({ itemMapping, mappedPath }, pathPart) => {
       const attributeMapping = itemMapping[pathPart];
 
       if (!attributeMapping) {
-        throw new PathMappingError(path);
+        throw new PathMappingError(attributePath);
       }
 
       const { mappedName: mappedAttributeName, nestedAttributesMapping } =
@@ -72,7 +73,7 @@ export function mapAttributePath(
         mappedPath: [...mappedPath, mappedAttributeName],
       };
     },
-    { itemMapping, mappedPath: [] as Array<string> },
+    { itemMapping, mappedPath: [] as AttributePath },
   );
 
   return mappedPath;

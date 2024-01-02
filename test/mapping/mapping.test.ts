@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import * as Mapping from '../../src/mapping/index.js';
 import { PathMappingError } from '../../src/errors/index.js';
+import { type AttributePath } from '../../src/types.js';
 
 describe('Item mapping', () => {
   it('should map item with single null attribute', () => {
@@ -258,12 +259,6 @@ describe('Reverse item mapping', () => {
     const actualReverseItemMapping =
       Mapping.buildReverseItemMapping(itemMapping);
 
-    console.log('ACTUAL', JSON.stringify(actualReverseItemMapping, null, 2));
-    console.log(
-      'EXPECTED',
-      JSON.stringify(expectedReverseItemMapping, null, 2),
-    );
-
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
   });
 
@@ -368,13 +363,17 @@ describe('Attribute path mapping', () => {
     ],
   ])(
     'should map %s',
-    (_, pathToMap: Array<string>, expectedMappedPath: Array<string>) => {
+    (
+      _,
+      attributePathToMap: AttributePath,
+      expectedAttributeMappedPath: AttributePath,
+    ) => {
       const mappedAttributePath = Mapping.mapAttributePath(
-        pathToMap,
+        attributePathToMap,
         itemMapping,
       );
 
-      expect(mappedAttributePath).toEqual(expectedMappedPath);
+      expect(mappedAttributePath).toEqual(expectedAttributeMappedPath);
     },
   );
 
