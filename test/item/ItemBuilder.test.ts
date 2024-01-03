@@ -1,7 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { ItemBuilder } from '../../src/item/index.js';
-import { Item } from '../../src/types.js';
 
 describe('Building item', () => {
   let itemBuilder: ItemBuilder;
@@ -13,6 +11,16 @@ describe('Building item', () => {
   it('should build item with null attribute', () => {
     const item = itemBuilder.addNullAttribute('attr0').build();
 
-    expect(item).toHaveProperty('attr0', { NULL: true });
+    expect(item).toEqual({
+      attr0: { NULL: true },
+    });
+  });
+
+  it('should build item with string attribute', () => {
+    const item = itemBuilder.addStringAttribute('attr1', 'test').build();
+
+    expect(item).toEqual({
+      attr1: { S: 'test' },
+    });
   });
 });

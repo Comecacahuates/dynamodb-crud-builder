@@ -12,4 +12,13 @@ export class ItemBuilder {
     this.item[attributeName] = Attributes.NULL;
     return this;
   }
+
+  public addStringAttribute(
+    attributeName: string,
+    stringValue: string,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildString(stringValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }
