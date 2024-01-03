@@ -108,4 +108,41 @@ describe('Building item', () => {
       },
     });
   });
+
+  it('should build item with multiple attributes', () => {
+    const item = itemBuilder
+      .addNullAttribute('attr0')
+      .addStringAttribute('attr1', 'test')
+      .addNumberAttribute('attr2', 123)
+      .addBooleanAttribute('attr3', true)
+      .addBinaryAttribute('attr4', new Uint8Array([1, 2, 3]))
+      .addStringSetAttribute('attr5', new Set(['test', 'test2']))
+      .addNumberSetAttribute('attr6', new Set([1, 2, 3]))
+      .addBinarySetAttribute(
+        'attr7',
+        new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
+      )
+      .addListAttribute('attr8', ['value1', 'value2'])
+      .addObjectAttribute('attr9', { key1: 'value1', key2: 'value2' })
+      .build();
+
+    expect(item).toEqual({
+      attr0: { NULL: true },
+      attr1: { S: 'test' },
+      attr2: { N: '123' },
+      attr3: { BOOL: true },
+      attr4: { B: new Uint8Array([1, 2, 3]) },
+      attr5: { SS: ['test', 'test2'] },
+      attr6: { NS: ['1', '2', '3'] },
+      attr7: {
+        BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
+      },
+      attr8: {
+        L: [{ S: 'value1' }, { S: 'value2' }],
+      },
+      attr9: {
+        M: { key1: { S: 'value1' }, key2: { S: 'value2' } },
+      },
+    });
+  });
 });
