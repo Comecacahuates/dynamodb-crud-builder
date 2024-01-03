@@ -2,6 +2,7 @@ import {
   type PutItemInput,
   type DynamoDBClient,
   PutItemCommand,
+  TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../attribute-value/index.js';
 import { PutItemError } from '../errors/index.js';
@@ -11,10 +12,6 @@ export class PutItemBuilder {
     TableName: undefined,
     Item: {},
   };
-
-  public build(): PutItemInput {
-    return this.putItemInput;
-  }
 
   public intoTable(tableName: string): PutItemBuilder {
     this.putItemInput.TableName = tableName;
@@ -107,5 +104,9 @@ export class PutItemBuilder {
     } catch (error: unknown) {
       throw new PutItemError(error);
     }
+  }
+
+  public buildTransactionItem(): TransactWriteItem {
+    return { Put: this.putItemInput };
   }
 }

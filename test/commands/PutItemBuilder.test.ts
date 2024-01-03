@@ -9,120 +9,122 @@ import clone from 'just-clone';
 import { PutItemBuilder } from '../../src/commands/PutItemBuilder.js';
 import { PutItemError } from '../../src/errors/index.js';
 
-describe('Build put command', () => {
+describe('Build transaction item', () => {
   let putItemInputBuilder: PutItemBuilder;
 
   beforeEach(() => {
     putItemInputBuilder = new PutItemBuilder();
   });
 
-  it('should build put command with single null attribute', () => {
-    const putCommand = putItemInputBuilder.putNull('attribute-name').build();
+  it('should build transaction item with single null attribute', () => {
+    const transactionItem = putItemInputBuilder
+      .putNull('attribute-name')
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { NULL: true },
     });
   });
 
-  it('should build put command with single string attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single string attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putString('attribute-name', 'attribute-value')
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { S: 'attribute-value' },
     });
   });
 
-  it('should build put command with single number attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single number attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putNumber('attribute-name', 123)
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { N: '123' },
     });
   });
 
-  it('should build put command with single boolean attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single boolean attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putBoolean('attribute-name', true)
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { BOOL: true },
     });
   });
 
-  it('should build put command with single binary', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single binary', () => {
+    const transactionItem = putItemInputBuilder
       .putBinary('attribute-name', new Uint8Array([1, 2, 3]))
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { B: new Uint8Array([1, 2, 3]) },
     });
   });
 
-  it('should build put command with single string set attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single string set attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putStringSet('attribute-name', new Set(['value1', 'value2']))
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { SS: ['value1', 'value2'] },
     });
   });
 
-  it('should build put command with single number set attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single number set attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putNumberSet('attribute-name', new Set([123, 456]))
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { NS: ['123', '456'] },
     });
   });
 
-  it('should build put command with single binary set attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single binary set attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putBinarySet(
         'attribute-name',
         new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
       )
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': {
         BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
       },
     });
   });
 
-  it('should build put command with single list attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single list attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putList('attribute-name', ['value1', 'value2'])
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': { L: [{ S: 'value1' }, { S: 'value2' }] },
     });
   });
 
-  it('should build put command with single object attribute', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with single object attribute', () => {
+    const transactionItem = putItemInputBuilder
       .putObject('attribute-name', { key1: 'value1', key2: 'value2' })
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name': {
         M: { key1: { S: 'value1' }, key2: { S: 'value2' } },
       },
     });
   });
 
-  it('should build put command with multiple attributes', () => {
-    const putCommand = putItemInputBuilder
+  it('should build transaction item with multiple attributes', () => {
+    const transactionItem = putItemInputBuilder
       .putNull('attribute-name1')
       .putString('attribute-name2', 'attribute-value2')
       .putNumber('attribute-name3', 123)
@@ -136,9 +138,9 @@ describe('Build put command', () => {
       )
       .putList('attribute-name9', ['value1', 'value2'])
       .putObject('attribute-name10', { key1: 'value1', key2: 'value2' })
-      .build();
+      .buildTransactionItem();
 
-    expect(putCommand).toHaveProperty('Item', {
+    expect(transactionItem).toHaveProperty('Put.Item', {
       'attribute-name1': { NULL: true },
       'attribute-name2': { S: 'attribute-value2' },
       'attribute-name3': { N: '123' },
@@ -157,13 +159,13 @@ describe('Build put command', () => {
   });
 
   describe('Table name', () => {
-    it('should build put command with table name', () => {
-      const putCommand = putItemInputBuilder
+    it('should build transaction item with table name', () => {
+      const transactionItem = putItemInputBuilder
         .putNull('attribute-name')
         .intoTable('table-name')
-        .build();
+        .buildTransactionItem();
 
-      expect(putCommand).toHaveProperty('TableName', 'table-name');
+      expect(transactionItem).toHaveProperty('Put.TableName', 'table-name');
     });
   });
 });
