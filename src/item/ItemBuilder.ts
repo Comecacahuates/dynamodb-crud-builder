@@ -39,4 +39,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addBinaryAttribute(
+    attributeName: string,
+    binaryValue: Uint8Array,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildBinary(binaryValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }

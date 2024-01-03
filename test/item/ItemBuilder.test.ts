@@ -39,4 +39,14 @@ describe('Building item', () => {
       attr3: { BOOL: true },
     });
   });
+
+  it('should build item with single binary attribute', () => {
+    const item = itemBuilder
+      .addBinaryAttribute('attr4', new Uint8Array([1, 2, 3]))
+      .build();
+
+    expect(item).toEqual({
+      attr4: { B: new Uint8Array([1, 2, 3]) },
+    });
+  });
 });
