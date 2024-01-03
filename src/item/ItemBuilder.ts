@@ -75,4 +75,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addListAttribute(
+    attributeName: string,
+    listValue: Attributes.AttributeType[],
+  ): ItemBuilder {
+    const attributeValue = Attributes.build(listValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }

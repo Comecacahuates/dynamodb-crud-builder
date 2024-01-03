@@ -74,19 +74,25 @@ describe('Building item', () => {
     const item = itemBuilder
       .addBinarySetAttribute(
         'attr7',
-        new Set([
-          new Uint8Array([1, 2, 3]),
-          new Uint8Array([4, 5, 6]),
-        ]),
+        new Set([new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])]),
       )
       .build();
 
     expect(item).toEqual({
       attr7: {
-        BS: [
-          new Uint8Array([1, 2, 3]),
-          new Uint8Array([4, 5, 6]),
-        ],
+        BS: [new Uint8Array([1, 2, 3]), new Uint8Array([4, 5, 6])],
+      },
+    });
+  });
+
+  it('should build item with single list attribute', () => {
+    const item = itemBuilder
+      .addListAttribute('attr8', ['value1', 'value2'])
+      .build();
+
+    expect(item).toEqual({
+      attr8: {
+        L: [{ S: 'value1' }, { S: 'value2' }],
       },
     });
   });
