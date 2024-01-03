@@ -21,4 +21,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addNumberAttribute(
+    attributeName: string,
+    numberValue: number,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildNumber(numberValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }

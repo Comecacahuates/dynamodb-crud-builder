@@ -23,4 +23,12 @@ describe('Building item', () => {
       attr1: { S: 'test' },
     });
   });
+
+  it('should build item with number attribute', () => {
+    const item = itemBuilder.addNumberAttribute('attr2', 123).build();
+
+    expect(item).toEqual({
+      attr2: { N: '123' },
+    });
+  });
 });
