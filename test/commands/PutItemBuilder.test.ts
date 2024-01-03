@@ -6,14 +6,14 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 import clone from 'just-clone';
-import { PutItemInputBuilder } from '../../src/commands/PutItemInputBuilder.js';
+import { PutItemBuilder } from '../../src/commands/PutItemBuilder.js';
 import { PutItemError } from '../../src/errors/index.js';
 
 describe('Build put command', () => {
-  let putItemInputBuilder: PutItemInputBuilder;
+  let putItemInputBuilder: PutItemBuilder;
 
   beforeEach(() => {
-    putItemInputBuilder = new PutItemInputBuilder();
+    putItemInputBuilder = new PutItemBuilder();
   });
 
   it('should build put command with single null attribute', () => {
@@ -174,10 +174,10 @@ describe('Run', () => {
   const initialConditions = { itemIsInTable: false };
   let finalConditions: typeof initialConditions;
 
-  let putItemInputBuilder: PutItemInputBuilder;
+  let putItemInputBuilder: PutItemBuilder;
 
   beforeEach(() => {
-    putItemInputBuilder = new PutItemInputBuilder();
+    putItemInputBuilder = new PutItemBuilder();
 
     finalConditions = clone(initialConditions);
   });
