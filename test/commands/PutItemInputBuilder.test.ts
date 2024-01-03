@@ -5,8 +5,9 @@ import {
   DynamoDBServiceException,
 } from '@aws-sdk/client-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
-import { PutItemInputBuilder } from '../../src/commands/PutItemInputBuilder.js';
 import clone from 'just-clone';
+import { PutItemInputBuilder } from '../../src/commands/PutItemInputBuilder.js';
+import { PutItemError } from '../../src/errors/index.js';
 
 describe('Build put command', () => {
   let putItemInputBuilder: PutItemInputBuilder;
@@ -179,12 +180,13 @@ describe('Run', () => {
     putItemInputBuilder = new PutItemInputBuilder();
 
     finalConditions = clone(initialConditions);
-    mockDynamodbClient.on(PutItemCommand).callsFake(() => {
-      finalConditions.itemIsInTable = true;
-    });
   });
 
   it('should run put command', async () => {
+    mockDynamodbClient.on(PutItemCommand).callsFake(() => {
+      finalConditions.itemIsInTable = true;
+    });
+
     await putItemInputBuilder
       .putString('attribute-1', 'attribute-value')
       .putNumber('attribute-2', 123)
@@ -192,5 +194,25 @@ describe('Run', () => {
       .putList('attribute-4', ['value1', 'value2'])
       .intoTable('table-name')
       .run(mockDynamodbClient as unknown as DynamoDBClient);
+  });
+
+  it('should throw error on dynamodb service exception', async () => {
+    mockDynamodbClient.on(PutItemCommand).rejects(
+      new DynamoDBServiceException({
+        name: 'DynamoDBServiceException',
+        $fault: 'client',
+        $metadata: {},
+      }),
+    );
+
+    await expect(
+      putItemInputBuilder
+        .putString('attribute-1', 'attribute-value')
+        .putNumber('attribute-2', 123)
+        .putBoolean('attribute-3', true)
+        .putList('attribute-4', ['value1', 'value2'])
+        .intoTable('table-name')
+        .run(mockDynamodbClient as unknown as DynamoDBClient),
+    ).rejects.toThrow(PutItemError);
   });
 });

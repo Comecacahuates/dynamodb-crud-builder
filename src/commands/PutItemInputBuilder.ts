@@ -4,6 +4,7 @@ import {
   PutItemCommand,
 } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../../src/attribute-value/index.js';
+import { PutItemError } from '../errors/index.js';
 
 export class PutItemInputBuilder {
   private putItemInput: PutItemInput = {
@@ -107,6 +108,10 @@ export class PutItemInputBuilder {
   }
 
   public async run(dynamodbClient: DynamoDBClient): Promise<void> {
-    await dynamodbClient.send(new PutItemCommand(this.putItemInput));
+    try {
+      await dynamodbClient.send(new PutItemCommand(this.putItemInput));
+    } catch (error: unknown) {
+      throw new PutItemError(error);
+    }
   }
 }
