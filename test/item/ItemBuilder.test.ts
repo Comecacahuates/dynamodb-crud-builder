@@ -96,4 +96,16 @@ describe('Building item', () => {
       },
     });
   });
+
+  it('should build item with single object attribute', () => {
+    const item = itemBuilder
+      .addObjectAttribute('attr9', { key1: 'value1', key2: 'value2' })
+      .build();
+
+    expect(item).toEqual({
+      attr9: {
+        M: { key1: { S: 'value1' }, key2: { S: 'value2' } },
+      },
+    });
+  });
 });

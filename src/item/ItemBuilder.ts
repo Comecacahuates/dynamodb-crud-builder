@@ -84,4 +84,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addObjectAttribute(
+    attributeName: string,
+    mapValue: Record<string, Attributes.AttributeType>,
+  ): ItemBuilder {
+    const attributeValue = Attributes.build(mapValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }
