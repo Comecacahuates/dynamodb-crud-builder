@@ -6,7 +6,7 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 import clone from 'just-clone';
-import { PutItemBuilder } from '../../src/commands/PutItemBuilder.js';
+import { PutItemBuilder } from '../../src/write/PutItemBuilder.js';
 import { PutItemError } from '../../src/errors/index.js';
 
 describe('Build put item command', () => {

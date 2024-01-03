@@ -1,1 +1,1 @@
-export * from './PutCommandBuilder.js';
+export * from './PutItemBuilder.js';
