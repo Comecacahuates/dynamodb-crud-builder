@@ -49,4 +49,14 @@ describe('Building item', () => {
       attr4: { B: new Uint8Array([1, 2, 3]) },
     });
   });
+
+  it('should build item with single string set attribute', () => {
+    const item = itemBuilder
+      .addStringSetAttribute('attr5', new Set(['test', 'test2']))
+      .build();
+
+    expect(item).toEqual({
+      attr5: { SS: ['test', 'test2'] },
+    });
+  });
 });

@@ -48,4 +48,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addStringSetAttribute(
+    attributeName: string,
+    stringSetValue: Set<string>,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildStringSet(stringSetValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }
