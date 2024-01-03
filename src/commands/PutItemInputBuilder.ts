@@ -95,7 +95,7 @@ export class PutItemInputBuilder {
 
   public putObject(
     attributeName: string,
-    mapValue: Attribute.AttributeType,
+    mapValue: { [key: string]: Attribute.AttributeType },
   ): PutItemInputBuilder {
     const attributeValue = Attribute.build(mapValue);
     this.putItemInput.Item![attributeName] = attributeValue;
