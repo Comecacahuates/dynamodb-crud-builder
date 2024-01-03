@@ -59,4 +59,14 @@ describe('Building item', () => {
       attr5: { SS: ['test', 'test2'] },
     });
   });
+
+  it('should build item with single number set attribute', () => {
+    const item = itemBuilder
+      .addNumberSetAttribute('attr6', new Set([1, 2, 3]))
+      .build();
+
+    expect(item).toEqual({
+      attr6: { NS: ['1', '2', '3'] },
+    });
+  });
 });

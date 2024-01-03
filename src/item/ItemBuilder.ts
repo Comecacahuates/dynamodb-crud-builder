@@ -57,4 +57,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addNumberSetAttribute(
+    attributeName: string,
+    numberSetValue: Set<number>,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildNumberSet(numberSetValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }
