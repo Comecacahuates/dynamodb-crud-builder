@@ -69,4 +69,25 @@ describe('Building item', () => {
       attr6: { NS: ['1', '2', '3'] },
     });
   });
+
+  it('should build item with single binary set attribute', () => {
+    const item = itemBuilder
+      .addBinarySetAttribute(
+        'attr7',
+        new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+        ]),
+      )
+      .build();
+
+    expect(item).toEqual({
+      attr7: {
+        BS: [
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+        ],
+      },
+    });
+  });
 });

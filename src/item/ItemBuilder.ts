@@ -66,4 +66,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addBinarySetAttribute(
+    attributeName: string,
+    binarySetValue: Set<Uint8Array>,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildBinarySet(binarySetValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }
