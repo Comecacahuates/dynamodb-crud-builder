@@ -30,4 +30,13 @@ export class ItemBuilder {
     this.item[attributeName] = attributeValue;
     return this;
   }
+
+  public addBooleanAttribute(
+    attributeName: string,
+    booleanValue: boolean,
+  ): ItemBuilder {
+    const attributeValue = Attributes.buildBoolean(booleanValue);
+    this.item[attributeName] = attributeValue;
+    return this;
+  }
 }

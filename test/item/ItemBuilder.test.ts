@@ -31,4 +31,12 @@ describe('Building item', () => {
       attr2: { N: '123' },
     });
   });
+
+  it('should build item with boolean attribute', () => {
+    const item = itemBuilder.addBooleanAttribute('attr3', true).build();
+
+    expect(item).toEqual({
+      attr3: { BOOL: true },
+    });
+  });
 });
