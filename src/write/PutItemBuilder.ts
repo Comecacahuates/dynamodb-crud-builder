@@ -1,8 +1,8 @@
 import {
-  type PutItemInput,
   type DynamoDBClient,
+  type PutItemInput,
   PutItemCommand,
-  TransactWriteItem,
+  type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../attribute-value/index.js';
 import { PutItemError } from '../errors/index.js';
@@ -12,6 +12,23 @@ export class PutItemBuilder {
     TableName: undefined,
     Item: {},
   };
+
+  public buildCommand(): PutItemCommand {
+    return new PutItemCommand(this.putItemInput);
+  }
+
+  public buildTransactionItem(): TransactWriteItem {
+    return { Put: this.putItemInput };
+  }
+
+  public async run(dynamodbClient: DynamoDBClient): Promise<void> {
+    try {
+      const putItemCommand = this.buildCommand();
+      await dynamodbClient.send(putItemCommand);
+    } catch (error: unknown) {
+      throw new PutItemError(error);
+    }
+  }
 
   public intoTable(tableName: string): PutItemBuilder {
     this.putItemInput.TableName = tableName;
@@ -96,22 +113,5 @@ export class PutItemBuilder {
     const attributeValue = Attribute.build(mapValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
-  }
-
-  public buildCommand(): PutItemCommand {
-    return new PutItemCommand(this.putItemInput);
-  }
-
-  public buildTransactionItem(): TransactWriteItem {
-    return { Put: this.putItemInput };
-  }
-
-  public async run(dynamodbClient: DynamoDBClient): Promise<void> {
-    try {
-      const putItemCommand = this.buildCommand();
-      await dynamodbClient.send(putItemCommand);
-    } catch (error: unknown) {
-      throw new PutItemError(error);
-    }
   }
 }
