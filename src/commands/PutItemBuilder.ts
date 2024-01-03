@@ -98,15 +98,20 @@ export class PutItemBuilder {
     return this;
   }
 
-  public async run(dynamodbClient: DynamoDBClient): Promise<void> {
-    try {
-      await dynamodbClient.send(new PutItemCommand(this.putItemInput));
-    } catch (error: unknown) {
-      throw new PutItemError(error);
-    }
+  public buildCommand(): PutItemCommand {
+    return new PutItemCommand(this.putItemInput);
   }
 
   public buildTransactionItem(): TransactWriteItem {
     return { Put: this.putItemInput };
+  }
+
+  public async run(dynamodbClient: DynamoDBClient): Promise<void> {
+    try {
+      const putItemCommand = this.buildCommand();
+      await dynamodbClient.send(putItemCommand);
+    } catch (error: unknown) {
+      throw new PutItemError(error);
+    }
   }
 }
