@@ -1,5 +1,12 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
+import {
+  DynamoDBClient,
+  PutItemCommand,
+  DynamoDBServiceException,
+} from '@aws-sdk/client-dynamodb';
+import { mockClient } from 'aws-sdk-client-mock';
 import { PutItemInputBuilder } from '../../src/commands/PutItemInputBuilder.js';
+import clone from 'just-clone';
 
 describe('Build put command', () => {
   let putItemInputBuilder: PutItemInputBuilder;
@@ -157,5 +164,33 @@ describe('Build put command', () => {
 
       expect(putCommand).toHaveProperty('TableName', 'table-name');
     });
+  });
+});
+
+describe('Run', () => {
+  const mockDynamodbClient = mockClient(DynamoDBClient);
+
+  const initialConditions = { itemIsInTable: false };
+  let finalConditions: typeof initialConditions;
+
+  let putItemInputBuilder: PutItemInputBuilder;
+
+  beforeEach(() => {
+    putItemInputBuilder = new PutItemInputBuilder();
+
+    finalConditions = clone(initialConditions);
+    mockDynamodbClient.on(PutItemCommand).callsFake(() => {
+      finalConditions.itemIsInTable = true;
+    });
+  });
+
+  it('should run put command', async () => {
+    await putItemInputBuilder
+      .putString('attribute-1', 'attribute-value')
+      .putNumber('attribute-2', 123)
+      .putBoolean('attribute-3', true)
+      .putList('attribute-4', ['value1', 'value2'])
+      .intoTable('table-name')
+      .run(mockDynamodbClient as unknown as DynamoDBClient);
   });
 });

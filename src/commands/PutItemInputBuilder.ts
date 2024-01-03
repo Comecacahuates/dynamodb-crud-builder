@@ -1,4 +1,8 @@
-import { type PutItemInput } from '@aws-sdk/client-dynamodb';
+import {
+  type PutItemInput,
+  type DynamoDBClient,
+  PutItemCommand,
+} from '@aws-sdk/client-dynamodb';
 import * as Attribute from '../../src/attribute-value/index.js';
 
 export class PutItemInputBuilder {
@@ -100,5 +104,9 @@ export class PutItemInputBuilder {
     const attributeValue = Attribute.build(mapValue);
     this.putItemInput.Item![attributeName] = attributeValue;
     return this;
+  }
+
+  public async run(dynamodbClient: DynamoDBClient): Promise<void> {
+    await dynamodbClient.send(new PutItemCommand(this.putItemInput));
   }
 }
