@@ -60,4 +60,13 @@ export class UpdateExpressionBuilder {
     this.setStatements.push(statement);
     return this;
   }
+
+  public subtractNumber(
+    attributePath: AttributePath,
+    index?: number,
+  ): UpdateExpressionBuilder {
+    const statement = Set.buildStatementToSubtractNumber(attributePath, index);
+    this.setStatements.push(statement);
+    return this;
+  }
 }

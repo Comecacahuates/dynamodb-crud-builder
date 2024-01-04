@@ -174,5 +174,47 @@ describe('Building update expression', () => {
         );
       });
     });
+
+    describe('Subtracting number', () => {
+      test('single statement to subtract number from attribute value', () => {
+        const updateExpression = updateExpressionBuilder
+          .subtractNumber(['attr0'])
+          .build();
+
+        expect(updateExpression).toBe('SET #attr0 = #attr0 - :attr0');
+      });
+
+      test('multiple statements to subtract number from attribute value', () => {
+        const updateExpression = updateExpressionBuilder
+          .subtractNumber(['attr0'])
+          .subtractNumber(['attr1'])
+          .subtractNumber(['attr2'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = #attr0 - :attr0, #attr1 = #attr1 - :attr1, #attr2 = #attr2 - :attr2',
+        );
+      });
+
+      test('single statement to subtract number from list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .subtractNumber(['attr0'], 1)
+          .build();
+
+        expect(updateExpression).toBe('SET #attr0[1] = #attr0[1] - :attr01');
+      });
+
+      test('multiple statements to subtract number from list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .subtractNumber(['attr0'], 1)
+          .subtractNumber(['attr1'], 2)
+          .subtractNumber(['attr2'], 3)
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0[1] = #attr0[1] - :attr01, #attr1[2] = #attr1[2] - :attr12, #attr2[3] = #attr2[3] - :attr23',
+        );
+      });
+    });
   });
 });
