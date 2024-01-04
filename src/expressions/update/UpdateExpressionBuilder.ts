@@ -21,8 +21,13 @@ export class UpdateExpressionBuilder {
   public setValueOfListItem(
     attributePath: AttributePath,
     index: number,
+    options?: ValueUpdateOptions,
   ): UpdateExpressionBuilder {
-    const statement = Set.buildStatementToSetValue(attributePath, index);
+    const statement = Set.buildStatementToSetValue(
+      attributePath,
+      index,
+      options,
+    );
     this.setStatements.push(statement);
     return this;
   }

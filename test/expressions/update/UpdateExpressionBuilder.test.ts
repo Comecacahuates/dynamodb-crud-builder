@@ -73,6 +73,28 @@ describe('Building update expression', () => {
           'SET #attr0[1] = :attr01, #attr1[2] = :attr12, #attr2[3] = :attr23',
         );
       });
+
+      test('single statement to set value preventing overwrite', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValueOfListItem(['attr0'], 1, { preventOverwriting: true })
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0[1] = if_not_exists(#attr0[1], :attr01)',
+        );
+      });
+
+      test('multiple statements to set value some preventing overwrite', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValueOfListItem(['attr0'], 1, { preventOverwriting: true })
+          .setValueOfListItem(['attr1'], 2, { preventOverwriting: true })
+          .setValueOfListItem(['attr2'], 3)
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0[1] = if_not_exists(#attr0[1], :attr01), #attr1[2] = if_not_exists(#attr1[2], :attr12), #attr2[3] = :attr23',
+        );
+      });
     });
 
     describe('Appending items to list', () => {
