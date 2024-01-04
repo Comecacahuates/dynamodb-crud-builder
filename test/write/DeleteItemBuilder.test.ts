@@ -7,7 +7,7 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { mockClient } from 'aws-sdk-client-mock';
 import clone from 'just-clone';
-import { DeleteItemBuilder } from '../../src/write/index.js';
+import { DeleteItemBuilder } from '../../src/write/DeleteItemBuilder.js';
 import { DeleteItemError } from '../../src/errors/index.js';
 
 describe('Build delete item command', () => {
