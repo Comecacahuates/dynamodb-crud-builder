@@ -39,4 +39,13 @@ export class UpdateExpressionBuilder {
     this.setStatements.push(statement);
     return this;
   }
+
+  public addNumber(
+    attributePath: AttributePath,
+    index?: number,
+  ): UpdateExpressionBuilder {
+    const statement = Set.buildStatementToAddNumber(attributePath, index);
+    this.setStatements.push(statement);
+    return this;
+  }
 }

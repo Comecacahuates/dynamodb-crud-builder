@@ -120,5 +120,59 @@ describe('Building update expression', () => {
         );
       });
     });
+
+    describe('Adding number', () => {
+      test('single statement to add number to attribute value', () => {
+        const updateExpression = updateExpressionBuilder
+          .addNumber(['attr0'])
+          .build();
+
+        expect(updateExpression).toBe('SET #attr0 = #attr0 + :attr0');
+      });
+
+      test('multiple statements to add number to attribute value', () => {
+        const updateExpression = updateExpressionBuilder
+          .addNumber(['attr0'])
+          .addNumber(['attr1'])
+          .addNumber(['attr2'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = #attr0 + :attr0, #attr1 = #attr1 + :attr1, #attr2 = #attr2 + :attr2',
+        );
+      });
+
+      test('single statement to add number to list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .addNumber(['attr0'], 1)
+          .build();
+
+        expect(updateExpression).toBe('SET #attr0[1] = #attr0[1] + :attr01');
+      });
+
+      test('multiple statements to add number to list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .addNumber(['attr0'], 1)
+          .addNumber(['attr1'], 2)
+          .addNumber(['attr2'], 3)
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0[1] = #attr0[1] + :attr01, #attr1[2] = #attr1[2] + :attr12, #attr2[3] = #attr2[3] + :attr23',
+        );
+      });
+
+      test('multiple statements to add number to attribute value and list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .addNumber(['attr0'])
+          .addNumber(['attr1'], 2)
+          .addNumber(['attr2'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = #attr0 + :attr0, #attr1[2] = #attr1[2] + :attr12, #attr2 = #attr2 + :attr2',
+        );
+      });
+    });
   });
 });
