@@ -16,6 +16,7 @@ describe('Build put item command', () => {
 
   beforeEach(() => {
     putItemBuilder = new PutItemBuilder();
+
     command = putItemBuilder
       .thisItem({
         attr0: { NULL: true },
@@ -129,6 +130,8 @@ describe('Run', () => {
     });
 
     await putItemBuilder.run(mockDynamodbClient as unknown as DynamoDBClient);
+
+    expect(finalConditions.itemIsInTable).toBe(true);
   });
 
   it('should throw error on dynamodb service exception', async () => {
