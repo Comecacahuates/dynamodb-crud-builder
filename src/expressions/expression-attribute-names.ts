@@ -1,34 +1,29 @@
-import { type AttributePath } from '../types.js';
+import type { AttributePath } from '../types.js';
 
-export function buildPlaceholderFromAttributeName(
-  attributeName: string,
-): string {
-  return `#${attributeName}`;
-}
-
-export function buildPlaceholderFromAttributePath(
+export function buildExpressionAttributeNamePlaceholder(
   attributePath: AttributePath,
+  index?: number,
 ): string {
-  return attributePath.map(buildPlaceholderFromAttributeName).join('.');
+  const placeholder = attributePath
+    .map((attributePathPart) => `#${attributePathPart}`)
+    .join('.');
+
+  if (index) {
+    return `${placeholder}[${index}]`;
+  } else {
+    return placeholder;
+  }
 }
 
-export function buildFromAttributeName(
-  attributeName: string,
-): Record<string, string> {
-  const placeholder = buildPlaceholderFromAttributeName(attributeName);
-  return {
-    [placeholder]: attributeName,
-  };
-}
-
-export function buildFromAttributePath(
+export function buildExpressionAttributeNames(
   attributePath: AttributePath,
 ): Record<string, string> {
-  return attributePath.reduce(
-    (attributeNames, pathPart) => ({
-      ...attributeNames,
-      ...buildFromAttributeName(pathPart),
-    }),
-    {},
-  );
+  return attributePath.reduce((expressionAttributeNames, attributePathPart) => {
+    const attributePathPartPlaceholder = `#${attributePathPart}`;
+
+    return {
+      ...expressionAttributeNames,
+      [attributePathPartPlaceholder]: attributePathPart,
+    };
+  }, {});
 }
