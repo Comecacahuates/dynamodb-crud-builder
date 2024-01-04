@@ -229,4 +229,48 @@ describe('Building update expression', () => {
       });
     });
   });
+
+  describe('Remove', () => {
+    describe('Removing elements from an item', () => {
+      test('single statement to remove elements from an item', () => {
+        const updateExpression = updateExpressionBuilder
+          .remove(['attr0', 'attr1'])
+          .build();
+
+        expect(updateExpression).toBe('REMOVE #attr0.#attr1');
+      });
+
+      test('multiple statements to remove elements from an item', () => {
+        const updateExpression = updateExpressionBuilder
+          .remove(['attr0', 'attr1'])
+          .remove(['attr2', 'attr3'])
+          .remove(['attr4', 'attr5'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'REMOVE #attr0.#attr1, #attr2.#attr3, #attr4.#attr5',
+        );
+      });
+    });
+
+    describe('Removing elements from a list', () => {
+      test('single statement to remove elements from a list', () => {
+        const updateExpression = updateExpressionBuilder
+          .remove(['attr0'], 1)
+          .build();
+
+        expect(updateExpression).toBe('REMOVE #attr0[1]');
+      });
+
+      test('multiple statements to remove elements from a list', () => {
+        const updateExpression = updateExpressionBuilder
+          .remove(['attr0'], 1)
+          .remove(['attr1'], 2)
+          .remove(['attr2'], 3)
+          .build();
+
+        expect(updateExpression).toBe('REMOVE #attr0[1], #attr1[2], #attr2[3]');
+      });
+    });
+  });
 });

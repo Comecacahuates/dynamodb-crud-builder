@@ -1,12 +1,13 @@
-import { Set, Add } from './statements/index.js';
+import { Set, Add, Remove } from './statements/index.js';
 import type { AttributePath, ValueUpdateOptions } from '../../types.js';
 
 export class UpdateExpressionBuilder {
   private setStatements: string[] = [];
   private addStatements: string[] = [];
+  private removeStatements: string[] = [];
 
   public build(): string {
-    return `${this.formattedSetStatements} ${this.formattedAddStatements}`.trim();
+    return `${this.formattedSetStatements} ${this.formattedAddStatements} ${this.formattedRemoveStatements}`.trim();
   }
 
   private get formattedSetStatements(): string {
@@ -23,6 +24,14 @@ export class UpdateExpressionBuilder {
     }
 
     return `ADD ${this.addStatements.join(', ')}`;
+  }
+
+  private get formattedRemoveStatements(): string {
+    if (this.removeStatements.length === 0) {
+      return '';
+    }
+
+    return `REMOVE ${this.removeStatements.join(', ')}`;
   }
 
   public setValue(
@@ -91,6 +100,15 @@ export class UpdateExpressionBuilder {
   ): UpdateExpressionBuilder {
     const statement = Add.buildStatementToAdd(attributePath);
     this.addStatements.push(statement);
+    return this;
+  }
+
+  public remove(
+    attributePath: AttributePath,
+    index?: number,
+  ): UpdateExpressionBuilder {
+    const statement = Remove.buildStatementToRemove(attributePath, index);
+    this.removeStatements.push(statement);
     return this;
   }
 }
