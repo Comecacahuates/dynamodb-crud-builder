@@ -29,6 +29,28 @@ describe('Building update expression', () => {
           'SET #attr0 = :attr0, #attr1 = :attr1, #attr2 = :attr2',
         );
       });
+
+      test('single statement to set value preventing overwrite', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValue(['attr0'], { preventOverwriting: true })
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = if_not_exists(#attr0, :attr0)',
+        );
+      });
+
+      test('multiple statements to set value some preventing overwrite', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValue(['attr0'], { preventOverwriting: true })
+          .setValue(['attr1'], { preventOverwriting: true })
+          .setValue(['attr2'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = if_not_exists(#attr0, :attr0), #attr1 = if_not_exists(#attr1, :attr1), #attr2 = :attr2',
+        );
+      });
     });
 
     describe('Setting value of list item', () => {

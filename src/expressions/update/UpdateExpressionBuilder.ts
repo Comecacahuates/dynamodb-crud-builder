@@ -1,5 +1,5 @@
-import type { AttributePath } from '../../types.js';
 import { Set } from './statements/index.js';
+import type { AttributePath, ValueUpdateOptions } from '../../types.js';
 
 export class UpdateExpressionBuilder {
   private setStatements: string[] = [];
@@ -9,8 +9,11 @@ export class UpdateExpressionBuilder {
     return `${setStatements}`;
   }
 
-  public setValue(attributePath: AttributePath): UpdateExpressionBuilder {
-    const statement = Set.buildStatementToSetValue(attributePath);
+  public setValue(
+    attributePath: AttributePath,
+    options?: ValueUpdateOptions,
+  ): UpdateExpressionBuilder {
+    const statement = Set.buildStatementToSetValue(attributePath, options);
     this.setStatements.push(statement);
     return this;
   }

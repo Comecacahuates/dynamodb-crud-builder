@@ -1,2 +1,2 @@
-export * as ExpressionAttributeNames from './expression-attribute-names.js';
-export * as ExpressionAttributeValues from './expression-attribute-values.js';
+export * from './expression-attribute-names.js';
+export * from './expression-attribute-values.js';
