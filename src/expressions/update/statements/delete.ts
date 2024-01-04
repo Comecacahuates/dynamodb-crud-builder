@@ -2,9 +2,7 @@ import { buildExpressionAttributeNamePlaceholder } from '../../expression-attrib
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
 import { type AttributePath } from '../../../types.js';
 
-export function buildStatementToDeleteItemFromSet(
-  attributePath: AttributePath,
-): string {
+export function buildStatementToDelete(attributePath: AttributePath): string {
   const expressionAttributeNamePlaceholder =
     buildExpressionAttributeNamePlaceholder(attributePath);
   const expressionAttributeValuePlaceholder =
