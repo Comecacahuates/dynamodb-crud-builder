@@ -1,7 +1,7 @@
 import * as ExpressionAttributeNames from '../../expression-attribute-names.js';
 import { type AttributePath } from '../../../types.js';
 
-export function buildRemoveAttributeStatement(
+export function buildStatementToRemoveAttribute(
   attributePath: AttributePath,
 ): string {
   const attributePathPlaceholder =
@@ -10,7 +10,7 @@ export function buildRemoveAttributeStatement(
   return `${attributePathPlaceholder}`;
 }
 
-export function buildRemoveItemFromListStatement(
+export function buildStatementToRemoveItemFromList(
   attributePath: AttributePath,
   index: number,
 ): string {

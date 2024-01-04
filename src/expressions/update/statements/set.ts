@@ -6,7 +6,7 @@ export type Options = {
   preventOverwriting?: boolean;
 };
 
-export function buildAssignValueStatement(
+export function buildStatementToSetValue(
   attributePath: AttributePath,
   options: Options = {},
 ): string {
@@ -24,7 +24,7 @@ export function buildAssignValueStatement(
   return `${attributePathPlaceholder} = ${attributeValuePlaceholder}`;
 }
 
-export function buildAssignItemOfListStatement(
+export function buildStatementToSetValueOfListItem(
   attributePath: AttributePath,
   index: number,
   options: Options = {},
@@ -45,7 +45,7 @@ export function buildAssignItemOfListStatement(
   return `${itemPathPlaceholder} = ${attributeValuePlaceholder}`;
 }
 
-export function buildAppendItemToListStatement(
+export function buildStatementToAppendItemToList(
   attributePath: AttributePath,
 ): string {
   const attributePathPlaceholder =
@@ -56,7 +56,9 @@ export function buildAppendItemToListStatement(
   return `${attributePathPlaceholder} = list_append(${attributePathPlaceholder}, ${attributeValuePlaceholder})`;
 }
 
-export function buildAddNumberStatement(attributePath: AttributePath): string {
+export function buildStatementToAddNumber(
+  attributePath: AttributePath,
+): string {
   const attributePathPlaceholder =
     ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
   const attributeValuePlaceholder =
@@ -65,7 +67,7 @@ export function buildAddNumberStatement(attributePath: AttributePath): string {
   return `${attributePathPlaceholder} = ${attributePathPlaceholder} + ${attributeValuePlaceholder}`;
 }
 
-export function buildSubtractNumberStatement(
+export function buildStatementToSubtractNumber(
   attributePath: AttributePath,
 ): string {
   const attributePathPlaceholder =
