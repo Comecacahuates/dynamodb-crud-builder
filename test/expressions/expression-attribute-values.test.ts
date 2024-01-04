@@ -1,48 +1,36 @@
 import { describe, it, expect } from '@jest/globals';
-import { ExpressionAttributeValues } from '../../src/expressions/index.js';
+import {
+  buildExpressionAttributeValuePlaceholder,
+  buildExpressionAttributeValue,
+} from '../../src/expressions/expression-attribute-values.js';
 
-describe('Building placeholder from attribute name', () => {
-  it('should return placeholder from attribute name', () => {
-    const placeholder =
-      ExpressionAttributeValues.buildPlaceholderFromAttributeName('id');
-
-    expect(placeholder).toBe(':id');
-  });
-});
-
-describe('Building placeholder from attribute path', () => {
-  it('should return placeholder from attribute path', () => {
-    const placeholder =
-      ExpressionAttributeValues.buildPlaceholderFromAttributePath([
-        'a',
-        'b',
-        'c',
-      ]);
+describe('Building placeholder', () => {
+  it('should return placeholder', () => {
+    const placeholder = buildExpressionAttributeValuePlaceholder([
+      'a',
+      'b',
+      'c',
+    ]);
 
     expect(placeholder).toBe(':abc');
   });
-});
 
-describe('Building from attribute name and value', () => {
-  it('should return expression attribute value', () => {
-    const fromAttributeNameAndValue =
-      ExpressionAttributeValues.buildFromAttributeNameAndValue('id', {
-        S: 'id',
-      });
+  it('should return placeholder with index', () => {
+    const placeholder = buildExpressionAttributeValuePlaceholder(
+      ['a', 'b', 'c'],
+      1,
+    );
 
-    expect(fromAttributeNameAndValue).toEqual({
-      ':id': { S: 'id' },
-    });
+    expect(placeholder).toBe(':abc1');
   });
 });
 
-describe('Building from attribute path and value', () => {
+describe('Building expression attribute value', () => {
   it('should return expression attribute value', () => {
-    const fromAttributePathAndValue =
-      ExpressionAttributeValues.buildFromAttributePathAndValue(
-        ['a', 'b', 'c'],
-        { S: 'id' },
-      );
+    const fromAttributePathAndValue = buildExpressionAttributeValue(
+      ['a', 'b', 'c'],
+      { S: 'id' },
+    );
 
     expect(fromAttributePathAndValue).toEqual({
       ':abc': { S: 'id' },

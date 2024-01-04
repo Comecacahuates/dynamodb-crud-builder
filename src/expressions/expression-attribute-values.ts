@@ -1,31 +1,23 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import { type AttributePath } from '../types.js';
+import type { AttributePath } from '../types.js';
 
-export function buildPlaceholderFromAttributeName(attributeName: string) {
-  return `:${attributeName}`;
-}
-
-export function buildPlaceholderFromAttributePath(
+export function buildExpressionAttributeValuePlaceholder(
   attributePath: AttributePath,
+  index?: number,
 ): string {
-  return buildPlaceholderFromAttributeName(attributePath.join(''));
+  if (index) {
+    return `:${attributePath.join('')}${index}`;
+  }
+
+  return `:${attributePath.join('')}`;
 }
 
-export function buildFromAttributeNameAndValue(
-  attributeName: string,
-  attributeValue: AttributeValue,
-): Record<string, AttributeValue> {
-  const placeholder = buildPlaceholderFromAttributeName(attributeName);
-  return {
-    [placeholder]: attributeValue,
-  };
-}
-
-export function buildFromAttributePathAndValue(
+export function buildExpressionAttributeValue(
   attributePath: AttributePath,
   attributeValue: AttributeValue,
 ): Record<string, AttributeValue> {
-  const placeholder = buildPlaceholderFromAttributeName(attributePath.join(''));
+  const placeholder = buildExpressionAttributeValuePlaceholder(attributePath);
+
   return {
     [placeholder]: attributeValue,
   };
