@@ -10,7 +10,7 @@ describe('Building update expression', () => {
 
   describe('Set', () => {
     describe('Setting attribute value', () => {
-      test('single statement to set value', () => {
+      test('single statement to set value of attribute', () => {
         const updateExpression = updateExpressionBuilder
           .setValue(['attr0'])
           .build();
@@ -18,7 +18,7 @@ describe('Building update expression', () => {
         expect(updateExpression).toBe('SET #attr0 = :attr0');
       });
 
-      test('multiple statements to set value', () => {
+      test('multiple statements to set value of attribute', () => {
         const updateExpression = updateExpressionBuilder
           .setValue(['attr0'])
           .setValue(['attr1'])
@@ -27,6 +27,26 @@ describe('Building update expression', () => {
 
         expect(updateExpression).toBe(
           'SET #attr0 = :attr0, #attr1 = :attr1, #attr2 = :attr2',
+        );
+      });
+
+      test('single statement to set value of list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValue(['attr0'], 1)
+          .build();
+
+        expect(updateExpression).toBe('SET #attr0[1] = :attr01');
+      });
+
+      test('multiple statements to set value of list item', () => {
+        const updateExpression = updateExpressionBuilder
+          .setValue(['attr0'], 1)
+          .setValue(['attr1'], 2)
+          .setValue(['attr2'], 3)
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0[1] = :attr01, #attr1[2] = :attr12, #attr2[3] = :attr23',
         );
       });
 
@@ -51,48 +71,28 @@ describe('Building update expression', () => {
           'SET #attr0 = if_not_exists(#attr0, :attr0), #attr1 = if_not_exists(#attr1, :attr1), #attr2 = :attr2',
         );
       });
-    });
 
-    describe('Setting value of list item', () => {
-      test('single statement to set value', () => {
+      test('multiple statements to set value of attribute and list item', () => {
         const updateExpression = updateExpressionBuilder
-          .setValueOfListItem(['attr0'], 1)
-          .build();
-
-        expect(updateExpression).toBe('SET #attr0[1] = :attr01');
-      });
-
-      test('multiple statements to set value', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValueOfListItem(['attr0'], 1)
-          .setValueOfListItem(['attr1'], 2)
-          .setValueOfListItem(['attr2'], 3)
+          .setValue(['attr0'])
+          .setValue(['attr1'], 2)
+          .setValue(['attr2'])
           .build();
 
         expect(updateExpression).toBe(
-          'SET #attr0[1] = :attr01, #attr1[2] = :attr12, #attr2[3] = :attr23',
+          'SET #attr0 = :attr0, #attr1[2] = :attr12, #attr2 = :attr2',
         );
       });
 
-      test('single statement to set value preventing overwrite', () => {
+      test('multiple statements to set value of attribute and list item preventing overwrite', () => {
         const updateExpression = updateExpressionBuilder
-          .setValueOfListItem(['attr0'], 1, { preventOverwriting: true })
+          .setValue(['attr0'], { preventOverwriting: true })
+          .setValue(['attr1'], 2, { preventOverwriting: true })
+          .setValue(['attr2'])
           .build();
 
         expect(updateExpression).toBe(
-          'SET #attr0[1] = if_not_exists(#attr0[1], :attr01)',
-        );
-      });
-
-      test('multiple statements to set value some preventing overwrite', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValueOfListItem(['attr0'], 1, { preventOverwriting: true })
-          .setValueOfListItem(['attr1'], 2, { preventOverwriting: true })
-          .setValueOfListItem(['attr2'], 3)
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0[1] = if_not_exists(#attr0[1], :attr01), #attr1[2] = if_not_exists(#attr1[2], :attr12), #attr2[3] = :attr23',
+          'SET #attr0 = if_not_exists(#attr0, :attr0), #attr1[2] = if_not_exists(#attr1[2], :attr12), #attr2 = :attr2',
         );
       });
     });

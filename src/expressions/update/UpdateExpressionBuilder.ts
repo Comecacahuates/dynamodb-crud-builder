@@ -12,22 +12,34 @@ export class UpdateExpressionBuilder {
   public setValue(
     attributePath: AttributePath,
     options?: ValueUpdateOptions,
-  ): UpdateExpressionBuilder {
-    const statement = Set.buildStatementToSetValue(attributePath, options);
-    this.setStatements.push(statement);
-    return this;
-  }
-
-  public setValueOfListItem(
+  ): UpdateExpressionBuilder;
+  public setValue(
     attributePath: AttributePath,
     index: number,
     options?: ValueUpdateOptions,
+  ): UpdateExpressionBuilder;
+  public setValue(
+    attributePath: AttributePath,
+    optionsOrIndex?: ValueUpdateOptions | number,
+    options: ValueUpdateOptions = {},
   ): UpdateExpressionBuilder {
-    const statement = Set.buildStatementToSetValue(
-      attributePath,
-      index,
-      options,
-    );
+    let actualIndex: number | undefined;
+    let actualOptions: ValueUpdateOptions;
+    let statement: string;
+
+    if (typeof optionsOrIndex === 'number') {
+      actualIndex = optionsOrIndex;
+      actualOptions = options;
+      statement = Set.buildStatementToSetValue(
+        attributePath,
+        actualIndex,
+        actualOptions,
+      );
+    } else {
+      actualOptions = optionsOrIndex ?? {};
+      statement = Set.buildStatementToSetValue(attributePath, actualOptions);
+    }
+
     this.setStatements.push(statement);
     return this;
   }
