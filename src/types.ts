@@ -22,3 +22,7 @@ export type ItemMapping = {
     nestedAttributesMapping?: ItemMapping;
   };
 };
+
+export type ValueUpdateOptions = {
+  preventOverwriting?: boolean;
+};

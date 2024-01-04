@@ -1,27 +1,23 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
-import type { AttributePath } from '../../../types.js';
-
-export type Options = {
-  preventOverwriting?: boolean;
-};
+import type { AttributePath, ValueUpdateOptions } from '../../../types.js';
 
 export function buildStatementToSetValue(
   attributePath: AttributePath,
-  options?: Options,
+  options?: ValueUpdateOptions,
 ): string;
 export function buildStatementToSetValue(
   attributePath: AttributePath,
   index: number,
-  options?: Options,
+  options?: ValueUpdateOptions,
 ): string;
 export function buildStatementToSetValue(
   attributePath: AttributePath,
-  optionsOrIndex?: Options | number,
-  options: Options = {},
+  optionsOrIndex?: ValueUpdateOptions | number,
+  options: ValueUpdateOptions = {},
 ): string {
   let index: number | undefined;
-  let actualOptions: Options;
+  let actualOptions: ValueUpdateOptions;
 
   if (typeof optionsOrIndex === 'number') {
     index = optionsOrIndex;
