@@ -217,4 +217,16 @@ describe('Building update expression', () => {
       });
     });
   });
+
+  describe('Add', () => {
+    describe('Adding elements to set', () => {
+      test('single statement to add elements to set', () => {
+        const updateExpression = updateExpressionBuilder
+          .addElementsToSet(['attr0'])
+          .build();
+
+        expect(updateExpression).toBe('ADD #attr0 :attr0');
+      });
+    });
+  });
 });

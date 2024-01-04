@@ -1,12 +1,28 @@
-import { Set } from './statements/index.js';
+import { Set, Add } from './statements/index.js';
 import type { AttributePath, ValueUpdateOptions } from '../../types.js';
 
 export class UpdateExpressionBuilder {
   private setStatements: string[] = [];
+  private addStatements: string[] = [];
 
   public build(): string {
-    const setStatements = `SET ${this.setStatements.join(', ')}`;
-    return `${setStatements}`;
+    return `${this.formattedSetStatements} ${this.formattedAddStatements}`.trim();
+  }
+
+  private get formattedSetStatements(): string {
+    if (this.setStatements.length === 0) {
+      return '';
+    }
+
+    return `SET ${this.setStatements.join(', ')}`;
+  }
+
+  private get formattedAddStatements(): string {
+    if (this.addStatements.length === 0) {
+      return '';
+    }
+
+    return `ADD ${this.addStatements.join(', ')}`;
   }
 
   public setValue(
@@ -67,6 +83,14 @@ export class UpdateExpressionBuilder {
   ): UpdateExpressionBuilder {
     const statement = Set.buildStatementToSubtractNumber(attributePath, index);
     this.setStatements.push(statement);
+    return this;
+  }
+
+  public addElementsToSet(
+    attributePath: AttributePath,
+  ): UpdateExpressionBuilder {
+    const statement = Add.buildStatementToAdd(attributePath);
+    this.addStatements.push(statement);
     return this;
   }
 }
