@@ -1,7 +1,7 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { match, P } from 'ts-pattern';
-import { AttributeType } from './types.js';
-import { InvalidAttributeValueError } from '../attribute/error/InvalidAttributeValueError.js';
+import type { AttributeType } from '../types.js';
+import { InvalidAttributeValueError } from '../errors/index.js';
 
 export function parseNull(attributeValue: AttributeValue.NULLMember): null {
   return null;

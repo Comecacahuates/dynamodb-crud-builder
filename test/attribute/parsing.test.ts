@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import * as Attribute from '../../src/attribute-value/index.js';
+import * as Attribute from '../../src/attribute/index.js';
 
 describe('Parsing null DynamoDB attribute value', () => {
   it('should return null', () => {

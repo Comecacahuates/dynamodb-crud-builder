@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
-import * as Attribute from '../../src/attribute-value/index.js';
+import * as Attribute from '../../src/attribute/index.js';
 
 describe('Building string DynamoDB attribute value', () => {
   it('should return string attribute value', () => {
