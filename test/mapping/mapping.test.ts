@@ -1,14 +1,13 @@
 import { describe, it, expect } from '@jest/globals';
 import * as Mapping from '../../src/mapping/index.js';
-import { PathMappingError } from '../../src/errors/index.js';
-import { type AttributePath } from '../../src/types.js';
+import type { ItemMapping } from '../../src/types.js';
 
 describe('Item mapping', () => {
   it('should map item with single null attribute', () => {
     const itemToMap = {
       attribute: { NULL: true },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -22,7 +21,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { S: 'attribute-value' },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -36,7 +35,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { N: '123' },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -50,7 +49,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { BOOL: true },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -64,7 +63,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { B: new Uint8Array([1, 2, 3]) },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -80,7 +79,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { SS: ['value1', 'value2'] },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -96,7 +95,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { NS: ['1', '2'] },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -112,7 +111,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { BS: [new Uint8Array([1, 2, 3])] },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -132,7 +131,7 @@ describe('Item mapping', () => {
         },
       },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: {
         mappedName: 'mapped-name',
         nestedAttributesMapping: {
@@ -171,7 +170,7 @@ describe('Item mapping', () => {
       },
       'attribute-9': { L: [{ S: 'value1' }, { S: 'value2' }] },
     };
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       'attribute-1': { mappedName: 'a1' },
       'attribute-2': { mappedName: 'a2' },
       'attribute-3': { mappedName: 'a3' },
@@ -212,7 +211,7 @@ describe('Item mapping', () => {
 
   it('should not map attribute if mapping is not defined', () => {
     const itemToMap = { attribute: { S: 'attribute-value' } };
-    const itemMapping: Mapping.ItemMapping = {};
+    const itemMapping: ItemMapping = {};
 
     const expectedMappedItem = { attribute: { S: 'attribute-value' } };
     const actualMappedItem = Mapping.mapItem(itemToMap, itemMapping);
@@ -223,7 +222,7 @@ describe('Item mapping', () => {
 
 describe('Reverse item mapping', () => {
   it('should build reverse item mapping with single attribute', () => {
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: { mappedName: 'a' },
     };
 
@@ -237,7 +236,7 @@ describe('Reverse item mapping', () => {
   });
 
   it('should build reverse item mapping with nested attribute', () => {
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       attribute: {
         mappedName: 'a',
         nestedAttributesMapping: {
@@ -263,7 +262,7 @@ describe('Reverse item mapping', () => {
   });
 
   it('should build reverse item mapping with multiple attributes', () => {
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       'attribute-1': { mappedName: 'a1' },
       'attribute-2': { mappedName: 'a2' },
       'attribute-3': { mappedName: 'a3' },
@@ -281,7 +280,7 @@ describe('Reverse item mapping', () => {
   });
 
   it('should build reverse item mapping with nested attributes', () => {
-    const itemMapping: Mapping.ItemMapping = {
+    const itemMapping: ItemMapping = {
       'attribute-1': {
         mappedName: 'a1',
         nestedAttributesMapping: {
@@ -318,70 +317,5 @@ describe('Reverse item mapping', () => {
       Mapping.buildReverseItemMapping(itemMapping);
 
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
-  });
-});
-
-describe('Attribute path mapping', () => {
-  const itemMapping: Mapping.ItemMapping = {
-    attribute1: {
-      mappedName: 'a1',
-    },
-    attribute2: {
-      mappedName: 'a2',
-      nestedAttributesMapping: {
-        'nested-attribute2': {
-          mappedName: 'nested-a2',
-        },
-      },
-    },
-    attribute3: {
-      mappedName: 'a3',
-      nestedAttributesMapping: {
-        'nested-attribute3': {
-          mappedName: 'nested-a3',
-          nestedAttributesMapping: {
-            'nested-nested-attribute3': {
-              mappedName: 'nested-nested-a3',
-            },
-          },
-        },
-      },
-    },
-  };
-
-  it.each([
-    ['simple path', ['attribute1'], ['a1']],
-    [
-      'one level nesting path',
-      ['attribute2', 'nested-attribute2'],
-      ['a2', 'nested-a2'],
-    ],
-    [
-      'two level nesting path',
-      ['attribute3', 'nested-attribute3', 'nested-nested-attribute3'],
-      ['a3', 'nested-a3', 'nested-nested-a3'],
-    ],
-  ])(
-    'should map %s',
-    (
-      _,
-      attributePathToMap: AttributePath,
-      expectedAttributeMappedPath: AttributePath,
-    ) => {
-      const mappedAttributePath = Mapping.mapAttributePath(
-        attributePathToMap,
-        itemMapping,
-      );
-
-      expect(mappedAttributePath).toEqual(expectedAttributeMappedPath);
-    },
-  );
-
-  it('should throw error if attribute path is not defined', () => {
-    const pathToMap = ['attribute4'];
-
-    expect(() => Mapping.mapAttributePath(pathToMap, itemMapping)).toThrow(
-      PathMappingError,
-    );
   });
 });
