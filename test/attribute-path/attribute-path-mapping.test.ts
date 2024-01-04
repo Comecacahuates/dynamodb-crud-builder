@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import * as Mapping from '../../src/mapping/index.js';
+import { mapAttributePath } from '../../src/attribute-path/attribute-path-mapping.js';
 import { PathMappingError } from '../../src/errors/index.js';
 import type { AttributePath, ItemMapping } from '../../src/types.js';
 
@@ -50,7 +50,7 @@ describe('Attribute path mapping', () => {
       attributePathToMap: AttributePath,
       expectedAttributeMappedPath: AttributePath,
     ) => {
-      const mappedAttributePath = Mapping.mapAttributePath(
+      const mappedAttributePath = mapAttributePath(
         attributePathToMap,
         itemMapping,
       );
@@ -62,7 +62,7 @@ describe('Attribute path mapping', () => {
   it('should throw error if attribute path is not defined', () => {
     const pathToMap = ['attribute4'];
 
-    expect(() => Mapping.mapAttributePath(pathToMap, itemMapping)).toThrow(
+    expect(() => mapAttributePath(pathToMap, itemMapping)).toThrow(
       PathMappingError,
     );
   });

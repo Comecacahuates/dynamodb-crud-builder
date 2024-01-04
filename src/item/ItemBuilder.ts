@@ -1,5 +1,5 @@
-import { type Item } from '../types.js';
-import * as Attributes from '../attribute-value/index.js';
+import type { Item, AttributeType } from '../types.js';
+import * as Attributes from '../attribute/index.js';
 
 export class ItemBuilder {
   private item: Item = {};
@@ -78,7 +78,7 @@ export class ItemBuilder {
 
   public addListAttribute(
     attributeName: string,
-    listValue: Attributes.AttributeType[],
+    listValue: AttributeType[],
   ): ItemBuilder {
     const attributeValue = Attributes.build(listValue);
     this.item[attributeName] = attributeValue;
@@ -87,7 +87,7 @@ export class ItemBuilder {
 
   public addObjectAttribute(
     attributeName: string,
-    mapValue: Record<string, Attributes.AttributeType>,
+    mapValue: Record<string, AttributeType>,
   ): ItemBuilder {
     const attributeValue = Attributes.build(mapValue);
     this.item[attributeName] = attributeValue;
