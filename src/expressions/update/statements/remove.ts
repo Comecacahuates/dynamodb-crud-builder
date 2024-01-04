@@ -1,23 +1,23 @@
-import * as ExpressionAttributeNames from '../../expression-attribute-names.js';
+import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { type AttributePath } from '../../../types.js';
 
 export function buildStatementToRemoveAttribute(
   attributePath: AttributePath,
 ): string {
-  const attributePathPlaceholder =
-    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
+  const expressionAttributeNamePlaceholder =
+    buildExpressionAttributeNamePlaceholder(attributePath);
 
-  return `${attributePathPlaceholder}`;
+  return `${expressionAttributeNamePlaceholder}`;
 }
 
 export function buildStatementToRemoveItemFromList(
   attributePath: AttributePath,
   index: number,
 ): string {
-  const attributePathPlaceholder =
-    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
+  const expressionAttributeName =
+    buildExpressionAttributeNamePlaceholder(attributePath);
 
-  const itemPathPlaceholder = `${attributePathPlaceholder}[${index}]`;
+  const itemPathPlaceholder = `${expressionAttributeName}[${index}]`;
 
   return `${itemPathPlaceholder}`;
 }

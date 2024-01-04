@@ -1,12 +1,12 @@
-import * as ExpressionAttributeNames from '../../expression-attribute-names.js';
-import * as ExpressionAttributeValues from '../../expression-attribute-values.js';
+import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
+import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
 import { type AttributePath } from '../../../types.js';
 
 export function buildStatementToAdd(attributePath: AttributePath): string {
-  const attributePathPlaceholder =
-    ExpressionAttributeNames.buildPlaceholderFromAttributePath(attributePath);
-  const attributeValuePlaceholder =
-    ExpressionAttributeValues.buildPlaceholderFromAttributePath(attributePath);
+  const expressionAttributeNamePlaceholder =
+    buildExpressionAttributeNamePlaceholder(attributePath);
+  const expressionAttributeValuePlaceholder =
+    buildExpressionAttributeValuePlaceholder(attributePath);
 
-  return `${attributePathPlaceholder} ${attributeValuePlaceholder}`;
+  return `${expressionAttributeNamePlaceholder} ${expressionAttributeValuePlaceholder}`;
 }
