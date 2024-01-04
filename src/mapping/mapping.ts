@@ -1,13 +1,6 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { PathMappingError } from '../errors/index.js';
-import { type AttributePath } from '../types.js';
-
-export type ItemMapping = {
-  [key: string]: {
-    mappedName: string;
-    nestedAttributesMapping?: ItemMapping;
-  };
-};
+import type { AttributePath, ItemMapping } from '../types.js';
 
 export function mapItem(
   item: Record<string, AttributeValue>,
