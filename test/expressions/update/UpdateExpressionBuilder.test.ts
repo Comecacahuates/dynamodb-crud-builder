@@ -52,5 +52,29 @@ describe('Building update expression', () => {
         );
       });
     });
+
+    describe('Appending items to list', () => {
+      test('single statement to append items to list', () => {
+        const updateExpression = updateExpressionBuilder
+          .appendItemsToList(['attr0'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = list_append(#attr0, :attr0)',
+        );
+      });
+
+      test('multiple statements to append items to list', () => {
+        const updateExpression = updateExpressionBuilder
+          .appendItemsToList(['attr0'])
+          .appendItemsToList(['attr1'])
+          .appendItemsToList(['attr2'])
+          .build();
+
+        expect(updateExpression).toBe(
+          'SET #attr0 = list_append(#attr0, :attr0), #attr1 = list_append(#attr1, :attr1), #attr2 = list_append(#attr2, :attr2)',
+        );
+      });
+    });
   });
 });

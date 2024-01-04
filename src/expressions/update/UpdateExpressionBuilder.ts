@@ -23,4 +23,12 @@ export class UpdateExpressionBuilder {
     this.setStatements.push(statement);
     return this;
   }
+
+  public appendItemsToList(
+    attributePath: AttributePath,
+  ): UpdateExpressionBuilder {
+    const statement = Set.buildStatementToAppendItemsToList(attributePath);
+    this.setStatements.push(statement);
+    return this;
+  }
 }
