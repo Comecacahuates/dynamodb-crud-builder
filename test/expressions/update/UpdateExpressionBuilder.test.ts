@@ -30,26 +30,6 @@ describe('Building update expression', () => {
         );
       });
 
-      test('single statement to set value of list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'], 1)
-          .build();
-
-        expect(updateExpression).toBe('SET #attr0[1] = :attr01');
-      });
-
-      test('multiple statements to set value of list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'], 1)
-          .setValue(['attr1'], 2)
-          .setValue(['attr2'], 3)
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0[1] = :attr01, #attr1[2] = :attr12, #attr2[3] = :attr23',
-        );
-      });
-
       test('single statement to set value preventing overwrite', () => {
         const updateExpression = updateExpressionBuilder
           .setValue(['attr0'], { preventOverwriting: true })
@@ -69,30 +49,6 @@ describe('Building update expression', () => {
 
         expect(updateExpression).toBe(
           'SET #attr0 = if_not_exists(#attr0, :attr0), #attr1 = if_not_exists(#attr1, :attr1), #attr2 = :attr2',
-        );
-      });
-
-      test('multiple statements to set value of attribute and list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'])
-          .setValue(['attr1'], 2)
-          .setValue(['attr2'])
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0 = :attr0, #attr1[2] = :attr12, #attr2 = :attr2',
-        );
-      });
-
-      test('multiple statements to set value of attribute and list item preventing overwrite', () => {
-        const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'], { preventOverwriting: true })
-          .setValue(['attr1'], 2, { preventOverwriting: true })
-          .setValue(['attr2'])
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0 = if_not_exists(#attr0, :attr0), #attr1[2] = if_not_exists(#attr1[2], :attr12), #attr2 = :attr2',
         );
       });
     });
@@ -141,38 +97,6 @@ describe('Building update expression', () => {
           'SET #attr0 = #attr0 + :attr0, #attr1 = #attr1 + :attr1, #attr2 = #attr2 + :attr2',
         );
       });
-
-      test('single statement to add number to list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .addNumber(['attr0'], 1)
-          .build();
-
-        expect(updateExpression).toBe('SET #attr0[1] = #attr0[1] + :attr01');
-      });
-
-      test('multiple statements to add number to list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .addNumber(['attr0'], 1)
-          .addNumber(['attr1'], 2)
-          .addNumber(['attr2'], 3)
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0[1] = #attr0[1] + :attr01, #attr1[2] = #attr1[2] + :attr12, #attr2[3] = #attr2[3] + :attr23',
-        );
-      });
-
-      test('multiple statements to add number to attribute value and list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .addNumber(['attr0'])
-          .addNumber(['attr1'], 2)
-          .addNumber(['attr2'])
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0 = #attr0 + :attr0, #attr1[2] = #attr1[2] + :attr12, #attr2 = #attr2 + :attr2',
-        );
-      });
     });
 
     describe('Subtracting number', () => {
@@ -195,26 +119,6 @@ describe('Building update expression', () => {
           'SET #attr0 = #attr0 - :attr0, #attr1 = #attr1 - :attr1, #attr2 = #attr2 - :attr2',
         );
       });
-
-      test('single statement to subtract number from list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .subtractNumber(['attr0'], 1)
-          .build();
-
-        expect(updateExpression).toBe('SET #attr0[1] = #attr0[1] - :attr01');
-      });
-
-      test('multiple statements to subtract number from list item', () => {
-        const updateExpression = updateExpressionBuilder
-          .subtractNumber(['attr0'], 1)
-          .subtractNumber(['attr1'], 2)
-          .subtractNumber(['attr2'], 3)
-          .build();
-
-        expect(updateExpression).toBe(
-          'SET #attr0[1] = #attr0[1] - :attr01, #attr1[2] = #attr1[2] - :attr12, #attr2[3] = #attr2[3] - :attr23',
-        );
-      });
     });
   });
 
@@ -231,8 +135,8 @@ describe('Building update expression', () => {
   });
 
   describe('Remove', () => {
-    describe('Removing elements from an item', () => {
-      test('single statement to remove elements from an item', () => {
+    describe('Removing attributes from an item', () => {
+      test('single statement to remove attribute from an item', () => {
         const updateExpression = updateExpressionBuilder
           .remove(['attr0', 'attr1'])
           .build();
@@ -240,7 +144,7 @@ describe('Building update expression', () => {
         expect(updateExpression).toBe('REMOVE #attr0.#attr1');
       });
 
-      test('multiple statements to remove elements from an item', () => {
+      test('multiple statements to remove attributes from an item', () => {
         const updateExpression = updateExpressionBuilder
           .remove(['attr0', 'attr1'])
           .remove(['attr2', 'attr3'])
@@ -252,25 +156,27 @@ describe('Building update expression', () => {
         );
       });
     });
+  });
 
-    describe('Removing elements from a list', () => {
-      test('single statement to remove elements from a list', () => {
-        const updateExpression = updateExpressionBuilder
-          .remove(['attr0'], 1)
-          .build();
+  describe('Delete', () => {
+    test('single statement to delete an element from a set', () => {
+      const updateExpression = updateExpressionBuilder
+        .delete(['attr0', 'attr1'])
+        .build();
 
-        expect(updateExpression).toBe('REMOVE #attr0[1]');
-      });
+      expect(updateExpression).toBe('DELETE #attr0.#attr1 :attr0attr1');
+    });
 
-      test('multiple statements to remove elements from a list', () => {
-        const updateExpression = updateExpressionBuilder
-          .remove(['attr0'], 1)
-          .remove(['attr1'], 2)
-          .remove(['attr2'], 3)
-          .build();
+    test('multiple statements to delete an element from a set', () => {
+      const updateExpression = updateExpressionBuilder
+        .delete(['attr0', 'attr1'])
+        .delete(['attr2', 'attr3'])
+        .delete(['attr4', 'attr5'])
+        .build();
 
-        expect(updateExpression).toBe('REMOVE #attr0[1], #attr1[2], #attr2[3]');
-      });
+      expect(updateExpression).toBe(
+        'DELETE #attr0.#attr1 :attr0attr1, #attr2.#attr3 :attr2attr3, #attr4.#attr5 :attr4attr5',
+      );
     });
   });
 });
