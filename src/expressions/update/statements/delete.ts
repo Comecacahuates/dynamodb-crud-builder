@@ -2,14 +2,11 @@ import { buildExpressionAttributeNamePlaceholder } from '../../expression-attrib
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
 import type { AttributePath } from '../../../types.js';
 
-export function buildStatementToDelete(
-  attributePath: AttributePath,
-  index?: number,
-): string {
+export function buildStatementToDelete(attributePath: AttributePath): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath, index);
+    buildExpressionAttributeNamePlaceholder(attributePath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath, index);
+    buildExpressionAttributeValuePlaceholder(attributePath);
 
   return `${expressionAttributeNamePlaceholder} ${expressionAttributeValuePlaceholder}`;
 }
