@@ -1,19 +1,19 @@
 import { describe, it, expect } from '@jest/globals';
 import {
-  getIndexFromAttributePathPart,
-  getAttributeNameFromAttributePathPart,
+  getIndex,
+  getAttributeName,
   buildFromString,
 } from '../../src/attribute-path/building.js';
 
 describe('Getting index from attribute path part', () => {
   it('should return null if no index', () => {
-    const index = getIndexFromAttributePathPart('attr0');
+    const index = getIndex('attr0');
 
     expect(index).toBeNull();
   });
 
   it('should return index if index', () => {
-    const index = getIndexFromAttributePathPart('attr0[0]');
+    const index = getIndex('attr0[0]');
 
     expect(index).toEqual(0);
   });
@@ -21,13 +21,13 @@ describe('Getting index from attribute path part', () => {
 
 describe('Getting attribute name from attribute path part', () => {
   it('should return attribute name if no index', () => {
-    const name = getAttributeNameFromAttributePathPart('attr0');
+    const name = getAttributeName('attr0');
 
     expect(name).toEqual('attr0');
   });
 
   it('should return attribute name if index', () => {
-    const name = getAttributeNameFromAttributePathPart('attr0[0]');
+    const name = getAttributeName('attr0[0]');
 
     expect(name).toEqual('attr0');
   });
@@ -44,5 +44,17 @@ describe('Building path from string', () => {
     const path = buildFromString('attr0[0]');
 
     expect(path).toEqual(['attr0', 0]);
+  });
+
+  it('should build complex path', () => {
+    const path = buildFromString('attr0.attr1.attr2');
+
+    expect(path).toEqual(['attr0', 'attr1', 'attr2']);
+  });
+
+  it('should build complex path with index', () => {
+    const path = buildFromString('attr0[0].attr1[1].attr2[2]');
+
+    expect(path).toEqual(['attr0', 0, 'attr1', 1, 'attr2', 2]);
   });
 });

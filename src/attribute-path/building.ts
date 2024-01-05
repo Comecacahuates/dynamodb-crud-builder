@@ -1,8 +1,6 @@
 import type { AttributePath } from '../types.js';
 
-export function getIndexFromAttributePathPart(
-  attributePathPart: string,
-): number | null {
+export function getIndex(attributePathPart: string): number | null {
   const indexMatch = attributePathPart.match(/\[(\d+)\]/);
   console.log(indexMatch);
 
@@ -13,13 +11,24 @@ export function getIndexFromAttributePathPart(
   return Number(indexMatch[1]);
 }
 
-export function getAttributeNameFromAttributePathPart(
-  attributePathPart: string,
-): string {
+export function getAttributeName(attributePathPart: string): string {
   return attributePathPart.replace(/\[\d+\]/, '');
 }
 
-export function buildFromString(pathString: string): AttributePath {
-  const pathParts = pathString.split('.');
-  /(ab)|(cd)/.exec('cd');
+export function buildFromString(attributePathString: string): AttributePath {
+  const attributePathParts = attributePathString.split('.');
+  const attributePath: AttributePath = attributePathParts
+    .map((attributePathPart) => {
+      const attributeName = getAttributeName(attributePathPart);
+      const index = getIndex(attributePathPart);
+
+      if (index !== null) {
+        return [attributeName, index];
+      }
+
+      return [attributeName];
+    })
+    .flat();
+
+  return attributePath;
 }
