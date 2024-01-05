@@ -2,28 +2,28 @@ import type { AttributePath } from '../types.js';
 
 export function buildExpressionAttributeNamePlaceholder(
   attributePath: AttributePath,
-  index?: number,
 ): string {
-  const placeholder = attributePath
-    .map((attributePathPart) => `#${attributePathPart}`)
-    .join('.');
+  return attributePath
+    .map((attributePathItem) => {
+      if (typeof attributePathItem === 'number') {
+        return `[${attributePathItem}]`;
+      }
 
-  if (index) {
-    return `${placeholder}[${index}]`;
-  } else {
-    return placeholder;
-  }
+      return `#${attributePathItem}`;
+    })
+    .join('.')
+    .replace(/\.\[/g, '[');
 }
 
 export function buildExpressionAttributeNames(
   attributePath: AttributePath,
 ): Record<string, string> {
-  return attributePath.reduce((expressionAttributeNames, attributePathPart) => {
-    const attributePathPartPlaceholder = `#${attributePathPart}`;
+  return attributePath.reduce((expressionAttributeNames, attributePathItem) => {
+    const attributePathPartPlaceholder = `#${attributePathItem}`;
 
     return {
       ...expressionAttributeNames,
-      [attributePathPartPlaceholder]: attributePathPart,
+      [attributePathPartPlaceholder]: attributePathItem,
     };
   }, {});
 }

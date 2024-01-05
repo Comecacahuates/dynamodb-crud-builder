@@ -16,12 +16,17 @@ describe('Building placeholder', () => {
   });
 
   it('should return placeholder with index', () => {
-    const placeholder = buildExpressionAttributeNamePlaceholder(
-      ['a', 'b', 'c'],
+    const placeholder = buildExpressionAttributeNamePlaceholder([
+      'a',
+      'b',
+      'c',
       1,
-    );
+      'd',
+      'e',
+      2,
+    ]);
 
-    expect(placeholder).toBe('#a.#b.#c[1]');
+    expect(placeholder).toBe('#a.#b.#c[1].#d.#e[2]');
   });
 });
 
