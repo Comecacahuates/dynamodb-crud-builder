@@ -13,6 +13,12 @@ export function getIndexFromAttributePathPart(
   return Number(indexMatch[1]);
 }
 
+export function getAttributeNameFromAttributePathPart(
+  attributePathPart: string,
+): string {
+  return attributePathPart.replace(/\[\d+\]/, '');
+}
+
 export function buildFromString(pathString: string): AttributePath {
   const pathParts = pathString.split('.');
   /(ab)|(cd)/.exec('cd');

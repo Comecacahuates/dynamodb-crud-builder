@@ -1,10 +1,11 @@
 import { describe, it, expect } from '@jest/globals';
 import {
   getIndexFromAttributePathPart,
+  getAttributeNameFromAttributePathPart,
   buildFromString,
 } from '../../src/attribute-path/building.js';
 
-describe.only('Getting index from attribute path part', () => {
+describe('Getting index from attribute path part', () => {
   it('should return null if no index', () => {
     const index = getIndexFromAttributePathPart('attr0');
 
@@ -15,6 +16,20 @@ describe.only('Getting index from attribute path part', () => {
     const index = getIndexFromAttributePathPart('attr0[0]');
 
     expect(index).toEqual(0);
+  });
+});
+
+describe('Getting attribute name from attribute path part', () => {
+  it('should return attribute name if no index', () => {
+    const name = getAttributeNameFromAttributePathPart('attr0');
+
+    expect(name).toEqual('attr0');
+  });
+
+  it('should return attribute name if index', () => {
+    const name = getAttributeNameFromAttributePathPart('attr0[0]');
+
+    expect(name).toEqual('attr0');
   });
 });
 
