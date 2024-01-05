@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach } from '@jest/globals';
+import { describe, it, test, expect, beforeEach } from '@jest/globals';
 import { UpdateExpressionBuilder } from '../../../src/expressions/update/UpdateExpressionBuilder.js';
 
 describe('Building update expression', () => {
@@ -176,6 +176,24 @@ describe('Building update expression', () => {
 
       expect(updateExpression).toBe(
         'DELETE #attr0.#attr1 :attr0attr1, #attr2.#attr3 :attr2attr3, #attr4.#attr5 :attr4attr5',
+      );
+    });
+  });
+
+  describe('Multiple statements', () => {
+    it('should return update expression with multiple statements', () => {
+      const updateExpression = updateExpressionBuilder
+        .setValue(['attr0', 1, 'a'])
+        .appendItemsToList(['attr1', 2, 'b'])
+        .addNumber(['attr2', 3, 'c'])
+        .subtractNumber(['attr3', 4, 'd'])
+        .addElementsToSet(['attr4', 5, 'e'])
+        .remove(['attr5', 'f'])
+        .delete(['attr6', 'g'])
+        .build();
+
+      expect(updateExpression).toBe(
+        'SET #attr0[1].#a = :attr01a, #attr1[2].#b = list_append(#attr1[2].#b, :attr12b), #attr2[3].#c = #attr2[3].#c + :attr23c, #attr3[4].#d = #attr3[4].#d - :attr34d ADD #attr4[5].#e :attr45e REMOVE #attr5.#f DELETE #attr6.#g :attr6g',
       );
     });
   });
