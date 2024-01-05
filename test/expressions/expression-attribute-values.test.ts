@@ -16,12 +16,17 @@ describe('Building placeholder', () => {
   });
 
   it('should return placeholder with index', () => {
-    const placeholder = buildExpressionAttributeValuePlaceholder(
-      ['a', 'b', 'c'],
+    const placeholder = buildExpressionAttributeValuePlaceholder([
+      'a',
+      'b',
+      'c',
       1,
-    );
+      'd',
+      'e',
+      2,
+    ]);
 
-    expect(placeholder).toBe(':abc1');
+    expect(placeholder).toBe(':abc1de2');
   });
 });
 
@@ -34,6 +39,17 @@ describe('Building expression attribute value', () => {
 
     expect(fromAttributePathAndValue).toEqual({
       ':abc': { S: 'id' },
+    });
+  });
+
+  it('should return expression attribute value with index', () => {
+    const fromAttributePathAndValue = buildExpressionAttributeValue(
+      ['a', 'b', 'c', 1, 'd', 'e', 2],
+      { S: 'id' },
+    );
+
+    expect(fromAttributePathAndValue).toEqual({
+      ':abc1de2': { S: 'id' },
     });
   });
 });

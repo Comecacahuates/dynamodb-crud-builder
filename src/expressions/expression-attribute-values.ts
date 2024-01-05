@@ -3,12 +3,7 @@ import type { AttributePath } from '../types.js';
 
 export function buildExpressionAttributeValuePlaceholder(
   attributePath: AttributePath,
-  index?: number,
 ): string {
-  if (index) {
-    return `:${attributePath.join('')}${index}`;
-  }
-
   return `:${attributePath.join('')}`;
 }
 
