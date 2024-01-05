@@ -41,6 +41,26 @@ describe('Building expression attribute name', () => {
     });
   });
 
+  it('should return expression attribute names without indexes', () => {
+    const fromAttributePath = buildExpressionAttributeNames([
+      'a',
+      'b',
+      'c',
+      1,
+      'd',
+      'e',
+      2,
+    ]);
+
+    expect(fromAttributePath).toEqual({
+      '#a': 'a',
+      '#b': 'b',
+      '#c': 'c',
+      '#d': 'd',
+      '#e': 'e',
+    });
+  });
+
   it('should return empty object for empty path', () => {
     const fromAttributePath = buildExpressionAttributeNames([]);
 

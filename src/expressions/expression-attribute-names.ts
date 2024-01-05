@@ -19,6 +19,10 @@ export function buildExpressionAttributeNames(
   attributePath: AttributePath,
 ): Record<string, string> {
   return attributePath.reduce((expressionAttributeNames, attributePathItem) => {
+    if (typeof attributePathItem === 'number') {
+      return expressionAttributeNames;
+    }
+
     const attributePathPartPlaceholder = `#${attributePathItem}`;
 
     return {
