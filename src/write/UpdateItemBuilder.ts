@@ -11,7 +11,7 @@ import type {
   AttributePath,
   ValueUpdateOptions,
 } from '../types.js';
-import { buildAttributePathFromString } from '../attribute-path/index.js';
+import { buildAttributePathFromString } from '../document-path/index.js';
 import { buildExpressionAttributeNames } from '../expressions/expression-attribute-names.js';
 import { buildExpressionAttributeValue } from '../expressions/expression-attribute-values.js';
 import * as Attribute from '../attribute/index.js';

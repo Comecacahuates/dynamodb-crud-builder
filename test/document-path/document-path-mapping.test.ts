@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { mapAttributePath } from '../../src/attribute-path/attribute-path-mapping.js';
+import { mapAttributePath } from '../../src/document-path/document-path-mapping.js';
 import { PathMappingError } from '../../src/errors/index.js';
 import type { AttributePath, ItemMapping } from '../../src/types.js';
 
