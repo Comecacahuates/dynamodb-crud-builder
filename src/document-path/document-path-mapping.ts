@@ -1,10 +1,10 @@
 import { PathMappingError } from '../errors/index.js';
-import type { AttributePath, ItemMapping } from '../types.js';
+import type { DocumentPath, ItemMapping } from '../types.js';
 
 export function mapAttributePath(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
   itemMapping: ItemMapping,
-): AttributePath {
+): DocumentPath {
   const { mappedPath } = attributePath.reduce(
     ({ itemMapping, mappedPath }, pathPart) => {
       const attributeMapping = itemMapping[pathPart];
@@ -21,7 +21,7 @@ export function mapAttributePath(
         mappedPath: [...mappedPath, mappedAttributeName],
       };
     },
-    { itemMapping, mappedPath: [] as AttributePath },
+    { itemMapping, mappedPath: [] as DocumentPath },
   );
 
   return mappedPath;

@@ -1,9 +1,9 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
-import type { AttributePath, ValueUpdateOptions } from '../../../types.js';
+import type { DocumentPath, ValueUpdateOptions } from '../../../types.js';
 
 export function buildStatementToSetValue(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
   options: ValueUpdateOptions = {},
 ): string {
   const { preventOverwriting = false } = options;
@@ -21,7 +21,7 @@ export function buildStatementToSetValue(
 }
 
 export function buildStatementToAppendItemsToList(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
 ): string {
   const expressionAttributeNamePlaceholder =
     buildExpressionAttributeNamePlaceholder(attributePath);
@@ -31,9 +31,7 @@ export function buildStatementToAppendItemsToList(
   return `${expressionAttributeNamePlaceholder} = list_append(${expressionAttributeNamePlaceholder}, ${expressionAttributeValuePlaceholder})`;
 }
 
-export function buildStatementToAddNumber(
-  attributePath: AttributePath,
-): string {
+export function buildStatementToAddNumber(attributePath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =
     buildExpressionAttributeNamePlaceholder(attributePath);
   const expressionAttributeValuePlaceholder =
@@ -43,7 +41,7 @@ export function buildStatementToAddNumber(
 }
 
 export function buildStatementToSubtractNumber(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
 ): string {
   const expressionAttributeNamePlaceholder =
     buildExpressionAttributeNamePlaceholder(attributePath);

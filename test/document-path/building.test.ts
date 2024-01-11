@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import {
   getIndex,
   getAttributeName,
-  buildAttributePathFromString,
+  buildDocumentPathFromString,
 } from '../../src/document-path/building.js';
 
 describe('Getting index from attribute path part', () => {
@@ -35,25 +35,25 @@ describe('Getting attribute name from attribute path part', () => {
 
 describe('Building path from string', () => {
   it('should build simple path', () => {
-    const path = buildAttributePathFromString('attr0');
+    const path = buildDocumentPathFromString('attr0');
 
     expect(path).toEqual(['attr0']);
   });
 
   it('should build simple path with index', () => {
-    const path = buildAttributePathFromString('attr0[0]');
+    const path = buildDocumentPathFromString('attr0[0]');
 
     expect(path).toEqual(['attr0', 0]);
   });
 
   it('should build complex path', () => {
-    const path = buildAttributePathFromString('attr0.attr1.attr2');
+    const path = buildDocumentPathFromString('attr0.attr1.attr2');
 
     expect(path).toEqual(['attr0', 'attr1', 'attr2']);
   });
 
   it('should build complex path with index', () => {
-    const path = buildAttributePathFromString('attr0[0].attr1[1].attr2[2]');
+    const path = buildDocumentPathFromString('attr0[0].attr1[1].attr2[2]');
 
     expect(path).toEqual(['attr0', 0, 'attr1', 1, 'attr2', 2]);
   });

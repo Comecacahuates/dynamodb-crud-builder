@@ -1,7 +1,7 @@
-import type { AttributePath } from '../types.js';
+import type { DocumentPath } from '../types.js';
 
 export function buildExpressionAttributeNamePlaceholder(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
 ): string {
   return attributePath
     .map((attributePathItem) => {
@@ -16,7 +16,7 @@ export function buildExpressionAttributeNamePlaceholder(
 }
 
 export function buildExpressionAttributeNames(
-  attributePath: AttributePath,
+  attributePath: DocumentPath,
 ): Record<string, string> {
   return attributePath.reduce((expressionAttributeNames, attributePathItem) => {
     if (typeof attributePathItem === 'number') {

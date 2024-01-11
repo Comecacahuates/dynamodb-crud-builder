@@ -1,5 +1,5 @@
 import { Set, Add, Remove, Delete } from './statements/index.js';
-import type { AttributePath, ValueUpdateOptions } from '../../types.js';
+import type { DocumentPath, ValueUpdateOptions } from '../../types.js';
 
 export class UpdateExpressionBuilder {
   private setStatements: string[] = [];
@@ -44,7 +44,7 @@ export class UpdateExpressionBuilder {
   }
 
   public setValue(
-    attributePath: AttributePath,
+    attributePath: DocumentPath,
     options?: ValueUpdateOptions,
   ): UpdateExpressionBuilder {
     const statement = Set.buildStatementToSetValue(attributePath, options);
@@ -54,40 +54,40 @@ export class UpdateExpressionBuilder {
   }
 
   public appendItemsToList(
-    attributePath: AttributePath,
+    attributePath: DocumentPath,
   ): UpdateExpressionBuilder {
     const statement = Set.buildStatementToAppendItemsToList(attributePath);
     this.setStatements.push(statement);
     return this;
   }
 
-  public addNumber(attributePath: AttributePath): UpdateExpressionBuilder {
+  public addNumber(attributePath: DocumentPath): UpdateExpressionBuilder {
     const statement = Set.buildStatementToAddNumber(attributePath);
     this.setStatements.push(statement);
     return this;
   }
 
-  public subtractNumber(attributePath: AttributePath): UpdateExpressionBuilder {
+  public subtractNumber(attributePath: DocumentPath): UpdateExpressionBuilder {
     const statement = Set.buildStatementToSubtractNumber(attributePath);
     this.setStatements.push(statement);
     return this;
   }
 
   public addElementsToSet(
-    attributePath: AttributePath,
+    attributePath: DocumentPath,
   ): UpdateExpressionBuilder {
     const statement = Add.buildStatementToAdd(attributePath);
     this.addStatements.push(statement);
     return this;
   }
 
-  public remove(attributePath: AttributePath): UpdateExpressionBuilder {
+  public remove(attributePath: DocumentPath): UpdateExpressionBuilder {
     const statement = Remove.buildStatementToRemove(attributePath);
     this.removeStatements.push(statement);
     return this;
   }
 
-  public delete(attributePath: AttributePath): UpdateExpressionBuilder {
+  public delete(attributePath: DocumentPath): UpdateExpressionBuilder {
     const statement = Delete.buildStatementToDelete(attributePath);
     this.deleteStatements.push(statement);
     return this;

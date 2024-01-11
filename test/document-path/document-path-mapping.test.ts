@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { mapAttributePath } from '../../src/document-path/document-path-mapping.js';
 import { PathMappingError } from '../../src/errors/index.js';
-import type { AttributePath, ItemMapping } from '../../src/types.js';
+import type { DocumentPath, ItemMapping } from '../../src/types.js';
 
 describe('Attribute path mapping', () => {
   const itemMapping: ItemMapping = {
@@ -47,8 +47,8 @@ describe('Attribute path mapping', () => {
     'should map %s',
     (
       _,
-      attributePathToMap: AttributePath,
-      expectedAttributeMappedPath: AttributePath,
+      attributePathToMap: DocumentPath,
+      expectedAttributeMappedPath: DocumentPath,
     ) => {
       const mappedAttributePath = mapAttributePath(
         attributePathToMap,

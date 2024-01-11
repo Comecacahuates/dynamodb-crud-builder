@@ -1,10 +1,10 @@
-import type { Item, AttributeType } from '../types.js';
+import type { DynamoDBItem, AttributeType } from '../types.js';
 import * as Attributes from '../attribute/index.js';
 
 export class ItemBuilder {
-  private item: Item = {};
+  private item: DynamoDBItem = {};
 
-  public build(): Item {
+  public build(): DynamoDBItem {
     return this.item;
   }
 

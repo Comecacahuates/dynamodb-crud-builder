@@ -6,12 +6,12 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { UpdateExpressionBuilder } from '../expressions/update/index.js';
 import type {
-  Item,
+  DynamoDBItem,
   AttributeType,
-  AttributePath,
+  DocumentPath,
   ValueUpdateOptions,
 } from '../types.js';
-import { buildAttributePathFromString } from '../document-path/index.js';
+import { buildDocumentPathFromString } from '../document-path/index.js';
 import { buildExpressionAttributeNames } from '../expressions/expression-attribute-names.js';
 import { buildExpressionAttributeValue } from '../expressions/expression-attribute-values.js';
 import * as Attribute from '../attribute/index.js';
@@ -54,12 +54,12 @@ export class UpdateItemBuilder {
     return this;
   }
 
-  public withKey(key: Item): UpdateItemBuilder {
+  public withKey(key: DynamoDBItem): UpdateItemBuilder {
     this.updateItemInput.Key = key;
     return this;
   }
 
-  private addExpressionAttributeNames(attributePath: AttributePath) {
+  private addExpressionAttributeNames(attributePath: DocumentPath) {
     const expressionAttributeNames =
       buildExpressionAttributeNames(attributePath);
     this.updateItemInput.ExpressionAttributeNames = {
@@ -69,7 +69,7 @@ export class UpdateItemBuilder {
   }
 
   private addExpressionAttributeValues(
-    attributePath: AttributePath,
+    attributePath: DocumentPath,
     value: AttributeType,
   ) {
     const attributeValue = Attribute.build(value);
@@ -88,7 +88,7 @@ export class UpdateItemBuilder {
     value: AttributeType,
     options?: ValueUpdateOptions,
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.setValue(attributePath, options);
 
@@ -102,7 +102,7 @@ export class UpdateItemBuilder {
     attributePathString: string,
     items: AttributeType[],
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.appendItemsToList(attributePath);
 
@@ -116,7 +116,7 @@ export class UpdateItemBuilder {
     attributePathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.addNumber(attributePath);
 
@@ -130,7 +130,7 @@ export class UpdateItemBuilder {
     attributePathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.subtractNumber(attributePath);
 
@@ -144,7 +144,7 @@ export class UpdateItemBuilder {
     attributePathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.addElementsToSet(attributePath);
 
@@ -155,7 +155,7 @@ export class UpdateItemBuilder {
   }
 
   public removeAttribute(attributePathString: string): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.remove(attributePath);
 
@@ -168,7 +168,7 @@ export class UpdateItemBuilder {
     attributePathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const attributePath = buildAttributePathFromString(attributePathString);
+    const attributePath = buildDocumentPathFromString(attributePathString);
 
     this.updateExpressionBuilder.delete(attributePath);
 
