@@ -1,55 +1,78 @@
 import { describe, it, expect } from '@jest/globals';
+import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import {
   buildExpressionAttributeValuePlaceholder,
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
+import {
+  type ExpressionAttributeValues,
+  type DocumentPath,
+} from '../../src/types.js';
 
 describe('Building placeholder', () => {
-  it('should return placeholder', () => {
-    const placeholder = buildExpressionAttributeValuePlaceholder([
-      'a',
-      'b',
-      'c',
-    ]);
+  type TestCase = {
+    testName: string;
+    documentPath: DocumentPath;
+    placeholder: string;
+  };
 
-    expect(placeholder).toBe(':abc');
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName: 'should return placeholder for document path with no indexes',
+      documentPath: ['a', 'b', 'c'],
+      placeholder: ':abc',
+    },
+    {
+      testName: 'should return placeholder for document path with indexes',
+      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      placeholder: ':abc1de2',
+    },
+  ];
 
-  it('should return placeholder with index', () => {
-    const placeholder = buildExpressionAttributeValuePlaceholder([
-      'a',
-      'b',
-      'c',
-      1,
-      'd',
-      'e',
-      2,
-    ]);
+  it.each(testCases)('$testName', ({ documentPath, placeholder }) => {
+    const actualPlaceholder =
+      buildExpressionAttributeValuePlaceholder(documentPath);
 
-    expect(placeholder).toBe(':abc1de2');
+    expect(actualPlaceholder).toBe(placeholder);
   });
 });
 
 describe('Building expression attribute value', () => {
-  it('should return expression attribute value', () => {
-    const fromAttributePathAndValue = buildExpressionAttributeValue(
-      ['a', 'b', 'c'],
-      { S: 'id' },
-    );
+  type TestCase = {
+    testName: string;
+    documentPath: DocumentPath;
+    attributeValue: AttributeValue;
+    expressionAttributeValues: ExpressionAttributeValues;
+  };
 
-    expect(fromAttributePathAndValue).toEqual({
-      ':abc': { S: 'id' },
-    });
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName:
+        'should return expression attribute value for document path with no indexes',
+      documentPath: ['a', 'b', 'c'],
+      attributeValue: { S: 'id' },
+      expressionAttributeValues: { ':abc': { S: 'id' } },
+    },
+    {
+      testName:
+        'should return expression attribute value for document path with indexes',
+      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      attributeValue: { S: 'id' },
+      expressionAttributeValues: { ':abc1de2': { S: 'id' } },
+    },
+  ];
 
-  it('should return expression attribute value with index', () => {
-    const fromAttributePathAndValue = buildExpressionAttributeValue(
-      ['a', 'b', 'c', 1, 'd', 'e', 2],
-      { S: 'id' },
-    );
+  it.each(testCases)(
+    '$testName',
+    ({ documentPath, attributeValue, expressionAttributeValues }) => {
+      const actualExpressionAttributeValues = buildExpressionAttributeValue(
+        documentPath,
+        attributeValue,
+      );
 
-    expect(fromAttributePathAndValue).toEqual({
-      ':abc1de2': { S: 'id' },
-    });
-  });
+      expect(actualExpressionAttributeValues).toEqual(
+        expressionAttributeValues,
+      );
+    },
+  );
 });

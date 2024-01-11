@@ -59,9 +59,9 @@ export class UpdateItemBuilder {
     return this;
   }
 
-  private addExpressionAttributeNames(attributePath: DocumentPath) {
+  private addExpressionAttributeNames(documentPath: DocumentPath) {
     const expressionAttributeNames =
-      buildExpressionAttributeNames(attributePath);
+      buildExpressionAttributeNames(documentPath);
     this.updateItemInput.ExpressionAttributeNames = {
       ...this.updateItemInput.ExpressionAttributeNames,
       ...expressionAttributeNames,
@@ -69,12 +69,12 @@ export class UpdateItemBuilder {
   }
 
   private addExpressionAttributeValues(
-    attributePath: DocumentPath,
+    documentPath: DocumentPath,
     value: AttributeType,
   ) {
     const attributeValue = Attribute.build(value);
     const expressionAttributeValue = buildExpressionAttributeValue(
-      attributePath,
+      documentPath,
       attributeValue,
     );
     this.updateItemInput.ExpressionAttributeValues = {
@@ -84,96 +84,96 @@ export class UpdateItemBuilder {
   }
 
   public setValue(
-    attributePathString: string,
+    documentPathString: string,
     value: AttributeType,
     options?: ValueUpdateOptions,
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.setValue(attributePath, options);
+    this.updateExpressionBuilder.setValue(documentPath, options);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, value);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, value);
 
     return this;
   }
 
   public appendItemsToList(
-    attributePathString: string,
+    documentPathString: string,
     items: AttributeType[],
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.appendItemsToList(attributePath);
+    this.updateExpressionBuilder.appendItemsToList(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, items);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, items);
 
     return this;
   }
 
   public addNumber(
-    attributePathString: string,
+    documentPathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.addNumber(attributePath);
+    this.updateExpressionBuilder.addNumber(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, number);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, number);
 
     return this;
   }
 
   public subtractNumber(
-    attributePathString: string,
+    documentPathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.subtractNumber(attributePath);
+    this.updateExpressionBuilder.subtractNumber(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, number);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, number);
 
     return this;
   }
 
   public addElementsToSet(
-    attributePathString: string,
+    documentPathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.addElementsToSet(attributePath);
+    this.updateExpressionBuilder.addElementsToSet(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, elements);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, elements);
 
     return this;
   }
 
-  public removeAttribute(attributePathString: string): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+  public removeAttribute(documentPathString: string): UpdateItemBuilder {
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.remove(attributePath);
+    this.updateExpressionBuilder.remove(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
+    this.addExpressionAttributeNames(documentPath);
 
     return this;
   }
 
   public deleteElementsFromSet(
-    attributePathString: string,
+    documentPathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const attributePath = buildDocumentPathFromString(attributePathString);
+    const documentPath = buildDocumentPathFromString(documentPathString);
 
-    this.updateExpressionBuilder.delete(attributePath);
+    this.updateExpressionBuilder.delete(documentPath);
 
-    this.addExpressionAttributeNames(attributePath);
-    this.addExpressionAttributeValues(attributePath, elements);
+    this.addExpressionAttributeNames(documentPath);
+    this.addExpressionAttributeValues(documentPath, elements);
 
     return this;
   }

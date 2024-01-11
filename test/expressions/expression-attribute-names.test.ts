@@ -3,67 +3,83 @@ import {
   buildExpressionAttributeNamePlaceholder,
   buildExpressionAttributeNames,
 } from '../../src/expressions/expression-attribute-names.js';
+import {
+  type DocumentPath,
+  type ExpressionAttributeNames,
+} from '../../src/types.js';
 
 describe('Building placeholder', () => {
-  it('should return placeholder', () => {
-    const placeholder = buildExpressionAttributeNamePlaceholder([
-      'a',
-      'b',
-      'c',
-    ]);
+  type TestCase = {
+    testName: string;
+    documentPath: DocumentPath;
+    placeholder: string;
+  };
 
-    expect(placeholder).toBe('#a.#b.#c');
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName: 'should return placeholder if document path has no indexes',
+      documentPath: ['a', 'b', 'c'],
+      placeholder: '#a.#b.#c',
+    },
+    {
+      testName: 'should return placeholder if document path has indexes',
+      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      placeholder: '#a.#b.#c[1].#d.#e[2]',
+    },
+  ];
 
-  it('should return placeholder with index', () => {
-    const placeholder = buildExpressionAttributeNamePlaceholder([
-      'a',
-      'b',
-      'c',
-      1,
-      'd',
-      'e',
-      2,
-    ]);
+  it.each(testCases)('$testName', ({ documentPath, placeholder }) => {
+    const actualPlaceholder =
+      buildExpressionAttributeNamePlaceholder(documentPath);
 
-    expect(placeholder).toBe('#a.#b.#c[1].#d.#e[2]');
+    expect(actualPlaceholder).toBe(placeholder);
   });
 });
 
 describe('Building expression attribute name', () => {
-  it('should return expression attribute names from all parts of the path', () => {
-    const fromAttributePath = buildExpressionAttributeNames(['a', 'b', 'c']);
+  type TestCase = {
+    testName: string;
+    documentPath: DocumentPath;
+    expressionAttributeNames: ExpressionAttributeNames;
+  };
 
-    expect(fromAttributePath).toEqual({
-      '#a': 'a',
-      '#b': 'b',
-      '#c': 'c',
-    });
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName:
+        'should return expression attribute names if document path has no indexes',
+      documentPath: ['a', 'b', 'c'],
+      expressionAttributeNames: {
+        '#a': 'a',
+        '#b': 'b',
+        '#c': 'c',
+      },
+    },
+    {
+      testName:
+        'should return expression attribute names if document path has indexes',
+      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      expressionAttributeNames: {
+        '#a': 'a',
+        '#b': 'b',
+        '#c': 'c',
+        '#d': 'd',
+        '#e': 'e',
+      },
+    },
+    {
+      testName: 'should return empty object if document path is empty',
+      documentPath: [],
+      expressionAttributeNames: {},
+    },
+  ];
 
-  it('should return expression attribute names without indexes', () => {
-    const fromAttributePath = buildExpressionAttributeNames([
-      'a',
-      'b',
-      'c',
-      1,
-      'd',
-      'e',
-      2,
-    ]);
+  it.each(testCases)(
+    '$testName',
+    ({ documentPath, expressionAttributeNames }) => {
+      const actualExpressionAttributeNames =
+        buildExpressionAttributeNames(documentPath);
 
-    expect(fromAttributePath).toEqual({
-      '#a': 'a',
-      '#b': 'b',
-      '#c': 'c',
-      '#d': 'd',
-      '#e': 'e',
-    });
-  });
-
-  it('should return empty object for empty path', () => {
-    const fromAttributePath = buildExpressionAttributeNames([]);
-
-    expect(fromAttributePath).toEqual({});
-  });
+      expect(actualExpressionAttributeNames).toEqual(expressionAttributeNames);
+    },
+  );
 });

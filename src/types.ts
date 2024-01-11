@@ -16,6 +16,10 @@ export type AttributeType =
   | AttributeType[]
   | { [key: string]: AttributeType };
 
+export type ExpressionAttributeNames = Record<string, string>;
+
+export type ExpressionAttributeValues = Record<string, AttributeValue>;
+
 export type ItemMapping = {
   [key: string]: {
     mappedName: string;

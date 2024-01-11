@@ -1,17 +1,17 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import type { DocumentPath } from '../types.js';
+import { type DocumentPath, type ExpressionAttributeValues } from '../types.js';
 
 export function buildExpressionAttributeValuePlaceholder(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
 ): string {
-  return `:${attributePath.join('')}`;
+  return `:${documentPath.join('')}`;
 }
 
 export function buildExpressionAttributeValue(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
   attributeValue: AttributeValue,
-): Record<string, AttributeValue> {
-  const placeholder = buildExpressionAttributeValuePlaceholder(attributePath);
+): ExpressionAttributeValues {
+  const placeholder = buildExpressionAttributeValuePlaceholder(documentPath);
 
   return {
     [placeholder]: attributeValue,

@@ -15,13 +15,13 @@ export function getAttributeName(documentPathPart: string): string {
 }
 
 export function buildDocumentPathFromString(
-  attributePathString: string,
+  documentPathString: string,
 ): DocumentPath {
-  const attributePathParts = attributePathString.split('.');
-  const attributePath: DocumentPath = attributePathParts
-    .map((attributePathPart) => {
-      const attributeName = getAttributeName(attributePathPart);
-      const index = getIndex(attributePathPart);
+  const documentPathParts = documentPathString.split('.');
+  const documentPath: DocumentPath = documentPathParts
+    .map((documentPathPart) => {
+      const attributeName = getAttributeName(documentPathPart);
+      const index = getIndex(documentPathPart);
 
       if (index !== null) {
         return [attributeName, index];
@@ -31,5 +31,5 @@ export function buildDocumentPathFromString(
     })
     .flat();
 
-  return attributePath;
+  return documentPath;
 }

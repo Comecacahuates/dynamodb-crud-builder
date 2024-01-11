@@ -2,11 +2,11 @@ import { buildExpressionAttributeNamePlaceholder } from '../../expression-attrib
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
 import { type DocumentPath } from '../../../types.js';
 
-export function buildStatementToAdd(attributePath: DocumentPath): string {
+export function buildStatementToAdd(documentPath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath);
+    buildExpressionAttributeValuePlaceholder(documentPath);
 
   return `${expressionAttributeNamePlaceholder} ${expressionAttributeValuePlaceholder}`;
 }

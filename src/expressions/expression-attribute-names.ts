@@ -1,33 +1,33 @@
-import type { DocumentPath } from '../types.js';
+import { type DocumentPath, type ExpressionAttributeNames } from '../types.js';
 
 export function buildExpressionAttributeNamePlaceholder(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
 ): string {
-  return attributePath
-    .map((attributePathItem) => {
-      if (typeof attributePathItem === 'number') {
-        return `[${attributePathItem}]`;
+  return documentPath
+    .map((documentPathItem) => {
+      if (typeof documentPathItem === 'number') {
+        return `[${documentPathItem}]`;
       }
 
-      return `#${attributePathItem}`;
+      return `#${documentPathItem}`;
     })
     .join('.')
     .replace(/\.\[/g, '[');
 }
 
 export function buildExpressionAttributeNames(
-  attributePath: DocumentPath,
-): Record<string, string> {
-  return attributePath.reduce((expressionAttributeNames, attributePathItem) => {
-    if (typeof attributePathItem === 'number') {
+  documentPath: DocumentPath,
+): ExpressionAttributeNames {
+  return documentPath.reduce((expressionAttributeNames, documentPathItem) => {
+    if (typeof documentPathItem === 'number') {
       return expressionAttributeNames;
     }
 
-    const attributePathPartPlaceholder = `#${attributePathItem}`;
+    const documentPathPartPlaceholder = `#${documentPathItem}`;
 
     return {
       ...expressionAttributeNames,
-      [attributePathPartPlaceholder]: attributePathItem,
+      [documentPathPartPlaceholder]: documentPathItem,
     };
-  }, {});
+  }, {} as ExpressionAttributeNames);
 }

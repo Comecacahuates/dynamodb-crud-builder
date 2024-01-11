@@ -3,15 +3,15 @@ import { buildExpressionAttributeValuePlaceholder } from '../../expression-attri
 import type { DocumentPath, ValueUpdateOptions } from '../../../types.js';
 
 export function buildStatementToSetValue(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
   options: ValueUpdateOptions = {},
 ): string {
   const { preventOverwriting = false } = options;
 
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath);
+    buildExpressionAttributeValuePlaceholder(documentPath);
 
   if (preventOverwriting) {
     return `${expressionAttributeNamePlaceholder} = if_not_exists(${expressionAttributeNamePlaceholder}, ${expressionAttributeValuePlaceholder})`;
@@ -21,32 +21,32 @@ export function buildStatementToSetValue(
 }
 
 export function buildStatementToAppendItemsToList(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
 ): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath);
+    buildExpressionAttributeValuePlaceholder(documentPath);
 
   return `${expressionAttributeNamePlaceholder} = list_append(${expressionAttributeNamePlaceholder}, ${expressionAttributeValuePlaceholder})`;
 }
 
-export function buildStatementToAddNumber(attributePath: DocumentPath): string {
+export function buildStatementToAddNumber(documentPath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath);
+    buildExpressionAttributeValuePlaceholder(documentPath);
 
   return `${expressionAttributeNamePlaceholder} = ${expressionAttributeNamePlaceholder} + ${expressionAttributeValuePlaceholder}`;
 }
 
 export function buildStatementToSubtractNumber(
-  attributePath: DocumentPath,
+  documentPath: DocumentPath,
 ): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =
-    buildExpressionAttributeValuePlaceholder(attributePath);
+    buildExpressionAttributeValuePlaceholder(documentPath);
 
   return `${expressionAttributeNamePlaceholder} = ${expressionAttributeNamePlaceholder} - ${expressionAttributeValuePlaceholder}`;
 }

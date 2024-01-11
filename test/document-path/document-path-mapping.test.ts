@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
-import { mapAttributePath } from '../../src/document-path/document-path-mapping.js';
+import { mapDocumentPath } from '../../src/document-path/document-path-mapping.js';
 import { PathMappingError } from '../../src/errors/index.js';
-import type { DocumentPath, ItemMapping } from '../../src/types.js';
+import { type ItemMapping } from '../../src/types.js';
 
 describe('Attribute path mapping', () => {
   const itemMapping: ItemMapping = {
@@ -32,37 +32,38 @@ describe('Attribute path mapping', () => {
   };
 
   it.each([
-    ['simple path', ['attribute1'], ['a1']],
-    [
-      'one level nesting path',
-      ['attribute2', 'nested-attribute2'],
-      ['a2', 'nested-a2'],
-    ],
-    [
-      'two level nesting path',
-      ['attribute3', 'nested-attribute3', 'nested-nested-attribute3'],
-      ['a3', 'nested-a3', 'nested-nested-a3'],
-    ],
-  ])(
-    'should map %s',
-    (
-      _,
-      attributePathToMap: DocumentPath,
-      expectedAttributeMappedPath: DocumentPath,
-    ) => {
-      const mappedAttributePath = mapAttributePath(
-        attributePathToMap,
-        itemMapping,
-      );
-
-      expect(mappedAttributePath).toEqual(expectedAttributeMappedPath);
+    {
+      testName: 'should map simple path',
+      documentPathToMap: ['attribute1'],
+      mappedDocumentPath: ['a1'],
     },
-  );
+    {
+      testName: 'should map document path with one level nesting',
+      documentPathToMap: ['attribute2', 'nested-attribute2'],
+      mappedDocumentPath: ['a2', 'nested-a2'],
+    },
+    {
+      testName: 'should map document path with two level nesting',
+      documentPathToMap: [
+        'attribute3',
+        'nested-attribute3',
+        'nested-nested-attribute3',
+      ],
+      mappedDocumentPath: ['a3', 'nested-a3', 'nested-nested-a3'],
+    },
+  ])('$testName', ({ documentPathToMap, mappedDocumentPath }) => {
+    const actualMappedDocumentPath = mapDocumentPath(
+      documentPathToMap,
+      itemMapping,
+    );
+
+    expect(actualMappedDocumentPath).toEqual(mappedDocumentPath);
+  });
 
   it('should throw error if attribute path is not defined', () => {
     const pathToMap = ['attribute4'];
 
-    expect(() => mapAttributePath(pathToMap, itemMapping)).toThrow(
+    expect(() => mapDocumentPath(pathToMap, itemMapping)).toThrow(
       PathMappingError,
     );
   });

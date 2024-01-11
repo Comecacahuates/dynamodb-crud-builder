@@ -1,9 +1,9 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { type DocumentPath } from '../../../types.js';
 
-export function buildStatementToRemove(attributePath: DocumentPath): string {
+export function buildStatementToRemove(documentPath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =
-    buildExpressionAttributeNamePlaceholder(attributePath);
+    buildExpressionAttributeNamePlaceholder(documentPath);
 
   return `${expressionAttributeNamePlaceholder}`;
 }
