@@ -1,31 +1,21 @@
-import { PathMappingError } from '../errors/index.js';
-import { type DocumentPath } from '../types.js';
 import { type MappingSchema } from './types.js';
+import { type DocumentPathItem } from '../document-path/index.js';
+import { DocumentPathItemMappingError } from '../errors/index.js';
 
-export function mapDocumentPath(
-  documentPath: DocumentPath,
+export function mapDocumentPathItem(
   mappingSchema: MappingSchema,
-): DocumentPath {
-  const { mappedPath } = documentPath.reduce(
-    ({ mappingSchema, mappedPath }, pathPart) => {
-      const attributeMapping = mappingSchema[pathPart];
+  documentPathItem: DocumentPathItem,
+): DocumentPathItem {
+  const { attributeName, index } = documentPathItem;
 
-      if (!attributeMapping) {
-        throw new PathMappingError(documentPath);
-      }
+  const mappedAttributeName = mappingSchema[attributeName]?.mapsTo;
 
-      const {
-        mapsTo: mappedAttributeName,
-        nestedMappingSchema: nestedAttributesMapping,
-      } = attributeMapping;
+  if (!mappedAttributeName) {
+    throw new DocumentPathItemMappingError(documentPathItem);
+  }
 
-      return {
-        mappingSchema: nestedAttributesMapping!,
-        mappedPath: [...mappedPath, mappedAttributeName],
-      };
-    },
-    { mappingSchema, mappedPath: [] as DocumentPath },
-  );
-
-  return mappedPath;
+  return {
+    attributeName: mappedAttributeName,
+    index,
+  };
 }

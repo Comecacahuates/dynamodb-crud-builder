@@ -1,72 +1,51 @@
 import { describe, it, expect } from '@jest/globals';
-import {
-  mapDocumentPath,
-  type MappingSchema,
-} from '../../src/mapping/index.js';
-import { PathMappingError } from '../../src/errors/index.js';
+import { mapDocumentPathItem } from '../../src/mapping/document-path-mapping.js';
+import { type MappingSchema } from '../../src/mapping/index.js';
+import { type DocumentPathItem } from '../../src/document-path/index.js';
+import { DocumentPathItemMappingError } from '../../src/errors/index.js';
 
-describe('Attribute path mapping', () => {
+describe('Mapping document path item', () => {
   const mappingSchema: MappingSchema = {
-    attribute1: {
-      mapsTo: 'a1',
-    },
-    attribute2: {
-      mapsTo: 'a2',
-      nestedMappingSchema: {
-        'nested-attribute2': {
-          mapsTo: 'nested-a2',
-        },
-      },
-    },
-    attribute3: {
-      mapsTo: 'a3',
-      nestedMappingSchema: {
-        'nested-attribute3': {
-          mapsTo: 'nested-a3',
-          nestedMappingSchema: {
-            'nested-nested-attribute3': {
-              mapsTo: 'nested-nested-a3',
-            },
-          },
-        },
-      },
-    },
+    attr0: { mapsTo: 'a0' },
+    attr1: { mapsTo: 'a1' },
+    attr2: { mapsTo: 'a2' },
   };
 
-  it.each([
+  type TestCase = {
+    testName: string;
+    documentPathItem: DocumentPathItem;
+    mappedDocumentPathItem: DocumentPathItem;
+  };
+
+  const testCases: TestCase[] = [
     {
-      testName: 'should map simple path',
-      documentPathToMap: ['attribute1'],
-      mappedDocumentPath: ['a1'],
+      testName: 'should map document path item with no index',
+      documentPathItem: { attributeName: 'attr0' },
+      mappedDocumentPathItem: { attributeName: 'a0' },
     },
     {
-      testName: 'should map document path with one level nesting',
-      documentPathToMap: ['attribute2', 'nested-attribute2'],
-      mappedDocumentPath: ['a2', 'nested-a2'],
+      testName: 'should map document path item with index',
+      documentPathItem: { attributeName: 'attr1', index: 0 },
+      mappedDocumentPathItem: { attributeName: 'a1', index: 0 },
     },
-    {
-      testName: 'should map document path with two level nesting',
-      documentPathToMap: [
-        'attribute3',
-        'nested-attribute3',
-        'nested-nested-attribute3',
-      ],
-      mappedDocumentPath: ['a3', 'nested-a3', 'nested-nested-a3'],
-    },
-  ])('$testName', ({ documentPathToMap, mappedDocumentPath }) => {
-    const actualMappedDocumentPath = mapDocumentPath(
-      documentPathToMap,
+  ];
+
+  it.each(testCases)('$testName', (testCase) => {
+    const actualMappedDocumentPathItem = mapDocumentPathItem(
       mappingSchema,
+      testCase.documentPathItem,
     );
 
-    expect(actualMappedDocumentPath).toEqual(mappedDocumentPath);
+    expect(actualMappedDocumentPathItem).toEqual(
+      testCase.mappedDocumentPathItem,
+    );
   });
 
-  it('should throw error if attribute path is not defined', () => {
-    const pathToMap = ['attribute4'];
+  it('should throw error if attribute name is not defined in mapping schema', () => {
+    const documentPathItem: DocumentPathItem = { attributeName: 'attr3' };
 
-    expect(() => mapDocumentPath(pathToMap, mappingSchema)).toThrow(
-      PathMappingError,
-    );
+    expect(() => {
+      mapDocumentPathItem(mappingSchema, documentPathItem);
+    }).toThrow(DocumentPathItemMappingError);
   });
 });
