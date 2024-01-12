@@ -1,22 +1,23 @@
 import { describe, it, expect } from '@jest/globals';
 import {
-  getIndexFromDocumentPathItemString,
+  getIndex,
   getAttributeName,
-  buildDocumentPathFromString,
+  parseDocumentPathItem,
 } from '../../src/document-path/parsing.js';
+import { type DocumentPathItem } from '../../src/document-path/types.js';
 
 describe('Getting index from document path item string', () => {
   type TestCase = {
     testName: string;
     documentPathItemString: string;
-    index: number | null;
+    index: number | undefined;
   };
 
   const testCases: Array<TestCase> = [
     {
       testName: 'should return null if there is no index',
       documentPathItemString: 'attr0',
-      index: null,
+      index: undefined,
     },
     {
       testName: 'should return index if there is index',
@@ -26,50 +27,70 @@ describe('Getting index from document path item string', () => {
   ];
 
   it.each(testCases)('$testName', ({ documentPathItemString, index }) => {
-    const actualIndex = getIndexFromDocumentPathItemString(
-      documentPathItemString,
-    );
+    const actualIndex = getIndex(documentPathItemString);
 
     expect(actualIndex).toEqual(index);
   });
 });
 
 describe('Getting attribute name from document path part', () => {
-  it('should return attribute name if no index', () => {
-    const name = getAttributeName('attr0');
+  type TestCase = {
+    testName: string;
+    documentPathItemString: string;
+    attributeName: string;
+  };
 
-    expect(name).toEqual('attr0');
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName: 'should return attribute name if there is no index',
+      documentPathItemString: 'attr0',
+      attributeName: 'attr0',
+    },
+    {
+      testName: 'should return attribute name if there is index',
+      documentPathItemString: 'attr0[0]',
+      attributeName: 'attr0',
+    },
+  ];
 
-  it('should return attribute name if index', () => {
-    const name = getAttributeName('attr0[0]');
+  it.each(testCases)(
+    '$testName',
+    ({ documentPathItemString, attributeName }) => {
+      const actualAttributeName = getAttributeName(documentPathItemString);
 
-    expect(name).toEqual('attr0');
-  });
+      expect(actualAttributeName).toEqual(attributeName);
+    },
+  );
 });
 
-describe('Building path from string', () => {
-  it('should build simple path', () => {
-    const path = buildDocumentPathFromString('attr0');
+describe('Parsing document path item', () => {
+  type TestCase = {
+    testName: string;
+    documentPathItemString: string;
+    documentPathItem: DocumentPathItem;
+  };
 
-    expect(path).toEqual(['attr0']);
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName: 'should parse document path item with no index',
+      documentPathItemString: 'attr0',
+      documentPathItem: { attributeName: 'attr0' },
+    },
+    {
+      testName: 'should parse document path item with index',
+      documentPathItemString: 'attr0[0]',
+      documentPathItem: { attributeName: 'attr0', index: 0 },
+    },
+  ];
 
-  it('should build simple path with index', () => {
-    const path = buildDocumentPathFromString('attr0[0]');
+  it.each(testCases)(
+    '$testName',
+    ({ documentPathItemString, documentPathItem }) => {
+      const actualDocumentPathItem = parseDocumentPathItem(
+        documentPathItemString,
+      );
 
-    expect(path).toEqual(['attr0', 0]);
-  });
-
-  it('should build complex path', () => {
-    const path = buildDocumentPathFromString('attr0.attr1.attr2');
-
-    expect(path).toEqual(['attr0', 'attr1', 'attr2']);
-  });
-
-  it('should build complex path with index', () => {
-    const path = buildDocumentPathFromString('attr0[0].attr1[1].attr2[2]');
-
-    expect(path).toEqual(['attr0', 0, 'attr1', 1, 'attr2', 2]);
-  });
+      expect(actualDocumentPathItem).toEqual(documentPathItem);
+    },
+  );
 });
