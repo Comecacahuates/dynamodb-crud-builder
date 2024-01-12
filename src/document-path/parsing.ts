@@ -21,22 +21,6 @@ export function parseDocumentPathItem(documentPathItemString: string) {
   return { attributeName, index };
 }
 
-export function buildDocumentPathFromString(
-  documentPathString: string,
-): DocumentPath {
-  const documentPathItems = documentPathString.split('.');
-  const documentPath: DocumentPath = documentPathItems.map(
-    (documentPathPart) => {
-      const attributeName = getAttributeName(documentPathPart);
-      const index = getIndex(documentPathPart);
-
-      if (index) {
-        return { attributeName, index };
-      }
-
-      return { attributeName };
-    },
-  );
-
-  return documentPath;
+export function parseDocumentPath(documentPathString: string): DocumentPath {
+  return documentPathString.split('.').map(parseDocumentPathItem);
 }
