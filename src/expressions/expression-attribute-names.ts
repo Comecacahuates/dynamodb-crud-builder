@@ -1,16 +1,14 @@
-import { type DocumentPath, type ExpressionAttributeNames } from '../types.js';
+import { type ExpressionAttributeNames } from '../types.js';
+import {
+  type DocumentPath,
+  formatDocumentPathItem,
+} from '../document-path/index.js';
 
 export function buildExpressionAttributeNamePlaceholder(
   documentPath: DocumentPath,
 ): string {
   return documentPath
-    .map((documentPathItem) => {
-      if (typeof documentPathItem === 'number') {
-        return `[${documentPathItem}]`;
-      }
-
-      return `#${documentPathItem}`;
-    })
+    .map((documentPathItem) => `#${formatDocumentPathItem(documentPathItem)}`)
     .join('.')
     .replace(/\.\[/g, '[');
 }
