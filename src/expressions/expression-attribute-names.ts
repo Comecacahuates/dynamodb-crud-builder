@@ -9,23 +9,19 @@ export function buildExpressionAttributeNamePlaceholder(
 ): string {
   return documentPath
     .map((documentPathItem) => `#${formatDocumentPathItem(documentPathItem)}`)
-    .join('.')
-    .replace(/\.\[/g, '[');
+    .join('.');
 }
 
 export function buildExpressionAttributeNames(
   documentPath: DocumentPath,
 ): ExpressionAttributeNames {
-  return documentPath.reduce((expressionAttributeNames, documentPathItem) => {
-    if (typeof documentPathItem === 'number') {
-      return expressionAttributeNames;
-    }
-
-    const documentPathPartPlaceholder = `#${documentPathItem}`;
-
-    return {
-      ...expressionAttributeNames,
-      [documentPathPartPlaceholder]: documentPathItem,
-    };
-  }, {} as ExpressionAttributeNames);
+  return documentPath
+    .map((documentPathItem) => documentPathItem.attributeName)
+    .reduce(
+      (expressionAttributeNames, attributeName) => ({
+        ...expressionAttributeNames,
+        [`#${attributeName}`]: attributeName,
+      }),
+      {} as ExpressionAttributeNames,
+    );
 }

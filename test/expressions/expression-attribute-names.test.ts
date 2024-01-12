@@ -55,7 +55,11 @@ describe('Building expression attribute name', () => {
     {
       testName:
         'should return expression attribute names if document path has no indexes',
-      documentPath: ['a', 'b', 'c'],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c' },
+      ],
       expressionAttributeNames: {
         '#a': 'a',
         '#b': 'b',
@@ -65,7 +69,13 @@ describe('Building expression attribute name', () => {
     {
       testName:
         'should return expression attribute names if document path has indexes',
-      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c', index: 1 },
+        { attributeName: 'd' },
+        { attributeName: 'e', index: 2 },
+      ],
       expressionAttributeNames: {
         '#a': 'a',
         '#b': 'b',
