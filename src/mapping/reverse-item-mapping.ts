@@ -1,6 +1,8 @@
-import type { ItemMapping } from '../types.js';
+import type { MappingSchema } from '../types.js';
 
-export function buildReverseItemMapping(itemMapping: ItemMapping): ItemMapping {
+export function buildReverseItemMapping(
+  itemMapping: MappingSchema,
+): MappingSchema {
   return Object.entries(itemMapping).reduce(
     (reverseItemMapping, [attributeName, attributeMapping]) => {
       const { mappedName, nestedAttributesMapping } = attributeMapping;
@@ -17,6 +19,6 @@ export function buildReverseItemMapping(itemMapping: ItemMapping): ItemMapping {
         },
       };
     },
-    {} as ItemMapping,
+    {} as MappingSchema,
   );
 }

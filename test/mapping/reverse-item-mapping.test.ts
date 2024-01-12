@@ -1,24 +1,25 @@
 import { describe, it, expect } from '@jest/globals';
-import * as Mapping from '../../src/item-mapping/index.js';
-import type { ItemMapping } from '../../src/types.js';
+import {
+  type MappingSchema,
+  buildReverseItemMapping,
+} from '../../src/mapping/index.js';
 
 describe('Reverse item mapping', () => {
   it('should build reverse item mapping with single attribute', () => {
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
     const expectedReverseItemMapping = {
       a: { mappedName: 'attribute' },
     };
-    const actualReverseItemMapping =
-      Mapping.buildReverseItemMapping(itemMapping);
+    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
 
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
   });
 
   it('should build reverse item mapping with nested attribute', () => {
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: {
         mappedName: 'a',
         nestedAttributesMapping: {
@@ -37,14 +38,13 @@ describe('Reverse item mapping', () => {
         },
       },
     };
-    const actualReverseItemMapping =
-      Mapping.buildReverseItemMapping(itemMapping);
+    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
 
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
   });
 
   it('should build reverse item mapping with multiple attributes', () => {
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       'attribute-1': { mappedName: 'a1' },
       'attribute-2': { mappedName: 'a2' },
       'attribute-3': { mappedName: 'a3' },
@@ -55,14 +55,13 @@ describe('Reverse item mapping', () => {
       a2: { mappedName: 'attribute-2' },
       a3: { mappedName: 'attribute-3' },
     };
-    const actualReverseItemMapping =
-      Mapping.buildReverseItemMapping(itemMapping);
+    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
 
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
   });
 
   it('should build reverse item mapping with nested attributes', () => {
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       'attribute-1': {
         mappedName: 'a1',
         nestedAttributesMapping: {
@@ -95,8 +94,7 @@ describe('Reverse item mapping', () => {
         },
       },
     };
-    const actualReverseItemMapping =
-      Mapping.buildReverseItemMapping(itemMapping);
+    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
 
     expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
   });

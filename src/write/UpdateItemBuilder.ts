@@ -6,7 +6,7 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { UpdateExpressionBuilder } from '../expressions/update/index.js';
 import type {
-  DynamoDBItem,
+  Item,
   AttributeType,
   DocumentPath,
   ValueUpdateOptions,
@@ -54,7 +54,7 @@ export class UpdateItemBuilder {
     return this;
   }
 
-  public withKey(key: DynamoDBItem): UpdateItemBuilder {
+  public withKey(key: Item): UpdateItemBuilder {
     this.updateItemInput.Key = key;
     return this;
   }

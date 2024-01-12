@@ -2,7 +2,7 @@ import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 
 export type DocumentPath = Array<string | number>;
 
-export type DynamoDBItem = Record<string, AttributeValue>;
+export type Item = Record<string, AttributeValue>;
 
 export type AttributeType =
   | string
@@ -19,13 +19,6 @@ export type AttributeType =
 export type ExpressionAttributeNames = Record<string, string>;
 
 export type ExpressionAttributeValues = Record<string, AttributeValue>;
-
-export type ItemMapping = {
-  [key: string]: {
-    mappedName: string;
-    nestedAttributesMapping?: ItemMapping;
-  };
-};
 
 export type ValueUpdateOptions = {
   preventOverwriting?: boolean;

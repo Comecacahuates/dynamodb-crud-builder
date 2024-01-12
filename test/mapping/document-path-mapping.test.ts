@@ -1,10 +1,12 @@
 import { describe, it, expect } from '@jest/globals';
-import { mapDocumentPath } from '../../src/document-path/document-path-mapping.js';
+import {
+  mapDocumentPath,
+  type MappingSchema,
+} from '../../src/mapping/index.js';
 import { PathMappingError } from '../../src/errors/index.js';
-import { type ItemMapping } from '../../src/types.js';
 
 describe('Attribute path mapping', () => {
-  const itemMapping: ItemMapping = {
+  const itemMapping: MappingSchema = {
     attribute1: {
       mappedName: 'a1',
     },

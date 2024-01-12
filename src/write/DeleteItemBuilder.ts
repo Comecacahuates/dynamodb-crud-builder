@@ -4,7 +4,7 @@ import {
   DeleteItemCommand,
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
-import { type DynamoDBItem } from '../types.js';
+import { type Item } from '../types.js';
 import { DeleteItemError } from '../errors/index.js';
 
 export class DeleteItemBuilder {
@@ -35,7 +35,7 @@ export class DeleteItemBuilder {
     return this;
   }
 
-  public withKey(key: DynamoDBItem): DeleteItemBuilder {
+  public withKey(key: Item): DeleteItemBuilder {
     this.deleteItemInput.Key = key;
     return this;
   }

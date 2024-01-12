@@ -1,13 +1,12 @@
 import { describe, it, expect } from '@jest/globals';
-import { mapItem } from '../../src/item/index.js';
-import type { ItemMapping } from '../../src/types.js';
+import { mapItem, type MappingSchema } from '../../src/mapping/index.js';
 
 describe('Item mapping', () => {
   it('should map item with single null attribute', () => {
     const itemToMap = {
       attribute: { NULL: true },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -21,7 +20,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { S: 'attribute-value' },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -35,7 +34,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { N: '123' },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -49,7 +48,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { BOOL: true },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -63,7 +62,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { B: new Uint8Array([1, 2, 3]) },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -79,7 +78,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { SS: ['value1', 'value2'] },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -95,7 +94,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { NS: ['1', '2'] },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -111,7 +110,7 @@ describe('Item mapping', () => {
     const itemToMap = {
       attribute: { BS: [new Uint8Array([1, 2, 3])] },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: { mappedName: 'a' },
     };
 
@@ -131,7 +130,7 @@ describe('Item mapping', () => {
         },
       },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       attribute: {
         mappedName: 'mapped-name',
         nestedAttributesMapping: {
@@ -170,7 +169,7 @@ describe('Item mapping', () => {
       },
       'attribute-9': { L: [{ S: 'value1' }, { S: 'value2' }] },
     };
-    const itemMapping: ItemMapping = {
+    const itemMapping: MappingSchema = {
       'attribute-1': { mappedName: 'a1' },
       'attribute-2': { mappedName: 'a2' },
       'attribute-3': { mappedName: 'a3' },
@@ -211,7 +210,7 @@ describe('Item mapping', () => {
 
   it('should not map attribute if mapping is not defined', () => {
     const itemToMap = { attribute: { S: 'attribute-value' } };
-    const itemMapping: ItemMapping = {};
+    const itemMapping: MappingSchema = {};
 
     const expectedMappedItem = { attribute: { S: 'attribute-value' } };
     const actualMappedItem = mapItem(itemToMap, itemMapping);

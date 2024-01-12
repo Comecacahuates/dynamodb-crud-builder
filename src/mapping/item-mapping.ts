@@ -1,9 +1,9 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import type { ItemMapping } from '../types.js';
+import { type MappingSchema } from './types.js';
 
 export function mapItem(
   item: Record<string, AttributeValue>,
-  itemMapping: ItemMapping,
+  itemMapping: MappingSchema,
 ): Record<string, AttributeValue> {
   return Object.entries(item).reduce(
     (mappedItem, [attributeName, attributeValue]) => {

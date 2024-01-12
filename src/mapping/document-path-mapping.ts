@@ -1,9 +1,10 @@
 import { PathMappingError } from '../errors/index.js';
-import type { DocumentPath, ItemMapping } from '../types.js';
+import { type DocumentPath } from '../types.js';
+import { type MappingSchema } from './types.js';
 
 export function mapDocumentPath(
   documentPath: DocumentPath,
-  itemMapping: ItemMapping,
+  itemMapping: MappingSchema,
 ): DocumentPath {
   const { mappedPath } = documentPath.reduce(
     ({ itemMapping, mappedPath }, pathPart) => {

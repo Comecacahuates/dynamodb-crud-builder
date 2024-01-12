@@ -5,7 +5,7 @@ import {
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import { PutItemError } from '../errors/index.js';
-import { type DynamoDBItem } from '../types.js';
+import { type Item } from '../types.js';
 
 export class PutItemBuilder {
   private putItemInput: PutItemInput = {
@@ -35,7 +35,7 @@ export class PutItemBuilder {
     return this;
   }
 
-  public thisItem(item: DynamoDBItem): PutItemBuilder {
+  public thisItem(item: Item): PutItemBuilder {
     this.putItemInput.Item = item;
     return this;
   }
