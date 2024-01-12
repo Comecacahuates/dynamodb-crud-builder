@@ -1,9 +1,11 @@
 import { describe, it, expect } from '@jest/globals';
-import { mapItem, type MappingSchema } from '../../src/mapping/index.js';
+import { mapItem } from '../../src/mapping/item-mapping.js';
+import { type MappingSchema } from '../../src/mapping/index.js';
 import { type Item } from '../../src/types.js';
+import { ItemMappingError } from '../../src/errors/index.js';
 
 describe('Item mapping', () => {
-  describe('Simple mapping schema', () => {
+  describe('Parsing items with different types of attributes', () => {
     const mappingSchema: MappingSchema = {
       attr: { mapsTo: 'a' },
     };
@@ -84,7 +86,7 @@ describe('Item mapping', () => {
     });
   });
 
-  describe('Nested mapping schemas', () => {
+  describe('Nested mapping schemas with maps', () => {
     const mappingSchema: MappingSchema = {
       attr1: { mapsTo: 'a1' },
       attr2: {
@@ -110,12 +112,12 @@ describe('Item mapping', () => {
 
     const testCases: Array<TestCase> = [
       {
-        testName: 'should map item with single attribute',
+        testName: 'should map partial item',
         item: { attr1: { S: 'value-1' } },
         mappedItem: { a1: { S: 'value-1' } },
       },
       {
-        testName: 'should map item with nested attribute',
+        testName: 'should map full item',
         item: {
           attr1: { S: 'value-1' },
           attr2: {
@@ -146,5 +148,104 @@ describe('Item mapping', () => {
 
       expect(actualMappedItem).toEqual(mappedItem);
     });
+  });
+
+  describe('Nested mapping schemas with lists', () => {
+    const mappingSchema: MappingSchema = {
+      attr1: {
+        mapsTo: 'a1',
+        nestedMappingSchema: {
+          attr2: {
+            mapsTo: 'b1',
+            nestedMappingSchema: {
+              attr3: { mapsTo: 'c1' },
+              attr4: { mapsTo: 'c2' },
+            },
+          },
+        },
+      },
+    };
+
+    type TestCase = {
+      testName: string;
+      item: Item;
+      mappedItem: Item;
+    };
+
+    const testCases: Array<TestCase> = [
+      {
+        testName: 'should map item with list of maps',
+        item: {
+          attr1: {
+            L: [
+              {
+                M: {
+                  attr2: {
+                    M: { attr3: { S: 'value-1' }, attr4: { S: 'value-2' } },
+                  },
+                },
+              },
+              {
+                M: {
+                  attr2: {
+                    M: { attr3: { S: 'value-3' }, attr4: { S: 'value-4' } },
+                  },
+                },
+              },
+              {
+                M: {
+                  attr2: {
+                    M: { attr3: { S: 'value-5' }, attr4: { S: 'value-6' } },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        mappedItem: {
+          a1: {
+            L: [
+              {
+                M: {
+                  b1: {
+                    M: { c1: { S: 'value-1' }, c2: { S: 'value-2' } },
+                  },
+                },
+              },
+              {
+                M: {
+                  b1: {
+                    M: { c1: { S: 'value-3' }, c2: { S: 'value-4' } },
+                  },
+                },
+              },
+              {
+                M: {
+                  b1: {
+                    M: { c1: { S: 'value-5' }, c2: { S: 'value-6' } },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    ];
+
+    it.each(testCases)('$testName', ({ item, mappedItem }) => {
+      const actualMappedItem = mapItem(item, mappingSchema);
+
+      expect(actualMappedItem).toEqual(mappedItem);
+    });
+  });
+
+  it('should throw error if there is no mapping defiled for attribute name', () => {
+    const mappingSchema: MappingSchema = {
+      attr0: { mapsTo: 'a' },
+    };
+
+    const item = { attr1: { S: 'attribute-value' } };
+
+    expect(() => mapItem(item, mappingSchema)).toThrow(ItemMappingError);
   });
 });
