@@ -9,10 +9,7 @@ import {
   type DocumentPathItem,
   type DocumentPath,
 } from '../../src/document-path/index.js';
-import {
-  DocumentPathItemMappingError,
-  DocumentPathMappingError,
-} from '../../src/errors/index.js';
+import { DocumentPathMappingError } from '../../src/errors/index.js';
 
 describe('Getting nested mapping schema', () => {
   const mappingSchema: MappingSchema = {
@@ -69,7 +66,7 @@ describe('Mapping document path item', () => {
   type TestCase = {
     testName: string;
     documentPathItem: DocumentPathItem;
-    mappedDocumentPathItem: DocumentPathItem;
+    mappedDocumentPathItem: DocumentPathItem | undefined;
   };
 
   const testCases: TestCase[] = [
@@ -83,6 +80,12 @@ describe('Mapping document path item', () => {
       documentPathItem: { attributeName: 'attr1', index: 0 },
       mappedDocumentPathItem: { attributeName: 'a1', index: 0 },
     },
+    {
+      testName:
+        'should return undefined if attribute name is not defined in mapping schema',
+      documentPathItem: { attributeName: 'attr3' },
+      mappedDocumentPathItem: undefined,
+    },
   ];
 
   it.each(testCases)('$testName', (testCase) => {
@@ -94,14 +97,6 @@ describe('Mapping document path item', () => {
     expect(actualMappedDocumentPathItem).toEqual(
       testCase.mappedDocumentPathItem,
     );
-  });
-
-  it('should throw error if attribute name is not defined in mapping schema', () => {
-    const documentPathItem: DocumentPathItem = { attributeName: 'attr3' };
-
-    expect(() => {
-      mapDocumentPathItem(mappingSchema, documentPathItem);
-    }).toThrow(DocumentPathItemMappingError);
   });
 });
 

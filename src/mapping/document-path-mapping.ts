@@ -3,10 +3,7 @@ import {
   type DocumentPathItem,
   type DocumentPath,
 } from '../document-path/index.js';
-import {
-  DocumentPathItemMappingError,
-  DocumentPathMappingError,
-} from '../errors/index.js';
+import { DocumentPathMappingError } from '../errors/index.js';
 
 export function getNestedMappingSchema(
   mappingSchema: MappingSchema,
@@ -26,51 +23,47 @@ export function getNestedMappingSchema(
 export function mapDocumentPathItem(
   mappingSchema: MappingSchema,
   documentPathItem: DocumentPathItem,
-): DocumentPathItem {
+): DocumentPathItem | undefined {
   const { attributeName, index } = documentPathItem;
 
   const mappedAttributeName = mappingSchema[attributeName]?.mapsTo;
 
   if (!mappedAttributeName) {
-    throw new DocumentPathItemMappingError(documentPathItem);
+    return undefined;
   }
 
-  return {
-    attributeName: mappedAttributeName,
-    index,
-  };
+  return { attributeName: mappedAttributeName, index };
 }
 
 export function mapDocumentPath(
   mappingSchema: MappingSchema,
   documentPath: DocumentPath,
 ): DocumentPath {
-  try {
-    const mappedDocumentPath = [];
-    let currentMappingSchema: MappingSchema | undefined = mappingSchema;
+  const mappedDocumentPath = [];
+  let mappingSchemaForNextDocumentPathItem: MappingSchema | undefined =
+    mappingSchema;
 
-    for (const documentPathItem of documentPath) {
-      if (!currentMappingSchema) {
-        throw new DocumentPathMappingError(documentPath);
-      }
-
-      const mappedDocumentPathItem = mapDocumentPathItem(
-        currentMappingSchema,
-        documentPathItem,
-      );
-
-      const nestedMappingSchema = getNestedMappingSchema(
-        currentMappingSchema,
-        documentPathItem,
-      );
-
-      currentMappingSchema = nestedMappingSchema;
-
-      mappedDocumentPath.push(mappedDocumentPathItem);
+  for (const documentPathItem of documentPath) {
+    if (!mappingSchemaForNextDocumentPathItem) {
+      throw new DocumentPathMappingError(documentPath);
     }
 
-    return mappedDocumentPath;
-  } catch (error) {
-    throw new DocumentPathMappingError(documentPath);
+    const mappedDocumentPathItem = mapDocumentPathItem(
+      mappingSchemaForNextDocumentPathItem,
+      documentPathItem,
+    );
+
+    if (!mappedDocumentPathItem) {
+      throw new DocumentPathMappingError(documentPath);
+    }
+
+    mappedDocumentPath.push(mappedDocumentPathItem);
+
+    mappingSchemaForNextDocumentPathItem = getNestedMappingSchema(
+      mappingSchemaForNextDocumentPathItem,
+      documentPathItem,
+    );
   }
+
+  return mappedDocumentPath;
 }
