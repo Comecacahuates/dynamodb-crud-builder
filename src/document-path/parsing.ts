@@ -1,7 +1,9 @@
-import type { DocumentPath } from '../types.js';
+import { type DocumentPath } from '../types.js';
 
-export function getIndex(documentPathPart: string): number | null {
-  const indexMatch = documentPathPart.match(/\[(\d+)\]/);
+export function getIndexFromDocumentPathItemString(
+  documentPathItemSTring: string,
+): number | null {
+  const indexMatch = documentPathItemSTring.match(/\[(\d+)\]/);
 
   if (!indexMatch) {
     return null;
@@ -21,7 +23,7 @@ export function buildDocumentPathFromString(
   const documentPath: DocumentPath = documentPathParts
     .map((documentPathPart) => {
       const attributeName = getAttributeName(documentPathPart);
-      const index = getIndex(documentPathPart);
+      const index = getIndexFromDocumentPathItemString(documentPathPart);
 
       if (index !== null) {
         return [attributeName, index];

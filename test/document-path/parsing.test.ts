@@ -1,25 +1,40 @@
 import { describe, it, expect } from '@jest/globals';
 import {
-  getIndex,
+  getIndexFromDocumentPathItemString,
   getAttributeName,
   buildDocumentPathFromString,
-} from '../../src/document-path/building.js';
+} from '../../src/document-path/parsing.js';
 
-describe('Getting index from attribute path part', () => {
-  it('should return null if no index', () => {
-    const index = getIndex('attr0');
+describe('Getting index from document path item string', () => {
+  type TestCase = {
+    testName: string;
+    documentPathItemString: string;
+    index: number | null;
+  };
 
-    expect(index).toBeNull();
-  });
+  const testCases: Array<TestCase> = [
+    {
+      testName: 'should return null if there is no index',
+      documentPathItemString: 'attr0',
+      index: null,
+    },
+    {
+      testName: 'should return index if there is index',
+      documentPathItemString: 'attr0[0]',
+      index: 0,
+    },
+  ];
 
-  it('should return index if index', () => {
-    const index = getIndex('attr0[0]');
+  it.each(testCases)('$testName', ({ documentPathItemString, index }) => {
+    const actualIndex = getIndexFromDocumentPathItemString(
+      documentPathItemString,
+    );
 
-    expect(index).toEqual(0);
+    expect(actualIndex).toEqual(index);
   });
 });
 
-describe('Getting attribute name from attribute path part', () => {
+describe('Getting attribute name from document path part', () => {
   it('should return attribute name if no index', () => {
     const name = getAttributeName('attr0');
 
