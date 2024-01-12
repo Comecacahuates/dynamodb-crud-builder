@@ -239,13 +239,27 @@ describe('Item mapping', () => {
     });
   });
 
-  it('should throw error if there is no mapping defiled for attribute name', () => {
-    const mappingSchema: MappingSchema = {
-      attr0: { mapsTo: 'a' },
-    };
+  describe('Strict item mapping', () => {
+    it('should not throw error if there is no mapping defined for attribute name and strict option is false', () => {
+      const mappingSchema: MappingSchema = {
+        attr0: { mapsTo: 'a' },
+      };
 
-    const item = { attr1: { S: 'attribute-value' } };
+      const item = { attr1: { S: 'attribute-value' } };
 
-    expect(() => mapItem(item, mappingSchema)).toThrow(ItemMappingError);
+      expect(() => mapItem(item, mappingSchema)).not.toThrow();
+    });
+
+    it('should throw error if there is no mapping defined for attribute name and strict option is true', () => {
+      const mappingSchema: MappingSchema = {
+        attr0: { mapsTo: 'a' },
+      };
+
+      const item = { attr1: { S: 'attribute-value' } };
+
+      expect(() => mapItem(item, mappingSchema, { strict: true })).toThrow(
+        ItemMappingError,
+      );
+    });
   });
 });

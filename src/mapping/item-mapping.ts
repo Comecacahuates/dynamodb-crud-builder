@@ -1,17 +1,25 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import { type MappingSchema } from './types.js';
+import { type MappingSchema, type ItemMappingOptions } from './types.js';
 import { ItemMappingError } from '../errors/index.js';
+import { type Item } from '../types.js';
 import { match, P } from 'ts-pattern';
 
 export function mapItem(
-  item: Record<string, AttributeValue>,
+  item: Item,
   mappingSchema: MappingSchema,
+  options: ItemMappingOptions = {},
 ): Record<string, AttributeValue> {
+  const { strict } = options;
+
   return Object.entries(item).reduce(
     (mappedItem, [attributeName, attributeValue]) => {
       const attributeNameMapping = mappingSchema[attributeName];
       if (!attributeNameMapping) {
-        throw new ItemMappingError(item);
+        if (strict) {
+          throw new ItemMappingError(item);
+        }
+
+        return { ...mappedItem, [attributeName]: attributeValue };
       }
 
       const { mapsTo: mappedAttributeName, nestedMappingSchema = {} } =
@@ -36,6 +44,6 @@ export function mapItem(
 
       return { ...mappedItem, [mappedAttributeName]: mappedAttributeValue };
     },
-    {} as Record<string, AttributeValue>,
+    {} as Item,
   );
 }
