@@ -1,5 +1,6 @@
 import { Set, Add, Remove, Delete } from './statements/index.js';
-import type { DocumentPath, ValueUpdateOptions } from '../../types.js';
+import { type ValueUpdateOptions } from '../../types.js';
+import { type DocumentPath } from '../../document-path/types.js';
 
 export class UpdateExpressionBuilder {
   private setStatements: string[] = [];

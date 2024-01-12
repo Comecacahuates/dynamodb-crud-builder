@@ -1,6 +1,6 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { match, P } from 'ts-pattern';
-import type { AttributeType } from '../types.js';
+import { type AttributeType } from '../types.js';
 
 export const NULL: AttributeValue.NULLMember = { NULL: true };
 

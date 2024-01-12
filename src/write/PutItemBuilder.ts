@@ -5,7 +5,7 @@ import {
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import { PutItemError } from '../errors/index.js';
-import { type Item } from '../types.js';
+import { type Item } from '../item/index.js';
 
 export class PutItemBuilder {
   private putItemInput: PutItemInput = {

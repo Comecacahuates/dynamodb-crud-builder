@@ -4,7 +4,7 @@ import {
   DeleteItemCommand,
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
-import { type Item } from '../types.js';
+import { type Item } from '../item/index.js';
 import { DeleteItemError } from '../errors/index.js';
 
 export class DeleteItemBuilder {

@@ -1,7 +1,7 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { type MappingSchema, type ItemMappingOptions } from './types.js';
 import { ItemMappingError } from '../errors/index.js';
-import { type Item } from '../types.js';
+import { type Item } from '../item/index.js';
 import { match, P } from 'ts-pattern';
 
 export function mapItem(

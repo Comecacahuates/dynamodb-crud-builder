@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { mapItem } from '../../src/mapping/item-mapping.js';
 import { type MappingSchema } from '../../src/mapping/index.js';
-import { type Item } from '../../src/types.js';
+import { type Item } from '../../src/item/index.js';
 import { ItemMappingError } from '../../src/errors/index.js';
 
 describe('Item mapping', () => {

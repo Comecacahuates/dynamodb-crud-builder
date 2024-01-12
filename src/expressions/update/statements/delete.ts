@@ -1,6 +1,6 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
-import type { DocumentPath } from '../../../types.js';
+import { type DocumentPath } from '../../../document-path/index.js';
 
 export function buildStatementToDelete(documentPath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =

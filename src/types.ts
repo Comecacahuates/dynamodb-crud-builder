@@ -1,9 +1,5 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 
-export type DocumentPath = Array<string | number>;
-
-export type Item = Record<string, AttributeValue>;
-
 export type AttributeType =
   | string
   | number

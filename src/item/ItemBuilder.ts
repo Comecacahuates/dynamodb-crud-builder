@@ -1,4 +1,5 @@
-import type { Item, AttributeType } from '../types.js';
+import { type AttributeType } from '../types.js';
+import { type Item } from './types.js';
 import * as Attributes from '../attribute-value/index.js';
 
 export class ItemBuilder {

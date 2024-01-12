@@ -12,7 +12,7 @@ describe('Building update expression', () => {
     describe('Setting attribute value', () => {
       test('single statement to set value of attribute', () => {
         const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'])
+          .setValue([{ attributeName: 'attr0' }])
           .build();
 
         expect(updateExpression).toBe('SET #attr0 = :attr0');
@@ -20,9 +20,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to set value of attribute', () => {
         const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'])
-          .setValue(['attr1'])
-          .setValue(['attr2'])
+          .setValue([{ attributeName: 'attr0' }])
+          .setValue([{ attributeName: 'attr1' }])
+          .setValue([{ attributeName: 'attr2' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -32,7 +32,7 @@ describe('Building update expression', () => {
 
       test('single statement to set value preventing overwrite', () => {
         const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'], { preventOverwriting: true })
+          .setValue([{ attributeName: 'attr0' }], { preventOverwriting: true })
           .build();
 
         expect(updateExpression).toBe(
@@ -42,9 +42,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to set value some preventing overwrite', () => {
         const updateExpression = updateExpressionBuilder
-          .setValue(['attr0'], { preventOverwriting: true })
-          .setValue(['attr1'], { preventOverwriting: true })
-          .setValue(['attr2'])
+          .setValue([{ attributeName: 'attr0' }], { preventOverwriting: true })
+          .setValue([{ attributeName: 'attr1' }], { preventOverwriting: true })
+          .setValue([{ attributeName: 'attr2' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -56,7 +56,7 @@ describe('Building update expression', () => {
     describe('Appending items to list', () => {
       test('single statement to append items to list', () => {
         const updateExpression = updateExpressionBuilder
-          .appendItemsToList(['attr0'])
+          .appendItemsToList([{ attributeName: 'attr0' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -66,9 +66,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to append items to list', () => {
         const updateExpression = updateExpressionBuilder
-          .appendItemsToList(['attr0'])
-          .appendItemsToList(['attr1'])
-          .appendItemsToList(['attr2'])
+          .appendItemsToList([{ attributeName: 'attr0' }])
+          .appendItemsToList([{ attributeName: 'attr1' }])
+          .appendItemsToList([{ attributeName: 'attr2' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -80,7 +80,7 @@ describe('Building update expression', () => {
     describe('Adding number', () => {
       test('single statement to add number to attribute value', () => {
         const updateExpression = updateExpressionBuilder
-          .addNumber(['attr0'])
+          .addNumber([{ attributeName: 'attr0' }])
           .build();
 
         expect(updateExpression).toBe('SET #attr0 = #attr0 + :attr0');
@@ -88,9 +88,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to add number to attribute value', () => {
         const updateExpression = updateExpressionBuilder
-          .addNumber(['attr0'])
-          .addNumber(['attr1'])
-          .addNumber(['attr2'])
+          .addNumber([{ attributeName: 'attr0' }])
+          .addNumber([{ attributeName: 'attr1' }])
+          .addNumber([{ attributeName: 'attr2' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -102,7 +102,7 @@ describe('Building update expression', () => {
     describe('Subtracting number', () => {
       test('single statement to subtract number from attribute value', () => {
         const updateExpression = updateExpressionBuilder
-          .subtractNumber(['attr0'])
+          .subtractNumber([{ attributeName: 'attr0' }])
           .build();
 
         expect(updateExpression).toBe('SET #attr0 = #attr0 - :attr0');
@@ -110,9 +110,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to subtract number from attribute value', () => {
         const updateExpression = updateExpressionBuilder
-          .subtractNumber(['attr0'])
-          .subtractNumber(['attr1'])
-          .subtractNumber(['attr2'])
+          .subtractNumber([{ attributeName: 'attr0' }])
+          .subtractNumber([{ attributeName: 'attr1' }])
+          .subtractNumber([{ attributeName: 'attr2' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -126,7 +126,7 @@ describe('Building update expression', () => {
     describe('Adding elements to set', () => {
       test('single statement to add elements to set', () => {
         const updateExpression = updateExpressionBuilder
-          .addElementsToSet(['attr0'])
+          .addElementsToSet([{ attributeName: 'attr0' }])
           .build();
 
         expect(updateExpression).toBe('ADD #attr0 :attr0');
@@ -138,7 +138,7 @@ describe('Building update expression', () => {
     describe('Removing attributes from an item', () => {
       test('single statement to remove attribute from an item', () => {
         const updateExpression = updateExpressionBuilder
-          .remove(['attr0', 'attr1'])
+          .remove([{ attributeName: 'attr0' }, { attributeName: 'attr1' }])
           .build();
 
         expect(updateExpression).toBe('REMOVE #attr0.#attr1');
@@ -146,9 +146,9 @@ describe('Building update expression', () => {
 
       test('multiple statements to remove attributes from an item', () => {
         const updateExpression = updateExpressionBuilder
-          .remove(['attr0', 'attr1'])
-          .remove(['attr2', 'attr3'])
-          .remove(['attr4', 'attr5'])
+          .remove([{ attributeName: 'attr0' }, { attributeName: 'attr1' }])
+          .remove([{ attributeName: 'attr2' }, { attributeName: 'attr3' }])
+          .remove([{ attributeName: 'attr4' }, { attributeName: 'attr5' }])
           .build();
 
         expect(updateExpression).toBe(
@@ -161,7 +161,7 @@ describe('Building update expression', () => {
   describe('Delete', () => {
     test('single statement to delete an element from a set', () => {
       const updateExpression = updateExpressionBuilder
-        .delete(['attr0', 'attr1'])
+        .delete([{ attributeName: 'attr0' }, { attributeName: 'attr1' }])
         .build();
 
       expect(updateExpression).toBe('DELETE #attr0.#attr1 :attr0attr1');
@@ -169,9 +169,9 @@ describe('Building update expression', () => {
 
     test('multiple statements to delete an element from a set', () => {
       const updateExpression = updateExpressionBuilder
-        .delete(['attr0', 'attr1'])
-        .delete(['attr2', 'attr3'])
-        .delete(['attr4', 'attr5'])
+        .delete([{ attributeName: 'attr0' }, { attributeName: 'attr1' }])
+        .delete([{ attributeName: 'attr2' }, { attributeName: 'attr3' }])
+        .delete([{ attributeName: 'attr4' }, { attributeName: 'attr5' }])
         .build();
 
       expect(updateExpression).toBe(
@@ -183,13 +183,28 @@ describe('Building update expression', () => {
   describe('Multiple statements', () => {
     it('should return update expression with multiple statements', () => {
       const updateExpression = updateExpressionBuilder
-        .setValue(['attr0', 1, 'a'])
-        .appendItemsToList(['attr1', 2, 'b'])
-        .addNumber(['attr2', 3, 'c'])
-        .subtractNumber(['attr3', 4, 'd'])
-        .addElementsToSet(['attr4', 5, 'e'])
-        .remove(['attr5', 'f'])
-        .delete(['attr6', 'g'])
+        .setValue([
+          { attributeName: 'attr0', index: 1 },
+          { attributeName: 'a' },
+        ])
+        .appendItemsToList([
+          { attributeName: 'attr1', index: 2 },
+          { attributeName: 'b' },
+        ])
+        .addNumber([
+          { attributeName: 'attr2', index: 3 },
+          { attributeName: 'c' },
+        ])
+        .subtractNumber([
+          { attributeName: 'attr3', index: 4 },
+          { attributeName: 'd' },
+        ])
+        .addElementsToSet([
+          { attributeName: 'attr4', index: 5 },
+          { attributeName: 'e' },
+        ])
+        .remove([{ attributeName: 'attr5' }, { attributeName: 'f' }])
+        .delete([{ attributeName: 'attr6' }, { attributeName: 'g' }])
         .build();
 
       expect(updateExpression).toBe(

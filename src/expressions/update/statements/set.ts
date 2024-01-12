@@ -1,6 +1,7 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
-import type { DocumentPath, ValueUpdateOptions } from '../../../types.js';
+import { type ValueUpdateOptions } from '../../../types.js';
+import { type DocumentPath } from '../../../document-path/types.js';
 
 export function buildStatementToSetValue(
   documentPath: DocumentPath,

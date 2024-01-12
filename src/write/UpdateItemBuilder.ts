@@ -11,7 +11,7 @@ import type {
   DocumentPath,
   ValueUpdateOptions,
 } from '../types.js';
-import { buildDocumentPathFromString } from '../document-path/index.js';
+import { parseDocumentPath } from '../document-path/index.js';
 import { buildExpressionAttributeNames } from '../expressions/expression-attribute-names.js';
 import { buildExpressionAttributeValue } from '../expressions/expression-attribute-values.js';
 import * as Attribute from '../attribute-value/index.js';
@@ -88,7 +88,7 @@ export class UpdateItemBuilder {
     value: AttributeType,
     options?: ValueUpdateOptions,
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.setValue(documentPath, options);
 
@@ -102,7 +102,7 @@ export class UpdateItemBuilder {
     documentPathString: string,
     items: AttributeType[],
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.appendItemsToList(documentPath);
 
@@ -116,7 +116,7 @@ export class UpdateItemBuilder {
     documentPathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.addNumber(documentPath);
 
@@ -130,7 +130,7 @@ export class UpdateItemBuilder {
     documentPathString: string,
     number: number,
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.subtractNumber(documentPath);
 
@@ -144,7 +144,7 @@ export class UpdateItemBuilder {
     documentPathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.addElementsToSet(documentPath);
 
@@ -155,7 +155,7 @@ export class UpdateItemBuilder {
   }
 
   public removeAttribute(documentPathString: string): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.remove(documentPath);
 
@@ -168,7 +168,7 @@ export class UpdateItemBuilder {
     documentPathString: string,
     elements: Set<number> | Set<string> | Set<Uint8Array>,
   ): UpdateItemBuilder {
-    const documentPath = buildDocumentPathFromString(documentPathString);
+    const documentPath = parseDocumentPath(documentPathString);
 
     this.updateExpressionBuilder.delete(documentPath);
 
