@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import * as Attribute from '../../src/attribute/index.js';
+import * as Attribute from '../../src/attribute-value/index.js';
 import { type AttributeType } from '../../src/types.js';
 
 describe('Parsing null DynamoDB attribute value', () => {

@@ -14,7 +14,7 @@ import type {
 import { buildDocumentPathFromString } from '../document-path/index.js';
 import { buildExpressionAttributeNames } from '../expressions/expression-attribute-names.js';
 import { buildExpressionAttributeValue } from '../expressions/expression-attribute-values.js';
-import * as Attribute from '../attribute/index.js';
+import * as Attribute from '../attribute-value/index.js';
 import { UpdateItemError } from '../errors/index.js';
 
 export class UpdateItemBuilder {
