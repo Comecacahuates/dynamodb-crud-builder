@@ -1,10 +1,11 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import { type DocumentPath, type ExpressionAttributeValues } from '../types.js';
+import { type ExpressionAttributeValues } from '../types.js';
+import { type DocumentPath } from '../document-path/index.js';
 
 export function buildExpressionAttributeValuePlaceholder(
   documentPath: DocumentPath,
 ): string {
-  return `:${documentPath.join('')}`;
+  return `:${documentPath.map(Object.values).flat().join('')}`;
 }
 
 export function buildExpressionAttributeValue(

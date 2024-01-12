@@ -4,10 +4,8 @@ import {
   buildExpressionAttributeValuePlaceholder,
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
-import {
-  type ExpressionAttributeValues,
-  type DocumentPath,
-} from '../../src/types.js';
+import { type ExpressionAttributeValues } from '../../src/types.js';
+import { type DocumentPath } from '../../src/document-path/index.js';
 
 describe('Building placeholder', () => {
   type TestCase = {
@@ -19,12 +17,22 @@ describe('Building placeholder', () => {
   const testCases: Array<TestCase> = [
     {
       testName: 'should return placeholder for document path with no indexes',
-      documentPath: ['a', 'b', 'c'],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c' },
+      ],
       placeholder: ':abc',
     },
     {
       testName: 'should return placeholder for document path with indexes',
-      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c', index: 1 },
+        { attributeName: 'd' },
+        { attributeName: 'e', index: 2 },
+      ],
       placeholder: ':abc1de2',
     },
   ];
