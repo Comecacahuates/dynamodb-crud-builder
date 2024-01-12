@@ -1,101 +1,101 @@
 import { describe, it, expect } from '@jest/globals';
 import {
   type MappingSchema,
-  buildReverseItemMapping,
+  buildReverseMappingSchema,
 } from '../../src/mapping/index.js';
 
 describe('Reverse item mapping', () => {
   it('should build reverse item mapping with single attribute', () => {
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
+    const mappingSchema: MappingSchema = {
+      attribute: { mapsTo: 'a' },
     };
 
-    const expectedReverseItemMapping = {
-      a: { mappedName: 'attribute' },
+    const expectedReverseMappingSchema: MappingSchema = {
+      a: { mapsTo: 'attribute' },
     };
-    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
+    const actualReverseMappingSchema = buildReverseMappingSchema(mappingSchema);
 
-    expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
+    expect(actualReverseMappingSchema).toEqual(expectedReverseMappingSchema);
   });
 
   it('should build reverse item mapping with nested attribute', () => {
-    const itemMapping: MappingSchema = {
+    const mappingSchema: MappingSchema = {
       attribute: {
-        mappedName: 'a',
-        nestedAttributesMapping: {
+        mapsTo: 'a',
+        nestedMappingSchema: {
           'nested-attribute': {
-            mappedName: 'nested-a',
+            mapsTo: 'nested-a',
           },
         },
       },
     };
 
-    const expectedReverseItemMapping = {
+    const expectedReverseMappingSchema: MappingSchema = {
       a: {
-        mappedName: 'attribute',
-        nestedAttributesMapping: {
-          'nested-a': { mappedName: 'nested-attribute' },
+        mapsTo: 'attribute',
+        nestedMappingSchema: {
+          'nested-a': { mapsTo: 'nested-attribute' },
         },
       },
     };
-    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
+    const actualReverseSchemaMapping = buildReverseMappingSchema(mappingSchema);
 
-    expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
+    expect(actualReverseSchemaMapping).toEqual(expectedReverseMappingSchema);
   });
 
   it('should build reverse item mapping with multiple attributes', () => {
-    const itemMapping: MappingSchema = {
-      'attribute-1': { mappedName: 'a1' },
-      'attribute-2': { mappedName: 'a2' },
-      'attribute-3': { mappedName: 'a3' },
+    const mappingSchema: MappingSchema = {
+      'attribute-1': { mapsTo: 'a1' },
+      'attribute-2': { mapsTo: 'a2' },
+      'attribute-3': { mapsTo: 'a3' },
     };
 
-    const expectedReverseItemMapping = {
-      a1: { mappedName: 'attribute-1' },
-      a2: { mappedName: 'attribute-2' },
-      a3: { mappedName: 'attribute-3' },
+    const expectedReverseMappingSchema: MappingSchema = {
+      a1: { mapsTo: 'attribute-1' },
+      a2: { mapsTo: 'attribute-2' },
+      a3: { mapsTo: 'attribute-3' },
     };
-    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
+    const actualReverseMappingSchema = buildReverseMappingSchema(mappingSchema);
 
-    expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
+    expect(actualReverseMappingSchema).toEqual(expectedReverseMappingSchema);
   });
 
   it('should build reverse item mapping with nested attributes', () => {
-    const itemMapping: MappingSchema = {
+    const mappingSchema: MappingSchema = {
       'attribute-1': {
-        mappedName: 'a1',
-        nestedAttributesMapping: {
+        mapsTo: 'a1',
+        nestedMappingSchema: {
           'nested-attribute-1': {
-            mappedName: 'nested-a1',
+            mapsTo: 'nested-a1',
           },
         },
       },
       'attribute-2': {
-        mappedName: 'a2',
-        nestedAttributesMapping: {
+        mapsTo: 'a2',
+        nestedMappingSchema: {
           'nested-attribute-2': {
-            mappedName: 'nested-a2',
+            mapsTo: 'nested-a2',
           },
         },
       },
     };
 
-    const expectedReverseItemMapping = {
+    const expectedReverseMappingSchema: MappingSchema = {
       a1: {
-        mappedName: 'attribute-1',
-        nestedAttributesMapping: {
-          'nested-a1': { mappedName: 'nested-attribute-1' },
+        mapsTo: 'attribute-1',
+        nestedMappingSchema: {
+          'nested-a1': { mapsTo: 'nested-attribute-1' },
         },
       },
       a2: {
-        mappedName: 'attribute-2',
-        nestedAttributesMapping: {
-          'nested-a2': { mappedName: 'nested-attribute-2' },
+        mapsTo: 'attribute-2',
+        nestedMappingSchema: {
+          'nested-a2': { mapsTo: 'nested-attribute-2' },
         },
       },
     };
-    const actualReverseItemMapping = buildReverseItemMapping(itemMapping);
+    const actualReverseSchemaMapping = buildReverseMappingSchema(mappingSchema);
 
-    expect(actualReverseItemMapping).toEqual(expectedReverseItemMapping);
+    expect(actualReverseSchemaMapping).toEqual(expectedReverseMappingSchema);
   });
 });

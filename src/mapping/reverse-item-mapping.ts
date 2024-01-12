@@ -1,21 +1,24 @@
-import type { MappingSchema } from '../types.js';
+import { type MappingSchema } from '../mapping/index.js';
 
-export function buildReverseItemMapping(
-  itemMapping: MappingSchema,
+export function buildReverseMappingSchema(
+  mappingSchema: MappingSchema,
 ): MappingSchema {
-  return Object.entries(itemMapping).reduce(
-    (reverseItemMapping, [attributeName, attributeMapping]) => {
-      const { mappedName, nestedAttributesMapping } = attributeMapping;
+  return Object.entries(mappingSchema).reduce(
+    (reverseMappingSchema, [attributeName, attributeMapping]) => {
+      const {
+        mapsTo: mappedName,
+        nestedMappingSchema: nestedAttributesMapping,
+      } = attributeMapping;
 
       const reverseNestedAttributesMapping =
         nestedAttributesMapping &&
-        buildReverseItemMapping(nestedAttributesMapping);
+        buildReverseMappingSchema(nestedAttributesMapping);
 
       return {
-        ...reverseItemMapping,
+        ...reverseMappingSchema,
         [mappedName]: {
-          mappedName: attributeName,
-          nestedAttributesMapping: reverseNestedAttributesMapping,
+          mapsTo: attributeName,
+          nestedMappingSchema: reverseNestedAttributesMapping,
         },
       };
     },

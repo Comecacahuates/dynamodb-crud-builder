@@ -1,220 +1,150 @@
 import { describe, it, expect } from '@jest/globals';
 import { mapItem, type MappingSchema } from '../../src/mapping/index.js';
+import { type Item } from '../../src/types.js';
 
 describe('Item mapping', () => {
-  it('should map item with single null attribute', () => {
-    const itemToMap = {
-      attribute: { NULL: true },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
+  describe('Simple mapping schema', () => {
+    const mappingSchema: MappingSchema = {
+      attr: { mapsTo: 'a' },
     };
 
-    const expectedMappedItem = { a: { NULL: true } };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single string attribute', () => {
-    const itemToMap = {
-      attribute: { S: 'attribute-value' },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
+    type TestCase = {
+      testName: string;
+      item: Item;
+      mappedItem: Item;
     };
 
-    const expectedMappedItem = { a: { S: 'attribute-value' } };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single number attribute', () => {
-    const itemToMap = {
-      attribute: { N: '123' },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = { a: { N: '123' } };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single boolean attribute', () => {
-    const itemToMap = {
-      attribute: { BOOL: true },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = { a: { BOOL: true } };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single binary attribute', () => {
-    const itemToMap = {
-      attribute: { B: new Uint8Array([1, 2, 3]) },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = {
-      a: { B: new Uint8Array([1, 2, 3]) },
-    };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single string set attribute', () => {
-    const itemToMap = {
-      attribute: { SS: ['value1', 'value2'] },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = {
-      a: { SS: ['value1', 'value2'] },
-    };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single number set attribute', () => {
-    const itemToMap = {
-      attribute: { NS: ['1', '2'] },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = {
-      a: { NS: ['1', '2'] },
-    };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with single binary set attribute', () => {
-    const itemToMap = {
-      attribute: { BS: [new Uint8Array([1, 2, 3])] },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: { mappedName: 'a' },
-    };
-
-    const expectedMappedItem = {
-      a: { BS: [new Uint8Array([1, 2, 3])] },
-    };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with nested map attribute', () => {
-    const itemToMap = {
-      attribute: {
-        M: {
-          'nested-attribute-name': { S: 'nested-attribute-value' },
-        },
+    const testCases: Array<TestCase> = [
+      {
+        testName: 'should map item with single null attribute',
+        item: { attr: { NULL: true } },
+        mappedItem: { a: { NULL: true } },
       },
-    };
-    const itemMapping: MappingSchema = {
-      attribute: {
-        mappedName: 'mapped-name',
-        nestedAttributesMapping: {
-          'nested-attribute-name': {
-            mappedName: 'mapped-nested-attribute-name',
+      {
+        testName: 'should map item with single string attribute',
+        item: { attr: { S: 'attribute-value' } },
+        mappedItem: { a: { S: 'attribute-value' } },
+      },
+      {
+        testName: 'should map item with single number attribute',
+        item: { attr: { N: '123' } },
+        mappedItem: { a: { N: '123' } },
+      },
+      {
+        testName: 'should map item with single boolean attribute',
+        item: { attr: { BOOL: true } },
+        mappedItem: { a: { BOOL: true } },
+      },
+      {
+        testName: 'should map item with single binary attribute',
+        item: { attr: { B: new Uint8Array([1, 2, 3]) } },
+        mappedItem: { a: { B: new Uint8Array([1, 2, 3]) } },
+      },
+      {
+        testName: 'should map item with single string set attribute',
+        item: { attr: { SS: ['value1', 'value2'] } },
+        mappedItem: { a: { SS: ['value1', 'value2'] } },
+      },
+      {
+        testName: 'should map item with single number set attribute',
+        item: { attr: { NS: ['123', '456'] } },
+        mappedItem: { a: { NS: ['123', '456'] } },
+      },
+      {
+        testName: 'should map item with single binary set attribute',
+        item: { attr: { BS: [new Uint8Array([1, 2, 3])] } },
+        mappedItem: { a: { BS: [new Uint8Array([1, 2, 3])] } },
+      },
+      {
+        testName: 'should map item with single list attribute',
+        item: { attr: { L: [{ S: 'value1' }, { S: 'value2' }] } },
+        mappedItem: { a: { L: [{ S: 'value1' }, { S: 'value2' }] } },
+      },
+      {
+        testName: 'should map item with single map attribute',
+        item: { attr: { M: { attr1: { S: 'value1' } } } },
+        mappedItem: { a: { M: { attr1: { S: 'value1' } } } },
+      },
+      {
+        testName: 'should not map item if attribute is not defined',
+        item: { attribute: { S: 'attribute-value' } },
+        mappedItem: { attribute: { S: 'attribute-value' } },
+      },
+      {
+        testName: 'should only map attributes defined in mapping schema',
+        item: { attr: { S: 'value-1' }, attr0: { S: 'value-2' } },
+        mappedItem: { a: { S: 'value-1' }, attr0: { S: 'value-2' } },
+      },
+    ];
+
+    it.each(testCases)('$testName', ({ item, mappedItem }) => {
+      const actualMappedItem = mapItem(item, mappingSchema);
+
+      expect(actualMappedItem).toEqual(mappedItem);
+    });
+  });
+
+  describe('Nested mapping schemas', () => {
+    const mappingSchema: MappingSchema = {
+      attr1: { mapsTo: 'a1' },
+      attr2: {
+        mapsTo: 'a2',
+        nestedMappingSchema: {
+          attr1: { mapsTo: 'a2a1' },
+          attr2: {
+            mapsTo: 'a2a2',
+            nestedMappingSchema: {
+              attr1: { mapsTo: 'a2a2a1' },
+              attr2: { mapsTo: 'a2a2a2' },
+            },
           },
         },
       },
     };
 
-    const expectedMappedItem = {
-      'mapped-name': {
-        M: {
-          'mapped-nested-attribute-name': { S: 'nested-attribute-value' },
-        },
-      },
+    type TestCase = {
+      testName: string;
+      item: Item;
+      mappedItem: Item;
     };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
 
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should map item with multiple attributes', () => {
-    const itemToMap = {
-      'attribute-1': { S: 'attribute-value-1' },
-      'attribute-2': { N: '100' },
-      'attribute-3': { BOOL: true },
-      'attribute-4': { B: new Uint8Array([1, 2, 3]) },
-      'attribute-5': { SS: ['value1', 'value2'] },
-      'attribute-6': { NS: ['1', '2'] },
-      'attribute-7': { BS: [new Uint8Array([1, 2, 3])] },
-      'attribute-8': {
-        M: {
-          'nested-attribute': { S: 'nested-attribute-value' },
-        },
+    const testCases: Array<TestCase> = [
+      {
+        testName: 'should map item with single attribute',
+        item: { attr1: { S: 'value-1' } },
+        mappedItem: { a1: { S: 'value-1' } },
       },
-      'attribute-9': { L: [{ S: 'value1' }, { S: 'value2' }] },
-    };
-    const itemMapping: MappingSchema = {
-      'attribute-1': { mappedName: 'a1' },
-      'attribute-2': { mappedName: 'a2' },
-      'attribute-3': { mappedName: 'a3' },
-      'attribute-4': { mappedName: 'a4' },
-      'attribute-5': { mappedName: 'a5' },
-      'attribute-6': { mappedName: 'a6' },
-      'attribute-7': { mappedName: 'a7' },
-      'attribute-8': {
-        mappedName: 'a8',
-        nestedAttributesMapping: {
-          'nested-attribute': {
-            mappedName: 'a8-nested',
+      {
+        testName: 'should map item with nested attribute',
+        item: {
+          attr1: { S: 'value-1' },
+          attr2: {
+            M: {
+              attr1: { S: 'value-1' },
+              attr2: {
+                M: { attr1: { S: 'value-2' }, attr2: { S: 'value-3' } },
+              },
+            },
+          },
+        },
+        mappedItem: {
+          a1: { S: 'value-1' },
+          a2: {
+            M: {
+              a2a1: { S: 'value-1' },
+              a2a2: {
+                M: { a2a2a1: { S: 'value-2' }, a2a2a2: { S: 'value-3' } },
+              },
+            },
           },
         },
       },
-      'attribute-9': { mappedName: 'a9' },
-    };
+    ];
 
-    const expectedMappedItem = {
-      a1: { S: 'attribute-value-1' },
-      a2: { N: '100' },
-      a3: { BOOL: true },
-      a4: { B: new Uint8Array([1, 2, 3]) },
-      a5: { SS: ['value1', 'value2'] },
-      a6: { NS: ['1', '2'] },
-      a7: { BS: [new Uint8Array([1, 2, 3])] },
-      a8: {
-        M: {
-          'a8-nested': { S: 'nested-attribute-value' },
-        },
-      },
-      a9: { L: [{ S: 'value1' }, { S: 'value2' }] },
-    };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
+    it.each(testCases)('$testName', ({ item, mappedItem }) => {
+      const actualMappedItem = mapItem(item, mappingSchema);
 
-    expect(actualMappedItem).toEqual(expectedMappedItem);
-  });
-
-  it('should not map attribute if mapping is not defined', () => {
-    const itemToMap = { attribute: { S: 'attribute-value' } };
-    const itemMapping: MappingSchema = {};
-
-    const expectedMappedItem = { attribute: { S: 'attribute-value' } };
-    const actualMappedItem = mapItem(itemToMap, itemMapping);
-
-    expect(actualMappedItem).toEqual(expectedMappedItem);
+      expect(actualMappedItem).toEqual(mappedItem);
+    });
   });
 });

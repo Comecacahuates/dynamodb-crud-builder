@@ -6,26 +6,26 @@ import {
 import { PathMappingError } from '../../src/errors/index.js';
 
 describe('Attribute path mapping', () => {
-  const itemMapping: MappingSchema = {
+  const mappingSchema: MappingSchema = {
     attribute1: {
-      mappedName: 'a1',
+      mapsTo: 'a1',
     },
     attribute2: {
-      mappedName: 'a2',
-      nestedAttributesMapping: {
+      mapsTo: 'a2',
+      nestedMappingSchema: {
         'nested-attribute2': {
-          mappedName: 'nested-a2',
+          mapsTo: 'nested-a2',
         },
       },
     },
     attribute3: {
-      mappedName: 'a3',
-      nestedAttributesMapping: {
+      mapsTo: 'a3',
+      nestedMappingSchema: {
         'nested-attribute3': {
-          mappedName: 'nested-a3',
-          nestedAttributesMapping: {
+          mapsTo: 'nested-a3',
+          nestedMappingSchema: {
             'nested-nested-attribute3': {
-              mappedName: 'nested-nested-a3',
+              mapsTo: 'nested-nested-a3',
             },
           },
         },
@@ -56,7 +56,7 @@ describe('Attribute path mapping', () => {
   ])('$testName', ({ documentPathToMap, mappedDocumentPath }) => {
     const actualMappedDocumentPath = mapDocumentPath(
       documentPathToMap,
-      itemMapping,
+      mappingSchema,
     );
 
     expect(actualMappedDocumentPath).toEqual(mappedDocumentPath);
@@ -65,7 +65,7 @@ describe('Attribute path mapping', () => {
   it('should throw error if attribute path is not defined', () => {
     const pathToMap = ['attribute4'];
 
-    expect(() => mapDocumentPath(pathToMap, itemMapping)).toThrow(
+    expect(() => mapDocumentPath(pathToMap, mappingSchema)).toThrow(
       PathMappingError,
     );
   });

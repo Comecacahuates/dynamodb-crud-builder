@@ -4,25 +4,27 @@ import { type MappingSchema } from './types.js';
 
 export function mapDocumentPath(
   documentPath: DocumentPath,
-  itemMapping: MappingSchema,
+  mappingSchema: MappingSchema,
 ): DocumentPath {
   const { mappedPath } = documentPath.reduce(
-    ({ itemMapping, mappedPath }, pathPart) => {
-      const attributeMapping = itemMapping[pathPart];
+    ({ mappingSchema, mappedPath }, pathPart) => {
+      const attributeMapping = mappingSchema[pathPart];
 
       if (!attributeMapping) {
         throw new PathMappingError(documentPath);
       }
 
-      const { mappedName: mappedAttributeName, nestedAttributesMapping } =
-        attributeMapping;
+      const {
+        mapsTo: mappedAttributeName,
+        nestedMappingSchema: nestedAttributesMapping,
+      } = attributeMapping;
 
       return {
-        itemMapping: nestedAttributesMapping!,
+        mappingSchema: nestedAttributesMapping!,
         mappedPath: [...mappedPath, mappedAttributeName],
       };
     },
-    { itemMapping, mappedPath: [] as DocumentPath },
+    { mappingSchema, mappedPath: [] as DocumentPath },
   );
 
   return mappedPath;

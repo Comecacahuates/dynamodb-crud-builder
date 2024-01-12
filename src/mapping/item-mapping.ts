@@ -3,16 +3,19 @@ import { type MappingSchema } from './types.js';
 
 export function mapItem(
   item: Record<string, AttributeValue>,
-  itemMapping: MappingSchema,
+  mappingSchema: MappingSchema,
 ): Record<string, AttributeValue> {
   return Object.entries(item).reduce(
     (mappedItem, [attributeName, attributeValue]) => {
-      const attributeNameMapping = itemMapping[attributeName];
+      const attributeNameMapping = mappingSchema[attributeName];
       if (!attributeNameMapping) {
         return { ...mappedItem, [attributeName]: attributeValue };
       }
 
-      const { mappedName, nestedAttributesMapping = {} } = attributeNameMapping;
+      const {
+        mapsTo: mappedName,
+        nestedMappingSchema: nestedAttributesMapping = {},
+      } = attributeNameMapping;
 
       const mappedAttributeValue = attributeValue.M
         ? { M: mapItem(attributeValue.M, nestedAttributesMapping) }

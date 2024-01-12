@@ -1,6 +1,6 @@
 export type MappingSchema = {
   [key: string]: {
-    mappedName: string;
-    nestedAttributesMapping?: MappingSchema;
+    mapsTo: string;
+    nestedMappingSchema?: MappingSchema;
   };
 };
