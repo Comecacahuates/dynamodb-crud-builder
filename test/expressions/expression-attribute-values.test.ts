@@ -57,14 +57,24 @@ describe('Building expression attribute value', () => {
     {
       testName:
         'should return expression attribute value for document path with no indexes',
-      documentPath: ['a', 'b', 'c'],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c' },
+      ],
       attributeValue: { S: 'id' },
       expressionAttributeValues: { ':abc': { S: 'id' } },
     },
     {
       testName:
         'should return expression attribute value for document path with indexes',
-      documentPath: ['a', 'b', 'c', 1, 'd', 'e', 2],
+      documentPath: [
+        { attributeName: 'a' },
+        { attributeName: 'b' },
+        { attributeName: 'c', index: 1 },
+        { attributeName: 'd' },
+        { attributeName: 'e', index: 2 },
+      ],
       attributeValue: { S: 'id' },
       expressionAttributeValues: { ':abc1de2': { S: 'id' } },
     },
