@@ -2,7 +2,7 @@ import { buildExpressionAttributeNamePlaceholder } from '../../expression-attrib
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
 import { type DocumentPath } from '../../../document-path/index.js';
 
-export function buildAddStatementString(documentPath: DocumentPath): string {
+export function buildAddStatement(documentPath: DocumentPath): string {
   const expressionAttributeNamePlaceholder =
     buildExpressionAttributeNamePlaceholder(documentPath);
   const expressionAttributeValuePlaceholder =

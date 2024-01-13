@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { Add } from '../../../../src/expressions/update-expressions/statements/index.js';
 import { type DocumentPath } from '../../../../src/document-path/types.js';
 
-describe('Building add statement string', () => {
+describe('Building add statement', () => {
   type TestCase = {
     testName: string;
     documentPath: DocumentPath;
@@ -59,7 +59,7 @@ describe('Building add statement string', () => {
   ];
 
   it.each(testCases)('$testName', ({ documentPath, statementString }) => {
-    const actualStatementString = Add.buildAddStatementString(documentPath);
+    const actualStatementString = Add.buildAddStatement(documentPath);
 
     expect(actualStatementString).toBe(statementString);
   });

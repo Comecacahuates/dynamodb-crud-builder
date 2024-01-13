@@ -75,7 +75,7 @@ export class UpdateExpressionBuilder {
   }
 
   public addElementsToSet(documentPath: DocumentPath): UpdateExpressionBuilder {
-    const statement = Add.buildAddStatementString(documentPath);
+    const statement = Add.buildAddStatement(documentPath);
     this.addStatements.push(statement);
     return this;
   }

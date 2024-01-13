@@ -5,12 +5,9 @@ import {
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
 import { UpdateExpressionBuilder } from '../expressions/update-expressions/index.js';
-import type {
-  Item,
-  AttributeType,
-  DocumentPath,
-  ValueUpdateOptions,
-} from '../types.js';
+import type { AttributeType, ValueUpdateOptions } from '../types.js';
+import { type Item } from '../item/index.js';
+import { type DocumentPath } from '../document-path/index.js';
 import { parseDocumentPath } from '../document-path/index.js';
 import { buildExpressionAttributeNames } from '../expressions/expression-attribute-names.js';
 import { buildExpressionAttributeValue } from '../expressions/expression-attribute-values.js';
