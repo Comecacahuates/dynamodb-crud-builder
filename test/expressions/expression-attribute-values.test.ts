@@ -4,7 +4,7 @@ import {
   buildExpressionAttributeValuePlaceholder,
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
-import { type ExpressionAttributeValues } from '../../src/types.js';
+import { type ExpressionAttributeValues } from '../../src/expressions/index.js';
 import { type DocumentPath } from '../../src/document-path/index.js';
 
 describe('Building placeholder', () => {

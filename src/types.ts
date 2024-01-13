@@ -1,5 +1,3 @@
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-
 export type AttributeType =
   | string
   | number
@@ -11,10 +9,6 @@ export type AttributeType =
   | Set<Uint8Array>
   | AttributeType[]
   | { [key: string]: AttributeType };
-
-export type ExpressionAttributeNames = Record<string, string>;
-
-export type ExpressionAttributeValues = Record<string, AttributeValue>;
 
 export type ValueUpdateOptions = {
   preventOverwriting?: boolean;

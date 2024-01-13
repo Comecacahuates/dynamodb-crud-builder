@@ -3,7 +3,7 @@ import {
   buildExpressionAttributeNamePlaceholder,
   buildExpressionAttributeNames,
 } from '../../src/expressions/expression-attribute-names.js';
-import { type ExpressionAttributeNames } from '../../src/types.js';
+import { type ExpressionAttributeNames } from '../../src/expressions/index.js';
 import { type DocumentPath } from '../../src/document-path/index.js';
 
 describe('Building placeholder', () => {

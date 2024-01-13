@@ -1,4 +1,4 @@
-import { type ExpressionAttributeNames } from '../types.js';
+import { type ExpressionAttributeNames } from './types.js';
 import {
   type DocumentPath,
   formatDocumentPathItem,
