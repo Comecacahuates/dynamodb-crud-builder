@@ -4,7 +4,7 @@ import {
   UpdateItemCommand,
   type TransactWriteItem,
 } from '@aws-sdk/client-dynamodb';
-import { UpdateExpressionBuilder } from '../expressions/update/index.js';
+import { UpdateExpressionBuilder } from '../expressions/update-expressions/index.js';
 import type {
   Item,
   AttributeType,

@@ -1,5 +1,5 @@
 import { describe, it, test, expect, beforeEach } from '@jest/globals';
-import { UpdateExpressionBuilder } from '../../../src/expressions/update/UpdateExpressionBuilder.js';
+import { UpdateExpressionBuilder } from '../../../src/expressions/update-expressions/UpdateExpressionBuilder.js';
 
 describe('Building update expression', () => {
   let updateExpressionBuilder: UpdateExpressionBuilder;

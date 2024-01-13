@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { Add } from '../../../../src/expressions/update/statements/index.js';
+import { Add } from '../../../../src/expressions/update-expressions/statements/index.js';
 
 describe('Building statement to add', () => {
   it('should return statement string', () => {

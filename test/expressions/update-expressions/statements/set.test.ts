@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { Set } from '../../../../src/expressions/update/statements/index.js';
+import { Set } from '../../../../src/expressions/update-expressions/statements/index.js';
 
 describe('Building statement to set value', () => {
   describe('Setting attribute value', () => {
