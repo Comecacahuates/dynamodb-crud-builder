@@ -1,66 +1,16 @@
 import { describe, it, expect } from '@jest/globals';
-import { Add } from '../../../../src/expressions/update-expressions/statements/index.js';
-import { type DocumentPath } from '../../../../src/document-path/types.js';
+import { buildAddStatement } from '../../../../src/expressions/update-expressions/statements/add-statements.js';
 
 describe('Building add statement', () => {
-  type TestCase = {
-    testName: string;
-    documentPath: DocumentPath;
-    statementString: string;
-  };
+  it('should return add statement', () => {
+    const actualStatement = buildAddStatement([
+      { attributeName: 'a' },
+      { attributeName: 'b' },
+      { attributeName: 'c', index: 1 },
+      { attributeName: 'd' },
+      { attributeName: 'e', index: 2 },
+    ]);
 
-  const testCases: Array<TestCase> = [
-    {
-      testName:
-        'should return add statement string for simple document path with no index',
-      documentPath: [{ attributeName: 'a' }],
-      statementString: '#a :a',
-    },
-    {
-      testName:
-        'should return add statement string for simple document path with index',
-      documentPath: [{ attributeName: 'a', index: 1 }],
-      statementString: '#a[1] :a1',
-    },
-    {
-      testName:
-        'should return add statement string for complex document path with no indexes',
-      documentPath: [
-        { attributeName: 'a' },
-        { attributeName: 'b' },
-        { attributeName: 'c' },
-        { attributeName: 'd' },
-      ],
-      statementString: '#a.#b.#c.#d :abcd',
-    },
-    {
-      testName:
-        'should return add statement string for complex document path with indexes',
-      documentPath: [
-        { attributeName: 'a', index: 1 },
-        { attributeName: 'b', index: 2 },
-        { attributeName: 'c', index: 3 },
-        { attributeName: 'd', index: 4 },
-      ],
-      statementString: '#a[1].#b[2].#c[3].#d[4] :a1b2c3d4',
-    },
-    {
-      testName:
-        'should return add statement string for complex document path with mixed indexes',
-      documentPath: [
-        { attributeName: 'a', index: 1 },
-        { attributeName: 'b' },
-        { attributeName: 'c', index: 2 },
-        { attributeName: 'd' },
-        { attributeName: 'e', index: 3 },
-      ],
-      statementString: '#a[1].#b.#c[2].#d.#e[3] :a1bc2de3',
-    },
-  ];
-
-  it.each(testCases)('$testName', ({ documentPath, statementString }) => {
-    const actualStatementString = Add.buildAddStatement(documentPath);
-
-    expect(actualStatementString).toBe(statementString);
+    expect(actualStatement).toBe('#a.#b.#c[1].#d.#e[2] :abc1de2');
   });
 });
