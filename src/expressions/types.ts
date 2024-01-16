@@ -5,6 +5,6 @@ export type ExpressionAttributeNames = Record<string, string>;
 
 export type ExpressionAttributeValues = Record<string, AttributeValue>;
 
-export type LiteralName = string;
+export type Literal = string;
 
-export type Operand = DocumentPath | LiteralName;
+export type Operand = DocumentPath | Literal;
