@@ -3,6 +3,7 @@ import {
   buildAttributeEqualsAttributeStatement,
   buildAttributeEqualsLiteralStatement,
   buildAttributeNotEqualsAttributeStatement,
+  buildAttributeNotEqualsLiteralStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
 describe('attribute equals attribute', () => {
@@ -103,6 +104,38 @@ describe('attribute not equals attribute', () => {
       it('should return "#a.#b[1].#c.#d[2].#e[3] <> #f.#g[4].#h.#i[5].#j[6]"', () => {
         expect(equalsStatement).toBe(
           '#a.#b[1].#c.#d[2].#e[3] <> #f.#g[4].#h.#i[5].#j[6]',
+        );
+      });
+    });
+  });
+});
+
+describe('attribute not equals literal', () => {
+  describe('given document path a.b[1].c.d[2].e[3] and literal value 1 with document path DocumentPathForLiteral', () => {
+    const documentPath = [
+      { attributeName: 'a' },
+      { attributeName: 'b', index: 1 },
+      { attributeName: 'c' },
+      { attributeName: 'd', index: 2 },
+      { attributeName: 'e', index: 3 },
+    ];
+    const documentPathForLiteral = [
+      { attributeName: 'DocumentPathForLiteral' },
+    ];
+
+    describe('when building the equals statement', () => {
+      let equalsStatement: string;
+
+      beforeEach(() => {
+        equalsStatement = buildAttributeNotEqualsLiteralStatement(
+          documentPath,
+          documentPathForLiteral,
+        );
+      });
+
+      it('should return "#a.#b[1].#c.#d[2].#e[3] <> :DocumentPathForLiteral"', () => {
+        expect(equalsStatement).toBe(
+          '#a.#b[1].#c.#d[2].#e[3] <> :DocumentPathForLiteral',
         );
       });
     });

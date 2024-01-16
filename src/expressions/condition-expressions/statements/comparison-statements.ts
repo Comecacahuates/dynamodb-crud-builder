@@ -39,3 +39,15 @@ export function buildAttributeNotEqualsAttributeStatement(
 
   return `${expressionAttributeNamePlaceholderA} <> ${expressionAttributeNamePlaceholderB}`;
 }
+
+export function buildAttributeNotEqualsLiteralStatement(
+  documentPath: DocumentPath,
+  documentPathForLiteral: DocumentPath,
+): string {
+  const expressionAttributeNamePlaceholder =
+    buildExpressionAttributeNamePlaceholder(documentPath);
+  const expressionAttributeValuePlaceholder =
+    buildExpressionAttributeValuePlaceholder(documentPathForLiteral);
+
+  return `${expressionAttributeNamePlaceholder} <> ${expressionAttributeValuePlaceholder}`;
+}
