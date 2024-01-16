@@ -51,3 +51,16 @@ export function buildAttributeNotEqualsLiteralStatement(
 
   return `${expressionAttributeNamePlaceholder} <> ${expressionAttributeValuePlaceholder}`;
 }
+
+export function buildAttributeIsLessThanAttributeStatement(
+  documentPathA: DocumentPath,
+  documentPathB: DocumentPath,
+): string {
+  const expressionAttributeNamePlaceholderA =
+    buildExpressionAttributeNamePlaceholder(documentPathA);
+
+  const expressionAttributeNamePlaceholderB =
+    buildExpressionAttributeNamePlaceholder(documentPathB);
+
+  return `${expressionAttributeNamePlaceholderA} < ${expressionAttributeNamePlaceholderB}`;
+}
