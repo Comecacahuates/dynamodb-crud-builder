@@ -3,6 +3,7 @@ import {
   buildAttributeExistsStatement,
   buildAttributeNotExistsStatement,
   buildAttributeIsOfTypeStatement,
+  buildBeginsWithStatement,
 } from '../../../../src/expressions/condition-expressions/statements/function-statements.js';
 
 describe('function statements', () => {
@@ -51,6 +52,20 @@ describe('function statements', () => {
       it('should return "attribute_type(#a[1].#b.#c[2], :attributeType)"', () => {
         expect(attributeIsOfTypeStatement).toBe(
           'attribute_type(#a[1].#b.#c[2], :attributeType)',
+        );
+      });
+    });
+
+    describe('when building `begins with` statement', () => {
+      let beginsWithStatement: string;
+
+      beforeEach(() => {
+        beginsWithStatement = buildBeginsWithStatement(operand, attributeType);
+      });
+
+      it('should return "begins_with(#a[1].#b.#c[2], :attributeType)"', () => {
+        expect(beginsWithStatement).toBe(
+          'begins_with(#a[1].#b.#c[2], :attributeType)',
         );
       });
     });

@@ -14,3 +14,10 @@ export function buildAttributeIsOfTypeStatement(
 ) {
   return `attribute_type(${documentPathPlaceholder}, ${attributeTypePlaceholder})`;
 }
+
+export function buildBeginsWithStatement(
+  documentPathPlaceholder: string,
+  operandPlaceholder: string,
+) {
+  return `begins_with(${documentPathPlaceholder}, ${operandPlaceholder})`;
+}
