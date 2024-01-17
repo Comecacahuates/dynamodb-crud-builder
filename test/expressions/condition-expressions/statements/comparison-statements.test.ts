@@ -4,6 +4,7 @@ import {
   buildNotEqualToComparisonStatement,
   buildLessThanComparisonStatement,
   buildLessThanOrEqualToComparisonStatement,
+  buildGreaterThanComparisonStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
 describe('equal to', () => {
@@ -86,6 +87,28 @@ describe('less than or equal to', () => {
 
       it('should return ":operandA <= :operandB"', () => {
         expect(lessThanOrEqualsStatement).toBe(':operandA <= :operandB');
+      });
+    });
+  });
+});
+
+describe('greater than', () => {
+  describe('given operand A ":operandA" and operand B ":operandB"', () => {
+    const operandA = ':operandA';
+    const operandB = ':operandB';
+
+    describe('when building the equals statement', () => {
+      let greaterThanStatement: string;
+
+      beforeEach(() => {
+        greaterThanStatement = buildGreaterThanComparisonStatement(
+          operandA,
+          operandB,
+        );
+      });
+
+      it('should return ":operandA > :operandB"', () => {
+        expect(greaterThanStatement).toBe(':operandA > :operandB');
       });
     });
   });

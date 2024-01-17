@@ -25,3 +25,10 @@ export function buildLessThanOrEqualToComparisonStatement(
 ): string {
   return `${operandA} <= ${operandB}`;
 }
+
+export function buildGreaterThanComparisonStatement(
+  operandA: string,
+  operandB: string,
+): string {
+  return `${operandA} > ${operandB}`;
+}
