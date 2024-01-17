@@ -39,3 +39,11 @@ export function buildGreaterThanOrEqualToComparisonStatement(
 ): string {
   return `${operandA} >= ${operandB}`;
 }
+
+export function buildBetweenComparisonStatement(
+  operand: string,
+  lowerBoundOperand: string,
+  upperBoundOperand: string,
+): string {
+  return `${operand} BETWEEN ${lowerBoundOperand} AND ${upperBoundOperand}`;
+}

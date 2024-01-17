@@ -6,14 +6,15 @@ import {
   buildLessThanOrEqualToComparisonStatement,
   buildGreaterThanComparisonStatement,
   buildGreaterThanOrEqualToComparisonStatement,
+  buildBetweenComparisonStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
-describe('equal to', () => {
+describe('binary comparison statements', () => {
   describe('given operand A ":operandA" and operand B ":operandB"', () => {
     const operandA = ':operandA';
     const operandB = ':operandB';
 
-    describe('when building the equals statement', () => {
+    describe('when building `equal to` statement', () => {
       let equalsStatement: string;
 
       beforeEach(() => {
@@ -24,15 +25,8 @@ describe('equal to', () => {
         expect(equalsStatement).toBe(':operandA = :operandB');
       });
     });
-  });
-});
 
-describe('not equal to', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
-    const operandA = ':operandA';
-    const operandB = ':operandB';
-
-    describe('when building the equals statement', () => {
+    describe('when building not equals statement', () => {
       let notEqualsStatement: string;
 
       beforeEach(() => {
@@ -46,15 +40,8 @@ describe('not equal to', () => {
         expect(notEqualsStatement).toBe(':operandA <> :operandB');
       });
     });
-  });
-});
 
-describe('less than', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
-    const operandA = ':operandA';
-    const operandB = ':operandB';
-
-    describe('when building the equals statement', () => {
+    describe('when building less than statement', () => {
       let lessThanStatement: string;
 
       beforeEach(() => {
@@ -68,15 +55,8 @@ describe('less than', () => {
         expect(lessThanStatement).toBe(':operandA < :operandB');
       });
     });
-  });
-});
 
-describe('less than or equal to', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
-    const operandA = ':operandA';
-    const operandB = ':operandB';
-
-    describe('when building the equals statement', () => {
+    describe('when building less than or equals statement', () => {
       let lessThanOrEqualsStatement: string;
 
       beforeEach(() => {
@@ -90,15 +70,8 @@ describe('less than or equal to', () => {
         expect(lessThanOrEqualsStatement).toBe(':operandA <= :operandB');
       });
     });
-  });
-});
 
-describe('greater than', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
-    const operandA = ':operandA';
-    const operandB = ':operandB';
-
-    describe('when building the equals statement', () => {
+    describe('when building greater than statement', () => {
       let greaterThanStatement: string;
 
       beforeEach(() => {
@@ -112,15 +85,8 @@ describe('greater than', () => {
         expect(greaterThanStatement).toBe(':operandA > :operandB');
       });
     });
-  });
-});
 
-describe('greater than or equal to', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
-    const operandA = ':operandA';
-    const operandB = ':operandB';
-
-    describe('when building the equals statement', () => {
+    describe('when building greater than or equal to statement', () => {
       let greaterThanOrEqualsStatement: string;
 
       beforeEach(() => {
@@ -130,6 +96,32 @@ describe('greater than or equal to', () => {
 
       it('should return ":operandA >= :operandB"', () => {
         expect(greaterThanOrEqualsStatement).toBe(':operandA >= :operandB');
+      });
+    });
+  });
+});
+
+describe('between', () => {
+  describe('given operand ":operand", lower bound operand ":lowerBoundOperand", and upper bound operand ":upperBoundOperand"', () => {
+    const operand = ':operand';
+    const lowerBoundOperand = ':lowerBoundOperand';
+    const upperBoundOperand = ':upperBoundOperand';
+
+    describe('when building the between statement', () => {
+      let betweenStatement: string;
+
+      beforeEach(() => {
+        betweenStatement = buildBetweenComparisonStatement(
+          operand,
+          lowerBoundOperand,
+          upperBoundOperand,
+        );
+      });
+
+      it('should return ":operand BETWEEN :lowerBoundOperand AND :upperBoundOperand"', () => {
+        expect(betweenStatement).toBe(
+          ':operand BETWEEN :lowerBoundOperand AND :upperBoundOperand',
+        );
       });
     });
   });
