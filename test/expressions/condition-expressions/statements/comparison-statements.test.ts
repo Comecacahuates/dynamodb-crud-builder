@@ -1,11 +1,31 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
+  buildEqualsComparisonStatement,
   buildAttributeEqualsAttributeStatement,
   buildAttributeEqualsLiteralStatement,
   buildAttributeNotEqualsAttributeStatement,
   buildAttributeNotEqualsLiteralStatement,
   buildAttributeIsLessThanAttributeStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
+
+describe('equals', () => {
+  describe('given operand A ":operandA" and operand B ":operandB"', () => {
+    const operandA = ':operandA';
+    const operandB = ':operandB';
+
+    describe('when building the equals statement', () => {
+      let equalsStatement: string;
+
+      beforeEach(() => {
+        equalsStatement = buildEqualsComparisonStatement(operandA, operandB);
+      });
+
+      it('should return ":operandA = :operandB"', () => {
+        expect(equalsStatement).toBe(':operandA = :operandB');
+      });
+    });
+  });
+});
 
 describe('attribute equals attribute', () => {
   describe('given document path a.b[1].c.d[2].e[3] and document path f.g[4].h.i[5].j[6]', () => {

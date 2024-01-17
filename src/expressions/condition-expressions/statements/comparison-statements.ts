@@ -1,6 +1,13 @@
 import { buildExpressionAttributeNamePlaceholder } from '../../expression-attribute-names.js';
 import { buildExpressionAttributeValuePlaceholder } from '../../expression-attribute-values.js';
-import { type DocumentPath } from '../../../document-path/index.js';
+import { type DocumentPath } from '../../../document-path/types.js';
+
+export function buildEqualsComparisonStatement(
+  operandA: string,
+  operandB: string,
+): string {
+  return `${operandA} = ${operandB}`;
+}
 
 export function buildAttributeEqualsAttributeStatement(
   documentPathA: DocumentPath,
