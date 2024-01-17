@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
   buildAttributeExistsStatement,
+  buildAttributeNotExistsStatement,
   buildAttributeIsOfTypeStatement,
 } from '../../../../src/expressions/condition-expressions/statements/function-statements.js';
 
@@ -19,6 +20,20 @@ describe('function statements', () => {
       it('should return "attribute_exists(#a[1].#b.#c[2])"', () => {
         expect(attributeExistsStatement).toBe(
           'attribute_exists(#a[1].#b.#c[2])',
+        );
+      });
+    });
+
+    describe('when building `attribute not exists` statement', () => {
+      let attributeNotExistsStatement: string;
+
+      beforeEach(() => {
+        attributeNotExistsStatement = buildAttributeNotExistsStatement(operand);
+      });
+
+      it('should return "attribute_not_exists(#a[1].#b.#c[2])"', () => {
+        expect(attributeNotExistsStatement).toBe(
+          'attribute_not_exists(#a[1].#b.#c[2])',
         );
       });
     });

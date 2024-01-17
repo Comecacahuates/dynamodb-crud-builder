@@ -2,6 +2,12 @@ export function buildAttributeExistsStatement(documentPathPlaceholder: string) {
   return `attribute_exists(${documentPathPlaceholder})`;
 }
 
+export function buildAttributeNotExistsStatement(
+  documentPathPlaceholder: string,
+) {
+  return `attribute_not_exists(${documentPathPlaceholder})`;
+}
+
 export function buildAttributeIsOfTypeStatement(
   documentPathPlaceholder: string,
   attributeTypePlaceholder: string,
