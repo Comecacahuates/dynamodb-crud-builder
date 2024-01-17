@@ -10,109 +10,112 @@ import {
   buildInComparisonStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
-describe('binary comparison statements', () => {
-  describe('given operand A ":operandA" and operand B ":operandB"', () => {
+describe('comparison statements', () => {
+  describe('given operand ":operandA" and ":operandB"', () => {
     const operandA = ':operandA';
     const operandB = ':operandB';
 
-    describe('when building `equal to` statement', () => {
-      let equalsStatement: string;
+    describe('when building `equal to` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        equalsStatement = buildEqualToComparisonStatement(operandA, operandB);
+        comparisonStatement = buildEqualToComparisonStatement(
+          operandA,
+          operandB,
+        );
       });
 
       it('should return ":operandA = :operandB"', () => {
-        expect(equalsStatement).toBe(':operandA = :operandB');
+        expect(comparisonStatement).toBe(':operandA = :operandB');
       });
     });
 
-    describe('when building `not equal to` statement', () => {
-      let notEqualsStatement: string;
+    describe('when building `not equal to` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        notEqualsStatement = buildNotEqualToComparisonStatement(
+        comparisonStatement = buildNotEqualToComparisonStatement(
           operandA,
           operandB,
         );
       });
 
       it('should return ":operandA <> :operandB"', () => {
-        expect(notEqualsStatement).toBe(':operandA <> :operandB');
+        expect(comparisonStatement).toBe(':operandA <> :operandB');
       });
     });
 
-    describe('when building `less than` statement', () => {
-      let lessThanStatement: string;
+    describe('when building `less than` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        lessThanStatement = buildLessThanComparisonStatement(
+        comparisonStatement = buildLessThanComparisonStatement(
           operandA,
           operandB,
         );
       });
 
       it('should return ":operandA < :operandB"', () => {
-        expect(lessThanStatement).toBe(':operandA < :operandB');
+        expect(comparisonStatement).toBe(':operandA < :operandB');
       });
     });
 
-    describe('when building `less than or equal to` statement', () => {
-      let lessThanOrEqualsStatement: string;
+    describe('when building `less than or equal to` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        lessThanOrEqualsStatement = buildLessThanOrEqualToComparisonStatement(
+        comparisonStatement = buildLessThanOrEqualToComparisonStatement(
           operandA,
           operandB,
         );
       });
 
       it('should return ":operandA <= :operandB"', () => {
-        expect(lessThanOrEqualsStatement).toBe(':operandA <= :operandB');
+        expect(comparisonStatement).toBe(':operandA <= :operandB');
       });
     });
 
-    describe('when building `greater than` statement', () => {
-      let greaterThanStatement: string;
+    describe('when building `greater than` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        greaterThanStatement = buildGreaterThanComparisonStatement(
+        comparisonStatement = buildGreaterThanComparisonStatement(
           operandA,
           operandB,
         );
       });
 
       it('should return ":operandA > :operandB"', () => {
-        expect(greaterThanStatement).toBe(':operandA > :operandB');
+        expect(comparisonStatement).toBe(':operandA > :operandB');
       });
     });
 
-    describe('when building `greater than or equal to` statement', () => {
-      let greaterThanOrEqualsStatement: string;
+    describe('when building `greater than or equal to` comparison statement', () => {
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        greaterThanOrEqualsStatement =
-          buildGreaterThanOrEqualToComparisonStatement(operandA, operandB);
+        comparisonStatement = buildGreaterThanOrEqualToComparisonStatement(
+          operandA,
+          operandB,
+        );
       });
 
       it('should return ":operandA >= :operandB"', () => {
-        expect(greaterThanOrEqualsStatement).toBe(':operandA >= :operandB');
+        expect(comparisonStatement).toBe(':operandA >= :operandB');
       });
     });
   });
-});
 
-describe('between', () => {
-  describe('given operand ":operand", lower bound operand ":lowerBoundOperand", and upper bound operand ":upperBoundOperand"', () => {
+  describe('given operands ":operand", ":lowerBoundOperand" and ":upperBoundOperand"', () => {
     const operand = ':operand';
     const lowerBoundOperand = ':lowerBoundOperand';
     const upperBoundOperand = ':upperBoundOperand';
 
     describe('when building `between` statement', () => {
-      let betweenStatement: string;
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        betweenStatement = buildBetweenComparisonStatement(
+        comparisonStatement = buildBetweenComparisonStatement(
           operand,
           lowerBoundOperand,
           upperBoundOperand,
@@ -120,28 +123,28 @@ describe('between', () => {
       });
 
       it('should return ":operand BETWEEN :lowerBoundOperand AND :upperBoundOperand"', () => {
-        expect(betweenStatement).toBe(
+        expect(comparisonStatement).toBe(
           ':operand BETWEEN :lowerBoundOperand AND :upperBoundOperand',
         );
       });
     });
   });
-});
 
-describe('in', () => {
   describe('given operand ":operand" and list [":item0", ":item1", "item2]', () => {
     const operand = ':operand';
     const items = [':item0', ':item1', ':item2'];
 
     describe('when building `in` statement', () => {
-      let inStatement: string;
+      let comparisonStatement: string;
 
       beforeEach(() => {
-        inStatement = buildInComparisonStatement(operand, items);
+        comparisonStatement = buildInComparisonStatement(operand, items);
       });
 
       it('should return ":operand IN (:item0, :item1, :item2)"', () => {
-        expect(inStatement).toBe(':operand IN (:item0, :item1, :item2)');
+        expect(comparisonStatement).toBe(
+          ':operand IN (:item0, :item1, :item2)',
+        );
       });
     });
   });
