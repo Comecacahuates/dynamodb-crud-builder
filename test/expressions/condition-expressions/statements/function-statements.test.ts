@@ -1,59 +1,50 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
-  buildAttributeExistsStatement,
-  buildAttributeNotExistsStatement,
-  buildAttributeIsOfTypeStatement,
-  buildBeginsWithStatement,
-  buildContainsStatement,
+  buildAttributeExistsFunctionStatement,
+  buildAttributeNotExistsFunctionStatement,
+  buildAttributeTypeFunctionStatement,
+  buildBeginsWithFunctionStatement,
+  buildContainsFunctionStatement,
+  buildSizeFunctionStatement,
 } from '../../../../src/expressions/condition-expressions/statements/function-statements.js';
 
 describe('function statements', () => {
-  describe('given document path placeholder "#a[1].#b.#c[2]" and attribute type placeholder ":attributeType"', () => {
+  describe('given document path placeholder "#a[1].#b.#c[2]"', () => {
     const operand = '#a[1].#b.#c[2]';
-    const attributeType = ':attributeType';
 
-    describe('when building `attribute exists` statement', () => {
-      let attributeExistsStatement: string;
+    describe('when building `attribute exists` function statement', () => {
+      let functionStatement: string;
 
       beforeEach(() => {
-        attributeExistsStatement = buildAttributeExistsStatement(operand);
+        functionStatement = buildAttributeExistsFunctionStatement(operand);
       });
 
       it('should return "attribute_exists(#a[1].#b.#c[2])"', () => {
-        expect(attributeExistsStatement).toBe(
-          'attribute_exists(#a[1].#b.#c[2])',
-        );
+        expect(functionStatement).toBe('attribute_exists(#a[1].#b.#c[2])');
       });
     });
 
-    describe('when building `attribute not exists` statement', () => {
-      let attributeNotExistsStatement: string;
+    describe('when building `attribute not exists` function statement', () => {
+      let functionStatement: string;
 
       beforeEach(() => {
-        attributeNotExistsStatement = buildAttributeNotExistsStatement(operand);
+        functionStatement = buildAttributeNotExistsFunctionStatement(operand);
       });
 
       it('should return "attribute_not_exists(#a[1].#b.#c[2])"', () => {
-        expect(attributeNotExistsStatement).toBe(
-          'attribute_not_exists(#a[1].#b.#c[2])',
-        );
+        expect(functionStatement).toBe('attribute_not_exists(#a[1].#b.#c[2])');
       });
     });
 
-    describe('when building `attribute is of type` statement', () => {
-      let attributeIsOfTypeStatement: string;
+    describe('when building `size` function statement', () => {
+      let functionStatement: string;
 
       beforeEach(() => {
-        attributeIsOfTypeStatement = buildAttributeIsOfTypeStatement(
-          operand,
-          attributeType,
-        );
+        functionStatement = buildSizeFunctionStatement(operand);
       });
 
-      it('should return "attribute_type(#a[1].#b.#c[2], :attributeType)"', () => {
-        expect(attributeIsOfTypeStatement).toBe(
-          'attribute_type(#a[1].#b.#c[2], :attributeType)',
-        );
+      it('should return "size(#a[1].#b.#c[2])"', () => {
+        expect(functionStatement).toBe('size(#a[1].#b.#c[2])');
       });
     });
   });
@@ -62,35 +53,50 @@ describe('function statements', () => {
     const documentPathPlaceholder = '#a[1].#b.#c[2]';
     const operand = ':operand';
 
-    describe('when building `begins with` statement', () => {
-      let beginsWithStatement: string;
+    describe('when building `attribute type` function statement', () => {
+      let functionStatement: string;
 
       beforeEach(() => {
-        beginsWithStatement = buildBeginsWithStatement(
+        functionStatement = buildAttributeTypeFunctionStatement(
+          documentPathPlaceholder,
+          operand,
+        );
+      });
+
+      it('should return "attribute_type(#a[1].#b.#c[2], :operand)"', () => {
+        expect(functionStatement).toBe(
+          'attribute_type(#a[1].#b.#c[2], :operand)',
+        );
+      });
+    });
+
+    describe('when building `begins with` function statement', () => {
+      let functionStatement: string;
+
+      beforeEach(() => {
+        functionStatement = buildBeginsWithFunctionStatement(
           documentPathPlaceholder,
           operand,
         );
       });
 
       it('should return "begins_with(#a[1].#b.#c[2], :operand)"', () => {
-        expect(beginsWithStatement).toBe(
-          'begins_with(#a[1].#b.#c[2], :operand)',
-        );
+        expect(functionStatement).toBe('begins_with(#a[1].#b.#c[2], :operand)');
       });
     });
 
-    describe('when building `contains` statement', () => {
-      let containsStatement: string;
+    describe('when building `contains` function statement', () => {
+      let functionStatement: string;
 
       beforeEach(() => {
-        containsStatement = buildContainsStatement(
+        functionStatement = buildContainsFunctionStatement(
           documentPathPlaceholder,
           operand,
         );
       });
 
       it('should return "contains(#a[1].#b.#c[2], :operand)"', () => {
-        expect(containsStatement).toBe('contains(#a[1].#b.#c[2], :operand)');
+        expect(functionStatement).toBe('contains(#a[1].#b.#c[2], :operand)');
       });
     });
   });

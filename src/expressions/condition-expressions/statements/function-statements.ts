@@ -1,30 +1,36 @@
-export function buildAttributeExistsStatement(documentPathPlaceholder: string) {
+export function buildAttributeExistsFunctionStatement(
+  documentPathPlaceholder: string,
+) {
   return `attribute_exists(${documentPathPlaceholder})`;
 }
 
-export function buildAttributeNotExistsStatement(
+export function buildAttributeNotExistsFunctionStatement(
   documentPathPlaceholder: string,
 ) {
   return `attribute_not_exists(${documentPathPlaceholder})`;
 }
 
-export function buildAttributeIsOfTypeStatement(
+export function buildAttributeTypeFunctionStatement(
   documentPathPlaceholder: string,
-  attributeTypePlaceholder: string,
+  operand: string,
 ) {
-  return `attribute_type(${documentPathPlaceholder}, ${attributeTypePlaceholder})`;
+  return `attribute_type(${documentPathPlaceholder}, ${operand})`;
 }
 
-export function buildBeginsWithStatement(
+export function buildBeginsWithFunctionStatement(
   documentPathPlaceholder: string,
-  operandPlaceholder: string,
+  operand: string,
 ) {
-  return `begins_with(${documentPathPlaceholder}, ${operandPlaceholder})`;
+  return `begins_with(${documentPathPlaceholder}, ${operand})`;
 }
 
-export function buildContainsStatement(
+export function buildContainsFunctionStatement(
   documentPathPlaceholder: string,
-  operandPlaceholder: string,
+  operand: string,
 ) {
-  return `contains(${documentPathPlaceholder}, ${operandPlaceholder})`;
+  return `contains(${documentPathPlaceholder}, ${operand})`;
+}
+
+export function buildSizeFunctionStatement(documentPathPlaceholder: string) {
+  return `size(${documentPathPlaceholder})`;
 }
