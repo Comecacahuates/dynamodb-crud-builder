@@ -32,3 +32,10 @@ export function buildGreaterThanComparisonStatement(
 ): string {
   return `${operandA} > ${operandB}`;
 }
+
+export function buildGreaterThanOrEqualToComparisonStatement(
+  operandA: string,
+  operandB: string,
+): string {
+  return `${operandA} >= ${operandB}`;
+}
