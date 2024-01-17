@@ -7,6 +7,7 @@ import {
   buildGreaterThanComparisonStatement,
   buildGreaterThanOrEqualToComparisonStatement,
   buildBetweenComparisonStatement,
+  buildInComparisonStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
 describe('binary comparison statements', () => {
@@ -26,7 +27,7 @@ describe('binary comparison statements', () => {
       });
     });
 
-    describe('when building not equals statement', () => {
+    describe('when building `not equal to` statement', () => {
       let notEqualsStatement: string;
 
       beforeEach(() => {
@@ -41,7 +42,7 @@ describe('binary comparison statements', () => {
       });
     });
 
-    describe('when building less than statement', () => {
+    describe('when building `less than` statement', () => {
       let lessThanStatement: string;
 
       beforeEach(() => {
@@ -56,7 +57,7 @@ describe('binary comparison statements', () => {
       });
     });
 
-    describe('when building less than or equals statement', () => {
+    describe('when building `less than or equal to` statement', () => {
       let lessThanOrEqualsStatement: string;
 
       beforeEach(() => {
@@ -71,7 +72,7 @@ describe('binary comparison statements', () => {
       });
     });
 
-    describe('when building greater than statement', () => {
+    describe('when building `greater than` statement', () => {
       let greaterThanStatement: string;
 
       beforeEach(() => {
@@ -86,7 +87,7 @@ describe('binary comparison statements', () => {
       });
     });
 
-    describe('when building greater than or equal to statement', () => {
+    describe('when building `greater than or equal to` statement', () => {
       let greaterThanOrEqualsStatement: string;
 
       beforeEach(() => {
@@ -107,7 +108,7 @@ describe('between', () => {
     const lowerBoundOperand = ':lowerBoundOperand';
     const upperBoundOperand = ':upperBoundOperand';
 
-    describe('when building the between statement', () => {
+    describe('when building `between` statement', () => {
       let betweenStatement: string;
 
       beforeEach(() => {
@@ -122,6 +123,25 @@ describe('between', () => {
         expect(betweenStatement).toBe(
           ':operand BETWEEN :lowerBoundOperand AND :upperBoundOperand',
         );
+      });
+    });
+  });
+});
+
+describe('in', () => {
+  describe('given operand ":operand" and list [":item0", ":item1", "item2]', () => {
+    const operand = ':operand';
+    const items = [':item0', ':item1', ':item2'];
+
+    describe('when building `in` statement', () => {
+      let inStatement: string;
+
+      beforeEach(() => {
+        inStatement = buildInComparisonStatement(operand, items);
+      });
+
+      it('should return ":operand IN (:item0, :item1, :item2)"', () => {
+        expect(inStatement).toBe(':operand IN (:item0, :item1, :item2)');
       });
     });
   });

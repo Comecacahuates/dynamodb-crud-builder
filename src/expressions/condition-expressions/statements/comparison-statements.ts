@@ -47,3 +47,10 @@ export function buildBetweenComparisonStatement(
 ): string {
   return `${operand} BETWEEN ${lowerBoundOperand} AND ${upperBoundOperand}`;
 }
+
+export function buildInComparisonStatement(
+  operand: string,
+  list: string[],
+): string {
+  return `${operand} IN (${list.join(', ')})`;
+}
