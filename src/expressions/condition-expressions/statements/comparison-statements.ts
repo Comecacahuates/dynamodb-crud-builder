@@ -11,3 +11,10 @@ export function buildNotEqualsComparisonStatement(
 ): string {
   return `${operandA} <> ${operandB}`;
 }
+
+export function buildLessThanComparisonStatement(
+  operandA: string,
+  operandB: string,
+): string {
+  return `${operandA} < ${operandB}`;
+}

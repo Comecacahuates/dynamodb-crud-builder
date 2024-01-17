@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
   buildEqualsComparisonStatement,
   buildNotEqualsComparisonStatement,
+  buildLessThanComparisonStatement,
 } from '../../../../src/expressions/condition-expressions/statements/comparison-statements.js';
 
 describe('equals', () => {
@@ -29,14 +30,39 @@ describe('not equals', () => {
     const operandB = ':operandB';
 
     describe('when building the equals statement', () => {
-      let equalsStatement: string;
+      let notEqualsStatement: string;
 
       beforeEach(() => {
-        equalsStatement = buildNotEqualsComparisonStatement(operandA, operandB);
+        notEqualsStatement = buildNotEqualsComparisonStatement(
+          operandA,
+          operandB,
+        );
       });
 
       it('should return ":operandA <> :operandB"', () => {
-        expect(equalsStatement).toBe(':operandA <> :operandB');
+        expect(notEqualsStatement).toBe(':operandA <> :operandB');
+      });
+    });
+  });
+});
+
+describe('less than', () => {
+  describe('given operand A ":operandA" and operand B ":operandB"', () => {
+    const operandA = ':operandA';
+    const operandB = ':operandB';
+
+    describe('when building the equals statement', () => {
+      let lessThanStatement: string;
+
+      beforeEach(() => {
+        lessThanStatement = buildLessThanComparisonStatement(
+          operandA,
+          operandB,
+        );
+      });
+
+      it('should return ":operandA < :operandB"', () => {
+        expect(lessThanStatement).toBe(':operandA < :operandB');
       });
     });
   });
