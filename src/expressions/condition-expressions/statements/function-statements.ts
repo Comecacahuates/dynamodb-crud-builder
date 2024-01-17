@@ -21,3 +21,10 @@ export function buildBeginsWithStatement(
 ) {
   return `begins_with(${documentPathPlaceholder}, ${operandPlaceholder})`;
 }
+
+export function buildContainsStatement(
+  documentPathPlaceholder: string,
+  operandPlaceholder: string,
+) {
+  return `contains(${documentPathPlaceholder}, ${operandPlaceholder})`;
+}
