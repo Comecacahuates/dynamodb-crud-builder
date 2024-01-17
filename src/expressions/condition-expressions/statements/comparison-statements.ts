@@ -1,11 +1,11 @@
-export function buildEqualsComparisonStatement(
+export function buildEqualToComparisonStatement(
   operandA: string,
   operandB: string,
 ): string {
   return `${operandA} = ${operandB}`;
 }
 
-export function buildNotEqualsComparisonStatement(
+export function buildNotEqualToComparisonStatement(
   operandA: string,
   operandB: string,
 ): string {
@@ -17,4 +17,11 @@ export function buildLessThanComparisonStatement(
   operandB: string,
 ): string {
   return `${operandA} < ${operandB}`;
+}
+
+export function buildLessThanOrEqualToComparisonStatement(
+  operandA: string,
+  operandB: string,
+): string {
+  return `${operandA} <= ${operandB}`;
 }
