@@ -15,12 +15,12 @@ describe('parsing', () => {
       });
 
       it('should return "attr0"', () => {
-        expect(attributeName).toEqual('attr0');
+        expect(attributeName).toBe('attr0');
       });
     });
 
     describe('when parsing indexes', () => {
-      let indexes: Array<number>;
+      let indexes: Array<number> | null;
 
       beforeEach(() => {
         indexes = DocumentPathItem.parseIndexes(documentPathItemString);
@@ -32,18 +32,18 @@ describe('parsing', () => {
     });
 
     describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem;
+      let documentPathItem: DocumentPathItem | null;
 
       beforeEach(() => {
         documentPathItem = DocumentPathItem.parse(documentPathItemString);
       });
 
       it('should return a document path item with attribute name "attr0"', () => {
-        expect(documentPathItem.attributeName).toEqual('attr0');
+        expect(documentPathItem!.attributeName).toEqual('attr0');
       });
 
       it('should return a document path item with indexes [1, 2]', () => {
-        expect(documentPathItem.indexes).toEqual([1, 2]);
+        expect(documentPathItem!.indexes).toEqual([1, 2]);
       });
     });
   });
@@ -51,7 +51,7 @@ describe('parsing', () => {
   describe('given the string " - attr0 [1][2]"', () => {
     const documentPathItemString = '0attr0';
 
-    describe('when parsing attribute', () => {
+    describe('when parsing attribute name', () => {
       let attributeName: string | null;
 
       beforeEach(() => {
@@ -72,8 +72,20 @@ describe('parsing', () => {
         indexes = DocumentPathItem.parseIndexes(documentPathItemString);
       });
 
-      it('should return []', () => {
+      it('should return null', () => {
         expect(indexes).toBeNull();
+      });
+    });
+
+    describe('when parsing document path item', () => {
+      let documentPathItem: DocumentPathItem | null;
+
+      beforeEach(() => {
+        documentPathItem = DocumentPathItem.parse(documentPathItemString);
+      });
+
+      it('should return null', () => {
+        expect(documentPathItem).toBeNull();
       });
     });
   });

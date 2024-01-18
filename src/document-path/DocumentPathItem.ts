@@ -9,6 +9,11 @@ export class DocumentPathItem {
       documentPathItemString,
     );
     const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
+
+    if (!attributeName || !indexes) {
+      return null;
+    }
+
     return new DocumentPathItem(attributeName, indexes);
   }
 
