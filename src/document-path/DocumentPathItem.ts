@@ -17,6 +17,11 @@ export class DocumentPathItem {
     return new DocumentPathItem(attributeName, indexes);
   }
 
+  public static isParsable(documentPathItemString: string): boolean {
+    const validDocumentPathItemRegex = /^[a-zA-Z]\w*(\[\d+\])*$/;
+    return validDocumentPathItemRegex.test(documentPathItemString);
+  }
+
   public static parseAttributeName(
     documentPathItemString: string,
   ): string | null {
@@ -28,7 +33,9 @@ export class DocumentPathItem {
   public static parseIndexes(
     documentPathItemString: string,
   ): Array<number> | null {
-    const validIndexesRegex = /\[\d+\]*$/;
+    const validIndexesRegex = /(\[\d+\])*$/;
+    console.log(documentPathItemString);
+    console.log(validIndexesRegex.test(documentPathItemString));
     if (!validIndexesRegex.test(documentPathItemString)) {
       return null;
     }
