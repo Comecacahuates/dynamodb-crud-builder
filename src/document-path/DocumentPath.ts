@@ -21,4 +21,8 @@ export class DocumentPath {
   public toString(): string {
     return this.items.map((item) => item.toString()).join('.');
   }
+
+  public get expressionAttributeNamesPlaceholder(): string {
+    return this.items.map((item) => `#${item.toString()}`).join('.');
+  }
 }
