@@ -20,7 +20,14 @@ export class DocumentPathItem {
     return match ? match[0] : null;
   }
 
-  public static parseIndexes(documentPathItemString: string): Array<number> {
+  public static parseIndexes(
+    documentPathItemString: string,
+  ): Array<number> | null {
+    const validIndexesRegex = /\[\d+\]*$/;
+    if (!validIndexesRegex.test(documentPathItemString)) {
+      return null;
+    }
+
     const indexesRegex = /\[(\d+)\]/g;
     const matches = documentPathItemString.matchAll(indexesRegex);
     const indexes = Array.from(matches, (match) => Number(match[1]));

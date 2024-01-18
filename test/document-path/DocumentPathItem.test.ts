@@ -51,7 +51,7 @@ describe('parsing', () => {
   describe('given the string " - attr0 [1][2]"', () => {
     const documentPathItemString = '0attr0';
 
-    describe('when parsing', () => {
+    describe('when parsing attribute', () => {
       let attributeName: string | null;
 
       beforeEach(() => {
@@ -62,6 +62,18 @@ describe('parsing', () => {
 
       it('should return null', () => {
         expect(attributeName).toBeNull();
+      });
+    });
+
+    describe('when parsing indexes', () => {
+      let indexes: Array<number> | null;
+
+      beforeEach(() => {
+        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
+      });
+
+      it('should return []', () => {
+        expect(indexes).toBeNull();
       });
     });
   });
