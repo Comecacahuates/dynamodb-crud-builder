@@ -5,16 +5,16 @@ export class DocumentPathItem {
   ) {}
 
   public static parse(documentPathItemString: string): DocumentPathItem | null {
+    if (!DocumentPathItem.isParsable(documentPathItemString)) {
+      return null;
+    }
+
     const attributeName = DocumentPathItem.parseAttributeName(
       documentPathItemString,
     );
     const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
 
-    if (!attributeName || !indexes) {
-      return null;
-    }
-
-    return new DocumentPathItem(attributeName, indexes);
+    return new DocumentPathItem(attributeName!, indexes);
   }
 
   public static isParsable(documentPathItemString: string): boolean {
@@ -30,16 +30,7 @@ export class DocumentPathItem {
     return match ? match[0] : null;
   }
 
-  public static parseIndexes(
-    documentPathItemString: string,
-  ): Array<number> | null {
-    const validIndexesRegex = /(\[\d+\])*$/;
-    console.log(documentPathItemString);
-    console.log(validIndexesRegex.test(documentPathItemString));
-    if (!validIndexesRegex.test(documentPathItemString)) {
-      return null;
-    }
-
+  public static parseIndexes(documentPathItemString: string): Array<number> {
     const indexesRegex = /\[(\d+)\]/g;
     const matches = documentPathItemString.matchAll(indexesRegex);
     const indexes = Array.from(matches, (match) => Number(match[1]));

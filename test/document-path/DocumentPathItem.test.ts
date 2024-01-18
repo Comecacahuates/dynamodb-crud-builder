@@ -161,20 +161,20 @@ describe('parsing', () => {
       const documentPathItemString = ' - attr0 [1][2]';
 
       describe('when parsing indexes', () => {
-        let indexes: Array<number> | null;
+        let indexes: Array<number>;
 
         beforeEach(() => {
           indexes = DocumentPathItem.parseIndexes(documentPathItemString);
         });
 
-        it('should return null', () => {
+        it('should return [1, 2]', () => {
           expect(indexes).toEqual([1, 2]);
         });
       });
     });
 
     describe('given the string "attr0 [1] [2a] - "', () => {
-      const documentPathItemString = 'attr0 [1] [2a] - ';
+      const documentPathItemString = 'attr0 [1 [2a] - ';
 
       describe('when parsing indexes', () => {
         let indexes: Array<number> | null;
@@ -183,69 +183,67 @@ describe('parsing', () => {
           indexes = DocumentPathItem.parseIndexes(documentPathItemString);
         });
 
-        it('should return null', () => {
-          expect(indexes).toBeNull();
+        it('should return empty array', () => {
+          expect(indexes).toEqual([]);
         });
       });
     });
   });
 
-  describe('given the string "attr0[1][2]"', () => {
-    const documentPathItemString = 'attr0[1][2]';
+  describe('parsing document path item', () => {
+    describe('given the string "attr0"', () => {
+      const documentPathItemString = 'attr0';
 
-    describe('when parsing indexes', () => {
-      let indexes: Array<number> | null;
+      describe('when parsing document path item', () => {
+        let documentPathItem: DocumentPathItem | null;
 
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
+        beforeEach(() => {
+          documentPathItem = DocumentPathItem.parse(documentPathItemString);
+        });
 
-      it('should return [1, 2]', () => {
-        expect(indexes).toEqual([1, 2]);
-      });
-    });
+        it('should return a document path item with attribute name "attr0"', () => {
+          expect(documentPathItem!.attributeName).toEqual('attr0');
+        });
 
-    describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem | null;
-
-      beforeEach(() => {
-        documentPathItem = DocumentPathItem.parse(documentPathItemString);
-      });
-
-      it('should return a document path item with attribute name "attr0"', () => {
-        expect(documentPathItem!.attributeName).toEqual('attr0');
-      });
-
-      it('should return a document path item with indexes [1, 2]', () => {
-        expect(documentPathItem!.indexes).toEqual([1, 2]);
-      });
-    });
-  });
-
-  describe('given the string " - attr0 [1][2]"', () => {
-    const documentPathItemString = '0attr0';
-
-    describe('when parsing indexes', () => {
-      let indexes: Array<number> | null;
-
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
-
-      it('should return null', () => {
-        expect(indexes).toBeNull();
+        it('should return a document path item with indexes []', () => {
+          expect(documentPathItem!.indexes).toEqual([]);
+        });
       });
     });
 
-    describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem | null;
+    describe('given the string "attr0[1][2]"', () => {
+      const documentPathItemString = 'attr0[1][2]';
 
-      beforeEach(() => {
-        documentPathItem = DocumentPathItem.parse(documentPathItemString);
+      describe('when parsing document path item', () => {
+        let documentPathItem: DocumentPathItem | null;
+
+        beforeEach(() => {
+          documentPathItem = DocumentPathItem.parse(documentPathItemString);
+        });
+
+        it('should return a document path item with attribute name "attr0"', () => {
+          expect(documentPathItem!.attributeName).toEqual('attr0');
+        });
+
+        it('should return a document path item with indexes [1, 2]', () => {
+          expect(documentPathItem!.indexes).toEqual([1, 2]);
+        });
       });
+    });
 
-      it('should return null', () => {
-        expect(documentPathItem).toBeNull();
+    describe('given the string "attr0 [1] [2a] - "', () => {
+      const documentPathItemString = 'attr0 [1] [2a] - ';
+
+      describe('when parsing document path item', () => {
+        let documentPathItem: DocumentPathItem | null;
+
+        beforeEach(() => {
+          documentPathItem = DocumentPathItem.parse(documentPathItemString);
+        });
+
+        it('should return null', () => {
+          expect(documentPathItem).toBeNull();
+        });
       });
     });
   });
