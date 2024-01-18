@@ -36,4 +36,12 @@ export class DocumentPathItem {
     const indexes = Array.from(matches, (match) => Number(match[1]));
     return indexes;
   }
+
+  public toString(): string {
+    const indexesBetweenBrackets = this.indexes
+      .map((index) => `[${index}]`)
+      .join('');
+
+    return `${this.attributeName}${indexesBetweenBrackets}`;
+  }
 }
