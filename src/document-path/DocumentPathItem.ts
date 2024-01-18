@@ -1,5 +1,16 @@
 export class DocumentPathItem {
-  private constructor(public readonly attributeName: string) {}
+  public constructor(
+    public readonly attributeName: string,
+    public readonly indexes: Array<number> = [],
+  ) {}
+
+  public static parse(documentPathItemString: string): DocumentPathItem | null {
+    const attributeName = DocumentPathItem.parseAttributeName(
+      documentPathItemString,
+    );
+    const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
+    return new DocumentPathItem(attributeName, indexes);
+  }
 
   public static parseAttributeName(
     documentPathItemString: string,

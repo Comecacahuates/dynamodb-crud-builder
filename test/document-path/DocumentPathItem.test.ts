@@ -30,6 +30,22 @@ describe('parsing', () => {
         expect(indexes).toEqual([1, 2]);
       });
     });
+
+    describe('when parsing document path item', () => {
+      let documentPathItem: DocumentPathItem;
+
+      beforeEach(() => {
+        documentPathItem = DocumentPathItem.parse(documentPathItemString);
+      });
+
+      it('should return a document path item with attribute name "attr0"', () => {
+        expect(documentPathItem.attributeName).toEqual('attr0');
+      });
+
+      it('should return a document path item with indexes [1, 2]', () => {
+        expect(documentPathItem.indexes).toEqual([1, 2]);
+      });
+    });
   });
 
   describe('given the string " - attr0 [1][2]"', () => {
