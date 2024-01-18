@@ -27,6 +27,7 @@ export class DocumentPathItem {
   ): string | null {
     const attributeNameRegex = /^[a-zA-Z]\w+/;
     const match = documentPathItemString.match(attributeNameRegex);
+
     return match ? match[0] : null;
   }
 
@@ -34,6 +35,7 @@ export class DocumentPathItem {
     const indexesRegex = /\[(\d+)\]/g;
     const matches = documentPathItemString.matchAll(indexesRegex);
     const indexes = Array.from(matches, (match) => Number(match[1]));
+
     return indexes;
   }
 
