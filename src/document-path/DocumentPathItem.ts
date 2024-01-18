@@ -8,4 +8,11 @@ export class DocumentPathItem {
     const match = documentPathItemString.match(attributeNameRegex);
     return match ? match[0] : null;
   }
+
+  public static parseIndexes(documentPathItemString: string): Array<number> {
+    const indexesRegex = /\[(\d+)\]/g;
+    const matches = documentPathItemString.matchAll(indexesRegex);
+    const indexes = Array.from(matches, (match) => Number(match[1]));
+    return indexes;
+  }
 }
