@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { DocumentPathItem } from '../../src/document-path/DocumentPathItem.js';
+import { DocumentPathItem } from '../../../src/document-path/DocumentPathItem.js';
 
 describe('parsing', () => {
   describe('validating document path item string', () => {
