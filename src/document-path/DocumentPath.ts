@@ -17,4 +17,8 @@ export class DocumentPath {
 
     return new DocumentPath(documentPathItems as Array<DocumentPathItem>);
   }
+
+  public toString(): string {
+    return this.items.map((item) => item.toString()).join('.');
+  }
 }
