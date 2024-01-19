@@ -1,9 +1,13 @@
-import { type ExpressionAttributeNames } from '../types.js';
+import {
+  type ExpressionAttributeNames,
+  type ExpressionAttributeValues,
+} from '../types.js';
 
 export class Condition {
   public constructor(
     public readonly symbolicValue: string,
     public readonly expressionAttributeNames: ExpressionAttributeNames = {},
+    public readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
 
   public and(...conditions: Array<Condition>): Condition {
@@ -20,7 +24,19 @@ export class Condition {
       {},
     );
 
-    return new Condition(`(${conjunction})`, expressionAttributeNames);
+    const expressionAttributeValues = allConditions.reduce(
+      (expressionAttributeValues, condition) => ({
+        ...expressionAttributeValues,
+        ...condition.expressionAttributeValues,
+      }),
+      {},
+    );
+
+    return new Condition(
+      `(${conjunction})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 
   public or(...conditions: Array<Condition>): Condition {

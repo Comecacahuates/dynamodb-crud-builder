@@ -3,8 +3,8 @@ import { Condition } from '../../../src/expressions/conditions/Condition.js';
 
 describe('conjunction', () => {
   describe('given the conditions A and B', () => {
-    const conditionA = new Condition('A', { '#a': 'a' });
-    const conditionB = new Condition('B', { '#b': 'b' });
+    const conditionA = new Condition('A', { '#a': 'a' }, { ':aa': { N: '1' } });
+    const conditionB = new Condition('B', { '#b': 'b' }, { ':bb': { N: '2' } });
 
     describe('when building conjunction', () => {
       let conjunction: Condition;
@@ -25,6 +25,13 @@ describe('conjunction', () => {
         expect(conjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
+        });
+      });
+
+      it('should return a new with all expression attribute values', () => {
+        expect(conjunction.expressionAttributeValues).toEqual({
+          ':aa': { N: '1' },
+          ':bb': { N: '2' },
         });
       });
     });
