@@ -110,4 +110,20 @@ export class Operand {
       expressionAttributeValues,
     );
   }
+
+  public greaterThanOrEqualTo(otherOperand: Operand): Condition {
+    const allOperands = [this, otherOperand];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `${this.symbolicValue} >= ${otherOperand.symbolicValue}`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }
