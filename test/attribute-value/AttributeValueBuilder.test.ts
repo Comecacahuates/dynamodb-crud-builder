@@ -97,11 +97,29 @@ describe('building attribute values by type', () => {
       let built: AttributeValue;
 
       beforeEach(() => {
-        built = AttributeValueBuilder.instance.buildNumberSet(new Set([1]));
+        built = AttributeValueBuilder.instance.buildNumberSet(
+          new Set([1, 2, 3]),
+        );
       });
 
       it('should return number set attribute value', () => {
-        expect(built).toEqual({ NS: ['1'] });
+        expect(built).toEqual({ NS: ['1', '2', '3'] });
+      });
+    });
+  });
+
+  describe('given a binary set', () => {
+    describe('when building binary set attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildBinarySet(
+          new Set([Uint8Array.from([1, 2, 3])]),
+        );
+      });
+
+      it('should return binary set attribute value', () => {
+        expect(built).toEqual({ BS: [Uint8Array.from([1, 2, 3])] });
       });
     });
   });

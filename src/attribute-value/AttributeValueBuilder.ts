@@ -39,4 +39,10 @@ export class AttributeValueBuilder {
   public buildNumberSet(attributeValue: Set<number>): AttributeValue.NSMember {
     return { NS: [...attributeValue].map(String) };
   }
+
+  public buildBinarySet(
+    attributeValue: Set<Uint8Array>,
+  ): AttributeValue.BSMember {
+    return { BS: [...attributeValue] };
+  }
 }
