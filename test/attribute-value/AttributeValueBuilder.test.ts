@@ -167,4 +167,18 @@ describe('building attribute of any type', () => {
       });
     });
   });
+
+  describe('given a boolean value', () => {
+    describe('when building attribute value', () => {
+      let attributeValue: AttributeValue;
+
+      beforeEach(() => {
+        attributeValue = AttributeValueBuilder.instance.build(true);
+      });
+
+      it('should return boolean attribute value', () => {
+        expect(attributeValue).toEqual({ BOOL: true });
+      });
+    });
+  });
 });

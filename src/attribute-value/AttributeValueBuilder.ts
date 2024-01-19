@@ -54,6 +54,8 @@ export class AttributeValueBuilder {
 
       .with(P.number, this.buildNumber)
 
+      .with(P.boolean, this.buildBoolean)
+
       .run();
   }
 }
