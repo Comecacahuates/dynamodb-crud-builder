@@ -68,6 +68,14 @@ export class AttributeValueBuilder {
         L: value.map((item) => this.build(item)),
       }))
 
-      .run();
+      .otherwise((value: { [key: string]: AttributeType }) => ({
+        M: Object.entries(value).reduce(
+          (attributeValue, [entryKey, entryValue]) => ({
+            ...attributeValue,
+            [entryKey]: this.build(entryValue),
+          }),
+          {},
+        ),
+      }));
   }
 }

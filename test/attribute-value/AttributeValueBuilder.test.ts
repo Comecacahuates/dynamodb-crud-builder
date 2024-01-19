@@ -222,6 +222,40 @@ describe('building attribute of any type', () => {
       testName: 'should return an empty list attribute value',
       attributeValue: { L: [] },
     },
+    {
+      scenarioDescription: 'given an object',
+      value: {
+        string: 'a',
+        number: 1,
+        boolean: true,
+        binary: new Uint8Array([1, 2, 3]),
+        stringSet: new Set(['a', 'b', 'c']),
+        numberSet: new Set([1, 2, 3]),
+        binarySet: new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      },
+      testName: 'should return a map attribute value',
+      attributeValue: {
+        M: {
+          string: { S: 'a' },
+          number: { N: '1' },
+          boolean: { BOOL: true },
+          binary: { B: new Uint8Array([1, 2, 3]) },
+          stringSet: { SS: ['a', 'b', 'c'] },
+          numberSet: { NS: ['1', '2', '3'] },
+          binarySet: {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        },
+      },
+    },
   ];
 
   describe.each(testCases)(
