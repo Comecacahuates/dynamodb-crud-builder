@@ -126,59 +126,60 @@ describe('building attribute values by type', () => {
 });
 
 describe('building attribute of any type', () => {
-  describe('given a null value', () => {
-    describe('when building attribute value', () => {
-      let attributeValue: AttributeValue;
+  type TestCase = {
+    scenarioDescription: string;
+    value: AttributeType;
+    testName: string;
+    attributeValue: AttributeValue;
+  };
 
-      beforeEach(() => {
-        attributeValue = AttributeValueBuilder.instance.build(null);
+  const testCases: TestCase[] = [
+    {
+      scenarioDescription: 'given a null value',
+      value: null,
+      testName: 'should return a null attribute value',
+      attributeValue: { NULL: true },
+    },
+    {
+      scenarioDescription: 'given a string value',
+      value: 'string',
+      testName: 'should return a string attribute value',
+      attributeValue: { S: 'string' },
+    },
+    {
+      scenarioDescription: 'given a number value',
+      value: 1,
+      testName: 'should return a number attribute value',
+      attributeValue: { N: '1' },
+    },
+    {
+      scenarioDescription: 'given a boolean value',
+      value: true,
+      testName: 'should return a boolean attribute value',
+      attributeValue: { BOOL: true },
+    },
+    {
+      scenarioDescription: 'given a binary value',
+      value: Uint8Array.from([1, 2, 3]),
+      testName: 'should return a binary attribute value',
+      attributeValue: { B: Uint8Array.from([1, 2, 3]) },
+    },
+  ];
+
+  describe.each(testCases)(
+    '$scenarioDescription',
+    ({ value, testName, attributeValue }) => {
+      describe(testName, () => {
+        let actualValue: AttributeValue;
+
+        beforeEach(() => {
+          actualValue = AttributeValueBuilder.instance.build(value);
+        });
+
+        it(testName, () => {
+          expect(actualValue).toEqual(attributeValue);
+        });
       });
-
-      it('should return null attribute value', () => {
-        expect(attributeValue).toEqual({ NULL: true });
-      });
-    });
-  });
-
-  describe('given a string value', () => {
-    describe('when building attribute value', () => {
-      let attributeValue: AttributeValue;
-
-      beforeEach(() => {
-        attributeValue = AttributeValueBuilder.instance.build('value');
-      });
-
-      it('should return string attribute value', () => {
-        expect(attributeValue).toEqual({ S: 'value' });
-      });
-    });
-  });
-
-  describe('given a number value', () => {
-    describe('when building attribute value', () => {
-      let attributeValue: AttributeValue;
-
-      beforeEach(() => {
-        attributeValue = AttributeValueBuilder.instance.build(1);
-      });
-
-      it('should return number attribute value', () => {
-        expect(attributeValue).toEqual({ N: '1' });
-      });
-    });
-  });
-
-  describe('given a boolean value', () => {
-    describe('when building attribute value', () => {
-      let attributeValue: AttributeValue;
-
-      beforeEach(() => {
-        attributeValue = AttributeValueBuilder.instance.build(true);
-      });
-
-      it('should return boolean attribute value', () => {
-        expect(attributeValue).toEqual({ BOOL: true });
-      });
-    });
-  });
+    },
+  );
 });

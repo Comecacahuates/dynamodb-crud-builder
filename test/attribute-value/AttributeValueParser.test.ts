@@ -21,7 +21,7 @@ describe('parsing attribute values by type', () => {
   });
 
   describe('given string attribute value', () => {
-    const attributeValue: AttributeValue.SMember = { S: 'value' };
+    const attributeValue: AttributeValue.SMember = { S: 'string' };
 
     describe('when parsing string', () => {
       let parsedValue: string;
@@ -31,7 +31,7 @@ describe('parsing attribute values by type', () => {
       });
 
       it('should return string value', () => {
-        expect(parsedValue).toBe('value');
+        expect(parsedValue).toBe('string');
       });
     });
   });
@@ -153,7 +153,7 @@ describe('parsing attribute values by type', () => {
 
 describe('parsing attribute values of any type', () => {
   type TestCase = {
-    scenarioName: string;
+    scenarioDescription: string;
     attributeValue: AttributeValue;
     testName: string;
     parsedValue: AttributeType;
@@ -161,49 +161,49 @@ describe('parsing attribute values of any type', () => {
 
   const testCases: TestCase[] = [
     {
-      scenarioName: 'given a null attribute value',
+      scenarioDescription: 'given a null attribute value',
       attributeValue: { NULL: true },
       testName: 'should return null value',
       parsedValue: null,
     },
     {
-      scenarioName: 'given a string attribute value',
-      attributeValue: { S: 'value' },
+      scenarioDescription: 'given a string attribute value',
+      attributeValue: { S: 'string' },
       testName: 'should return string value',
-      parsedValue: 'value',
+      parsedValue: 'string',
     },
     {
-      scenarioName: 'given a number attribute value',
+      scenarioDescription: 'given a number attribute value',
       attributeValue: { N: '1' },
       testName: 'should return number value',
       parsedValue: 1,
     },
     {
-      scenarioName: 'given a boolean attribute value',
+      scenarioDescription: 'given a boolean attribute value',
       attributeValue: { BOOL: true },
       testName: 'should return boolean value',
       parsedValue: true,
     },
     {
-      scenarioName: 'given a binary attribute value',
+      scenarioDescription: 'given a binary attribute value',
       attributeValue: { B: new Uint8Array([1, 2, 3]) },
       testName: 'should return binary value',
       parsedValue: new Uint8Array([1, 2, 3]),
     },
     {
-      scenarioName: 'given a string set attribute value',
+      scenarioDescription: 'given a string set attribute value',
       attributeValue: { SS: ['a', 'b', 'c'] },
       testName: 'should return string set value',
       parsedValue: new Set(['a', 'b', 'c']),
     },
     {
-      scenarioName: 'given a number set attribute value',
+      scenarioDescription: 'given a number set attribute value',
       attributeValue: { NS: ['1', '2', '3'] },
       testName: 'should return number set value',
       parsedValue: new Set([1, 2, 3]),
     },
     {
-      scenarioName: 'given a binary set attribute value',
+      scenarioDescription: 'given a binary set attribute value',
       attributeValue: {
         BS: [
           new Uint8Array([1, 2, 3]),
@@ -219,7 +219,7 @@ describe('parsing attribute values of any type', () => {
       ]),
     },
     {
-      scenarioName: 'given a list attribute value',
+      scenarioDescription: 'given a list attribute value',
       attributeValue: {
         L: [
           { S: 'a' },
@@ -253,13 +253,13 @@ describe('parsing attribute values of any type', () => {
       ],
     },
     {
-      scenarioName: 'given an empty list attribute value',
+      scenarioDescription: 'given an empty list attribute value',
       attributeValue: { L: [] },
       testName: 'should return empty list value',
       parsedValue: [],
     },
     {
-      scenarioName: 'given a map attribute value',
+      scenarioDescription: 'given a map attribute value',
       attributeValue: {
         M: {
           string: { S: 'a' },
@@ -295,7 +295,7 @@ describe('parsing attribute values of any type', () => {
   ];
 
   describe.each(testCases)(
-    '$scenarioName',
+    '$scenarioDescription',
     ({ attributeValue, testName, parsedValue }) => {
       describe('when parsing', () => {
         let actualParsedValue: AttributeType;

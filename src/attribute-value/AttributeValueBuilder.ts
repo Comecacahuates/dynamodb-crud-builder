@@ -56,6 +56,8 @@ export class AttributeValueBuilder {
 
       .with(P.boolean, this.buildBoolean)
 
+      .with(P.instanceOf(Uint8Array), this.buildBinary)
+
       .run();
   }
 }
