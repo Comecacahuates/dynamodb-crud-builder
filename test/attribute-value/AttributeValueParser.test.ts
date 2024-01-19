@@ -3,6 +3,7 @@ import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { AttributeValueParser } from '../../src/attribute-value/AttributeValueParser.js';
 import { AttributeValueBuilder } from '../../src/attribute-value/AttributeValueBuilder.js';
 import { type AttributeType } from '../../src/types.js';
+import { InvalidAttributeValueError } from '../../src/errors/index.js';
 
 describe('parsing attribute values by type', () => {
   describe('given null attribute value', () => {
@@ -312,6 +313,20 @@ describe('parsing attribute values of any type', () => {
       });
     },
   );
+
+  describe('given an invalid attribute value', () => {
+    const attributeValue = {
+      invalid: true,
+    } as unknown as AttributeValue;
+
+    describe('when parsing', () => {
+      it('should throw an InvalidAttributeValueError', () => {
+        expect(() =>
+          AttributeValueParser.instance.parse(attributeValue),
+        ).toThrow(InvalidAttributeValueError);
+      });
+    });
+  });
 });
 
 describe('inverse', () => {

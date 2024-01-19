@@ -1,6 +1,7 @@
 import { AttributeValue } from '@aws-sdk/client-dynamodb';
 import { match, P } from 'ts-pattern';
 import { type AttributeType } from '../types.js';
+import { InvalidAttributeValueError } from '../errors/index.js';
 
 export class AttributeValueParser {
   private constructor() {}
@@ -90,6 +91,8 @@ export class AttributeValueParser {
         ),
       )
 
-      .run();
+      .otherwise(() => {
+        throw new InvalidAttributeValueError(attributeValue);
+      });
   }
 }
