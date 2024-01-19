@@ -1,5 +1,5 @@
 import { describe, it, test, expect, beforeEach } from '@jest/globals';
-import { DocumentPath } from '../../../src/document-path/DocumentPath.js';
+import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 
 describe('parsing document path string', () => {
   describe('given the string "attr0"', () => {

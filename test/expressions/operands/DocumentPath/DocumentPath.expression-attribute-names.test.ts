@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { DocumentPath } from '../../../src/document-path/DocumentPath.js';
-import { DocumentPathItem } from '../../../src/document-path/DocumentPathItem.js';
-import { ExpressionAttributeNames } from '../../../src/expressions/index.js';
+import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
+import { ExpressionAttributeNames } from '../../../../src/expressions/index.js';
 
 describe('expression attribute names placeholder', () => {
   describe('given the document path attr0', () => {

@@ -1,9 +1,5 @@
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { DocumentPathItem } from './DocumentPathItem.js';
-import {
-  ExpressionAttributeNames,
-  ExpressionAttributeValues,
-} from '../expressions/index.js';
+import { ExpressionAttributeNames } from '../../expressions/index.js';
 
 export class DocumentPath {
   public constructor(public readonly items: Array<DocumentPathItem>) {}
@@ -40,22 +36,5 @@ export class DocumentPath {
     }
 
     return expressionAttributeNames;
-  }
-
-  public getExpressionAttributeValuesPlaceholder(): string {
-    return `:${this.items
-      .map((item) => {
-        const { attributeName, indexes } = item;
-        return `${attributeName}${indexes.join('')}`;
-      })
-      .join('')}`;
-  }
-
-  public getExpressionAttributeValues(
-    attributeValue: AttributeValue,
-  ): ExpressionAttributeValues {
-    return {
-      [this.getExpressionAttributeValuesPlaceholder()]: attributeValue,
-    };
   }
 }

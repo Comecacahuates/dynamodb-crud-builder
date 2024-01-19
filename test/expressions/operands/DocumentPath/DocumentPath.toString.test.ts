@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { DocumentPath } from '../../../src/document-path/DocumentPath.js';
-import { DocumentPathItem } from '../../../src/document-path/DocumentPathItem.js';
+import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
 
 describe('converting to string', () => {
   describe('given the document path attr0', () => {
