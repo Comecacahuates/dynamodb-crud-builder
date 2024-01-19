@@ -1,4 +1,6 @@
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
+import { AttributeValue } from '@aws-sdk/client-dynamodb';
+import { match, P } from 'ts-pattern';
+import { type AttributeType } from '../types.js';
 
 export class AttributeValueParser {
   private constructor() {}
@@ -42,5 +44,52 @@ export class AttributeValueParser {
     attributeValue: AttributeValue.BSMember,
   ): Set<Uint8Array> {
     return new Set(attributeValue.BS);
+  }
+
+  public parse(attributeValue: AttributeValue): AttributeType {
+    return match(attributeValue)
+      .with({ NULL: true }, AttributeValueParser.instance.parseNull)
+
+      .with({ S: P.string }, AttributeValueParser.instance.parseString)
+
+      .with({ N: P.string }, AttributeValueParser.instance.parseNumber)
+
+      .with({ BOOL: P.boolean }, AttributeValueParser.instance.parseBoolean)
+
+      .with(
+        { B: P.instanceOf(Uint8Array) },
+        AttributeValueParser.instance.parseBinary,
+      )
+
+      .with(
+        { SS: P.array(P.string) },
+        AttributeValueParser.instance.parseStringSet,
+      )
+
+      .with(
+        { NS: P.array(P.string) },
+        AttributeValueParser.instance.parseNumberSet,
+      )
+
+      .with(
+        { BS: P.array(P.instanceOf(Uint8Array)) },
+        AttributeValueParser.instance.parseBinarySet,
+      )
+
+      .with({ L: P.array() }, (attributeValue: AttributeValue.LMember) =>
+        attributeValue.L.map(AttributeValueParser.instance.parse),
+      )
+
+      .with({ M: P.any }, (attributeValue: AttributeValue.MMember) =>
+        Object.entries(attributeValue.M).reduce(
+          (value, [entryKey, entryValue]) => ({
+            ...value,
+            [entryKey]: AttributeValueParser.instance.parse(entryValue),
+          }),
+          {},
+        ),
+      )
+
+      .run();
   }
 }

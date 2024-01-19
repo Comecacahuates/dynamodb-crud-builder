@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { AttributeValueParser } from '../../src/attribute-value/AttributeValueParser.js';
+import { type AttributeType } from '../../src/types.js';
 
-describe('parsing attribute values', () => {
+describe('parsing attribute values by type', () => {
   describe('given null attribute value', () => {
     const attributeValue: AttributeValue.NULLMember = { NULL: true };
 
@@ -144,4 +145,166 @@ describe('parsing attribute values', () => {
       });
     });
   });
+});
+
+describe('parsing attribute values of any type', () => {
+  type TestCase = {
+    scenarioName: string;
+    attributeValue: AttributeValue;
+    testName: string;
+    parsedValue: AttributeType;
+  };
+
+  const testCases: TestCase[] = [
+    {
+      scenarioName: 'given a null attribute value',
+      attributeValue: { NULL: true },
+      testName: 'should return null value',
+      parsedValue: null,
+    },
+    {
+      scenarioName: 'given a string attribute value',
+      attributeValue: { S: 'value' },
+      testName: 'should return string value',
+      parsedValue: 'value',
+    },
+    {
+      scenarioName: 'given a number attribute value',
+      attributeValue: { N: '1' },
+      testName: 'should return number value',
+      parsedValue: 1,
+    },
+    {
+      scenarioName: 'given a boolean attribute value',
+      attributeValue: { BOOL: true },
+      testName: 'should return boolean value',
+      parsedValue: true,
+    },
+    {
+      scenarioName: 'given a binary attribute value',
+      attributeValue: { B: new Uint8Array([1, 2, 3]) },
+      testName: 'should return binary value',
+      parsedValue: new Uint8Array([1, 2, 3]),
+    },
+    {
+      scenarioName: 'given a string set attribute value',
+      attributeValue: { SS: ['a', 'b', 'c'] },
+      testName: 'should return string set value',
+      parsedValue: new Set(['a', 'b', 'c']),
+    },
+    {
+      scenarioName: 'given a number set attribute value',
+      attributeValue: { NS: ['1', '2', '3'] },
+      testName: 'should return number set value',
+      parsedValue: new Set([1, 2, 3]),
+    },
+    {
+      scenarioName: 'given a binary set attribute value',
+      attributeValue: {
+        BS: [
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ],
+      },
+      testName: 'should return binary set value',
+      parsedValue: new Set([
+        new Uint8Array([1, 2, 3]),
+        new Uint8Array([4, 5, 6]),
+        new Uint8Array([7, 8, 9]),
+      ]),
+    },
+    {
+      scenarioName: 'given a list attribute value',
+      attributeValue: {
+        L: [
+          { S: 'a' },
+          { N: '1' },
+          { BOOL: true },
+          { B: new Uint8Array([1, 2, 3]) },
+          { SS: ['a', 'b', 'c'] },
+          { NS: ['1', '2', '3'] },
+          {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        ],
+      },
+      testName: 'should return list value',
+      parsedValue: [
+        'a',
+        1,
+        true,
+        new Uint8Array([1, 2, 3]),
+        new Set(['a', 'b', 'c']),
+        new Set([1, 2, 3]),
+        new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      ],
+    },
+    {
+      scenarioName: 'given an empty list attribute value',
+      attributeValue: { L: [] },
+      testName: 'should return empty list value',
+      parsedValue: [],
+    },
+    {
+      scenarioName: 'given a map attribute value',
+      attributeValue: {
+        M: {
+          string: { S: 'a' },
+          number: { N: '1' },
+          boolean: { BOOL: true },
+          binary: { B: new Uint8Array([1, 2, 3]) },
+          stringSet: { SS: ['a', 'b', 'c'] },
+          numberSet: { NS: ['1', '2', '3'] },
+          binarySet: {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        },
+      },
+      testName: 'should return map value',
+      parsedValue: {
+        string: 'a',
+        number: 1,
+        boolean: true,
+        binary: new Uint8Array([1, 2, 3]),
+        stringSet: new Set(['a', 'b', 'c']),
+        numberSet: new Set([1, 2, 3]),
+        binarySet: new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      },
+    },
+  ];
+
+  describe.each(testCases)(
+    '$scenarioName',
+    ({ attributeValue, testName, parsedValue }) => {
+      describe('when parsing', () => {
+        let actualParsedValue: AttributeType;
+
+        beforeEach(() => {
+          actualParsedValue =
+            AttributeValueParser.instance.parse(attributeValue);
+        });
+
+        it(testName, () => {
+          expect(actualParsedValue).toEqual(parsedValue);
+        });
+      });
+    },
+  );
 });
