@@ -21,4 +21,8 @@ export class AttributeValueParser {
   public parseNumber(attributeValue: AttributeValue.NMember): number {
     return Number(attributeValue.N);
   }
+
+  public parseBoolean(attributeValue: AttributeValue.BOOLMember): boolean {
+    return attributeValue.BOOL;
+  }
 }

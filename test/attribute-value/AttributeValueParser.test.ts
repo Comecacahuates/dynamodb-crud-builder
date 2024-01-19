@@ -50,4 +50,20 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given boolean attribute value', () => {
+    const attributeValue: AttributeValue.BOOLMember = { BOOL: true };
+
+    describe('when parsing boolean', () => {
+      let parsed: boolean;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseBoolean(attributeValue);
+      });
+
+      it('should return boolean value', () => {
+        expect(parsed).toBe(true);
+      });
+    });
+  });
 });
