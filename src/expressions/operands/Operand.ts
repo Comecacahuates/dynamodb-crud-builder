@@ -142,4 +142,24 @@ export class Operand {
       expressionAttributeValues,
     );
   }
+
+  public in(...operands: Array<Operand>): Condition {
+    const allOperands = [this, ...operands];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    const symbolicValue = `${this.symbolicValue} IN (${operands
+      .map((operand) => operand.symbolicValue)
+      .join(', ')})`;
+
+    return new Condition(
+      symbolicValue,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }

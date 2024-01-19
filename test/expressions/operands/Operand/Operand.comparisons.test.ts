@@ -226,4 +226,51 @@ describe('comparisons', () => {
       });
     });
   });
+
+  describe('given operand opA and a list of operands', () => {
+    const opA = new Operand(
+      '#opA.#attr0[1][2].#attr1',
+      {
+        '#opA': 'opA',
+        '#attr0': 'attr0',
+        '#attr1': 'attr1',
+      },
+      {},
+    );
+    const operandsList = [
+      new Operand(':opB', {}, { ':opB': { N: '1' } }),
+      new Operand(':opC', {}, { ':opC': { N: '2' } }),
+      new Operand(':opD', {}, { ':opD': { N: '3' } }),
+    ];
+
+    describe('when comparing in', () => {
+      let comparison: Condition;
+
+      beforeEach(() => {
+        comparison = opA.in(...operandsList);
+      });
+
+      it('should return a condition with symbolic value :opA IN (:opB, :opC, :opD)', () => {
+        expect(comparison.symbolicValue).toBe(
+          '#opA.#attr0[1][2].#attr1 IN (:opB, :opC, :opD)',
+        );
+      });
+
+      it('should return a condition with expression attribute names of all operands', () => {
+        expect(comparison.expressionAttributeNames).toEqual({
+          '#opA': 'opA',
+          '#attr0': 'attr0',
+          '#attr1': 'attr1',
+        });
+      });
+
+      it('should return a condition with expression attribute values of all operands', () => {
+        expect(comparison.expressionAttributeValues).toEqual({
+          ':opB': { N: '1' },
+          ':opC': { N: '2' },
+          ':opD': { N: '3' },
+        });
+      });
+    });
+  });
 });
