@@ -1,0 +1,7 @@
+import { type AttributeValue } from '@aws-sdk/client-dynamodb';
+
+export class Literal {
+  public static parseNull(attributeValue: AttributeValue.NULLMember): null {
+    return null;
+  }
+}
