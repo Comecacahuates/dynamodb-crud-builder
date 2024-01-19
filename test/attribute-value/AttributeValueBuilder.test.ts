@@ -91,4 +91,18 @@ describe('building attribute values by type', () => {
       });
     });
   });
+
+  describe('given a number set', () => {
+    describe('when building number set attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildNumberSet(new Set([1]));
+      });
+
+      it('should return number set attribute value', () => {
+        expect(built).toEqual({ NS: ['1'] });
+      });
+    });
+  });
 });

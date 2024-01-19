@@ -35,4 +35,8 @@ export class AttributeValueBuilder {
   public buildStringSet(attributeValue: Set<string>): AttributeValue.SSMember {
     return { SS: [...attributeValue] };
   }
+
+  public buildNumberSet(attributeValue: Set<number>): AttributeValue.NSMember {
+    return { NS: [...attributeValue].map(String) };
+  }
 }
