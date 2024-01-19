@@ -124,3 +124,19 @@ describe('building attribute values by type', () => {
     });
   });
 });
+
+describe('building attribute of any type', () => {
+  describe('given a null value', () => {
+    describe('when building attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.build(null);
+      });
+
+      it('should return null attribute value', () => {
+        expect(built).toEqual({ NULL: true });
+      });
+    });
+  });
+});

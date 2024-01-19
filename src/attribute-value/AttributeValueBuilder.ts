@@ -45,4 +45,11 @@ export class AttributeValueBuilder {
   ): AttributeValue.BSMember {
     return { BS: [...attributeValue] };
   }
+
+  public build(value: AttributeType): AttributeValue {
+    return match(value)
+      .with(null, () => this.buildNull())
+
+      .run();
+  }
 }
