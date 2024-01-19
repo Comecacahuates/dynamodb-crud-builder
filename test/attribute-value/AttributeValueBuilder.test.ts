@@ -31,4 +31,18 @@ describe('building attribute values by type', () => {
       });
     });
   });
+
+  describe('given a number', () => {
+    describe('when building number attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildNumber(1);
+      });
+
+      it('should return number attribute value', () => {
+        expect(built).toEqual({ N: '1' });
+      });
+    });
+  });
 });

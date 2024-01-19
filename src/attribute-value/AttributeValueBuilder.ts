@@ -19,4 +19,8 @@ export class AttributeValueBuilder {
   public buildString(attributeValue: string): AttributeValue.SMember {
     return { S: attributeValue };
   }
+
+  public buildNumber(attributeValue: number): AttributeValue.NMember {
+    return { N: String(attributeValue) };
+  }
 }
