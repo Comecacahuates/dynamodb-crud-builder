@@ -1,4 +1,5 @@
 import { DocumentPathItem } from './DocumentPathItem.js';
+import { ExpressionAttributeNames } from '../expressions/index.js';
 
 export class DocumentPath {
   public constructor(public readonly items: Array<DocumentPathItem>) {}
@@ -22,7 +23,18 @@ export class DocumentPath {
     return this.items.map((item) => item.toString()).join('.');
   }
 
-  public get expressionAttributeNamesPlaceholder(): string {
+  public getExpressionAttributeNamesPlaceholder(): string {
     return this.items.map((item) => `#${item.toString()}`).join('.');
+  }
+
+  public getExpressionAttributeNames(): ExpressionAttributeNames {
+    const expressionAttributeNames: ExpressionAttributeNames = {};
+
+    for (const documentPathItem of this.items) {
+      expressionAttributeNames[`#${documentPathItem.attributeName}`] =
+        documentPathItem.attributeName;
+    }
+
+    return expressionAttributeNames;
   }
 }
