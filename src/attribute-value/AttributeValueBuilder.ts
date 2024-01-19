@@ -15,4 +15,8 @@ export class AttributeValueBuilder {
   public buildNull(): AttributeValue {
     return { NULL: true };
   }
+
+  public buildString(attributeValue: string): AttributeValue.SMember {
+    return { S: attributeValue };
+  }
 }

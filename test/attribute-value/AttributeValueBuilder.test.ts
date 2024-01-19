@@ -5,7 +5,7 @@ import { type AttributeType } from '../../src/types.js';
 
 describe('building attribute values by type', () => {
   describe('given no data', () => {
-    describe('when building null', () => {
+    describe('when building null attribute value', () => {
       let built: AttributeValue;
 
       beforeEach(() => {
@@ -14,6 +14,20 @@ describe('building attribute values by type', () => {
 
       it('should return null attribute value', () => {
         expect(built).toEqual({ NULL: true });
+      });
+    });
+  });
+
+  describe('given a string', () => {
+    describe('when building string attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildString('value');
+      });
+
+      it('should return string attribute value', () => {
+        expect(built).toEqual({ S: 'value' });
       });
     });
   });
