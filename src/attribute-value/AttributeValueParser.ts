@@ -17,4 +17,8 @@ export class AttributeValueParser {
   public parseString(attributeValue: AttributeValue.SMember): string {
     return attributeValue.S;
   }
+
+  public parseNumber(attributeValue: AttributeValue.NMember): number {
+    return Number(attributeValue.N);
+  }
 }

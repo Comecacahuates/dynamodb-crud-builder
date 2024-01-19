@@ -34,4 +34,20 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given number attribute value', () => {
+    const attributeValue: AttributeValue.NMember = { N: '1' };
+
+    describe('when parsing number', () => {
+      let parsed: number;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseNumber(attributeValue);
+      });
+
+      it('should return number value', () => {
+        expect(parsed).toBe(1);
+      });
+    });
+  });
 });
