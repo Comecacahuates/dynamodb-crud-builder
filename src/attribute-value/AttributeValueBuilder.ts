@@ -27,4 +27,8 @@ export class AttributeValueBuilder {
   public buildBoolean(attributeValue: boolean): AttributeValue.BOOLMember {
     return { BOOL: attributeValue };
   }
+
+  public buildBinary(attributeValue: Uint8Array): AttributeValue.BMember {
+    return { B: attributeValue };
+  }
 }

@@ -59,4 +59,20 @@ describe('building attribute values by type', () => {
       });
     });
   });
+
+  describe('given a binary', () => {
+    describe('when building binary attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildBinary(
+          Uint8Array.from([1, 2, 3]),
+        );
+      });
+
+      it('should return binary attribute value', () => {
+        expect(built).toEqual({ B: Uint8Array.from([1, 2, 3]) });
+      });
+    });
+  });
 });
