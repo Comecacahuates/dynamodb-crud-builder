@@ -11,7 +11,7 @@ export class Operand {
     public readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
 
-  private static mergeExpressionAttributeNames(operands: Array<Operand>) {
+  protected static mergeExpressionAttributeNames(operands: Array<Operand>) {
     return operands.reduce(
       (expressionAttributeNames, condition) => ({
         ...expressionAttributeNames,
@@ -21,7 +21,7 @@ export class Operand {
     );
   }
 
-  private static mergeExpressionAttributeValues(operands: Array<Operand>) {
+  protected static mergeExpressionAttributeValues(operands: Array<Operand>) {
     return operands.reduce(
       (expressionAttributeValues, condition) => ({
         ...expressionAttributeValues,

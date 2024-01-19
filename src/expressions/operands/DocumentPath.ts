@@ -1,6 +1,7 @@
 import { Operand } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
-import { ExpressionAttributeNames } from '../../expressions/index.js';
+import { Condition } from '../conditions/Condition.js';
+import { type ExpressionAttributeNames } from '../../expressions/index.js';
 
 export class DocumentPath extends Operand {
   public constructor(
@@ -49,5 +50,21 @@ export class DocumentPath extends Operand {
 
   public override toString(): string {
     return this.documentPathItems.map((item) => item.toString()).join('.');
+  }
+
+  public attributeExists(): Condition {
+    const allOperands = [this];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `attribute_exists(${this.symbolicValue})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 }
