@@ -8,14 +8,14 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.NULLMember = { NULL: true };
 
     describe('when parsing null', () => {
-      let parsed: null;
+      let parsedValue: null;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseNull(attributeValue);
+        parsedValue = AttributeValueParser.instance.parseNull(attributeValue);
       });
 
       it('should return null value', () => {
-        expect(parsed).toBeNull();
+        expect(parsedValue).toBeNull();
       });
     });
   });
@@ -24,14 +24,14 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.SMember = { S: 'value' };
 
     describe('when parsing string', () => {
-      let parsed: string;
+      let parsedValue: string;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseString(attributeValue);
+        parsedValue = AttributeValueParser.instance.parseString(attributeValue);
       });
 
       it('should return string value', () => {
-        expect(parsed).toBe('value');
+        expect(parsedValue).toBe('value');
       });
     });
   });
@@ -40,14 +40,14 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.NMember = { N: '1' };
 
     describe('when parsing number', () => {
-      let parsed: number;
+      let parsedValue: number;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseNumber(attributeValue);
+        parsedValue = AttributeValueParser.instance.parseNumber(attributeValue);
       });
 
       it('should return number value', () => {
-        expect(parsed).toBe(1);
+        expect(parsedValue).toBe(1);
       });
     });
   });
@@ -56,14 +56,15 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.BOOLMember = { BOOL: true };
 
     describe('when parsing boolean', () => {
-      let parsed: boolean;
+      let parsedValue: boolean;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseBoolean(attributeValue);
+        parsedValue =
+          AttributeValueParser.instance.parseBoolean(attributeValue);
       });
 
       it('should return boolean value', () => {
-        expect(parsed).toBe(true);
+        expect(parsedValue).toBe(true);
       });
     });
   });
@@ -74,14 +75,14 @@ describe('parsing attribute values by type', () => {
     };
 
     describe('when parsing binary', () => {
-      let parsed: Uint8Array;
+      let parsedValue: Uint8Array;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseBinary(attributeValue);
+        parsedValue = AttributeValueParser.instance.parseBinary(attributeValue);
       });
 
       it('should return binary value', () => {
-        expect(parsed).toEqual(new Uint8Array([1, 2, 3]));
+        expect(parsedValue).toEqual(new Uint8Array([1, 2, 3]));
       });
     });
   });
@@ -90,14 +91,15 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.SSMember = { SS: ['a', 'b', 'c'] };
 
     describe('when parsing string set', () => {
-      let parsed: Set<string>;
+      let parsedValue: Set<string>;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseStringSet(attributeValue);
+        parsedValue =
+          AttributeValueParser.instance.parseStringSet(attributeValue);
       });
 
       it('should return string set value', () => {
-        expect(parsed).toEqual(new Set(['a', 'b', 'c']));
+        expect(parsedValue).toEqual(new Set(['a', 'b', 'c']));
       });
     });
   });
@@ -106,14 +108,15 @@ describe('parsing attribute values by type', () => {
     const attributeValue: AttributeValue.NSMember = { NS: ['1', '2', '3'] };
 
     describe('when parsing number set', () => {
-      let parsed: Set<number>;
+      let parsedValue: Set<number>;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseNumberSet(attributeValue);
+        parsedValue =
+          AttributeValueParser.instance.parseNumberSet(attributeValue);
       });
 
       it('should return number set value', () => {
-        expect(parsed).toEqual(new Set([1, 2, 3]));
+        expect(parsedValue).toEqual(new Set([1, 2, 3]));
       });
     });
   });
@@ -128,14 +131,15 @@ describe('parsing attribute values by type', () => {
     };
 
     describe('when parsing binary set', () => {
-      let parsed: Set<Uint8Array>;
+      let parsedValue: Set<Uint8Array>;
 
       beforeEach(() => {
-        parsed = AttributeValueParser.instance.parseBinarySet(attributeValue);
+        parsedValue =
+          AttributeValueParser.instance.parseBinarySet(attributeValue);
       });
 
       it('should return binary set value', () => {
-        expect(parsed).toEqual(
+        expect(parsedValue).toEqual(
           new Set([
             new Uint8Array([1, 2, 3]),
             new Uint8Array([4, 5, 6]),
