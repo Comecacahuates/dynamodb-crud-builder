@@ -64,6 +64,10 @@ export class AttributeValueBuilder {
 
       .with(P.set(P.instanceOf(Uint8Array)), this.buildBinarySet)
 
+      .with(P.array(), (value: AttributeType[]) => ({
+        L: value.map((item) => this.build(item)),
+      }))
+
       .run();
   }
 }

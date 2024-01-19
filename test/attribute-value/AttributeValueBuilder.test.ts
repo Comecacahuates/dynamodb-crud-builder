@@ -182,6 +182,46 @@ describe('building attribute of any type', () => {
       testName: 'should return a binary set attribute value',
       attributeValue: { BS: [Uint8Array.from([1, 2, 3])] },
     },
+    {
+      scenarioDescription: 'given a list',
+      value: [
+        'a',
+        1,
+        true,
+        new Uint8Array([1, 2, 3]),
+        new Set(['a', 'b', 'c']),
+        new Set([1, 2, 3]),
+        new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      ],
+      testName: 'should return a list attribute value',
+      attributeValue: {
+        L: [
+          { S: 'a' },
+          { N: '1' },
+          { BOOL: true },
+          { B: new Uint8Array([1, 2, 3]) },
+          { SS: ['a', 'b', 'c'] },
+          { NS: ['1', '2', '3'] },
+          {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        ],
+      },
+    },
+    {
+      scenarioDescription: 'given an empty list',
+      value: [],
+      testName: 'should return an empty list attribute value',
+      attributeValue: { L: [] },
+    },
   ];
 
   describe.each(testCases)(
