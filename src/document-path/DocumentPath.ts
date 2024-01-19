@@ -37,4 +37,13 @@ export class DocumentPath {
 
     return expressionAttributeNames;
   }
+
+  public getExpressionAttributeValuesPlaceholder(): string {
+    return `:${this.items
+      .map((item) => {
+        const { attributeName, indexes } = item;
+        return `${attributeName}${indexes.join('')}`;
+      })
+      .join('')}`;
+  }
 }
