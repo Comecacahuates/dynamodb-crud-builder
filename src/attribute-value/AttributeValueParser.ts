@@ -33,4 +33,8 @@ export class AttributeValueParser {
   public parseStringSet(attributeValue: AttributeValue.SSMember): Set<string> {
     return new Set(attributeValue.SS);
   }
+
+  public parseNumberSet(attributeValue: AttributeValue.NSMember): Set<number> {
+    return new Set(attributeValue.NS.map(Number));
+  }
 }

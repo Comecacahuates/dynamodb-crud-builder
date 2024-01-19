@@ -100,4 +100,20 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given number set attribute value', () => {
+    const attributeValue: AttributeValue.NSMember = { NS: ['1', '2', '3'] };
+
+    describe('when parsing number set', () => {
+      let parsed: Set<number>;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseNumberSet(attributeValue);
+      });
+
+      it('should return number set value', () => {
+        expect(parsed).toEqual(new Set([1, 2, 3]));
+      });
+    });
+  });
 });
