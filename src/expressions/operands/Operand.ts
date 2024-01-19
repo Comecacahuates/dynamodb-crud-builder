@@ -126,4 +126,20 @@ export class Operand {
       expressionAttributeValues,
     );
   }
+
+  public between(lowerBound: Operand, upperBound: Operand): Condition {
+    const allOperands = [this, lowerBound, upperBound];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `${this.symbolicValue} BETWEEN ${lowerBound.symbolicValue} AND ${upperBound.symbolicValue}`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }
