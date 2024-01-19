@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { AttributeValueParser } from '../../src/attribute-value/AttributeValueParser.js';
+import { AttributeValueBuilder } from '../../src/attribute-value/AttributeValueBuilder.js';
 import { type AttributeType } from '../../src/types.js';
 
 describe('parsing attribute values by type', () => {
@@ -307,6 +308,119 @@ describe('parsing attribute values of any type', () => {
 
         it(testName, () => {
           expect(actualParsedValue).toEqual(parsedValue);
+        });
+      });
+    },
+  );
+});
+
+describe('inverse', () => {
+  type TestCase = {
+    scenarioDescription: string;
+    originalAttributeValue: AttributeValue;
+  };
+
+  const testCases: TestCase[] = [
+    {
+      scenarioDescription: 'given a null attribute value',
+      originalAttributeValue: { NULL: true },
+    },
+    {
+      scenarioDescription: 'given a string attribute value',
+      originalAttributeValue: { S: 'string' },
+    },
+    {
+      scenarioDescription: 'given a number attribute value',
+      originalAttributeValue: { N: '1' },
+    },
+    {
+      scenarioDescription: 'given a boolean attribute value',
+      originalAttributeValue: { BOOL: true },
+    },
+    {
+      scenarioDescription: 'given a binary attribute value',
+      originalAttributeValue: { B: new Uint8Array([1, 2, 3]) },
+    },
+    {
+      scenarioDescription: 'given a string set attribute value',
+      originalAttributeValue: { SS: ['a', 'b', 'c'] },
+    },
+    {
+      scenarioDescription: 'given a number set attribute value',
+      originalAttributeValue: { NS: ['1', '2', '3'] },
+    },
+    {
+      scenarioDescription: 'given a binary set attribute value',
+      originalAttributeValue: {
+        BS: [
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ],
+      },
+    },
+    {
+      scenarioDescription: 'given a list attribute value',
+      originalAttributeValue: {
+        L: [
+          { S: 'a' },
+          { N: '1' },
+          { BOOL: true },
+          { B: new Uint8Array([1, 2, 3]) },
+          { SS: ['a', 'b', 'c'] },
+          { NS: ['1', '2', '3'] },
+          {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        ],
+      },
+    },
+    {
+      scenarioDescription: 'given an empty list attribute value',
+      originalAttributeValue: { L: [] },
+    },
+    {
+      scenarioDescription: 'given a map attribute value',
+      originalAttributeValue: {
+        M: {
+          string: { S: 'a' },
+          number: { N: '1' },
+          boolean: { BOOL: true },
+          binary: { B: new Uint8Array([1, 2, 3]) },
+          stringSet: { SS: ['a', 'b', 'c'] },
+          numberSet: { NS: ['1', '2', '3'] },
+          binarySet: {
+            BS: [
+              new Uint8Array([1, 2, 3]),
+              new Uint8Array([4, 5, 6]),
+              new Uint8Array([7, 8, 9]),
+            ],
+          },
+        },
+      },
+    },
+  ];
+
+  describe.each(testCases)(
+    '$scenarioDescription',
+    ({ originalAttributeValue }) => {
+      describe('when parsing', () => {
+        let actualAttributeValue: AttributeValue;
+
+        beforeEach(() => {
+          const parsedValue = AttributeValueParser.instance.parse(
+            originalAttributeValue,
+          );
+          actualAttributeValue =
+            AttributeValueBuilder.instance.build(parsedValue);
+        });
+
+        it('should return the original attribute value', () => {
+          expect(actualAttributeValue).toEqual(originalAttributeValue);
         });
       });
     },
