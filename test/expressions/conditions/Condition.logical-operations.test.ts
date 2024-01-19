@@ -132,7 +132,7 @@ describe('disjunction', () => {
         expect(disjunction).not.toBe(conditionA);
       });
 
-      it('should return new condition (A OR B OR C OR D)', () => {
+      it('should return new condition with symbolic value (A OR B OR C OR D)', () => {
         expect(disjunction.symbolicValue).toBe('(A OR B OR C OR D)');
       });
 
@@ -159,7 +159,7 @@ describe('disjunction', () => {
 
 describe('negation', () => {
   describe('given the condition A', () => {
-    const conditionA = new Condition('A');
+    const conditionA = new Condition('A', { '#a': 'a' }, { ':aa': { N: '1' } });
 
     describe('when building negation', () => {
       let negation: Condition;
@@ -168,8 +168,24 @@ describe('negation', () => {
         negation = conditionA.not();
       });
 
-      it('should return new condition (NOT A)', () => {
-        expect(negation).toEqual(new Condition('(NOT A)'));
+      it('should return a new condition', () => {
+        expect(negation).not.toBe(conditionA);
+      });
+
+      it('should return new condition with symbolic value (NOT A)', () => {
+        expect(negation.symbolicValue).toBe('(NOT A)');
+      });
+
+      it('should return a new condition with expression attribute names', () => {
+        expect(negation.expressionAttributeNames).toEqual({
+          '#a': 'a',
+        });
+      });
+
+      it('should return a new condition with expression attribute values', () => {
+        expect(negation.expressionAttributeValues).toEqual({
+          ':aa': { N: '1' },
+        });
       });
     });
   });

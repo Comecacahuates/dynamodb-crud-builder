@@ -69,6 +69,10 @@ export class Condition {
   }
 
   public not(): Condition {
-    return new Condition(`(NOT ${this.symbolicValue})`);
+    return new Condition(
+      `(NOT ${this.symbolicValue})`,
+      this.expressionAttributeNames,
+      this.expressionAttributeValues,
+    );
   }
 }
