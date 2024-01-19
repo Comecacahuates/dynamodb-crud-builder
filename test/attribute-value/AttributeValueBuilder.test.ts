@@ -82,12 +82,12 @@ describe('building attribute values by type', () => {
 
       beforeEach(() => {
         attributeValue = AttributeValueBuilder.instance.buildStringSet(
-          new Set(['value']),
+          new Set(['a', 'b', 'c']),
         );
       });
 
       it('should return a string set attribute value', () => {
-        expect(attributeValue).toEqual({ SS: ['value'] });
+        expect(attributeValue).toEqual({ SS: ['a', 'b', 'c'] });
       });
     });
   });
@@ -169,6 +169,12 @@ describe('building attribute of any type', () => {
       value: new Set(['a', 'b', 'c']),
       testName: 'should return a string set attribute value',
       attributeValue: { SS: ['a', 'b', 'c'] },
+    },
+    {
+      scenarioDescription: 'given a number set',
+      value: new Set([1, 2, 3]),
+      testName: 'should return a number set attribute value',
+      attributeValue: { NS: ['1', '2', '3'] },
     },
   ];
 

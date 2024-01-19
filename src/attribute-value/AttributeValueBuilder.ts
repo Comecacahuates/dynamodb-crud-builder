@@ -60,6 +60,8 @@ export class AttributeValueBuilder {
 
       .with(P.set(P.string), this.buildStringSet)
 
+      .with(P.set(P.number), this.buildNumberSet)
+
       .run();
   }
 }
