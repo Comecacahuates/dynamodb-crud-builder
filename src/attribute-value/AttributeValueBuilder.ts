@@ -50,6 +50,8 @@ export class AttributeValueBuilder {
     return match(value)
       .with(null, () => this.buildNull())
 
+      .with(P.string, this.buildString)
+
       .run();
   }
 }
