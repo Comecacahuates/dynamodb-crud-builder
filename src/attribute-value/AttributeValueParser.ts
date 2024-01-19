@@ -25,4 +25,8 @@ export class AttributeValueParser {
   public parseBoolean(attributeValue: AttributeValue.BOOLMember): boolean {
     return attributeValue.BOOL;
   }
+
+  public parseBinary(attributeValue: AttributeValue.BMember): Uint8Array {
+    return attributeValue.B;
+  }
 }

@@ -66,4 +66,22 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given binary attribute value', () => {
+    const attributeValue: AttributeValue.BMember = {
+      B: new Uint8Array([1, 2, 3]),
+    };
+
+    describe('when parsing binary', () => {
+      let parsed: Uint8Array;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseBinary(attributeValue);
+      });
+
+      it('should return binary value', () => {
+        expect(parsed).toEqual(new Uint8Array([1, 2, 3]));
+      });
+    });
+  });
 });
