@@ -29,4 +29,8 @@ export class AttributeValueParser {
   public parseBinary(attributeValue: AttributeValue.BMember): Uint8Array {
     return attributeValue.B;
   }
+
+  public parseStringSet(attributeValue: AttributeValue.SSMember): Set<string> {
+    return new Set(attributeValue.SS);
+  }
 }

@@ -84,4 +84,20 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given string set attribute value', () => {
+    const attributeValue: AttributeValue.SSMember = { SS: ['a', 'b', 'c'] };
+
+    describe('when parsing string set', () => {
+      let parsed: Set<string>;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseStringSet(attributeValue);
+      });
+
+      it('should return string set value', () => {
+        expect(parsed).toEqual(new Set(['a', 'b', 'c']));
+      });
+    });
+  });
 });
