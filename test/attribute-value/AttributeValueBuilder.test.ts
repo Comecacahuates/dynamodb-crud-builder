@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { AttributeValueBuilder } from '../../src/attribute-value/AttributeValueBuilder.js';
+import { AttributeValueParser } from '../../src/attribute-value/AttributeValueParser.js';
 import { type AttributeType } from '../../src/types.js';
 
 describe('building attribute values by type', () => {
@@ -274,4 +275,98 @@ describe('building attribute of any type', () => {
       });
     },
   );
+});
+
+describe('inverse', () => {
+  type TestCase = {
+    scenarioDescription: string;
+    originalValue: AttributeType;
+  };
+
+  const testCases: TestCase[] = [
+    {
+      scenarioDescription: 'given a null',
+      originalValue: null,
+    },
+    {
+      scenarioDescription: 'given a string',
+      originalValue: 'string',
+    },
+    {
+      scenarioDescription: 'given a number',
+      originalValue: 1,
+    },
+    {
+      scenarioDescription: 'given a boolean',
+      originalValue: true,
+    },
+    {
+      scenarioDescription: 'given a binary',
+      originalValue: Uint8Array.from([1, 2, 3]),
+    },
+    {
+      scenarioDescription: 'given a string set',
+      originalValue: new Set(['a', 'b', 'c']),
+    },
+    {
+      scenarioDescription: 'given a number set',
+      originalValue: new Set([1, 2, 3]),
+    },
+    {
+      scenarioDescription: 'given a binary set',
+      originalValue: new Set([Uint8Array.from([1, 2, 3])]),
+    },
+    {
+      scenarioDescription: 'given a list',
+      originalValue: [
+        'a',
+        1,
+        true,
+        new Uint8Array([1, 2, 3]),
+        new Set(['a', 'b', 'c']),
+        new Set([1, 2, 3]),
+        new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      ],
+    },
+    {
+      scenarioDescription: 'given an empty list',
+      originalValue: [],
+    },
+    {
+      scenarioDescription: 'given an object',
+      originalValue: {
+        string: 'a',
+        number: 1,
+        boolean: true,
+        binary: new Uint8Array([1, 2, 3]),
+        stringSet: new Set(['a', 'b', 'c']),
+        numberSet: new Set([1, 2, 3]),
+        binarySet: new Set([
+          new Uint8Array([1, 2, 3]),
+          new Uint8Array([4, 5, 6]),
+          new Uint8Array([7, 8, 9]),
+        ]),
+      },
+    },
+  ];
+
+  describe.each(testCases)('$scenarioDescription', ({ originalValue }) => {
+    describe('when building and parsing', () => {
+      let actualValue: AttributeType;
+
+      beforeEach(() => {
+        const attributeValue =
+          AttributeValueBuilder.instance.build(originalValue);
+        actualValue = AttributeValueParser.instance.parse(attributeValue);
+      });
+
+      it('should return the original value', () => {
+        expect(actualValue).toEqual(originalValue);
+      });
+    });
+  });
 });
