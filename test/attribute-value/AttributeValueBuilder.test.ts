@@ -75,4 +75,20 @@ describe('building attribute values by type', () => {
       });
     });
   });
+
+  describe('given a string set', () => {
+    describe('when building string set attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildStringSet(
+          new Set(['value']),
+        );
+      });
+
+      it('should return string set attribute value', () => {
+        expect(built).toEqual({ SS: ['value'] });
+      });
+    });
+  });
 });

@@ -31,4 +31,8 @@ export class AttributeValueBuilder {
   public buildBinary(attributeValue: Uint8Array): AttributeValue.BMember {
     return { B: attributeValue };
   }
+
+  public buildStringSet(attributeValue: Set<string>): AttributeValue.SSMember {
+    return { SS: [...attributeValue] };
+  }
 }
