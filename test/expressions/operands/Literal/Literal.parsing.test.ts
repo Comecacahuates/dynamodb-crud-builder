@@ -13,8 +13,24 @@ describe('parsing', () => {
         parsed = Literal.parseNull(attributeValue);
       });
 
-      it('should return null', () => {
+      it('should return null value', () => {
         expect(parsed).toBeNull();
+      });
+    });
+  });
+
+  describe('given string attribute value', () => {
+    const attributeValue: AttributeValue.SMember = { S: 'value' };
+
+    describe('when parsing string', () => {
+      let parsed: string;
+
+      beforeEach(() => {
+        parsed = Literal.parseString(attributeValue);
+      });
+
+      it('should return string value', () => {
+        expect(parsed).toBe('value');
       });
     });
   });
