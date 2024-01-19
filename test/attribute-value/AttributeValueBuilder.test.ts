@@ -153,4 +153,18 @@ describe('building attribute of any type', () => {
       });
     });
   });
+
+  describe('given a number value', () => {
+    describe('when building attribute value', () => {
+      let attributeValue: AttributeValue;
+
+      beforeEach(() => {
+        attributeValue = AttributeValueBuilder.instance.build(1);
+      });
+
+      it('should return number attribute value', () => {
+        expect(attributeValue).toEqual({ N: '1' });
+      });
+    });
+  });
 });
