@@ -21,14 +21,14 @@ describe('conjunction', () => {
         expect(conjunction.symbolicValue).toBe('(A AND B)');
       });
 
-      it('should return a new condition with all expression attribute names', () => {
+      it('should return a new condition with expression attribute names of all conditions', () => {
         expect(conjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
-      it('should return a new condition with all expression attribute values', () => {
+      it('should return a new condition with expression attribute values of all conditions', () => {
         expect(conjunction.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
@@ -58,7 +58,7 @@ describe('conjunction', () => {
         expect(conjunction.symbolicValue).toBe('(A AND B AND C AND D)');
       });
 
-      it('should return a new with all expression attribute names', () => {
+      it('should return a new with expression attribute names of all conditions', () => {
         expect(conjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -67,7 +67,7 @@ describe('conjunction', () => {
         });
       });
 
-      it('should return a new with all expression attribute values', () => {
+      it('should return a new with expression attribute values of all conditions', () => {
         expect(conjunction.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
@@ -99,14 +99,14 @@ describe('disjunction', () => {
         expect(disjunction.symbolicValue).toBe('(A OR B)');
       });
 
-      it('should return a new condition with all expression attribute names', () => {
+      it('should return a new condition with expression attribute names of all conditions', () => {
         expect(disjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
-      it('should return a new condition with all expression attribute values', () => {
+      it('should return a new condition with expression attribute values of all conditions', () => {
         expect(disjunction.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
@@ -136,7 +136,7 @@ describe('disjunction', () => {
         expect(disjunction.symbolicValue).toBe('(A OR B OR C OR D)');
       });
 
-      it('should return a new condition with all expression attribute names', () => {
+      it('should return a new condition with expression attribute names of all conditions of all conditions', () => {
         expect(disjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -145,7 +145,7 @@ describe('disjunction', () => {
         });
       });
 
-      it('should return a new condition with all expression attribute values', () => {
+      it('should return a new condition with expression attribute values of all conditions of all conditions', () => {
         expect(disjunction.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
@@ -176,13 +176,13 @@ describe('negation', () => {
         expect(negation.symbolicValue).toBe('(NOT A)');
       });
 
-      it('should return a new condition with expression attribute names', () => {
+      it('should return a new condition with expression attribute names of all conditions', () => {
         expect(negation.expressionAttributeNames).toEqual({
           '#a': 'a',
         });
       });
 
-      it('should return a new condition with expression attribute values', () => {
+      it('should return a new condition with expression attribute values of all conditions', () => {
         expect(negation.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
         });

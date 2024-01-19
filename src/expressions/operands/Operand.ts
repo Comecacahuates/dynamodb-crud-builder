@@ -62,4 +62,20 @@ export class Operand {
       expressionAttributeValues,
     );
   }
+
+  public lessThan(otherOperand: Operand): Condition {
+    const allOperands = [this, otherOperand];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `${this.symbolicValue} < ${otherOperand.symbolicValue}`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }
