@@ -45,4 +45,18 @@ describe('building attribute values by type', () => {
       });
     });
   });
+
+  describe('given a boolean', () => {
+    describe('when building boolean attribute value', () => {
+      let built: AttributeValue;
+
+      beforeEach(() => {
+        built = AttributeValueBuilder.instance.buildBoolean(true);
+      });
+
+      it('should return boolean attribute value', () => {
+        expect(built).toEqual({ BOOL: true });
+      });
+    });
+  });
 });

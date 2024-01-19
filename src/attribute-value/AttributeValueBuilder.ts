@@ -23,4 +23,8 @@ export class AttributeValueBuilder {
   public buildNumber(attributeValue: number): AttributeValue.NMember {
     return { N: String(attributeValue) };
   }
+
+  public buildBoolean(attributeValue: boolean): AttributeValue.BOOLMember {
+    return { BOOL: attributeValue };
+  }
 }
