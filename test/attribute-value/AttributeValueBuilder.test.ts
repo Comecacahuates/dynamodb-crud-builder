@@ -12,7 +12,7 @@ describe('building attribute values by type', () => {
         attributeValue = AttributeValueBuilder.instance.buildNull();
       });
 
-      it('should return null attribute value', () => {
+      it('should return a null attribute value', () => {
         expect(attributeValue).toEqual({ NULL: true });
       });
     });
@@ -26,7 +26,7 @@ describe('building attribute values by type', () => {
         attributeValue = AttributeValueBuilder.instance.buildString('value');
       });
 
-      it('should return string attribute value', () => {
+      it('should return a string attribute value', () => {
         expect(attributeValue).toEqual({ S: 'value' });
       });
     });
@@ -40,7 +40,7 @@ describe('building attribute values by type', () => {
         attributeValue = AttributeValueBuilder.instance.buildNumber(1);
       });
 
-      it('should return number attribute value', () => {
+      it('should return a number attribute value', () => {
         expect(attributeValue).toEqual({ N: '1' });
       });
     });
@@ -54,7 +54,7 @@ describe('building attribute values by type', () => {
         attributeValue = AttributeValueBuilder.instance.buildBoolean(true);
       });
 
-      it('should return boolean attribute value', () => {
+      it('should return a boolean attribute value', () => {
         expect(attributeValue).toEqual({ BOOL: true });
       });
     });
@@ -70,7 +70,7 @@ describe('building attribute values by type', () => {
         );
       });
 
-      it('should return binary attribute value', () => {
+      it('should return a binary attribute value', () => {
         expect(attributeValue).toEqual({ B: Uint8Array.from([1, 2, 3]) });
       });
     });
@@ -86,7 +86,7 @@ describe('building attribute values by type', () => {
         );
       });
 
-      it('should return string set attribute value', () => {
+      it('should return a string set attribute value', () => {
         expect(attributeValue).toEqual({ SS: ['value'] });
       });
     });
@@ -102,7 +102,7 @@ describe('building attribute values by type', () => {
         );
       });
 
-      it('should return number set attribute value', () => {
+      it('should return a number set attribute value', () => {
         expect(attributeValue).toEqual({ NS: ['1', '2', '3'] });
       });
     });
@@ -118,7 +118,7 @@ describe('building attribute values by type', () => {
         );
       });
 
-      it('should return binary set attribute value', () => {
+      it('should return a binary set attribute value', () => {
         expect(attributeValue).toEqual({ BS: [Uint8Array.from([1, 2, 3])] });
       });
     });
@@ -135,34 +135,40 @@ describe('building attribute of any type', () => {
 
   const testCases: TestCase[] = [
     {
-      scenarioDescription: 'given a null value',
+      scenarioDescription: 'given a null',
       value: null,
       testName: 'should return a null attribute value',
       attributeValue: { NULL: true },
     },
     {
-      scenarioDescription: 'given a string value',
+      scenarioDescription: 'given a string',
       value: 'string',
       testName: 'should return a string attribute value',
       attributeValue: { S: 'string' },
     },
     {
-      scenarioDescription: 'given a number value',
+      scenarioDescription: 'given a number',
       value: 1,
       testName: 'should return a number attribute value',
       attributeValue: { N: '1' },
     },
     {
-      scenarioDescription: 'given a boolean value',
+      scenarioDescription: 'given a boolean',
       value: true,
       testName: 'should return a boolean attribute value',
       attributeValue: { BOOL: true },
     },
     {
-      scenarioDescription: 'given a binary value',
+      scenarioDescription: 'given a binary',
       value: Uint8Array.from([1, 2, 3]),
       testName: 'should return a binary attribute value',
       attributeValue: { B: Uint8Array.from([1, 2, 3]) },
+    },
+    {
+      scenarioDescription: 'given a string set',
+      value: new Set(['a', 'b', 'c']),
+      testName: 'should return a string set attribute value',
+      attributeValue: { SS: ['a', 'b', 'c'] },
     },
   ];
 

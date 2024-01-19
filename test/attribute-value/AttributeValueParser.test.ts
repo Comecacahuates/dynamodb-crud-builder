@@ -14,7 +14,7 @@ describe('parsing attribute values by type', () => {
         parsedValue = AttributeValueParser.instance.parseNull(attributeValue);
       });
 
-      it('should return null value', () => {
+      it('should return null', () => {
         expect(parsedValue).toBeNull();
       });
     });
@@ -30,7 +30,7 @@ describe('parsing attribute values by type', () => {
         parsedValue = AttributeValueParser.instance.parseString(attributeValue);
       });
 
-      it('should return string value', () => {
+      it('should return a string', () => {
         expect(parsedValue).toBe('string');
       });
     });
@@ -46,7 +46,7 @@ describe('parsing attribute values by type', () => {
         parsedValue = AttributeValueParser.instance.parseNumber(attributeValue);
       });
 
-      it('should return number value', () => {
+      it('should return a number', () => {
         expect(parsedValue).toBe(1);
       });
     });
@@ -63,7 +63,7 @@ describe('parsing attribute values by type', () => {
           AttributeValueParser.instance.parseBoolean(attributeValue);
       });
 
-      it('should return boolean value', () => {
+      it('should return a boolean', () => {
         expect(parsedValue).toBe(true);
       });
     });
@@ -81,7 +81,7 @@ describe('parsing attribute values by type', () => {
         parsedValue = AttributeValueParser.instance.parseBinary(attributeValue);
       });
 
-      it('should return binary value', () => {
+      it('should return a binary', () => {
         expect(parsedValue).toEqual(new Uint8Array([1, 2, 3]));
       });
     });
@@ -98,7 +98,7 @@ describe('parsing attribute values by type', () => {
           AttributeValueParser.instance.parseStringSet(attributeValue);
       });
 
-      it('should return string set value', () => {
+      it('should return a string set', () => {
         expect(parsedValue).toEqual(new Set(['a', 'b', 'c']));
       });
     });
@@ -115,7 +115,7 @@ describe('parsing attribute values by type', () => {
           AttributeValueParser.instance.parseNumberSet(attributeValue);
       });
 
-      it('should return number set value', () => {
+      it('should return a number set', () => {
         expect(parsedValue).toEqual(new Set([1, 2, 3]));
       });
     });
@@ -138,7 +138,7 @@ describe('parsing attribute values by type', () => {
           AttributeValueParser.instance.parseBinarySet(attributeValue);
       });
 
-      it('should return binary set value', () => {
+      it('should return a binary set', () => {
         expect(parsedValue).toEqual(
           new Set([
             new Uint8Array([1, 2, 3]),
@@ -163,43 +163,43 @@ describe('parsing attribute values of any type', () => {
     {
       scenarioDescription: 'given a null attribute value',
       attributeValue: { NULL: true },
-      testName: 'should return null value',
+      testName: 'should return null',
       parsedValue: null,
     },
     {
       scenarioDescription: 'given a string attribute value',
       attributeValue: { S: 'string' },
-      testName: 'should return string value',
+      testName: 'should return a string',
       parsedValue: 'string',
     },
     {
       scenarioDescription: 'given a number attribute value',
       attributeValue: { N: '1' },
-      testName: 'should return number value',
+      testName: 'should return a number',
       parsedValue: 1,
     },
     {
       scenarioDescription: 'given a boolean attribute value',
       attributeValue: { BOOL: true },
-      testName: 'should return boolean value',
+      testName: 'should return a boolean',
       parsedValue: true,
     },
     {
       scenarioDescription: 'given a binary attribute value',
       attributeValue: { B: new Uint8Array([1, 2, 3]) },
-      testName: 'should return binary value',
+      testName: 'should return a binary',
       parsedValue: new Uint8Array([1, 2, 3]),
     },
     {
       scenarioDescription: 'given a string set attribute value',
       attributeValue: { SS: ['a', 'b', 'c'] },
-      testName: 'should return string set value',
+      testName: 'should return a string set',
       parsedValue: new Set(['a', 'b', 'c']),
     },
     {
       scenarioDescription: 'given a number set attribute value',
       attributeValue: { NS: ['1', '2', '3'] },
-      testName: 'should return number set value',
+      testName: 'should return a number set',
       parsedValue: new Set([1, 2, 3]),
     },
     {
@@ -211,7 +211,7 @@ describe('parsing attribute values of any type', () => {
           new Uint8Array([7, 8, 9]),
         ],
       },
-      testName: 'should return binary set value',
+      testName: 'should return a binary set',
       parsedValue: new Set([
         new Uint8Array([1, 2, 3]),
         new Uint8Array([4, 5, 6]),
@@ -237,7 +237,7 @@ describe('parsing attribute values of any type', () => {
           },
         ],
       },
-      testName: 'should return list value',
+      testName: 'should return a list',
       parsedValue: [
         'a',
         1,
@@ -255,7 +255,7 @@ describe('parsing attribute values of any type', () => {
     {
       scenarioDescription: 'given an empty list attribute value',
       attributeValue: { L: [] },
-      testName: 'should return empty list value',
+      testName: 'should return an empty list',
       parsedValue: [],
     },
     {
@@ -277,7 +277,7 @@ describe('parsing attribute values of any type', () => {
           },
         },
       },
-      testName: 'should return map value',
+      testName: 'should return an object',
       parsedValue: {
         string: 'a',
         number: 1,
