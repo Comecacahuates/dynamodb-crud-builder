@@ -21,14 +21,14 @@ describe('conjunction', () => {
         expect(conjunction.symbolicValue).toBe('(A AND B)');
       });
 
-      it('should return a new with all expression attribute names', () => {
+      it('should return a new condition with all expression attribute names', () => {
         expect(conjunction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
-      it('should return a new with all expression attribute values', () => {
+      it('should return a new condition with all expression attribute values', () => {
         expect(conjunction.expressionAttributeValues).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
@@ -81,8 +81,8 @@ describe('conjunction', () => {
 
 describe('disjunction', () => {
   describe('given the conditions A and B', () => {
-    const conditionA = new Condition('A');
-    const conditionB = new Condition('B');
+    const conditionA = new Condition('A', { '#a': 'a' }, { ':aa': { N: '1' } });
+    const conditionB = new Condition('B', { '#b': 'b' }, { ':bb': { N: '2' } });
 
     describe('when building disjunction', () => {
       let disjunction: Condition;
@@ -91,17 +91,35 @@ describe('disjunction', () => {
         disjunction = conditionA.or(conditionB);
       });
 
-      it('should return new condition (A OR B)', () => {
-        expect(disjunction).toEqual(new Condition('(A OR B)'));
+      it('should return a new condition', () => {
+        expect(disjunction).not.toBe(conditionA);
+      });
+
+      it('should return a new condition with symbolic value (A OR B)', () => {
+        expect(disjunction.symbolicValue).toBe('(A OR B)');
+      });
+
+      it('should return a new condition with all expression attribute names', () => {
+        expect(disjunction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+        });
+      });
+
+      it('should return a new condition with all expression attribute values', () => {
+        expect(disjunction.expressionAttributeValues).toEqual({
+          ':aa': { N: '1' },
+          ':bb': { N: '2' },
+        });
       });
     });
   });
 
   describe('given the conditions A, B, C and D', () => {
-    const conditionA = new Condition('A');
-    const conditionB = new Condition('B');
-    const conditionC = new Condition('C');
-    const conditionD = new Condition('D');
+    const conditionA = new Condition('A', { '#a': 'a' }, { ':aa': { N: '1' } });
+    const conditionB = new Condition('B', { '#b': 'b' }, { ':bb': { N: '2' } });
+    const conditionC = new Condition('C', { '#c': 'c' }, { ':cc': { N: '3' } });
+    const conditionD = new Condition('D', { '#d': 'd' }, { ':dd': { N: '4' } });
 
     describe('when building disjunction', () => {
       let disjunction: Condition;
@@ -110,8 +128,30 @@ describe('disjunction', () => {
         disjunction = conditionA.or(conditionB, conditionC, conditionD);
       });
 
+      it('should return a new condition', () => {
+        expect(disjunction).not.toBe(conditionA);
+      });
+
       it('should return new condition (A OR B OR C OR D)', () => {
-        expect(disjunction).toEqual(new Condition('(A OR B OR C OR D)'));
+        expect(disjunction.symbolicValue).toBe('(A OR B OR C OR D)');
+      });
+
+      it('should return a new condition with all expression attribute names', () => {
+        expect(disjunction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+          '#d': 'd',
+        });
+      });
+
+      it('should return a new condition with all expression attribute values', () => {
+        expect(disjunction.expressionAttributeValues).toEqual({
+          ':aa': { N: '1' },
+          ':bb': { N: '2' },
+          ':cc': { N: '3' },
+          ':dd': { N: '4' },
+        });
       });
     });
   });

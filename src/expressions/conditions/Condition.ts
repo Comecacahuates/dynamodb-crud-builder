@@ -51,11 +51,21 @@ export class Condition {
 
   public or(...conditions: Array<Condition>): Condition {
     const allConditions = [this, ...conditions];
-    const disjunction = allConditions
+    const disjunctionSymbolicValue = allConditions
       .map((condition) => condition.symbolicValue)
       .join(' OR ');
 
-    return new Condition(`(${disjunction})`);
+    const expressionAttributeNames =
+      Condition.mergeExpressionAttributeNames(allConditions);
+
+    const expressionAttributeValues =
+      Condition.mergeExpressionAttributeValues(allConditions);
+
+    return new Condition(
+      `(${disjunctionSymbolicValue})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 
   public not(): Condition {
