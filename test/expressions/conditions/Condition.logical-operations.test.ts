@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { Condition } from '../../../src/expressions/conditions/Condition.js';
 
-describe('and', () => {
+describe('conjunction', () => {
   describe('given the conditions A and B', () => {
-    const conditionA = new Condition('A');
-    const conditionB = new Condition('B');
+    const conditionA = new Condition('A', { '#a': 'a' });
+    const conditionB = new Condition('B', { '#b': 'b' });
 
     describe('when building conjunction', () => {
       let conjunction: Condition;
@@ -13,8 +13,19 @@ describe('and', () => {
         conjunction = conditionA.and(conditionB);
       });
 
-      it('should return new condition (A AND B)', () => {
-        expect(conjunction).toEqual(new Condition('(A AND B)'));
+      it('should return a new condition', () => {
+        expect(conjunction).not.toBe(conditionA);
+      });
+
+      it('should return new condition with symbolic value (A AND B)', () => {
+        expect(conjunction.symbolicValue).toBe('(A AND B)');
+      });
+
+      it('should return a new with all expression attribute names', () => {
+        expect(conjunction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+        });
       });
     });
   });
@@ -39,7 +50,7 @@ describe('and', () => {
   });
 });
 
-describe('or', () => {
+describe('disjunction', () => {
   describe('given the conditions A and B', () => {
     const conditionA = new Condition('A');
     const conditionB = new Condition('B');
@@ -77,7 +88,7 @@ describe('or', () => {
   });
 });
 
-describe('not', () => {
+describe('negation', () => {
   describe('given the condition A', () => {
     const conditionA = new Condition('A');
 

@@ -1,5 +1,10 @@
+import { type ExpressionAttributeNames } from '../types.js';
+
 export class Condition {
-  public constructor(public readonly symbolicValue: string) {}
+  public constructor(
+    public readonly symbolicValue: string,
+    public readonly expressionAttributeNames: ExpressionAttributeNames = {},
+  ) {}
 
   public and(...conditions: Array<Condition>): Condition {
     const allConditions = [this, ...conditions];
@@ -7,7 +12,15 @@ export class Condition {
       .map((condition) => condition.symbolicValue)
       .join(' AND ');
 
-    return new Condition(`(${conjunction})`);
+    const expressionAttributeNames = allConditions.reduce(
+      (expressionAttributeNames, condition) => ({
+        ...expressionAttributeNames,
+        ...condition.expressionAttributeNames,
+      }),
+      {},
+    );
+
+    return new Condition(`(${conjunction})`, expressionAttributeNames);
   }
 
   public or(...conditions: Array<Condition>): Condition {
