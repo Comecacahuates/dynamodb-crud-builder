@@ -9,4 +9,13 @@ export class Condition {
 
     return new Condition(`(${conjunction})`);
   }
+
+  public or(...conditions: Array<Condition>): Condition {
+    const allConditions = [this, ...conditions];
+    const disjunction = allConditions
+      .map((condition) => condition.symbolicValue)
+      .join(' OR ');
+
+    return new Condition(`(${disjunction})`);
+  }
 }
