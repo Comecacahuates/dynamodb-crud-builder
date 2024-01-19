@@ -18,4 +18,20 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given string attribute value', () => {
+    const attributeValue: AttributeValue.SMember = { S: 'value' };
+
+    describe('when parsing string', () => {
+      let parsed: string;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseString(attributeValue);
+      });
+
+      it('should return string value', () => {
+        expect(parsed).toBe('value');
+      });
+    });
+  });
 });

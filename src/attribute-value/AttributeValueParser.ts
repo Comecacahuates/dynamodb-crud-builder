@@ -13,4 +13,8 @@ export class AttributeValueParser {
   public parseNull(attributeValue: AttributeValue.NULLMember): null {
     return null;
   }
+
+  public parseString(attributeValue: AttributeValue.SMember): string {
+    return attributeValue.S;
+  }
 }
