@@ -355,7 +355,7 @@ describe('inverse', () => {
   ];
 
   describe.each(testCases)('$scenarioDescription', ({ originalValue }) => {
-    describe('when building and parsing', () => {
+    describe('when building and parsing again', () => {
       let actualValue: AttributeType;
 
       beforeEach(() => {
