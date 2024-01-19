@@ -37,4 +37,10 @@ export class AttributeValueParser {
   public parseNumberSet(attributeValue: AttributeValue.NSMember): Set<number> {
     return new Set(attributeValue.NS.map(Number));
   }
+
+  public parseBinarySet(
+    attributeValue: AttributeValue.BSMember,
+  ): Set<Uint8Array> {
+    return new Set(attributeValue.BS);
+  }
 }

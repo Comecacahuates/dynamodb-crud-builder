@@ -116,4 +116,32 @@ describe('parsing attribute values', () => {
       });
     });
   });
+
+  describe('given binary set attribute value', () => {
+    const attributeValue: AttributeValue.BSMember = {
+      BS: [
+        new Uint8Array([1, 2, 3]),
+        new Uint8Array([4, 5, 6]),
+        new Uint8Array([7, 8, 9]),
+      ],
+    };
+
+    describe('when parsing binary set', () => {
+      let parsed: Set<Uint8Array>;
+
+      beforeEach(() => {
+        parsed = AttributeValueParser.instance.parseBinarySet(attributeValue);
+      });
+
+      it('should return binary set value', () => {
+        expect(parsed).toEqual(
+          new Set([
+            new Uint8Array([1, 2, 3]),
+            new Uint8Array([4, 5, 6]),
+            new Uint8Array([7, 8, 9]),
+          ]),
+        );
+      });
+    });
+  });
 });
