@@ -176,6 +176,12 @@ describe('building attribute of any type', () => {
       testName: 'should return a number set attribute value',
       attributeValue: { NS: ['1', '2', '3'] },
     },
+    {
+      scenarioDescription: 'given a binary set',
+      value: new Set([Uint8Array.from([1, 2, 3])]),
+      testName: 'should return a binary set attribute value',
+      attributeValue: { BS: [Uint8Array.from([1, 2, 3])] },
+    },
   ];
 
   describe.each(testCases)(

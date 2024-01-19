@@ -62,6 +62,8 @@ export class AttributeValueBuilder {
 
       .with(P.set(P.number), this.buildNumberSet)
 
+      .with(P.set(P.instanceOf(Uint8Array)), this.buildBinarySet)
+
       .run();
   }
 }
