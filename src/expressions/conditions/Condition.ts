@@ -1,5 +1,5 @@
 export class Condition {
-  public constructor(private readonly symbolicValue: string) {}
+  public constructor(public readonly symbolicValue: string) {}
 
   public and(...conditions: Array<Condition>): Condition {
     const allConditions = [this, ...conditions];
@@ -17,5 +17,9 @@ export class Condition {
       .join(' OR ');
 
     return new Condition(`(${disjunction})`);
+  }
+
+  public not(): Condition {
+    return new Condition(`(NOT ${this.symbolicValue})`);
   }
 }

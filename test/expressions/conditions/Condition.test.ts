@@ -76,3 +76,21 @@ describe('or', () => {
     });
   });
 });
+
+describe('not', () => {
+  describe('given the condition A', () => {
+    const conditionA = new Condition('A');
+
+    describe('when building negation', () => {
+      let negation: Condition;
+
+      beforeEach(() => {
+        negation = conditionA.not();
+      });
+
+      it('should return new condition (NOT A)', () => {
+        expect(negation).toEqual(new Condition('(NOT A)'));
+      });
+    });
+  });
+});
