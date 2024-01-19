@@ -31,7 +31,7 @@ export class Operand {
     );
   }
 
-  public equals(otherOperand: Operand): Condition {
+  public equalTo(otherOperand: Operand): Condition {
     const allOperands = [this, otherOperand];
 
     const expressionAttributeNames =
@@ -74,6 +74,22 @@ export class Operand {
 
     return new Condition(
       `${this.symbolicValue} < ${otherOperand.symbolicValue}`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
+
+  public lessThanOrEqualTo(otherOperand: Operand): Condition {
+    const allOperands = [this, otherOperand];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `${this.symbolicValue} <= ${otherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );

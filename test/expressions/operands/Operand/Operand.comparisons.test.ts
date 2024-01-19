@@ -15,15 +15,11 @@ describe('comparisons', () => {
     );
     const opB = new Operand(':opB', {}, { ':opB': { N: '1' } });
 
-    describe('when comparing equality', () => {
+    describe('when comparing equal to', () => {
       let comparison: Condition;
 
       beforeEach(() => {
-        comparison = opA.equals(opB);
-      });
-
-      it('should return a condition', () => {
-        expect(comparison).toBeInstanceOf(Condition);
+        comparison = opA.equalTo(opB);
       });
 
       it('should return a condition with symbolic value :opA = :opB', () => {
@@ -47,15 +43,11 @@ describe('comparisons', () => {
       });
     });
 
-    describe('when comparing inequality', () => {
+    describe('when comparing not equal to', () => {
       let comparison: Condition;
 
       beforeEach(() => {
         comparison = opA.notEqualTo(opB);
-      });
-
-      it('should return a condition', () => {
-        expect(comparison).toBeInstanceOf(Condition);
       });
 
       it('should return a condition with symbolic value :opA <> :opB', () => {
@@ -86,13 +78,37 @@ describe('comparisons', () => {
         comparison = opA.lessThan(opB);
       });
 
-      it('should return a condition', () => {
-        expect(comparison).toBeInstanceOf(Condition);
-      });
-
       it('should return a condition with symbolic value :opA < :opB', () => {
         expect(comparison.symbolicValue).toBe(
           '#opA.#attr0[1][2].#attr1 < :opB',
+        );
+      });
+
+      it('should return a condition with expression attribute names of both operands', () => {
+        expect(comparison.expressionAttributeNames).toEqual({
+          '#opA': 'opA',
+          '#attr0': 'attr0',
+          '#attr1': 'attr1',
+        });
+      });
+
+      it('should return a condition with expression attribute values of both operands', () => {
+        expect(comparison.expressionAttributeValues).toEqual({
+          ':opB': { N: '1' },
+        });
+      });
+    });
+
+    describe('when comparing less than or equal to', () => {
+      let comparison: Condition;
+
+      beforeEach(() => {
+        comparison = opA.lessThanOrEqualTo(opB);
+      });
+
+      it('should return a condition with symbolic value :opA <= :opB', () => {
+        expect(comparison.symbolicValue).toBe(
+          '#opA.#attr0[1][2].#attr1 <= :opB',
         );
       });
 
