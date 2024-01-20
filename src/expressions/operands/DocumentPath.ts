@@ -67,4 +67,20 @@ export class DocumentPath extends Operand {
       expressionAttributeValues,
     );
   }
+
+  public attributeNotExists(): Condition {
+    const allOperands = [this];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `attribute_not_exists(${this.symbolicValue})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }

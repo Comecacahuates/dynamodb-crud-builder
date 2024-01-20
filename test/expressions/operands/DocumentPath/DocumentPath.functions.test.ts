@@ -11,7 +11,7 @@ describe('functions', () => {
       new DocumentPathItem('c', [1, 2]),
     ]);
 
-    describe('when comparing greater than', () => {
+    describe('when checking if attribute exists', () => {
       let condition: Condition;
 
       beforeEach(() => {
@@ -21,6 +21,32 @@ describe('functions', () => {
       it('should return a condition with symbolic value :opA > :opB', () => {
         expect(condition.symbolicValue).toBe(
           'attribute_exists(#a[0].#b.#c[1][2])',
+        );
+      });
+
+      it('should return a condition with expression attribute names of both operands', () => {
+        expect(condition.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should return a condition with expression attribute values of both operands', () => {
+        expect(condition.expressionAttributeValues).toEqual({});
+      });
+    });
+
+    describe('when checking if attribute not exists', () => {
+      let condition: Condition;
+
+      beforeEach(() => {
+        condition = documentPath.attributeNotExists();
+      });
+
+      it('should return a condition with symbolic value :opA > :opB', () => {
+        expect(condition.symbolicValue).toBe(
+          'attribute_not_exists(#a[0].#b.#c[1][2])',
         );
       });
 
