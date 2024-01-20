@@ -16,10 +16,10 @@ describe('creating remove action', () => {
     };
 
     describe('when creating a remove action', () => {
-      let remove: RemoveAction;
+      let removeAction: RemoveAction;
 
       beforeEach(() => {
-        remove = new RemoveAction(
+        removeAction = new RemoveAction(
           statement,
           expressionAttributeNames,
           expressionAttributeValues,
@@ -27,23 +27,23 @@ describe('creating remove action', () => {
       });
 
       it('should have the statement', () => {
-        expect(remove.statement).toBe(statement);
+        expect(removeAction.statement).toBe(statement);
       });
 
       it('should have a copy of the expression attribute names', () => {
-        expect(remove.expressionAttributeNames).not.toBe(
+        expect(removeAction.expressionAttributeNames).not.toBe(
           expressionAttributeNames,
         );
-        expect(remove.expressionAttributeNames).toEqual(
+        expect(removeAction.expressionAttributeNames).toEqual(
           expressionAttributeNames,
         );
       });
 
       it('should have a copy of the expression attribute values', () => {
-        expect(remove.expressionAttributeValues).not.toBe(
+        expect(removeAction.expressionAttributeValues).not.toBe(
           expressionAttributeValues,
         );
-        expect(remove.expressionAttributeValues).toEqual(
+        expect(removeAction.expressionAttributeValues).toEqual(
           expressionAttributeValues,
         );
       });

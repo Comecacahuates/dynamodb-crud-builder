@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { SetAction } from '../../../../src/expressions/updates/actions/SetAction.js';
+import { AddAction } from '../../../../src/expressions/updates/actions/AddAction.js';
 import {
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
 } from '../../../../src/expressions/types.js';
 
-describe('creating set action', () => {
+describe('creating remove action', () => {
   describe('given a statement, expression attribute names and expression attribute values', () => {
-    const statement = '#a = :b';
+    const statement = '#a :b';
     const expressionAttributeNames: ExpressionAttributeNames = {
       '#a': 'a',
     };
@@ -15,11 +15,11 @@ describe('creating set action', () => {
       ':b': { S: 'b' },
     };
 
-    describe('when creating a set action', () => {
-      let setAction: SetAction;
+    describe('when creating a remove action', () => {
+      let addAction: AddAction;
 
       beforeEach(() => {
-        setAction = new SetAction(
+        addAction = new AddAction(
           statement,
           expressionAttributeNames,
           expressionAttributeValues,
@@ -27,23 +27,23 @@ describe('creating set action', () => {
       });
 
       it('should have the statement', () => {
-        expect(setAction.statement).toBe(statement);
+        expect(addAction.statement).toBe(statement);
       });
 
       it('should have a copy of the expression attribute names', () => {
-        expect(setAction.expressionAttributeNames).not.toBe(
+        expect(addAction.expressionAttributeNames).not.toBe(
           expressionAttributeNames,
         );
-        expect(setAction.expressionAttributeNames).toEqual(
+        expect(addAction.expressionAttributeNames).toEqual(
           expressionAttributeNames,
         );
       });
 
       it('should have a copy of the expression attribute values', () => {
-        expect(setAction.expressionAttributeValues).not.toBe(
+        expect(addAction.expressionAttributeValues).not.toBe(
           expressionAttributeValues,
         );
-        expect(setAction.expressionAttributeValues).toEqual(
+        expect(addAction.expressionAttributeValues).toEqual(
           expressionAttributeValues,
         );
       });
