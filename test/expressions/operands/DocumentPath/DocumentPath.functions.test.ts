@@ -90,13 +90,13 @@ describe('functions', () => {
     });
   });
 
-  describe('given document path a[0].b.c[1][2] and literal { S: "N" }', () => {
+  describe('given document path a[0].b.c[1][2] and literal { S: "type" }', () => {
     const documentPath = new DocumentPath([
       new DocumentPathItem('a', [0]),
       new DocumentPathItem('b'),
       new DocumentPathItem('c', [1, 2]),
     ]);
-    const literal = new Literal({ S: 'type' }, () => 'A');
+    const literal = new Literal({ S: 'type' }, () => 'Type');
 
     describe('when checking if attribute is of type', () => {
       let condition: Condition;
@@ -105,9 +105,9 @@ describe('functions', () => {
         condition = documentPath.type(literal);
       });
 
-      it('should return a condition with symbolic value "attribute_type(#a[0].#b.#c[1][2], :literalA)', () => {
+      it('should return a condition with symbolic value "attribute_type(#a[0].#b.#c[1][2], :literalType)', () => {
         expect(condition.symbolicValue).toBe(
-          'attribute_type(#a[0].#b.#c[1][2], :literalA)',
+          'attribute_type(#a[0].#b.#c[1][2], :literalType)',
         );
       });
 
@@ -121,7 +121,44 @@ describe('functions', () => {
 
       it('should return a condition with the same expression attribute values', () => {
         expect(condition.expressionAttributeValues).toEqual({
-          ':literalA': { S: 'type' },
+          ':literalType': { S: 'type' },
+        });
+      });
+    });
+  });
+
+  describe('given document path a[0].b.c[1][2] and literal { S: "prefix" }', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const literal = new Literal({ S: 'prefix' }, () => 'Prefix');
+
+    describe('when checking if attribute begins with', () => {
+      let condition: Condition;
+
+      beforeEach(() => {
+        condition = documentPath.beginsWith(literal);
+      });
+
+      it('should return a condition with symbolic value "begins_with(#a[0].#b.#c[1][2], :literalPrefix)', () => {
+        expect(condition.symbolicValue).toBe(
+          'begins_with(#a[0].#b.#c[1][2], :literalPrefix)',
+        );
+      });
+
+      it('should return a condition with the same expression attribute names', () => {
+        expect(condition.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should return a condition with the same expression attribute values', () => {
+        expect(condition.expressionAttributeValues).toEqual({
+          ':literalPrefix': { S: 'prefix' },
         });
       });
     });

@@ -110,4 +110,20 @@ export class DocumentPath extends Operand {
       expressionAttributeValues,
     );
   }
+
+  public beginsWith(prefix: Literal): Condition {
+    const allOperands = [this, prefix];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `begins_with(${this.symbolicValue}, ${prefix.symbolicValue})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }
