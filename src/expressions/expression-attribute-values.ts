@@ -1,14 +1,16 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { type ExpressionAttributeValues } from './types.js';
 import { type DocumentPath } from '../document-path/index.js';
+import { type Operand } from './operands/Operand.js';
+import { type Condition } from './conditions/Condition.js';
 
 export function mergeExpressionAttributeValues(
-  expressionAttributeValuesList: Array<ExpressionAttributeValues>,
+  operandsAndConditions: Array<Operand | Condition>,
 ): ExpressionAttributeValues {
-  return expressionAttributeValuesList.reduce(
-    (mergedExpressionAttributeValues, expressionAttributeValues) => ({
+  return operandsAndConditions.reduce(
+    (mergedExpressionAttributeValues, operandOrCondition) => ({
       ...mergedExpressionAttributeValues,
-      ...expressionAttributeValues,
+      ...operandOrCondition.expressionAttributeValues,
     }),
     {},
   );

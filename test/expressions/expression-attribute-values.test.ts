@@ -6,40 +6,41 @@ import {
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
 import { type ExpressionAttributeValues } from '../../src/expressions/index.js';
-import { type DocumentPath } from '../../src/document-path/index.js';
+import { type DocumentPath as OldDocumentPath } from '../../src/document-path/index.js';
+import { DocumentPath } from '../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathItem } from '../../src/expressions/operands/DocumentPathItem.js';
+import { Literal } from '../../src/expressions/operands/Literal.js';
+import { Condition } from '../../src/expressions/conditions/Condition.js';
 
 describe('Merging expression attribute values', () => {
-  describe('given three sets of expression attribute values', () => {
-    const expressionAttributeValuesA: ExpressionAttributeValues = {
-      ':a': { S: 'a' },
-      ':b': { S: 'b' },
-    };
-    const expressionAttributeValuesB: ExpressionAttributeValues = {
-      ':b': { S: 'b' },
-      ':c': { S: 'c' },
-    };
-    const expressionAttributeValuesC: ExpressionAttributeValues = {
-      ':c': { S: 'c' },
-      ':d': { S: 'd' },
-    };
+  describe('given document path a[0].b.c[1][2], a literal and a condition', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const literal = new Literal({ S: 'value' }, () => 'A');
+    const condition = new Condition(
+      'type(#z, :type)',
+      { '#z': 'z' },
+      { ':type': { S: 'N' } },
+    );
 
     describe('when merging expression attribute values', () => {
       let mergedExpressionAttributeValues: ExpressionAttributeValues;
 
       beforeEach(() => {
         mergedExpressionAttributeValues = mergeExpressionAttributeValues([
-          expressionAttributeValuesA,
-          expressionAttributeValuesB,
-          expressionAttributeValuesC,
+          documentPath,
+          literal,
+          condition,
         ]);
       });
 
       it('should have all expression attribute values', () => {
         expect(mergedExpressionAttributeValues).toEqual({
-          ':a': { S: 'a' },
-          ':b': { S: 'b' },
-          ':c': { S: 'c' },
-          ':d': { S: 'd' },
+          ':literalA': { S: 'value' },
+          ':type': { S: 'N' },
         });
       });
     });
@@ -49,7 +50,7 @@ describe('Merging expression attribute values', () => {
 describe('Building placeholder', () => {
   type TestCase = {
     testName: string;
-    documentPath: DocumentPath;
+    documentPath: OldDocumentPath;
     placeholder: string;
   };
 
@@ -87,7 +88,7 @@ describe('Building placeholder', () => {
 describe('Building expression attribute value', () => {
   type TestCase = {
     testName: string;
-    documentPath: DocumentPath;
+    documentPath: OldDocumentPath;
     attributeValue: AttributeValue;
     expressionAttributeValues: ExpressionAttributeValues;
   };

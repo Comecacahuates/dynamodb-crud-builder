@@ -1,6 +1,6 @@
 import { type ExpressionAttributeNames } from './types.js';
 import {
-  type DocumentPath as OldDocumentPath,
+  type DocumentPath,
   formatDocumentPathItem,
 } from '../document-path/index.js';
 import { type Operand } from './operands/Operand.js';
@@ -19,7 +19,7 @@ export function mergeExpressionAttributeNames(
 }
 
 export function buildExpressionAttributeNamePlaceholder(
-  documentPath: OldDocumentPath,
+  documentPath: DocumentPath,
 ): string {
   return documentPath
     .map((documentPathItem) => `#${formatDocumentPathItem(documentPathItem)}`)
@@ -27,7 +27,7 @@ export function buildExpressionAttributeNamePlaceholder(
 }
 
 export function buildExpressionAttributeNames(
-  documentPath: OldDocumentPath,
+  documentPath: DocumentPath,
 ): ExpressionAttributeNames {
   return documentPath
     .map((documentPathItem) => documentPathItem.attributeName)

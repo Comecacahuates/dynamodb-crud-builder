@@ -19,8 +19,8 @@ describe('Merging expression attribute names', () => {
       new DocumentPathItem('c', [1, 2]),
     ]);
     const literal = new Literal({ S: 'value' }, () => 'A');
-    const condition = new Condition('attribute_exists(#a)', {
-      '#a': 'a',
+    const condition = new Condition('attribute_exists(#z)', {
+      '#z': 'z',
     });
 
     describe('when merging expression attribute names', () => {
@@ -39,6 +39,7 @@ describe('Merging expression attribute names', () => {
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
+          '#z': 'z',
         });
       });
     });
