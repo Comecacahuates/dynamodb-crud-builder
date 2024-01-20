@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { Set } from '../../../../src/expressions/updates/actions/Set.js';
+import { SetAction } from '../../../../src/expressions/updates/actions/SetAction.js';
 import {
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
@@ -16,10 +16,10 @@ describe('creating set action', () => {
     };
 
     describe('when creating a set action', () => {
-      let set: Set;
+      let set: SetAction;
 
       beforeEach(() => {
-        set = new Set(
+        set = new SetAction(
           statement,
           expressionAttributeNames,
           expressionAttributeValues,

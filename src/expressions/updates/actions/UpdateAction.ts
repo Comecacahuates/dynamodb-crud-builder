@@ -4,7 +4,7 @@ import {
 } from '../../types.js';
 import clone from 'just-clone';
 
-export class Set {
+export abstract class UpdateAction {
   public constructor(
     public readonly statement: string,
     public readonly expressionAttributeNames: ExpressionAttributeNames,
