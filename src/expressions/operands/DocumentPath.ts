@@ -1,6 +1,7 @@
 import { Operand } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
 import { Condition } from '../conditions/Condition.js';
+import { Literal } from './Literal.js';
 import { type ExpressionAttributeNames } from '../../expressions/index.js';
 
 export class DocumentPath extends Operand {
@@ -91,6 +92,22 @@ export class DocumentPath extends Operand {
       symbolicValue,
       this.expressionAttributeNames,
       this.expressionAttributeValues,
+    );
+  }
+
+  public type(type: Literal): Condition {
+    const allOperands = [this, type];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `attribute_type(${this.symbolicValue}, ${type.symbolicValue})`,
+      expressionAttributeNames,
+      expressionAttributeValues,
     );
   }
 }

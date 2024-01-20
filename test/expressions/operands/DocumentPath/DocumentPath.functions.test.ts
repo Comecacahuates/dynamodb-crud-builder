@@ -3,6 +3,7 @@ import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.
 import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
 import { Condition } from '../../../../src/expressions/conditions/Condition.js';
 import { Operand } from '../../../../src/expressions/operands/Operand.js';
+import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('functions', () => {
   describe('given document path a[0].b.c[1][2]', () => {
@@ -71,7 +72,7 @@ describe('functions', () => {
         operand = documentPath.size();
       });
 
-      it('should return an operand with symbolic value :opA > :opB', () => {
+      it('should return an operand with symbolic value "size(#a[0].#b.#c[1][2])"', () => {
         expect(operand.symbolicValue).toBe('size(#a[0].#b.#c[1][2])');
       });
 
@@ -85,6 +86,43 @@ describe('functions', () => {
 
       it('should return an operand with the same expression attribute values', () => {
         expect(operand.expressionAttributeValues).toEqual({});
+      });
+    });
+  });
+
+  describe('given document path a[0].b.c[1][2] and literal { S: "N" }', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const literal = new Literal({ S: 'type' }, () => 'A');
+
+    describe('when checking if attribute is of type', () => {
+      let condition: Condition;
+
+      beforeEach(() => {
+        condition = documentPath.type(literal);
+      });
+
+      it('should return a condition with symbolic value "attribute_type(#a[0].#b.#c[1][2], :literalA)', () => {
+        expect(condition.symbolicValue).toBe(
+          'attribute_type(#a[0].#b.#c[1][2], :literalA)',
+        );
+      });
+
+      it('should return a condition with the same expression attribute names', () => {
+        expect(condition.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should return a condition with the same expression attribute values', () => {
+        expect(condition.expressionAttributeValues).toEqual({
+          ':literalA': { S: 'type' },
+        });
       });
     });
   });
