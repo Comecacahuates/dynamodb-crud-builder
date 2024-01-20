@@ -22,10 +22,8 @@ describe('comparisons', () => {
         comparison = opA.equalTo(opB);
       });
 
-      it('should return a condition with symbolic value :opA = :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 = :opB',
-        );
+      it('should return a condition with expression :opA = :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 = :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -50,10 +48,8 @@ describe('comparisons', () => {
         comparison = opA.notEqualTo(opB);
       });
 
-      it('should return a condition with symbolic value :opA <> :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 <> :opB',
-        );
+      it('should return a condition with expression :opA <> :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <> :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -78,10 +74,8 @@ describe('comparisons', () => {
         comparison = opA.lessThan(opB);
       });
 
-      it('should return a condition with symbolic value :opA < :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 < :opB',
-        );
+      it('should return a condition with expression :opA < :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 < :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -106,10 +100,8 @@ describe('comparisons', () => {
         comparison = opA.lessThanOrEqualTo(opB);
       });
 
-      it('should return a condition with symbolic value :opA <= :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 <= :opB',
-        );
+      it('should return a condition with expression :opA <= :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <= :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -134,10 +126,8 @@ describe('comparisons', () => {
         comparison = opA.greaterThan(opB);
       });
 
-      it('should return a condition with symbolic value :opA > :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 > :opB',
-        );
+      it('should return a condition with expression :opA > :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 > :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -162,10 +152,8 @@ describe('comparisons', () => {
         comparison = opA.greaterThanOrEqualTo(opB);
       });
 
-      it('should return a condition with symbolic value :opA >= :opB', () => {
-        expect(comparison.symbolicValue).toBe(
-          '#opA.#attr0[1][2].#attr1 >= :opB',
-        );
+      it('should return a condition with expression :opA >= :opB', () => {
+        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 >= :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -204,8 +192,8 @@ describe('comparisons', () => {
         comparison = opA.between(opB, opC);
       });
 
-      it('should return a condition with symbolic value :opA BETWEEN :opB AND :opC', () => {
-        expect(comparison.symbolicValue).toBe(
+      it('should return a condition with expression :opA BETWEEN :opB AND :opC', () => {
+        expect(comparison.expression).toBe(
           '#opA.#attr0[1][2].#attr1 BETWEEN :opB AND :opC',
         );
       });
@@ -250,8 +238,8 @@ describe('comparisons', () => {
         comparison = opA.in(...operandsList);
       });
 
-      it('should return a condition with symbolic value :opA IN (:opB, :opC, :opD)', () => {
-        expect(comparison.symbolicValue).toBe(
+      it('should return a condition with expression :opA IN (:opB, :opC, :opD)', () => {
+        expect(comparison.expression).toBe(
           '#opA.#attr0[1][2].#attr1 IN (:opB, :opC, :opD)',
         );
       });

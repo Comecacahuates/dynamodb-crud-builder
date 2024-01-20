@@ -5,7 +5,7 @@ import {
 
 export class Condition {
   public constructor(
-    public readonly symbolicValue: string,
+    public readonly expression: string,
     public readonly expressionAttributeNames: ExpressionAttributeNames = {},
     public readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
@@ -32,8 +32,8 @@ export class Condition {
 
   public and(...conditions: Array<Condition>): Condition {
     const allConditions = [this, ...conditions];
-    const conjunctionSymbolicValue = allConditions
-      .map((condition) => condition.symbolicValue)
+    const conjunctionExpression = allConditions
+      .map((condition) => condition.expression)
       .join(' AND ');
 
     const expressionAttributeNames =
@@ -43,7 +43,7 @@ export class Condition {
       Condition.mergeExpressionAttributeValues(allConditions);
 
     return new Condition(
-      `(${conjunctionSymbolicValue})`,
+      `(${conjunctionExpression})`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
@@ -51,8 +51,8 @@ export class Condition {
 
   public or(...conditions: Array<Condition>): Condition {
     const allConditions = [this, ...conditions];
-    const disjunctionSymbolicValue = allConditions
-      .map((condition) => condition.symbolicValue)
+    const disjunctionExpression = allConditions
+      .map((condition) => condition.expression)
       .join(' OR ');
 
     const expressionAttributeNames =
@@ -62,7 +62,7 @@ export class Condition {
       Condition.mergeExpressionAttributeValues(allConditions);
 
     return new Condition(
-      `(${disjunctionSymbolicValue})`,
+      `(${disjunctionExpression})`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
@@ -70,7 +70,7 @@ export class Condition {
 
   public not(): Condition {
     return new Condition(
-      `(NOT ${this.symbolicValue})`,
+      `(NOT ${this.expression})`,
       this.expressionAttributeNames,
       this.expressionAttributeValues,
     );

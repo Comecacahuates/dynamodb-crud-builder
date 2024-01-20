@@ -17,8 +17,8 @@ describe('conjunction', () => {
         expect(conjunction).not.toBe(conditionA);
       });
 
-      it('should return new condition with symbolic value (A AND B)', () => {
-        expect(conjunction.symbolicValue).toBe('(A AND B)');
+      it('should return new condition with expression (A AND B)', () => {
+        expect(conjunction.expression).toBe('(A AND B)');
       });
 
       it('should return a new condition with expression attribute names of all conditions', () => {
@@ -54,8 +54,8 @@ describe('conjunction', () => {
         expect(conjunction).not.toBe(conditionA);
       });
 
-      it('should return a new condition with symbolic value (A AND B AND C AND D)', () => {
-        expect(conjunction.symbolicValue).toBe('(A AND B AND C AND D)');
+      it('should return a new condition with expression (A AND B AND C AND D)', () => {
+        expect(conjunction.expression).toBe('(A AND B AND C AND D)');
       });
 
       it('should return a new with expression attribute names of all conditions', () => {
@@ -95,8 +95,8 @@ describe('disjunction', () => {
         expect(disjunction).not.toBe(conditionA);
       });
 
-      it('should return a new condition with symbolic value (A OR B)', () => {
-        expect(disjunction.symbolicValue).toBe('(A OR B)');
+      it('should return a new condition with expression (A OR B)', () => {
+        expect(disjunction.expression).toBe('(A OR B)');
       });
 
       it('should return a new condition with expression attribute names of all conditions', () => {
@@ -132,8 +132,8 @@ describe('disjunction', () => {
         expect(disjunction).not.toBe(conditionA);
       });
 
-      it('should return new condition with symbolic value (A OR B OR C OR D)', () => {
-        expect(disjunction.symbolicValue).toBe('(A OR B OR C OR D)');
+      it('should return new condition with expression (A OR B OR C OR D)', () => {
+        expect(disjunction.expression).toBe('(A OR B OR C OR D)');
       });
 
       it('should return a new condition with expression attribute names of all conditions of all conditions', () => {
@@ -172,8 +172,8 @@ describe('negation', () => {
         expect(negation).not.toBe(conditionA);
       });
 
-      it('should return new condition with symbolic value (NOT A)', () => {
-        expect(negation.symbolicValue).toBe('(NOT A)');
+      it('should return new condition with expression (NOT A)', () => {
+        expect(negation.expression).toBe('(NOT A)');
       });
 
       it('should return a new condition with expression attribute names of all conditions', () => {

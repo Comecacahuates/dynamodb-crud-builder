@@ -20,8 +20,8 @@ describe('functions', () => {
         condition = documentPath.attributeExists();
       });
 
-      it('should return a condition with symbolic value :opA > :opB', () => {
-        expect(condition.symbolicValue).toBe(
+      it('should return a condition with expression :opA > :opB', () => {
+        expect(condition.expression).toBe(
           'attribute_exists(#a[0].#b.#c[1][2])',
         );
       });
@@ -46,8 +46,8 @@ describe('functions', () => {
         condition = documentPath.attributeNotExists();
       });
 
-      it('should return a condition with symbolic value :opA > :opB', () => {
-        expect(condition.symbolicValue).toBe(
+      it('should return a condition with expression :opA > :opB', () => {
+        expect(condition.expression).toBe(
           'attribute_not_exists(#a[0].#b.#c[1][2])',
         );
       });
@@ -105,8 +105,8 @@ describe('functions', () => {
         condition = documentPath.type(literal);
       });
 
-      it('should return a condition with symbolic value "attribute_type(#a[0].#b.#c[1][2], :literalType)', () => {
-        expect(condition.symbolicValue).toBe(
+      it('should return a condition with expression "attribute_type(#a[0].#b.#c[1][2], :literalType)', () => {
+        expect(condition.expression).toBe(
           'attribute_type(#a[0].#b.#c[1][2], :literalType)',
         );
       });
@@ -142,8 +142,8 @@ describe('functions', () => {
         condition = documentPath.beginsWith(literal);
       });
 
-      it('should return a condition with symbolic value "begins_with(#a[0].#b.#c[1][2], :literalPrefix)', () => {
-        expect(condition.symbolicValue).toBe(
+      it('should return a condition with expression "begins_with(#a[0].#b.#c[1][2], :literalPrefix)', () => {
+        expect(condition.expression).toBe(
           'begins_with(#a[0].#b.#c[1][2], :literalPrefix)',
         );
       });
