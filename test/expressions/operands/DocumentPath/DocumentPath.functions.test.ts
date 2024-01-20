@@ -163,4 +163,33 @@ describe('functions', () => {
       });
     });
   });
+
+  describe('given document path a[0].b.c[1][2] and operand :op', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const operand = new Operand(':op', {}, { ':op': { N: '1' } });
+
+    describe('when checking if attribute contains operand', () => {
+      let condition: Condition;
+
+      beforeEach(() => {
+        condition = documentPath.contains(operand);
+      });
+
+      it('should return a condition with expression "contains(#a[0].#b.#c[1][2], :op)', () => {
+        expect(condition.expression).toBe('contains(#a[0].#b.#c[1][2], :op)');
+      });
+
+      it('should return a condition with the same expression attribute names', () => {
+        expect(condition.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+    });
+  });
 });

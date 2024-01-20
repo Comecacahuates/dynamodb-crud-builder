@@ -118,4 +118,22 @@ export class DocumentPath extends Operand {
       expressionAttributeValues,
     );
   }
+
+  public contains(operand: Operand): Condition {
+    const conditionExpression = `contains(${this.symbolicValue}, ${operand.symbolicValue})`;
+
+    const allOperands = [this, operand];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      conditionExpression,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
 }
