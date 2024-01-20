@@ -83,4 +83,14 @@ export class DocumentPath extends Operand {
       expressionAttributeValues,
     );
   }
+
+  public size(): Operand {
+    const symbolicValue = `size(${this.symbolicValue})`;
+
+    return new Operand(
+      symbolicValue,
+      this.expressionAttributeNames,
+      this.expressionAttributeValues,
+    );
+  }
 }
