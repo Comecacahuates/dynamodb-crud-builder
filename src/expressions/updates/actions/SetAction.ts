@@ -19,14 +19,14 @@ export class SetAction extends UpdateAction {
 
   public static assignValueToAttribute(
     documentPath: DocumentPath,
-    operand: Operand,
+    value: Operand,
   ): SetAction {
-    const statement = `${documentPath.symbolicValue} = ${operand.symbolicValue}`;
+    const statement = `${documentPath.symbolicValue} = ${value.symbolicValue}`;
 
     return new SetAction(
       statement,
-      mergeExpressionAttributeNames([documentPath, operand]),
-      mergeExpressionAttributeValues([documentPath, operand]),
+      mergeExpressionAttributeNames([documentPath, value]),
+      mergeExpressionAttributeValues([documentPath, value]),
     );
   }
 

@@ -5,13 +5,13 @@ import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentP
 import { Operand } from '../../../../src/expressions/operands/Operand.js';
 
 describe('creating set action to assign value to attribute', () => {
-  describe('given document path a[0].b.c[1][2] and operand :op', () => {
+  describe('given document path a[0].b.c[1][2] and value :value', () => {
     const documentPath = new DocumentPath([
       new DocumentPathItem('a', [0]),
       new DocumentPathItem('b'),
       new DocumentPathItem('c', [1, 2]),
     ]);
-    const operand = new Operand(':op', {}, { ':op': { S: 'value' } });
+    const operand = new Operand(':value', {}, { ':value': { N: '1' } });
 
     describe('when creating a set action to assign', () => {
       let setAction: SetAction;
@@ -20,8 +20,8 @@ describe('creating set action to assign value to attribute', () => {
         setAction = SetAction.assignValueToAttribute(documentPath, operand);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = :op"', () => {
-        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :op');
+      it('should have the statement "#a[0].#b.#c[1][2] = :value"', () => {
+        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :value');
       });
 
       it('should have the expression attribute names of document path and operand', () => {
@@ -34,7 +34,7 @@ describe('creating set action to assign value to attribute', () => {
 
       it('should have the expression attribute values of document path and operand', () => {
         expect(setAction.expressionAttributeValues).toEqual({
-          ':op': { S: 'value' },
+          ':value': { N: '1' },
         });
       });
     });
