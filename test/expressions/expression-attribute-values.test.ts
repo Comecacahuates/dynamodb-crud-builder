@@ -1,11 +1,50 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import {
+  mergeExpressionAttributeValues,
   buildExpressionAttributeValuePlaceholder,
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
 import { type ExpressionAttributeValues } from '../../src/expressions/index.js';
 import { type DocumentPath } from '../../src/document-path/index.js';
+
+describe('Merging expression attribute values', () => {
+  describe('given three sets of expression attribute values', () => {
+    const expressionAttributeValuesA: ExpressionAttributeValues = {
+      ':a': { S: 'a' },
+      ':b': { S: 'b' },
+    };
+    const expressionAttributeValuesB: ExpressionAttributeValues = {
+      ':b': { S: 'b' },
+      ':c': { S: 'c' },
+    };
+    const expressionAttributeValuesC: ExpressionAttributeValues = {
+      ':c': { S: 'c' },
+      ':d': { S: 'd' },
+    };
+
+    describe('when merging expression attribute values', () => {
+      let mergedExpressionAttributeValues: ExpressionAttributeValues;
+
+      beforeEach(() => {
+        mergedExpressionAttributeValues = mergeExpressionAttributeValues([
+          expressionAttributeValuesA,
+          expressionAttributeValuesB,
+          expressionAttributeValuesC,
+        ]);
+      });
+
+      it('should have all expression attribute values', () => {
+        expect(mergedExpressionAttributeValues).toEqual({
+          ':a': { S: 'a' },
+          ':b': { S: 'b' },
+          ':c': { S: 'c' },
+          ':d': { S: 'd' },
+        });
+      });
+    });
+  });
+});
 
 describe('Building placeholder', () => {
   type TestCase = {

@@ -2,6 +2,18 @@ import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { type ExpressionAttributeValues } from './types.js';
 import { type DocumentPath } from '../document-path/index.js';
 
+export function mergeExpressionAttributeValues(
+  expressionAttributeValuesList: Array<ExpressionAttributeValues>,
+): ExpressionAttributeValues {
+  return expressionAttributeValuesList.reduce(
+    (mergedExpressionAttributeValues, expressionAttributeValues) => ({
+      ...mergedExpressionAttributeValues,
+      ...expressionAttributeValues,
+    }),
+    {},
+  );
+}
+
 export function buildExpressionAttributeValuePlaceholder(
   documentPath: DocumentPath,
 ): string {
