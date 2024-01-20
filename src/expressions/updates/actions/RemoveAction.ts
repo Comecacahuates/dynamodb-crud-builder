@@ -4,7 +4,7 @@ import {
   type ExpressionAttributeValues,
 } from '../../types.js';
 import { UpdateAction } from './UpdateAction.js';
-import { DocumentPath } from '../../operands/DocumentPath.js';
+import { type DocumentPath } from '../../operands/DocumentPath.js';
 
 export class RemoveAction extends UpdateAction {
   public constructor(

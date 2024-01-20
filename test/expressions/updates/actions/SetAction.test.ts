@@ -24,7 +24,7 @@ describe('creating set action to assign value to attribute', () => {
         expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :value');
       });
 
-      it('should have the expression attribute names of document path and operand', () => {
+      it('should have the expression attribute names of document path and value', () => {
         expect(setAction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -32,7 +32,7 @@ describe('creating set action to assign value to attribute', () => {
         });
       });
 
-      it('should have the expression attribute values of document path and operand', () => {
+      it('should have the expression attribute values of document path and value', () => {
         expect(setAction.expressionAttributeValues).toEqual({
           ':value': { N: '1' },
         });

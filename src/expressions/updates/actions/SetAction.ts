@@ -3,8 +3,8 @@ import {
   type ExpressionAttributeValues,
 } from '../../types.js';
 import { UpdateAction } from './UpdateAction.js';
-import { DocumentPath } from '../../operands/DocumentPath.js';
-import { Operand } from '../../operands/Operand.js';
+import { type DocumentPath } from '../../operands/DocumentPath.js';
+import { type Operand } from '../../operands/Operand.js';
 import { mergeExpressionAttributeNames } from '../../expression-attribute-names.js';
 import { mergeExpressionAttributeValues } from '../../expression-attribute-values.js';
 
