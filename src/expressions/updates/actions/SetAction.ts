@@ -17,7 +17,7 @@ export class SetAction extends UpdateAction {
     super(statement, expressionAttributeNames, expressionAttributeValues);
   }
 
-  public static assign(
+  public static assignValueToAttribute(
     documentPath: DocumentPath,
     operand: Operand,
   ): SetAction {
@@ -30,7 +30,7 @@ export class SetAction extends UpdateAction {
     );
   }
 
-  public static assignSum(
+  public static assignSumToAttribute(
     documentPath: DocumentPath,
     operandA: Operand,
     operandB: Operand,
@@ -44,7 +44,7 @@ export class SetAction extends UpdateAction {
     );
   }
 
-  public static assignDifference(
+  public static assignDifferenceToAttribute(
     documentPath: DocumentPath,
     operandA: Operand,
     operandB: Operand,

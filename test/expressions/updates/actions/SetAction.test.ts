@@ -4,7 +4,7 @@ import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.
 import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
 import { Operand } from '../../../../src/expressions/operands/Operand.js';
 
-describe('creating set action to assign value', () => {
+describe('creating set action to assign value to attribute', () => {
   describe('given document path a[0].b.c[1][2] and operand :op', () => {
     const documentPath = new DocumentPath([
       new DocumentPathItem('a', [0]),
@@ -17,7 +17,7 @@ describe('creating set action to assign value', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
-        setAction = SetAction.assign(documentPath, operand);
+        setAction = SetAction.assignValueToAttribute(documentPath, operand);
       });
 
       it('should have the statement "#a[0].#b.#c[1][2] = :op"', () => {
@@ -41,7 +41,7 @@ describe('creating set action to assign value', () => {
   });
 });
 
-describe('creating set action to assign sum of values', () => {
+describe('creating set action to assign sum of values to attribute', () => {
   describe('given document paths a[0].b.c[1][2] and d[0].e.f[1][3] and operand :op', () => {
     const documentPath1 = new DocumentPath([
       new DocumentPathItem('a', [0]),
@@ -59,7 +59,11 @@ describe('creating set action to assign sum of values', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
-        setAction = SetAction.assignSum(documentPath1, documentPath2, operand);
+        setAction = SetAction.assignSumToAttribute(
+          documentPath1,
+          documentPath2,
+          operand,
+        );
       });
 
       it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] + :op"', () => {
@@ -88,7 +92,7 @@ describe('creating set action to assign sum of values', () => {
   });
 });
 
-describe('creating set action to assign difference of values', () => {
+describe('creating set action to assign difference of values to attribute', () => {
   describe('given document paths a[0].b.c[1][2] and d[0].e.f[1][3] and operand :op', () => {
     const documentPath1 = new DocumentPath([
       new DocumentPathItem('a', [0]),
@@ -106,7 +110,7 @@ describe('creating set action to assign difference of values', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
-        setAction = SetAction.assignDifference(
+        setAction = SetAction.assignDifferenceToAttribute(
           documentPath1,
           documentPath2,
           operand,
