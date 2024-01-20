@@ -5,31 +5,32 @@ import {
   buildExpressionAttributeNames,
 } from '../../src/expressions/expression-attribute-names.js';
 import { type ExpressionAttributeNames } from '../../src/expressions/index.js';
-import { type DocumentPath } from '../../src/document-path/index.js';
+import { type DocumentPath as OldDocumentPath } from '../../src/document-path/index.js';
+import { DocumentPath } from '../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathItem } from '../../src/expressions/operands/DocumentPathItem.js';
+import { Literal } from '../../src/expressions/operands/Literal.js';
+import { Condition } from '../../src/expressions/conditions/Condition.js';
 
 describe('Merging expression attribute names', () => {
-  describe('given three sets of expression attribute names', () => {
-    const expressionAttributeNamesA: ExpressionAttributeNames = {
+  describe('given document path a[0].b.c[1][2], a literal and a condition', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const literal = new Literal({ S: 'value' }, () => 'A');
+    const condition = new Condition('attribute_exists(#a)', {
       '#a': 'a',
-      '#b': 'b',
-    };
-    const expressionAttributeNamesB: ExpressionAttributeNames = {
-      '#b': 'b',
-      '#c': 'c',
-    };
-    const expressionAttributeNamesC: ExpressionAttributeNames = {
-      '#c': 'c',
-      '#d': 'd',
-    };
+    });
 
     describe('when merging expression attribute names', () => {
       let mergedExpressionAttributeNames: ExpressionAttributeNames;
 
       beforeEach(() => {
         mergedExpressionAttributeNames = mergeExpressionAttributeNames([
-          expressionAttributeNamesA,
-          expressionAttributeNamesB,
-          expressionAttributeNamesC,
+          documentPath,
+          literal,
+          condition,
         ]);
       });
 
@@ -38,7 +39,6 @@ describe('Merging expression attribute names', () => {
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
-          '#d': 'd',
         });
       });
     });
@@ -48,7 +48,7 @@ describe('Merging expression attribute names', () => {
 describe('Building placeholder', () => {
   type TestCase = {
     testName: string;
-    documentPath: DocumentPath;
+    documentPath: OldDocumentPath;
     placeholder: string;
   };
 
@@ -86,7 +86,7 @@ describe('Building placeholder', () => {
 describe('Building expression attribute name', () => {
   type TestCase = {
     testName: string;
-    documentPath: DocumentPath;
+    documentPath: OldDocumentPath;
     expressionAttributeNames: ExpressionAttributeNames;
   };
 

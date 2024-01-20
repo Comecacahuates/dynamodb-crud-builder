@@ -1,23 +1,25 @@
 import { type ExpressionAttributeNames } from './types.js';
 import {
-  type DocumentPath,
+  type DocumentPath as OldDocumentPath,
   formatDocumentPathItem,
 } from '../document-path/index.js';
+import { type Operand } from './operands/Operand.js';
+import { type Condition } from './conditions/Condition.js';
 
 export function mergeExpressionAttributeNames(
-  expressionAttributeNamesList: Array<ExpressionAttributeNames>,
+  operandsAndConditions: Array<Operand | Condition>,
 ): ExpressionAttributeNames {
-  return expressionAttributeNamesList.reduce(
-    (mergedExpressionAttributeNames, expressionAttributeNames) => ({
+  return operandsAndConditions.reduce(
+    (mergedExpressionAttributeNames, operandOrCondition) => ({
       ...mergedExpressionAttributeNames,
-      ...expressionAttributeNames,
+      ...operandOrCondition.expressionAttributeNames,
     }),
     {},
   );
 }
 
 export function buildExpressionAttributeNamePlaceholder(
-  documentPath: DocumentPath,
+  documentPath: OldDocumentPath,
 ): string {
   return documentPath
     .map((documentPathItem) => `#${formatDocumentPathItem(documentPathItem)}`)
@@ -25,7 +27,7 @@ export function buildExpressionAttributeNamePlaceholder(
 }
 
 export function buildExpressionAttributeNames(
-  documentPath: DocumentPath,
+  documentPath: OldDocumentPath,
 ): ExpressionAttributeNames {
   return documentPath
     .map((documentPathItem) => documentPathItem.attributeName)
