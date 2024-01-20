@@ -13,7 +13,7 @@ describe('creating set action to assign value to attribute', () => {
     ]);
     const operand = new Operand(':value', {}, { ':value': { N: '1' } });
 
-    describe('when creating a set action to assign', () => {
+    describe('when creating a set action', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
@@ -55,7 +55,7 @@ describe('creating set action to assign sum of values to attribute', () => {
     ]);
     const operand = new Operand(':op', {}, { ':op': { N: '1' } });
 
-    describe('when creating a set action to assign', () => {
+    describe('when creating a set action', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
@@ -106,7 +106,7 @@ describe('creating set action to assign difference of values to attribute', () =
     ]);
     const operand = new Operand(':op', {}, { ':op': { N: '1' } });
 
-    describe('when creating a set action to assign', () => {
+    describe('when creating a set action', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
