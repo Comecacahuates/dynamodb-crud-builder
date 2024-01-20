@@ -4,6 +4,18 @@ import {
   formatDocumentPathItem,
 } from '../document-path/index.js';
 
+export function mergeExpressionAttributeNames(
+  expressionAttributeNamesList: Array<ExpressionAttributeNames>,
+): ExpressionAttributeNames {
+  return expressionAttributeNamesList.reduce(
+    (mergedExpressionAttributeNames, expressionAttributeNames) => ({
+      ...mergedExpressionAttributeNames,
+      ...expressionAttributeNames,
+    }),
+    {},
+  );
+}
+
 export function buildExpressionAttributeNamePlaceholder(
   documentPath: DocumentPath,
 ): string {

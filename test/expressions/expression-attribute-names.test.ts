@@ -1,10 +1,49 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
+  mergeExpressionAttributeNames,
   buildExpressionAttributeNamePlaceholder,
   buildExpressionAttributeNames,
 } from '../../src/expressions/expression-attribute-names.js';
 import { type ExpressionAttributeNames } from '../../src/expressions/index.js';
 import { type DocumentPath } from '../../src/document-path/index.js';
+
+describe('Merging expression attribute names', () => {
+  describe('given three sets of expression attribute names', () => {
+    const expressionAttributeNamesA: ExpressionAttributeNames = {
+      '#a': 'a',
+      '#b': 'b',
+    };
+    const expressionAttributeNamesB: ExpressionAttributeNames = {
+      '#b': 'b',
+      '#c': 'c',
+    };
+    const expressionAttributeNamesC: ExpressionAttributeNames = {
+      '#c': 'c',
+      '#d': 'd',
+    };
+
+    describe('when merging expression attribute names', () => {
+      let mergedExpressionAttributeNames: ExpressionAttributeNames;
+
+      beforeEach(() => {
+        mergedExpressionAttributeNames = mergeExpressionAttributeNames([
+          expressionAttributeNamesA,
+          expressionAttributeNamesB,
+          expressionAttributeNamesC,
+        ]);
+      });
+
+      it('should have all expression attribute names', () => {
+        expect(mergedExpressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+          '#d': 'd',
+        });
+      });
+    });
+  });
+});
 
 describe('Building placeholder', () => {
   type TestCase = {
