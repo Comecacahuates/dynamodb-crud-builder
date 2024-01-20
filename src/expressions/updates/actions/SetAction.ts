@@ -3,6 +3,10 @@ import {
   type ExpressionAttributeValues,
 } from '../../types.js';
 import { UpdateAction } from './UpdateAction.js';
+import { DocumentPath } from '../../operands/DocumentPath.js';
+import { Operand } from '../../operands/Operand.js';
+import { mergeExpressionAttributeNames } from '../../expression-attribute-names.js';
+import { mergeExpressionAttributeValues } from '../../expression-attribute-values.js';
 
 export class SetAction extends UpdateAction {
   public constructor(
@@ -11,5 +15,18 @@ export class SetAction extends UpdateAction {
     expressionAttributeValues: ExpressionAttributeValues,
   ) {
     super(statement, expressionAttributeNames, expressionAttributeValues);
+  }
+
+  public static assign(
+    documentPath: DocumentPath,
+    operand: Operand,
+  ): SetAction {
+    const statement = `${documentPath.symbolicValue} = ${operand.symbolicValue}`;
+
+    return new SetAction(
+      statement,
+      mergeExpressionAttributeNames([documentPath, operand]),
+      mergeExpressionAttributeValues([documentPath, operand]),
+    );
   }
 }

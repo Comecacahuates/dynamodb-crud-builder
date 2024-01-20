@@ -1,51 +1,41 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { SetAction } from '../../../../src/expressions/updates/actions/SetAction.js';
-import {
-  type ExpressionAttributeNames,
-  type ExpressionAttributeValues,
-} from '../../../../src/expressions/types.js';
+import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
+import { Operand } from '../../../../src/expressions/operands/Operand.js';
 
 describe('creating set action', () => {
-  describe('given a statement, expression attribute names and expression attribute values', () => {
-    const statement = '#a = :b';
-    const expressionAttributeNames: ExpressionAttributeNames = {
-      '#a': 'a',
-    };
-    const expressionAttributeValues: ExpressionAttributeValues = {
-      ':b': { S: 'b' },
-    };
+  describe('given document path a[0].b.c[1][2] and operand :op', () => {
+    const documentPath = new DocumentPath([
+      new DocumentPathItem('a', [0]),
+      new DocumentPathItem('b'),
+      new DocumentPathItem('c', [1, 2]),
+    ]);
+    const operand = new Operand(':op', {}, { ':op': { S: 'value' } });
 
-    describe('when creating a set action', () => {
+    describe('when creating a set action to assign', () => {
       let setAction: SetAction;
 
       beforeEach(() => {
-        setAction = new SetAction(
-          statement,
-          expressionAttributeNames,
-          expressionAttributeValues,
-        );
+        setAction = SetAction.assign(documentPath, operand);
       });
 
-      it('should have the statement', () => {
-        expect(setAction.statement).toBe(statement);
+      it('should have the statement "#a[0].#b.#c[1][2] = :op"', () => {
+        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :op');
       });
 
-      it('should have a copy of the expression attribute names', () => {
-        expect(setAction.expressionAttributeNames).not.toBe(
-          expressionAttributeNames,
-        );
-        expect(setAction.expressionAttributeNames).toEqual(
-          expressionAttributeNames,
-        );
+      it('should have the expression attribute names of document path and operand', () => {
+        expect(setAction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
       });
 
-      it('should have a copy of the expression attribute values', () => {
-        expect(setAction.expressionAttributeValues).not.toBe(
-          expressionAttributeValues,
-        );
-        expect(setAction.expressionAttributeValues).toEqual(
-          expressionAttributeValues,
-        );
+      it('should have the expression attribute values of document path and operand', () => {
+        expect(setAction.expressionAttributeValues).toEqual({
+          ':op': { S: 'value' },
+        });
       });
     });
   });
