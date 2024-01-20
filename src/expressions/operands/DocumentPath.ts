@@ -54,34 +54,22 @@ export class DocumentPath extends Operand {
   }
 
   public attributeExists(): Condition {
-    const allOperands = [this];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const conditionExpression = `attribute_exists(${this.symbolicValue})`;
 
     return new Condition(
-      `attribute_exists(${this.symbolicValue})`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      conditionExpression,
+      this.expressionAttributeNames,
+      this.expressionAttributeValues,
     );
   }
 
   public attributeNotExists(): Condition {
-    const allOperands = [this];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const conditionExpression = `attribute_not_exists(${this.symbolicValue})`;
 
     return new Condition(
-      `attribute_not_exists(${this.symbolicValue})`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      conditionExpression,
+      this.expressionAttributeNames,
+      this.expressionAttributeValues,
     );
   }
 
@@ -96,6 +84,8 @@ export class DocumentPath extends Operand {
   }
 
   public type(type: Literal): Condition {
+    const conditionExpression = `attribute_type(${this.symbolicValue}, ${type.symbolicValue})`;
+
     const allOperands = [this, type];
 
     const expressionAttributeNames =
@@ -105,13 +95,15 @@ export class DocumentPath extends Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `attribute_type(${this.symbolicValue}, ${type.symbolicValue})`,
+      conditionExpression,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
   public beginsWith(prefix: Literal): Condition {
+    const conditionExpression = `begins_with(${this.symbolicValue}, ${prefix.symbolicValue})`;
+
     const allOperands = [this, prefix];
 
     const expressionAttributeNames =
@@ -121,7 +113,7 @@ export class DocumentPath extends Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `begins_with(${this.symbolicValue}, ${prefix.symbolicValue})`,
+      conditionExpression,
       expressionAttributeNames,
       expressionAttributeValues,
     );
