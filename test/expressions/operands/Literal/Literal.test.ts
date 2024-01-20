@@ -1,29 +1,21 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
-import uniform from '@stdlib/random/base/uniform';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('creating literal', () => {
-  describe('given an attribute value and a prng', () => {
+  describe('given an attribute value and a function to generate random strings', () => {
     const attributeValue: AttributeValue = { N: '1' };
-    const prng = uniform.factory({ seed: 10 });
+    const mockRandomStringGenerator = jest.fn(() => 'randomString');
 
     describe('when creating a literal', () => {
       let literal: Literal;
 
       beforeEach(() => {
-        literal = new Literal(attributeValue, prng);
+        literal = new Literal(attributeValue, mockRandomStringGenerator);
       });
 
-      describe('each time', () => {
-        const tenTimes = Array(10).fill(null);
-
-        it.each(tenTimes)(
-          'should have a random symbolic value matching the regex ^:[a-zA-Z]w*$',
-          () => {
-            expect(literal.symbolicValue).toMatch(/^:[a-zA-Z]\w*$/);
-          },
-        );
+      it('should have a random symbolic value matching the regex ^:literal\\w+$', () => {
+        expect(literal.symbolicValue).toMatch(/^:literal\w+$/);
       });
 
       it('should have empty expression attribute names', () => {
