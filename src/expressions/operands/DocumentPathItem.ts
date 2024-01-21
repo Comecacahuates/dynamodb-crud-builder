@@ -25,8 +25,9 @@ export class DocumentPathItem {
   public static parseAttributeName(
     documentPathItemString: string,
   ): string | null {
-    const attributeNameRegex = /^[a-zA-Z]\w+/;
+    const attributeNameRegex = /^[a-zA-Z]\w*/;
     const match = documentPathItemString.match(attributeNameRegex);
+    console.log('match', match);
 
     return match ? match[0] : null;
   }

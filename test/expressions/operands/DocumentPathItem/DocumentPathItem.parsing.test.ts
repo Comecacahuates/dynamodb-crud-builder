@@ -1,16 +1,12 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
 
-describe('validating document path item string', () => {
+describe('checking if document path item string is parsable', () => {
   describe('given the string "attr0"', () => {
     const documentPathItemString = 'attr0';
 
-    describe('when validating document path item string', () => {
-      let isValid: boolean;
-
-      beforeEach(() => {
-        isValid = DocumentPathItem.isParsable(documentPathItemString);
-      });
+    describe('when checking if it is parsable', () => {
+      const isValid = DocumentPathItem.isParsable(documentPathItemString);
 
       it('should return true', () => {
         expect(isValid).toBe(true);
@@ -21,12 +17,8 @@ describe('validating document path item string', () => {
   describe('given the string "attr0[1][2]"', () => {
     const documentPathItemString = 'attr0[1][2]';
 
-    describe('when validating document path item string', () => {
-      let isValid: boolean;
-
-      beforeEach(() => {
-        isValid = DocumentPathItem.isParsable(documentPathItemString);
-      });
+    describe('when checking if it is parsable', () => {
+      const isValid = DocumentPathItem.isParsable(documentPathItemString);
 
       it('should return true', () => {
         expect(isValid).toBe(true);
@@ -37,12 +29,8 @@ describe('validating document path item string', () => {
   describe('given the string "attr0[1][2a]"', () => {
     const documentPathItemString = 'attr0[1][2a]';
 
-    describe('when validating document path item string', () => {
-      let isValid: boolean;
-
-      beforeEach(() => {
-        isValid = DocumentPathItem.isParsable(documentPathItemString);
-      });
+    describe('when checking if it is parsable', () => {
+      const isValid = DocumentPathItem.isParsable(documentPathItemString);
 
       it('should return false', () => {
         expect(isValid).toBe(false);
@@ -53,12 +41,8 @@ describe('validating document path item string', () => {
   describe('given the string " - attr0 [1][2]"', () => {
     const documentPathItemString = ' - attr0 [1][2]';
 
-    describe('when validating document path item string', () => {
-      let isValid: boolean;
-
-      beforeEach(() => {
-        isValid = DocumentPathItem.isParsable(documentPathItemString);
-      });
+    describe('when checking if it is parsable', () => {
+      const isValid = DocumentPathItem.isParsable(documentPathItemString);
 
       it('should return false', () => {
         expect(isValid).toBe(false);
@@ -68,17 +52,27 @@ describe('validating document path item string', () => {
 });
 
 describe('parsing attribute name', () => {
+  describe('given the string "a"', () => {
+    const documentPathItemString = 'a';
+
+    describe('when parsing attribute name', () => {
+      const attributeName = DocumentPathItem.parseAttributeName(
+        documentPathItemString,
+      );
+
+      it('should return "a"', () => {
+        expect(attributeName).toBe('a');
+      });
+    });
+  });
+
   describe('given the string "attr0"', () => {
     const documentPathItemString = 'attr0';
 
     describe('when parsing attribute name', () => {
-      let attributeName: string | null;
-
-      beforeEach(() => {
-        attributeName = DocumentPathItem.parseAttributeName(
-          documentPathItemString,
-        );
-      });
+      const attributeName = DocumentPathItem.parseAttributeName(
+        documentPathItemString,
+      );
 
       it('should return "attr0"', () => {
         expect(attributeName).toBe('attr0');
@@ -90,13 +84,9 @@ describe('parsing attribute name', () => {
     const documentPathItemString = 'attr0[1][2]';
 
     describe('when parsing attribute name', () => {
-      let attributeName: string | null;
-
-      beforeEach(() => {
-        attributeName = DocumentPathItem.parseAttributeName(
-          documentPathItemString,
-        );
-      });
+      const attributeName = DocumentPathItem.parseAttributeName(
+        documentPathItemString,
+      );
 
       it('should return "attr0"', () => {
         expect(attributeName).toBe('attr0');
@@ -108,13 +98,9 @@ describe('parsing attribute name', () => {
     const documentPathItemString = '0attr0';
 
     describe('when parsing attribute name', () => {
-      let attributeName: string | null;
-
-      beforeEach(() => {
-        attributeName = DocumentPathItem.parseAttributeName(
-          documentPathItemString,
-        );
-      });
+      const attributeName = DocumentPathItem.parseAttributeName(
+        documentPathItemString,
+      );
 
       it('should return null', () => {
         expect(attributeName).toBeNull();
@@ -128,11 +114,7 @@ describe('parsing indexes', () => {
     const documentPathItemString = 'attr0';
 
     describe('when parsing indexes', () => {
-      let indexes: Array<number> | null;
-
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
+      const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
 
       it('should return an empty array', () => {
         expect(indexes).toEqual([]);
@@ -144,11 +126,7 @@ describe('parsing indexes', () => {
     const documentPathItemString = 'attr0[1][2]';
 
     describe('when parsing indexes', () => {
-      let indexes: Array<number> | null;
-
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
+      const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
 
       it('should return [1, 2]', () => {
         expect(indexes).toEqual([1, 2]);
@@ -160,11 +138,7 @@ describe('parsing indexes', () => {
     const documentPathItemString = ' - attr0 [1][2]';
 
     describe('when parsing indexes', () => {
-      let indexes: Array<number>;
-
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
+      const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
 
       it('should return [1, 2]', () => {
         expect(indexes).toEqual([1, 2]);
@@ -176,11 +150,7 @@ describe('parsing indexes', () => {
     const documentPathItemString = 'attr0 [1 [2a] - ';
 
     describe('when parsing indexes', () => {
-      let indexes: Array<number> | null;
-
-      beforeEach(() => {
-        indexes = DocumentPathItem.parseIndexes(documentPathItemString);
-      });
+      const indexes = DocumentPathItem.parseIndexes(documentPathItemString);
 
       it('should return empty array', () => {
         expect(indexes).toEqual([]);
@@ -194,11 +164,7 @@ describe('parsing document path item', () => {
     const documentPathItemString = 'attr0';
 
     describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem | null;
-
-      beforeEach(() => {
-        documentPathItem = DocumentPathItem.parse(documentPathItemString);
-      });
+      const documentPathItem = DocumentPathItem.parse(documentPathItemString);
 
       it('should return a document path item with attribute name "attr0"', () => {
         expect(documentPathItem!.attributeName).toEqual('attr0');
@@ -214,11 +180,7 @@ describe('parsing document path item', () => {
     const documentPathItemString = 'attr0[1][2]';
 
     describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem | null;
-
-      beforeEach(() => {
-        documentPathItem = DocumentPathItem.parse(documentPathItemString);
-      });
+      const documentPathItem = DocumentPathItem.parse(documentPathItemString);
 
       it('should return a document path item with attribute name "attr0"', () => {
         expect(documentPathItem!.attributeName).toEqual('attr0');
@@ -234,11 +196,7 @@ describe('parsing document path item', () => {
     const documentPathItemString = 'attr0 [1] [2a] - ';
 
     describe('when parsing document path item', () => {
-      let documentPathItem: DocumentPathItem | null;
-
-      beforeEach(() => {
-        documentPathItem = DocumentPathItem.parse(documentPathItemString);
-      });
+      const documentPathItem = DocumentPathItem.parse(documentPathItemString);
 
       it('should return null', () => {
         expect(documentPathItem).toBeNull();
