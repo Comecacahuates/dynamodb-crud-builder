@@ -1,4 +1,4 @@
-import { describe, it, test, expect, beforeEach } from '@jest/globals';
+import { describe, it, test, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 
 describe('parsing document path string', () => {
@@ -6,11 +6,7 @@ describe('parsing document path string', () => {
     const documentPathString = 'attr0';
 
     describe('when parsing document path string', () => {
-      let documentPath: DocumentPath;
-
-      beforeEach(() => {
-        documentPath = DocumentPath.parse(documentPathString)!;
-      });
+      const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with one item', () => {
         expect(documentPath.documentPathItems).toHaveLength(1);
@@ -27,11 +23,7 @@ describe('parsing document path string', () => {
     const documentPathString = 'attr0[1][2]';
 
     describe('when parsing document path string', () => {
-      let documentPath: DocumentPath;
-
-      beforeEach(() => {
-        documentPath = DocumentPath.parse(documentPathString)!;
-      });
+      const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with one item', () => {
         expect(documentPath.documentPathItems).toHaveLength(1);
@@ -48,11 +40,7 @@ describe('parsing document path string', () => {
     const documentPathString = 'attr0[1].attr1.attr2[2][3]';
 
     describe('when parsing document path string', () => {
-      let documentPath: DocumentPath;
-
-      beforeEach(() => {
-        documentPath = DocumentPath.parse(documentPathString)!;
-      });
+      const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with three items', () => {
         expect(documentPath.documentPathItems).toHaveLength(3);
@@ -79,11 +67,7 @@ describe('parsing document path string', () => {
     const documentPathString = 'attr0[a].attr1[2].attr2[3]';
 
     describe('when parsing document path string', () => {
-      let documentPath: DocumentPath | null;
-
-      beforeEach(() => {
-        documentPath = DocumentPath.parse(documentPathString);
-      });
+      const documentPath = DocumentPath.parse(documentPathString);
 
       it('should return null', () => {
         expect(documentPath).toBeNull();
