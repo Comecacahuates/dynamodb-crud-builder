@@ -6,7 +6,7 @@ import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 
 export class DocumentPath extends Operand {
-  public constructor(
+  private constructor(
     public readonly documentPathItems: Array<DocumentPathItem>,
   ) {
     const symbolicValue = DocumentPath.buildSymbolicValue(documentPathItems);

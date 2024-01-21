@@ -1,5 +1,5 @@
 export class DocumentPathItem {
-  public constructor(
+  private constructor(
     public readonly attributeName: string,
     public readonly indexes: Array<number> = [],
   ) {}

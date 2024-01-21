@@ -1,26 +1,15 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
-import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
-import { Condition } from '../../../../src/expressions/conditions/Condition.js';
-import { Operand } from '../../../../src/expressions/operands/Operand.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('functions', () => {
-  describe('given document path a[0].b.c[1][2]', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
+  describe('given document path "a[0].b.c[1][2]"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
 
     describe('when checking if attribute exists', () => {
-      let condition: Condition;
+      const condition = documentPath.attributeExists();
 
-      beforeEach(() => {
-        condition = documentPath.attributeExists();
-      });
-
-      it('should return a condition with expression :opA > :opB', () => {
+      it('should return a condition with expression "attribute_exists(#a[0].#b.#c[1][2])"', () => {
         expect(condition.expression).toBe(
           'attribute_exists(#a[0].#b.#c[1][2])',
         );
@@ -40,13 +29,9 @@ describe('functions', () => {
     });
 
     describe('when checking if attribute not exists', () => {
-      let condition: Condition;
+      const condition = documentPath.attributeNotExists();
 
-      beforeEach(() => {
-        condition = documentPath.attributeNotExists();
-      });
-
-      it('should return a condition with expression :opA > :opB', () => {
+      it('should return a condition with expression "attribute_not_exists(#a[0].#b.#c[1][2])"', () => {
         expect(condition.expression).toBe(
           'attribute_not_exists(#a[0].#b.#c[1][2])',
         );
@@ -66,11 +51,7 @@ describe('functions', () => {
     });
 
     describe('when getting attribute size', () => {
-      let operand: Operand;
-
-      beforeEach(() => {
-        operand = documentPath.size();
-      });
+      const operand = documentPath.size();
 
       it('should return an operand with symbolic value "size(#a[0].#b.#c[1][2])"', () => {
         expect(operand.symbolicValue).toBe('size(#a[0].#b.#c[1][2])');
@@ -90,20 +71,12 @@ describe('functions', () => {
     });
   });
 
-  describe('given document path a[0].b.c[1][2] and literal { S: "type" }', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const literal = new Literal({ S: 'type' }, () => 'Type');
+  describe('given document path "a[0].b.c[1][2]" and literal string "type" named "Type"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue('type', 'Type');
 
     describe('when checking if attribute is of type', () => {
-      let condition: Condition;
-
-      beforeEach(() => {
-        condition = documentPath.type(literal);
-      });
+      const condition = documentPath.type(literal);
 
       it('should return a condition with expression "attribute_type(#a[0].#b.#c[1][2], :literalType)', () => {
         expect(condition.expression).toBe(
@@ -127,22 +100,14 @@ describe('functions', () => {
     });
   });
 
-  describe('given document path a[0].b.c[1][2] and literal { S: "prefix" }', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const literal = new Literal({ S: 'prefix' }, () => 'Prefix');
+  describe('given document path "a[0].b.c[1][2]" and literal string "prefix" named "Prefix"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue('prefix', 'Prefix');
 
     describe('when checking if attribute begins with', () => {
-      let condition: Condition;
+      const condition = documentPath.beginsWith(literal);
 
-      beforeEach(() => {
-        condition = documentPath.beginsWith(literal);
-      });
-
-      it('should return a condition with expression "begins_with(#a[0].#b.#c[1][2], :literalPrefix)', () => {
+      it('should return a condition with expression "begins_with(#a[0].#b.#c[1][2], :literalPrefix)"', () => {
         expect(condition.expression).toBe(
           'begins_with(#a[0].#b.#c[1][2], :literalPrefix)',
         );
@@ -164,23 +129,17 @@ describe('functions', () => {
     });
   });
 
-  describe('given document path a[0].b.c[1][2] and operand :op', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const operand = new Operand(':op', {}, { ':op': { N: '1' } });
+  describe('given document path "a[0].b.c[1][2]" and literal string "value" named "Value"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue('value', 'Value');
 
     describe('when checking if attribute contains operand', () => {
-      let condition: Condition;
+      const condition = documentPath.contains(literal);
 
-      beforeEach(() => {
-        condition = documentPath.contains(operand);
-      });
-
-      it('should return a condition with expression "contains(#a[0].#b.#c[1][2], :op)', () => {
-        expect(condition.expression).toBe('contains(#a[0].#b.#c[1][2], :op)');
+      it('should return a condition with expression "contains(#a[0].#b.#c[1][2], :literalValue)"', () => {
+        expect(condition.expression).toBe(
+          'contains(#a[0].#b.#c[1][2], :literalValue)',
+        );
       });
 
       it('should return a condition with the same expression attribute names', () => {

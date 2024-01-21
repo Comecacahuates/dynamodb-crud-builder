@@ -1,30 +1,21 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { SetAction } from '../../../../src/expressions/updates/actions/SetAction.js';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
-import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
-import { Operand } from '../../../../src/expressions/operands/Operand.js';
+import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('creating set action to assign value to attribute', () => {
-  describe('given document path a[0].b.c[1][2] and value :value', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const operand = new Operand(':value', {}, { ':value': { N: '1' } });
+  describe('given document path "a[0].b.c[1][2]" and literal number 1 named "Number"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating a set action', () => {
-      let setAction: SetAction;
+      const setAction = SetAction.assignValueToAttribute(documentPath, literal);
 
-      beforeEach(() => {
-        setAction = SetAction.assignValueToAttribute(documentPath, operand);
+      it('should have the statement "#a[0].#b.#c[1][2] = :literalNumber"', () => {
+        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :literalNumber');
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = :value"', () => {
-        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :value');
-      });
-
-      it('should have the expression attribute names of document path and value', () => {
+      it('should have the expression attribute names of the document path', () => {
         expect(setAction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -32,47 +23,31 @@ describe('creating set action to assign value to attribute', () => {
         });
       });
 
-      it('should have the expression attribute values of document path and value', () => {
+      it('should have the expression attribute values of the literal', () => {
         expect(setAction.expressionAttributeValues).toEqual({
-          ':value': { N: '1' },
+          ':literalNumber': { N: '1' },
         });
       });
     });
   });
-});
 
-describe('creating set action to assign sum of values to attribute', () => {
-  describe('given document paths a[0].b.c[1][2] and d[0].e.f[1][3] and operand :op', () => {
-    const documentPath1 = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const documentPath2 = new DocumentPath([
-      new DocumentPathItem('d', [0]),
-      new DocumentPathItem('e'),
-      new DocumentPathItem('f', [1, 3]),
-    ]);
-    const operand = new Operand(':op', {}, { ':op': { N: '1' } });
+  describe('given document path A "a[0].b.c[1][2]" and document path B "d[0].e.f[1][3]"', () => {
+    const documentPathA = DocumentPath.parse('a[0].b.c[1][2]');
+    const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating a set action', () => {
-      let setAction: SetAction;
+      const setAction = SetAction.assignValueToAttribute(
+        documentPathA,
+        documentPathB,
+      );
 
-      beforeEach(() => {
-        setAction = SetAction.assignSumToAttribute(
-          documentPath1,
-          documentPath2,
-          operand,
-        );
-      });
-
-      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] + :op"', () => {
+      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3]"', () => {
         expect(setAction.statement).toBe(
-          '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] + :op',
+          '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3]',
         );
       });
 
-      it('should have the expression attribute names of document path and operand', () => {
+      it('should have the expression attribute names of document paths', () => {
         expect(setAction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -83,9 +58,46 @@ describe('creating set action to assign sum of values to attribute', () => {
         });
       });
 
-      it('should have the expression attribute values of document path and operand', () => {
+      it('should have no expression attribute values', () => {
+        expect(setAction.expressionAttributeValues).toEqual({});
+      });
+    });
+  });
+});
+
+describe('creating set action to assign sum of values to attribute', () => {
+  describe('given document path A "a[0].b.c[1][2]", document path B "d[0].e.f[1][3]" and literal number 1 named "Number"', () => {
+    const documentPathA = DocumentPath.parse('a[0].b.c[1][2]');
+    const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
+    const literal = Literal.fromValue(1, 'Number');
+
+    describe('when creating a set action', () => {
+      const setAction = SetAction.assignSumToAttribute(
+        documentPathA,
+        documentPathB,
+        literal,
+      );
+
+      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] + :literalNumber"', () => {
+        expect(setAction.statement).toBe(
+          '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] + :literalNumber',
+        );
+      });
+
+      it('should have the expression attribute names of document paths', () => {
+        expect(setAction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+          '#d': 'd',
+          '#e': 'e',
+          '#f': 'f',
+        });
+      });
+
+      it('should have the expression attribute values of literal', () => {
         expect(setAction.expressionAttributeValues).toEqual({
-          ':op': { N: '1' },
+          ':literalNumber': { N: '1' },
         });
       });
     });
@@ -93,37 +105,25 @@ describe('creating set action to assign sum of values to attribute', () => {
 });
 
 describe('creating set action to assign difference of values to attribute', () => {
-  describe('given document paths a[0].b.c[1][2] and d[0].e.f[1][3] and operand :op', () => {
-    const documentPath1 = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const documentPath2 = new DocumentPath([
-      new DocumentPathItem('d', [0]),
-      new DocumentPathItem('e'),
-      new DocumentPathItem('f', [1, 3]),
-    ]);
-    const operand = new Operand(':op', {}, { ':op': { N: '1' } });
+  describe('given document path A "a[0].b.c[1][2]", document path B "d[0].e.f[1][3]" and literal number 1 named "Number"', () => {
+    const documentPathA = DocumentPath.parse('a[0].b.c[1][2]');
+    const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
+    const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating a set action', () => {
-      let setAction: SetAction;
+      const setAction = SetAction.assignDifferenceToAttribute(
+        documentPathA,
+        documentPathB,
+        literal,
+      );
 
-      beforeEach(() => {
-        setAction = SetAction.assignDifferenceToAttribute(
-          documentPath1,
-          documentPath2,
-          operand,
-        );
-      });
-
-      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] - :op"', () => {
+      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] - :literalNumber"', () => {
         expect(setAction.statement).toBe(
-          '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] - :op',
+          '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3] - :literalNumber',
         );
       });
 
-      it('should have the expression attribute names of document path and operand', () => {
+      it('should have the expression attribute names of document paths', () => {
         expect(setAction.expressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -134,9 +134,9 @@ describe('creating set action to assign difference of values to attribute', () =
         });
       });
 
-      it('should have the expression attribute values of document path and operand', () => {
+      it('should have the expression attribute values of literal', () => {
         expect(setAction.expressionAttributeValues).toEqual({
-          ':op': { N: '1' },
+          ':literalNumber': { N: '1' },
         });
       });
     });

@@ -12,16 +12,14 @@ import { Literal } from '../../src/expressions/operands/Literal.js';
 import { Condition } from '../../src/expressions/conditions/Condition.js';
 
 describe('Merging expression attribute names', () => {
-  describe('given document path a[0].b.c[1][2], a literal and a condition', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const literal = new Literal({ S: 'value' }, () => 'A');
-    const condition = new Condition('attribute_exists(#z)', {
-      '#z': 'z',
-    });
+  describe.only('given document path attr0[0].attr1.attr2[1][2], a literal and a condition', () => {
+    const documentPath = DocumentPath.parse('attr[0].attr1.attr2[1][2]')!;
+    const literal = Literal.fromValue('value', 'A');
+    const condition = documentPath.attributeExists();
+
+    console.log(JSON.stringify(documentPath.expressionAttributeNames, null, 2));
+    console.log(JSON.stringify(literal.expressionAttributeNames, null, 2));
+    console.log(JSON.stringify(condition.expressionAttributeNames, null, 2));
 
     describe('when merging expression attribute names', () => {
       let mergedExpressionAttributeNames: ExpressionAttributeNames;
@@ -39,7 +37,6 @@ describe('Merging expression attribute names', () => {
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
-          '#z': 'z',
         });
       });
     });

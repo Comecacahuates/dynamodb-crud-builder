@@ -1,27 +1,18 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { AddAction } from '../../../../src/expressions/updates/actions/AddAction.js';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
-import { DocumentPathItem } from '../../../../src/expressions/operands/DocumentPathItem.js';
-import { Operand } from '../../../../src/expressions/operands/Operand.js';
+import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('creating add action to add a value to attribute', () => {
-  describe('given document path a[0].b.c[1][2] and value :value', () => {
-    const documentPath = new DocumentPath([
-      new DocumentPathItem('a', [0]),
-      new DocumentPathItem('b'),
-      new DocumentPathItem('c', [1, 2]),
-    ]);
-    const operand = new Operand(':value', {}, { ':value': { N: '1' } });
+  describe('given document path "a[0].b.c[1][2]" and literal number 1 named "Number"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating an add action', () => {
-      let addAction: AddAction;
+      const addAction = AddAction.addValueToAttribute(documentPath, literal);
 
-      beforeEach(() => {
-        addAction = AddAction.addValueToAttribute(documentPath, operand);
-      });
-
-      it('should have the statement "#a[0].#b.#c[1][2] :value"', () => {
-        expect(addAction.statement).toBe('#a[0].#b.#c[1][2] :value');
+      it('should have the statement "#a[0].#b.#c[1][2] :literalNumber"', () => {
+        expect(addAction.statement).toBe('#a[0].#b.#c[1][2] :literalNumber');
       });
 
       it('should have the expression attribute names of document path and value', () => {
@@ -34,7 +25,7 @@ describe('creating add action to add a value to attribute', () => {
 
       it('should have the expression attribute values of document path and value', () => {
         expect(addAction.expressionAttributeValues).toEqual({
-          ':value': { N: '1' },
+          ':literalNumber': { N: '1' },
         });
       });
     });
