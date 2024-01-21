@@ -4,7 +4,7 @@ import {
   type ExpressionAttributeValues,
 } from '../types.js';
 
-export abstract class Operand {
+export class Operand {
   public constructor(
     public readonly symbolicValue: string,
     public readonly expressionAttributeNames: ExpressionAttributeNames = {},
