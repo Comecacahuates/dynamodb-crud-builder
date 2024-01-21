@@ -1,5 +1,6 @@
 import { describe, it, test, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
+import { DocumentPathParsingError } from '../../../../src/errors/index.js';
 
 describe('parsing document path string', () => {
   describe('given the string "attr0"', () => {
@@ -67,10 +68,10 @@ describe('parsing document path string', () => {
     const documentPathString = 'attr0[a].attr1[2].attr2[3]';
 
     describe('when parsing document path string', () => {
-      const documentPath = DocumentPath.parse(documentPathString);
-
-      it('should return null', () => {
-        expect(documentPath).toBeNull();
+      it('should throw a DocumentPathParsingError', () => {
+        expect(() => {
+          DocumentPath.parse(documentPathString);
+        }).toThrow(DocumentPathParsingError);
       });
     });
   });

@@ -3,6 +3,7 @@ import { DocumentPathItem } from './DocumentPathItem.js';
 import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
 import { type ExpressionAttributeNames } from '../../expressions/index.js';
+import { DocumentPathParsingError } from '../../errors/index.js';
 
 export class DocumentPath extends Operand {
   public constructor(
@@ -34,7 +35,7 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public static parse(documentPathString: string): DocumentPath | null {
+  public static parse(documentPathString: string): DocumentPath {
     const documentPathItems = documentPathString
       .split('.')
       .map((documentPathItemString) =>
@@ -43,7 +44,7 @@ export class DocumentPath extends Operand {
 
     const invalidDocumentPathItems = documentPathItems.includes(null);
     if (invalidDocumentPathItems) {
-      return null;
+      throw new DocumentPathParsingError(documentPathString);
     }
 
     return new DocumentPath(documentPathItems as Array<DocumentPathItem>);
