@@ -1,21 +1,17 @@
-import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
+import { describe, it, expect } from '@jest/globals';
+import { type AttributeType } from '../../../../src/types.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
-describe('creating literal', () => {
-  describe('given an attribute value and a function to generate random strings', () => {
-    const attributeValue: AttributeValue = { N: '1' };
-    const mockRandomStringGenerator = jest.fn(() => 'randomString');
+describe('creating literal from value', () => {
+  describe('given a value and the name "Name"', () => {
+    const value: AttributeType = 'value';
+    const name = 'Name';
 
     describe('when creating a literal', () => {
-      let literal: Literal;
+      const literal = Literal.fromValue(value, name);
 
-      beforeEach(() => {
-        literal = new Literal(attributeValue, mockRandomStringGenerator);
-      });
-
-      it('should have a random symbolic value matching the regex ^:literal\\w+$', () => {
-        expect(literal.symbolicValue).toMatch(/^:literal\w+$/);
+      it('should have a symbolic value :literalName', () => {
+        expect(literal.symbolicValue).toBe(':literalName');
       });
 
       it('should have empty expression attribute names', () => {
@@ -24,7 +20,7 @@ describe('creating literal', () => {
 
       it('should have expression attribute values', () => {
         expect(literal.expressionAttributeValues).toEqual({
-          [literal.symbolicValue]: attributeValue,
+          [literal.symbolicValue]: { S: 'value' },
         });
       });
     });

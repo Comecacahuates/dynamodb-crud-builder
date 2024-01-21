@@ -1,22 +1,31 @@
-import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import { Operand } from './Operand.js';
+import { type AttributeType } from '../../types.js';
+import { AttributeValueBuilder } from '../../attribute-value/AttributeValueBuilder.js';
 import { type ExpressionAttributeValues } from '../types.js';
 import { generateRandomAlphanumericString } from '../../utils/strings.js';
 
-type RandomStringGeneratorFunction = (length: number) => string;
-
 export class Literal extends Operand {
-  public constructor(
-    attributeValue: AttributeValue,
-    randomStringGenerator: RandomStringGeneratorFunction = generateRandomAlphanumericString,
+  private constructor(
+    symbolicValue: string,
+    expressionAttributeNames: undefined,
+    expressionAttributeValues: ExpressionAttributeValues,
   ) {
-    const randomString = randomStringGenerator(10);
-    const symbolicValue = `:literal${randomString}`;
+    super(symbolicValue, expressionAttributeNames, expressionAttributeValues);
+  }
+
+  public static fromValue(value: AttributeType, name?: string): Literal {
+    const attributeValue = AttributeValueBuilder.instance.build(value);
+    name ??= generateRandomAlphanumericString(10);
+
+    const symbolicValue = `:literal${name}`;
     const expressionAttributeNames = undefined;
     const expressionAttributeValues: ExpressionAttributeValues = {
       [symbolicValue]: attributeValue,
     };
-
-    super(symbolicValue, expressionAttributeNames, expressionAttributeValues);
+    return new Literal(
+      symbolicValue,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 }
