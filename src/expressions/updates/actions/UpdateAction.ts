@@ -37,6 +37,20 @@ export class UpdateAction {
     );
   }
 
+  public static increment(
+    documentPath: DocumentPath,
+    value: Operand,
+  ): UpdateAction {
+    const statement = `${documentPath.symbolicValue} = ${documentPath.symbolicValue} + ${value.symbolicValue}`;
+
+    return new UpdateAction(
+      UpdateActionType.SET,
+      statement,
+      mergeExpressionAttributeNames([documentPath, value]),
+      mergeExpressionAttributeValues([documentPath, value]),
+    );
+  }
+
   public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
     const statement = `${documentPath.symbolicValue} ${value.symbolicValue}`;
 
