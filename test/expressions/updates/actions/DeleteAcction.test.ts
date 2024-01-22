@@ -1,51 +1,35 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { DeleteAction } from '../../../../src/expressions/updates/actions/DeleteAction.js';
-import {
-  type ExpressionAttributeNames,
-  type ExpressionAttributeValues,
-} from '../../../../src/expressions/types.js';
+import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
+import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
-describe('creating delete action', () => {
-  describe('given a statement, expression attribute names and expression attribute values', () => {
-    const statement = '#a :b';
-    const expressionAttributeNames: ExpressionAttributeNames = {
-      '#a': 'a',
-    };
-    const expressionAttributeValues: ExpressionAttributeValues = {
-      ':b': { S: 'b' },
-    };
+describe('creating delete action to delete elements from set', () => {
+  describe('given document path "a[0].b.c[1][2]" and literal string "string" named "String"', () => {
+    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
+    const literal = Literal.fromValue('string', 'String');
 
     describe('when creating a delete action', () => {
-      let deleteAction: DeleteAction;
+      const deleteAction = DeleteAction.deleteElementsFromSet(
+        documentPath,
+        literal,
+      );
 
-      beforeEach(() => {
-        deleteAction = new DeleteAction(
-          statement,
-          expressionAttributeNames,
-          expressionAttributeValues,
-        );
+      it('should have the statement "#a[0].#b.#c[1][2] :literalString"', () => {
+        expect(deleteAction.statement).toBe('#a[0].#b.#c[1][2] :literalString');
       });
 
-      it('should have the statement', () => {
-        expect(deleteAction.statement).toBe(statement);
+      it('should have the expression attribute names of document path and value', () => {
+        expect(deleteAction.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
       });
 
-      it('should have a copy of the expression attribute names', () => {
-        expect(deleteAction.expressionAttributeNames).not.toBe(
-          expressionAttributeNames,
-        );
-        expect(deleteAction.expressionAttributeNames).toEqual(
-          expressionAttributeNames,
-        );
-      });
-
-      it('should have a copy of the expression attribute values', () => {
-        expect(deleteAction.expressionAttributeValues).not.toBe(
-          expressionAttributeValues,
-        );
-        expect(deleteAction.expressionAttributeValues).toEqual(
-          expressionAttributeValues,
-        );
+      it('should have the expression attribute values of document path and value', () => {
+        expect(deleteAction.expressionAttributeValues).toEqual({
+          ':literalString': { S: 'string' },
+        });
       });
     });
   });

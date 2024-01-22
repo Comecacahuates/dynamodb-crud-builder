@@ -17,10 +17,6 @@ describe('Merging expression attribute names', () => {
     const literal = Literal.fromValue('value', 'A');
     const condition = documentPath.attributeExists();
 
-    console.log(JSON.stringify(documentPath.expressionAttributeNames, null, 2));
-    console.log(JSON.stringify(literal.expressionAttributeNames, null, 2));
-    console.log(JSON.stringify(condition.expressionAttributeNames, null, 2));
-
     describe('when merging expression attribute names', () => {
       let mergedExpressionAttributeNames: ExpressionAttributeNames;
 
