@@ -7,7 +7,7 @@ import { UpdateAction } from './UpdateAction.js';
 import { type DocumentPath } from '../../operands/DocumentPath.js';
 
 export class RemoveAction extends UpdateAction {
-  public constructor(
+  private constructor(
     statement: string,
     expressionAttributeNames: ExpressionAttributeNames,
     expressionAttributeValues: ExpressionAttributeValues,
