@@ -65,6 +65,20 @@ export class UpdateAction {
     );
   }
 
+  public static appendItems(
+    documentPath: DocumentPath,
+    items: Operand,
+  ): UpdateAction {
+    const statement = `${documentPath.symbolicValue} = list_append(${documentPath.symbolicValue}, ${items.symbolicValue})`;
+
+    return new UpdateAction(
+      UpdateActionType.SET,
+      statement,
+      mergeExpressionAttributeNames([documentPath, items]),
+      mergeExpressionAttributeValues([documentPath, items]),
+    );
+  }
+
   public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
     const statement = `${documentPath.symbolicValue} ${value.symbolicValue}`;
 
