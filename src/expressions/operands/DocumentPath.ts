@@ -4,6 +4,8 @@ import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
 import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
+import { mergeExpressionAttributeNames } from '../../expressions/index.js';
+import { mergeExpressionAttributeValues } from '../../expressions/index.js';
 
 export class DocumentPath extends Operand {
   private constructor(
@@ -87,54 +89,30 @@ export class DocumentPath extends Operand {
   public type(type: Literal): Condition {
     const conditionExpression = `attribute_type(${this.symbolicValue}, ${type.symbolicValue})`;
 
-    const allOperands = [this, type];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
-
     return new Condition(
       conditionExpression,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      mergeExpressionAttributeNames([this, type]),
+      mergeExpressionAttributeValues([this, type]),
     );
   }
 
   public beginsWith(prefix: Literal): Condition {
     const conditionExpression = `begins_with(${this.symbolicValue}, ${prefix.symbolicValue})`;
 
-    const allOperands = [this, prefix];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
-
     return new Condition(
       conditionExpression,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      mergeExpressionAttributeNames([this, prefix]),
+      mergeExpressionAttributeValues([this, prefix]),
     );
   }
 
   public contains(operand: Operand): Condition {
     const conditionExpression = `contains(${this.symbolicValue}, ${operand.symbolicValue})`;
 
-    const allOperands = [this, operand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
-
     return new Condition(
       conditionExpression,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      mergeExpressionAttributeNames([this, operand]),
+      mergeExpressionAttributeValues([this, operand]),
     );
   }
 }
