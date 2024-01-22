@@ -6,7 +6,7 @@ import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { mergeExpressionAttributeNames } from '../../expressions/index.js';
 import { mergeExpressionAttributeValues } from '../../expressions/index.js';
-import { SetAction } from '../updates/actions/index.js';
+import { UpdateAction } from '../updates/actions/UpdateAction.js';
 
 export class DocumentPath extends Operand {
   private constructor(
@@ -117,15 +117,15 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public setValue(value: Operand): SetAction {
-    return SetAction.setValue(this, value);
+  public setValue(value: Operand): UpdateAction {
+    return UpdateAction.setValue(this, value);
   }
 
-  public addNumber(value: Operand): SetAction {
-    return SetAction.setValue(this, this.plus(value));
+  public addNumber(value: Operand): UpdateAction {
+    return UpdateAction.setValue(this, this.plus(value));
   }
 
-  public subtractNumber(value: Operand): SetAction {
-    return SetAction.setValue(this, this.minus(value));
+  public subtractNumber(value: Operand): UpdateAction {
+    return UpdateAction.setValue(this, this.minus(value));
   }
 }
