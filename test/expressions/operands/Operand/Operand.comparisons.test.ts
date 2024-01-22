@@ -1,6 +1,5 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { Operand } from '../../../../src/expressions/operands/Operand.js';
-import { Condition } from '../../../../src/expressions/conditions/Condition.js';
 
 describe('comparisons', () => {
   describe('given operands opA and opB', () => {
@@ -16,11 +15,7 @@ describe('comparisons', () => {
     const opB = new Operand(':opB', {}, { ':opB': { N: '1' } });
 
     describe('when comparing equal to', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.equalTo(opB);
-      });
+      const comparison = opA.equalTo(opB);
 
       it('should return a condition with expression :opA = :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 = :opB');
@@ -42,11 +37,7 @@ describe('comparisons', () => {
     });
 
     describe('when comparing not equal to', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.notEqualTo(opB);
-      });
+      const comparison = opA.notEqualTo(opB);
 
       it('should return a condition with expression :opA <> :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <> :opB');
@@ -68,11 +59,7 @@ describe('comparisons', () => {
     });
 
     describe('when comparing less than', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.lessThan(opB);
-      });
+      const comparison = opA.lessThan(opB);
 
       it('should return a condition with expression :opA < :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 < :opB');
@@ -94,11 +81,7 @@ describe('comparisons', () => {
     });
 
     describe('when comparing less than or equal to', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.lessThanOrEqualTo(opB);
-      });
+      const comparison = opA.lessThanOrEqualTo(opB);
 
       it('should return a condition with expression :opA <= :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <= :opB');
@@ -120,11 +103,7 @@ describe('comparisons', () => {
     });
 
     describe('when comparing greater than', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.greaterThan(opB);
-      });
+      const comparison = opA.greaterThan(opB);
 
       it('should return a condition with expression :opA > :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 > :opB');
@@ -146,11 +125,7 @@ describe('comparisons', () => {
     });
 
     describe('when comparing greater than or equal to', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.greaterThanOrEqualTo(opB);
-      });
+      const comparison = opA.greaterThanOrEqualTo(opB);
 
       it('should return a condition with expression :opA >= :opB', () => {
         expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 >= :opB');
@@ -186,11 +161,7 @@ describe('comparisons', () => {
     const opC = new Operand(':opC', {}, { ':opC': { N: '2' } });
 
     describe('when comparing between', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.between(opB, opC);
-      });
+      const comparison = opA.between(opB, opC);
 
       it('should return a condition with expression :opA BETWEEN :opB AND :opC', () => {
         expect(comparison.expression).toBe(
@@ -232,11 +203,7 @@ describe('comparisons', () => {
     ];
 
     describe('when comparing in', () => {
-      let comparison: Condition;
-
-      beforeEach(() => {
-        comparison = opA.in(...operandsList);
-      });
+      const comparison = opA.in(...operandsList);
 
       it('should return a condition with expression :opA IN (:opB, :opC, :opD)', () => {
         expect(comparison.expression).toBe(

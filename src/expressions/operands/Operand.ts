@@ -31,8 +31,8 @@ export class Operand {
     );
   }
 
-  public equalTo(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public plus(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -41,14 +41,14 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} = ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} + ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
-  public notEqualTo(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public equalTo(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -57,14 +57,14 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} <> ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} = ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
-  public lessThan(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public notEqualTo(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -73,14 +73,14 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} < ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} <> ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
-  public lessThanOrEqualTo(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public lessThan(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -89,14 +89,14 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} <= ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} < ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
-  public greaterThan(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public lessThanOrEqualTo(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -105,14 +105,14 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} > ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} <= ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
   }
 
-  public greaterThanOrEqualTo(otherOperand: Operand): Condition {
-    const allOperands = [this, otherOperand];
+  public greaterThan(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
 
     const expressionAttributeNames =
       Operand.mergeExpressionAttributeNames(allOperands);
@@ -121,7 +121,23 @@ export class Operand {
       Operand.mergeExpressionAttributeValues(allOperands);
 
     return new Condition(
-      `${this.symbolicValue} >= ${otherOperand.symbolicValue}`,
+      `${this.symbolicValue} > ${anotherOperand.symbolicValue}`,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
+
+  public greaterThanOrEqualTo(anotherOperand: Operand): Condition {
+    const allOperands = [this, anotherOperand];
+
+    const expressionAttributeNames =
+      Operand.mergeExpressionAttributeNames(allOperands);
+
+    const expressionAttributeValues =
+      Operand.mergeExpressionAttributeValues(allOperands);
+
+    return new Condition(
+      `${this.symbolicValue} >= ${anotherOperand.symbolicValue}`,
       expressionAttributeNames,
       expressionAttributeValues,
     );
