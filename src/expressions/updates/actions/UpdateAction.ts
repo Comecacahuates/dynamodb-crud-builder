@@ -26,14 +26,22 @@ export class UpdateAction {
     this.expressionAttributeValues = clone(expressionAttributeValues);
   }
 
-  public static setValue(
-    documentPath: DocumentPath,
-    value: Operand,
-  ): UpdateAction {
+  public static set(documentPath: DocumentPath, value: Operand): UpdateAction {
     const statement = `${documentPath.symbolicValue} = ${value.symbolicValue}`;
 
     return new UpdateAction(
       UpdateActionType.SET,
+      statement,
+      mergeExpressionAttributeNames([documentPath, value]),
+      mergeExpressionAttributeValues([documentPath, value]),
+    );
+  }
+
+  public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
+    const statement = `${documentPath.symbolicValue} ${value.symbolicValue}`;
+
+    return new UpdateAction(
+      UpdateActionType.ADD,
       statement,
       mergeExpressionAttributeNames([documentPath, value]),
       mergeExpressionAttributeValues([documentPath, value]),

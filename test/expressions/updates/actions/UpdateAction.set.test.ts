@@ -6,13 +6,13 @@ import {
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
-describe('creating action to set value', () => {
+describe('creating update action to set value', () => {
   describe('given document path "a[0].b.c[1][2]" and literal number 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating a set action', () => {
-      const setAction = UpdateAction.setValue(documentPath, literal);
+      const setAction = UpdateAction.set(documentPath, literal);
 
       it('should have the type "SET"', () => {
         expect(setAction.type).toBe(UpdateActionType.SET);
@@ -43,7 +43,7 @@ describe('creating action to set value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating a set action', () => {
-      const setAction = UpdateAction.setValue(documentPathA, documentPathB);
+      const setAction = UpdateAction.set(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
         expect(setAction.type).toBe(UpdateActionType.SET);
