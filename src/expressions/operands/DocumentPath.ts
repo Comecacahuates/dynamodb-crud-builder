@@ -6,6 +6,7 @@ import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { mergeExpressionAttributeNames } from '../../expressions/index.js';
 import { mergeExpressionAttributeValues } from '../../expressions/index.js';
+import { SetAction } from '../updates/actions/index.js';
 
 export class DocumentPath extends Operand {
   private constructor(
@@ -114,5 +115,9 @@ export class DocumentPath extends Operand {
       mergeExpressionAttributeNames([this, operand]),
       mergeExpressionAttributeValues([this, operand]),
     );
+  }
+
+  public setValue(value: Operand): SetAction {
+    return SetAction.setValue(this, value);
   }
 }
