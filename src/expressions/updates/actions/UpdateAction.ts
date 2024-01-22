@@ -100,4 +100,18 @@ export class UpdateAction {
       documentPath.expressionAttributeValues,
     );
   }
+
+  public static delete(
+    documentPath: DocumentPath,
+    elements: Operand,
+  ): UpdateAction {
+    const statement = `${documentPath.symbolicValue} ${elements.symbolicValue}`;
+
+    return new UpdateAction(
+      UpdateActionType.DELETE,
+      statement,
+      mergeExpressionAttributeNames([documentPath, elements]),
+      mergeExpressionAttributeValues([documentPath, elements]),
+    );
+  }
 }
