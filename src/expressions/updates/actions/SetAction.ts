@@ -9,7 +9,7 @@ import { mergeExpressionAttributeNames } from '../../expression-attribute-names.
 import { mergeExpressionAttributeValues } from '../../expression-attribute-values.js';
 
 export class SetAction extends UpdateAction {
-  public constructor(
+  private constructor(
     statement: string,
     expressionAttributeNames: ExpressionAttributeNames,
     expressionAttributeValues: ExpressionAttributeValues,
