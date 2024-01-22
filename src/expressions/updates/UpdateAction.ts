@@ -1,12 +1,12 @@
 import clone from 'just-clone';
-import { type DocumentPath } from '../../operands/DocumentPath.js';
-import { type Operand } from '../../operands/Operand.js';
+import { type DocumentPath } from '../operands/DocumentPath.js';
+import { type Operand } from '../operands/Operand.js';
 import {
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
-} from '../../types.js';
-import { mergeExpressionAttributeNames } from '../../expression-attribute-names.js';
-import { mergeExpressionAttributeValues } from '../../expression-attribute-values.js';
+} from '../types.js';
+import { mergeExpressionAttributeNames } from '../expression-attribute-names.js';
+import { mergeExpressionAttributeValues } from '../expression-attribute-values.js';
 
 export enum UpdateActionType {
   SET,

@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import {
   UpdateAction,
   UpdateActionType,
-} from '../../../../src/expressions/updates/actions/UpdateAction.js';
+} from '../../../../src/expressions/updates/UpdateAction.js';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 
 describe('creating update action to remove attribute', () => {

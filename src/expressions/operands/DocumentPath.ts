@@ -6,7 +6,7 @@ import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { mergeExpressionAttributeNames } from '../../expressions/index.js';
 import { mergeExpressionAttributeValues } from '../../expressions/index.js';
-import { UpdateAction } from '../updates/actions/UpdateAction.js';
+import { UpdateAction } from '../updates/UpdateAction.js';
 
 export class DocumentPath extends Operand {
   private constructor(
