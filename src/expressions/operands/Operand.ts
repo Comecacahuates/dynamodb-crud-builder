@@ -3,6 +3,8 @@ import {
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
 } from '../types.js';
+import { mergeExpressionAttributeNames } from '../expression-attribute-names.js';
+import { mergeExpressionAttributeValues } from '../expression-attribute-values.js';
 
 export class Operand {
   public constructor(
@@ -11,171 +13,105 @@ export class Operand {
     public readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
 
-  protected static mergeExpressionAttributeNames(operands: Array<Operand>) {
-    return operands.reduce(
-      (expressionAttributeNames, condition) => ({
-        ...expressionAttributeNames,
-        ...condition.expressionAttributeNames,
-      }),
-      {},
-    );
-  }
-
-  protected static mergeExpressionAttributeValues(operands: Array<Operand>) {
-    return operands.reduce(
-      (expressionAttributeValues, condition) => ({
-        ...expressionAttributeValues,
-        ...condition.expressionAttributeValues,
-      }),
-      {},
-    );
-  }
-
   public plus(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} + ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} + ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
+    );
+  }
+
+  public minus(anotherOperand: Operand): Condition {
+    const expression = `${this.symbolicValue} - ${anotherOperand.symbolicValue}`;
+
+    return new Condition(
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public equalTo(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} = ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} = ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public notEqualTo(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} <> ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} <> ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public lessThan(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} < ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} < ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public lessThanOrEqualTo(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} <= ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} <= ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public greaterThan(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} > ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} > ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public greaterThanOrEqualTo(anotherOperand: Operand): Condition {
-    const allOperands = [this, anotherOperand];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} >= ${anotherOperand.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} >= ${anotherOperand.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, anotherOperand]),
+      mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
   public between(lowerBound: Operand, upperBound: Operand): Condition {
-    const allOperands = [this, lowerBound, upperBound];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
+    const expression = `${this.symbolicValue} BETWEEN ${lowerBound.symbolicValue} AND ${upperBound.symbolicValue}`;
 
     return new Condition(
-      `${this.symbolicValue} BETWEEN ${lowerBound.symbolicValue} AND ${upperBound.symbolicValue}`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, lowerBound, upperBound]),
+      mergeExpressionAttributeValues([this, lowerBound, upperBound]),
     );
   }
 
   public in(...operands: Array<Operand>): Condition {
-    const allOperands = [this, ...operands];
-
-    const expressionAttributeNames =
-      Operand.mergeExpressionAttributeNames(allOperands);
-
-    const expressionAttributeValues =
-      Operand.mergeExpressionAttributeValues(allOperands);
-
-    const symbolicValue = `${this.symbolicValue} IN (${operands
+    const expression = `${this.symbolicValue} IN (${operands
       .map((operand) => operand.symbolicValue)
       .join(', ')})`;
 
     return new Condition(
-      symbolicValue,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      expression,
+      mergeExpressionAttributeNames([this, ...operands]),
+      mergeExpressionAttributeValues([this, ...operands]),
     );
   }
 }
