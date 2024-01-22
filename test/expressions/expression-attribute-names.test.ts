@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import {
   mergeExpressionAttributeNames,
   buildExpressionAttributeNamePlaceholder,
@@ -7,32 +7,26 @@ import {
 import { type ExpressionAttributeNames } from '../../src/expressions/index.js';
 import { type DocumentPath as OldDocumentPath } from '../../src/document-path/index.js';
 import { DocumentPath } from '../../src/expressions/operands/DocumentPath.js';
-import { DocumentPathItem } from '../../src/expressions/operands/DocumentPathItem.js';
 import { Literal } from '../../src/expressions/operands/Literal.js';
-import { Condition } from '../../src/expressions/conditions/Condition.js';
 
 describe('Merging expression attribute names', () => {
-  describe.only('given document path attr0[0].attr1.attr2[1][2], a literal and a condition', () => {
-    const documentPath = DocumentPath.parse('attr[0].attr1.attr2[1][2]')!;
+  describe('given document path attr0[0].attr1.attr2[1][2], a literal and a condition', () => {
+    const documentPath = DocumentPath.parse('attr0[0].attr1.attr2[1][2]')!;
     const literal = Literal.fromValue('value', 'A');
     const condition = documentPath.attributeExists();
 
     describe('when merging expression attribute names', () => {
-      let mergedExpressionAttributeNames: ExpressionAttributeNames;
-
-      beforeEach(() => {
-        mergedExpressionAttributeNames = mergeExpressionAttributeNames([
-          documentPath,
-          literal,
-          condition,
-        ]);
-      });
+      const mergedExpressionAttributeNames = mergeExpressionAttributeNames([
+        documentPath,
+        literal,
+        condition,
+      ]);
 
       it('should have all expression attribute names', () => {
         expect(mergedExpressionAttributeNames).toEqual({
-          '#a': 'a',
-          '#b': 'b',
-          '#c': 'c',
+          '#attr0': 'attr0',
+          '#attr1': 'attr1',
+          '#attr2': 'attr2',
         });
       });
     });
