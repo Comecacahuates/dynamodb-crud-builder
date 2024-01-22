@@ -124,4 +124,8 @@ export class DocumentPath extends Operand {
   public addNumber(value: Operand): SetAction {
     return SetAction.setValue(this, this.plus(value));
   }
+
+  public subtractNumber(value: Operand): SetAction {
+    return SetAction.setValue(this, this.minus(value));
+  }
 }
