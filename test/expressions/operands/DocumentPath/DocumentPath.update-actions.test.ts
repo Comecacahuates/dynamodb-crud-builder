@@ -62,3 +62,64 @@ describe('setting value', () => {
     });
   });
 });
+
+describe('adding a number', () => {
+  describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
+    const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+    const literal = Literal.fromValue(1, 'Number');
+
+    describe('when adding number', () => {
+      const addAction = documentPath.addNumber(literal);
+
+      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber"', () => {
+        expect(addAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber',
+        );
+      });
+
+      it('should return an add action with the expression attribute names of the document path', () => {
+        expect(addAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+        });
+      });
+
+      it('should return an add action with the expression attribute values of the literal', () => {
+        expect(addAction.expressionAttributeValues).toEqual({
+          ':literalNumber': { N: '1' },
+        });
+      });
+    });
+  });
+
+  describe('given document path A "attrA[0].attrB.attrC[1][2]" and document path B "attrD.attrE.attrF[3][4]"', () => {
+    const documentPathA = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+    const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
+
+    describe('when adding number', () => {
+      const addAction = documentPathA.addNumber(documentPathB);
+
+      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + #attrD.#attrE.#attrF[3][4]"', () => {
+        expect(addAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + #attrD.#attrE.#attrF[3][4]',
+        );
+      });
+
+      it('should return an add action with the expression attribute names of both document paths', () => {
+        expect(addAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+          '#attrD': 'attrD',
+          '#attrE': 'attrE',
+          '#attrF': 'attrF',
+        });
+      });
+
+      it('should return an add action with no expression attribute values', () => {
+        expect(addAction.expressionAttributeValues).toEqual({});
+      });
+    });
+  });
+});

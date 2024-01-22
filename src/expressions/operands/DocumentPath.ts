@@ -120,4 +120,8 @@ export class DocumentPath extends Operand {
   public setValue(value: Operand): SetAction {
     return SetAction.setValue(this, value);
   }
+
+  public addNumber(value: Operand): SetAction {
+    return SetAction.setValue(this, this.plus(value));
+  }
 }
