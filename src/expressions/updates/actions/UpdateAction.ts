@@ -89,4 +89,15 @@ export class UpdateAction {
       mergeExpressionAttributeValues([documentPath, value]),
     );
   }
+
+  public static remove(documentPath: DocumentPath): UpdateAction {
+    const statement = `${documentPath.symbolicValue}`;
+
+    return new UpdateAction(
+      UpdateActionType.REMOVE,
+      statement,
+      documentPath.expressionAttributeNames,
+      documentPath.expressionAttributeValues,
+    );
+  }
 }
