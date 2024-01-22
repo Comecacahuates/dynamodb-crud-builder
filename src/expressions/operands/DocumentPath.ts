@@ -118,14 +118,14 @@ export class DocumentPath extends Operand {
   }
 
   public setValue(value: Operand): UpdateAction {
-    return UpdateAction.set(this, value);
+    return UpdateAction.setValue(this, value);
   }
 
-  public addNumber(value: Operand): UpdateAction {
-    return UpdateAction.set(this, this.plus(value));
+  public increment(value: Operand): UpdateAction {
+    return UpdateAction.increment(this, value);
   }
 
-  public subtractNumber(value: Operand): UpdateAction {
-    return UpdateAction.set(this, this.minus(value));
+  public decrement(value: Operand): UpdateAction {
+    return UpdateAction.decrement(this, value);
   }
 }

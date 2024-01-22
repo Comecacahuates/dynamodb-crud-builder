@@ -26,7 +26,10 @@ export class UpdateAction {
     this.expressionAttributeValues = clone(expressionAttributeValues);
   }
 
-  public static set(documentPath: DocumentPath, value: Operand): UpdateAction {
+  public static setValue(
+    documentPath: DocumentPath,
+    value: Operand,
+  ): UpdateAction {
     const statement = `${documentPath.symbolicValue} = ${value.symbolicValue}`;
 
     return new UpdateAction(

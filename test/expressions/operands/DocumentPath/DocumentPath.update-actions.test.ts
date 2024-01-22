@@ -63,13 +63,13 @@ describe('setting value', () => {
   });
 });
 
-describe('adding a number', () => {
+describe('incrementing', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when adding number', () => {
-      const addAction = documentPath.addNumber(literal);
+    describe('when incrementing', () => {
+      const addAction = documentPath.increment(literal);
 
       it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber"', () => {
         expect(addAction.statement).toBe(
@@ -98,7 +98,7 @@ describe('adding a number', () => {
     const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
 
     describe('when adding number', () => {
-      const addAction = documentPathA.addNumber(documentPathB);
+      const addAction = documentPathA.increment(documentPathB);
 
       it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + #attrD.#attrE.#attrF[3][4]"', () => {
         expect(addAction.statement).toBe(
@@ -124,13 +124,13 @@ describe('adding a number', () => {
   });
 });
 
-describe('subtracting a number', () => {
+describe('decrementing', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when subtracting number', () => {
-      const subtractAction = documentPath.subtractNumber(literal);
+    describe('when decrementing', () => {
+      const subtractAction = documentPath.decrement(literal);
 
       it('should return a subtract action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - :literalNumber"', () => {
         expect(subtractAction.statement).toBe(
@@ -159,7 +159,7 @@ describe('subtracting a number', () => {
     const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
 
     describe('when subtracting number', () => {
-      const subtractAction = documentPathA.subtractNumber(documentPathB);
+      const subtractAction = documentPathA.decrement(documentPathB);
 
       it('should return a subtract action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - #attrD.#attrE.#attrF[3][4]"', () => {
         expect(subtractAction.statement).toBe(
