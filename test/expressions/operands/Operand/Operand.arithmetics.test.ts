@@ -18,7 +18,7 @@ describe('sum', () => {
       const sum = opA.plus(opB);
 
       it('should return a condition with expression :opA + :opB', () => {
-        expect(sum.expression).toBe('#opA.#attr0[1][2].#attr1 + :opB');
+        expect(sum.symbolicValue).toBe('#opA.#attr0[1][2].#attr1 + :opB');
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
@@ -55,7 +55,9 @@ describe('difference', () => {
       const difference = opA.minus(opB);
 
       it('should return a condition with expression :opA - :opB', () => {
-        expect(difference.expression).toBe('#opA.#attr0[1][2].#attr1 - :opB');
+        expect(difference.symbolicValue).toBe(
+          '#opA.#attr0[1][2].#attr1 - :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {

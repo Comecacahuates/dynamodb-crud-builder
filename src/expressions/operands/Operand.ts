@@ -13,21 +13,21 @@ export class Operand {
     public readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
 
-  public plus(anotherOperand: Operand): Condition {
-    const expression = `${this.symbolicValue} + ${anotherOperand.symbolicValue}`;
+  public plus(anotherOperand: Operand): Operand {
+    const symbolicValue = `${this.symbolicValue} + ${anotherOperand.symbolicValue}`;
 
-    return new Condition(
-      expression,
+    return new Operand(
+      symbolicValue,
       mergeExpressionAttributeNames([this, anotherOperand]),
       mergeExpressionAttributeValues([this, anotherOperand]),
     );
   }
 
-  public minus(anotherOperand: Operand): Condition {
-    const expression = `${this.symbolicValue} - ${anotherOperand.symbolicValue}`;
+  public minus(anotherOperand: Operand): Operand {
+    const symbolicValue = `${this.symbolicValue} - ${anotherOperand.symbolicValue}`;
 
-    return new Condition(
-      expression,
+    return new Operand(
+      symbolicValue,
       mergeExpressionAttributeNames([this, anotherOperand]),
       mergeExpressionAttributeValues([this, anotherOperand]),
     );
