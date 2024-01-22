@@ -17,7 +17,7 @@ export class SetAction extends UpdateAction {
     super(statement, expressionAttributeNames, expressionAttributeValues);
   }
 
-  public static assignValueToAttribute(
+  public static setValue(
     documentPath: DocumentPath,
     value: Operand,
   ): SetAction {
@@ -27,34 +27,6 @@ export class SetAction extends UpdateAction {
       statement,
       mergeExpressionAttributeNames([documentPath, value]),
       mergeExpressionAttributeValues([documentPath, value]),
-    );
-  }
-
-  public static assignSumToAttribute(
-    documentPath: DocumentPath,
-    operandA: Operand,
-    operandB: Operand,
-  ): SetAction {
-    const statement = `${documentPath.symbolicValue} = ${operandA.symbolicValue} + ${operandB.symbolicValue}`;
-
-    return new SetAction(
-      statement,
-      mergeExpressionAttributeNames([documentPath, operandA, operandB]),
-      mergeExpressionAttributeValues([documentPath, operandA, operandB]),
-    );
-  }
-
-  public static assignDifferenceToAttribute(
-    documentPath: DocumentPath,
-    operandA: Operand,
-    operandB: Operand,
-  ): SetAction {
-    const statement = `${documentPath.symbolicValue} = ${operandA.symbolicValue} - ${operandB.symbolicValue}`;
-
-    return new SetAction(
-      statement,
-      mergeExpressionAttributeNames([documentPath, operandA, operandB]),
-      mergeExpressionAttributeValues([documentPath, operandA, operandB]),
     );
   }
 }
