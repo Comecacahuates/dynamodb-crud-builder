@@ -1,31 +1,64 @@
 import { describe, it, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
+import { UpdateActionType } from '../../../../src/expressions/updates/UpdateAction.js';
 
 describe('set value', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value "string" named "String"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue('string', 'String');
 
-    describe('when setting value', () => {
-      const setAction = documentPath.setValue(literal);
+    describe('when getting `set value` update action', () => {
+      const updateAction = documentPath.setValue(literal);
 
-      it('should return a set action with statement "#attrA[0].#attrB.#attrC[1][2] = :literalString"', () => {
-        expect(setAction.statement).toBe(
+      it('should be a set action', () => {
+        expect(updateAction.type).toBe(UpdateActionType.SET);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] = :literalString"', () => {
+        expect(updateAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] = :literalString',
         );
       });
 
-      it('should return a set action with the expression attribute names of the document path', () => {
-        expect(setAction.expressionAttributeNames).toEqual({
+      it('should have the expression attribute names of the document path', () => {
+        expect(updateAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
           '#attrC': 'attrC',
         });
       });
 
-      it('should return a set action with the expression attribute values of the literal', () => {
-        expect(setAction.expressionAttributeValues).toEqual({
+      it('should have the expression attribute values of the literal', () => {
+        expect(updateAction.expressionAttributeValues).toEqual({
+          ':literalString': { S: 'string' },
+        });
+      });
+    });
+
+    describe('when getting `set value if not exists` update action', () => {
+      const updateAction = documentPath.setValueIfNotExists(literal);
+
+      it('should be a set action', () => {
+        expect(updateAction.type).toBe(UpdateActionType.SET);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] = if_not_exists(#attrA[0].#attrB.#attrC[1][2], :literalString)"', () => {
+        expect(updateAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] = if_not_exists(#attrA[0].#attrB.#attrC[1][2], :literalString)',
+        );
+      });
+
+      it('should have the expression attribute names of the document path', () => {
+        expect(updateAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+        });
+      });
+
+      it('should have the expression attribute values of the literal', () => {
+        expect(updateAction.expressionAttributeValues).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -38,25 +71,29 @@ describe('increment', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when incrementing', () => {
-      const addAction = documentPath.increment(literal);
+    describe('when getting `increment` update action', () => {
+      const updateAction = documentPath.increment(literal);
 
-      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber"', () => {
-        expect(addAction.statement).toBe(
+      it('should be a set action', () => {
+        expect(updateAction.type).toBe(UpdateActionType.SET);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber"', () => {
+        expect(updateAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + :literalNumber',
         );
       });
 
-      it('should return an add action with the expression attribute names of the document path', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+      it('should have the expression attribute names of the document path', () => {
+        expect(updateAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
           '#attrC': 'attrC',
         });
       });
 
-      it('should return an add action with the expression attribute values of the literal', () => {
-        expect(addAction.expressionAttributeValues).toEqual({
+      it('should have the expression attribute values of the literal', () => {
+        expect(updateAction.expressionAttributeValues).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -69,25 +106,29 @@ describe('decrement', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when decrementing', () => {
-      const subtractAction = documentPath.decrement(literal);
+    describe('when getting `decrement` update action', () => {
+      const updateAction = documentPath.decrement(literal);
 
-      it('should return a subtract action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - :literalNumber"', () => {
-        expect(subtractAction.statement).toBe(
+      it('should be a set action', () => {
+        expect(updateAction.type).toBe(UpdateActionType.SET);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - :literalNumber"', () => {
+        expect(updateAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - :literalNumber',
         );
       });
 
-      it('should return a subtract action with the expression attribute names of the document path', () => {
-        expect(subtractAction.expressionAttributeNames).toEqual({
+      it('should have the expression attribute names of the document path', () => {
+        expect(updateAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
           '#attrC': 'attrC',
         });
       });
 
-      it('should return a subtract action with the expression attribute values of the literal', () => {
-        expect(subtractAction.expressionAttributeValues).toEqual({
+      it('should have the expression attribute values of the literal', () => {
+        expect(updateAction.expressionAttributeValues).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -100,16 +141,20 @@ describe('append items', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue([1, 2, 3], 'List');
 
-    describe('when appending items', () => {
+    describe('when getting `append items` update action', () => {
       const addAction = documentPath.appendItems(literal);
 
-      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = list_append(#attrA[0].#attrB.#attrC[1][2], :literalList)"', () => {
+      it('should be a set action', () => {
+        expect(addAction.type).toBe(UpdateActionType.SET);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] = list_append(#attrA[0].#attrB.#attrC[1][2], :literalList)"', () => {
         expect(addAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] = list_append(#attrA[0].#attrB.#attrC[1][2], :literalList)',
         );
       });
 
-      it('should return an add action with the expression attribute names of the document path', () => {
+      it('should have the expression attribute names of the document path', () => {
         expect(addAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
@@ -117,7 +162,7 @@ describe('append items', () => {
         });
       });
 
-      it('should return an add action with the expression attribute values of the literal', () => {
+      it('should have the expression attribute values of the literal', () => {
         expect(addAction.expressionAttributeValues).toEqual({
           ':literalList': { L: [{ N: '1' }, { N: '2' }, { N: '3' }] },
         });
@@ -131,16 +176,20 @@ describe('add', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when adding', () => {
+    describe('when getting `add` update action', () => {
       const addAction = documentPath.add(literal);
 
-      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] :literalNumber"', () => {
+      it('should be an add action', () => {
+        expect(addAction.type).toBe(UpdateActionType.ADD);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] :literalNumber"', () => {
         expect(addAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] :literalNumber',
         );
       });
 
-      it('should return an add action with the expression attribute names of the document path', () => {
+      it('should have the expression attribute names of the document path', () => {
         expect(addAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
@@ -148,7 +197,7 @@ describe('add', () => {
         });
       });
 
-      it('should return an add action with the expression attribute values of the literal', () => {
+      it('should have the expression attribute values of the literal', () => {
         expect(addAction.expressionAttributeValues).toEqual({
           ':literalNumber': { N: '1' },
         });
@@ -161,14 +210,18 @@ describe('remove', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
 
-    describe('when removing', () => {
+    describe('when getting `remove` update action', () => {
       const removeAction = documentPath.remove();
 
-      it('should return a remove action with statement "#attrA[0].#attrB.#attrC[1][2]"', () => {
+      it('should be a remove action', () => {
+        expect(removeAction.type).toBe(UpdateActionType.REMOVE);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2]"', () => {
         expect(removeAction.statement).toBe('#attrA[0].#attrB.#attrC[1][2]');
       });
 
-      it('should return a remove action with the expression attribute names of the document path', () => {
+      it('should have the expression attribute names of the document path', () => {
         expect(removeAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
@@ -176,7 +229,7 @@ describe('remove', () => {
         });
       });
 
-      it('should return a remove action with no expression attribute values', () => {
+      it('should have no expression attribute values', () => {
         expect(removeAction.expressionAttributeValues).toEqual({});
       });
     });
@@ -188,16 +241,20 @@ describe('delete', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(new Set([1, 2, 3]), 'Set');
 
-    describe('when deleting', () => {
+    describe('when getting `delete` update action', () => {
       const deleteAction = documentPath.delete(literal);
 
-      it('should return a delete action with statement "#attrA[0].#attrB.#attrC[1][2] :literalSet"', () => {
+      it('should be a delete action', () => {
+        expect(deleteAction.type).toBe(UpdateActionType.DELETE);
+      });
+
+      it('should have statement "#attrA[0].#attrB.#attrC[1][2] :literalSet"', () => {
         expect(deleteAction.statement).toBe(
           '#attrA[0].#attrB.#attrC[1][2] :literalSet',
         );
       });
 
-      it('should return a delete action with the expression attribute names of the document path', () => {
+      it('should have the expression attribute names of the document path', () => {
         expect(deleteAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
@@ -205,7 +262,7 @@ describe('delete', () => {
         });
       });
 
-      it('should return a delete action with the expression attribute values of the literal', () => {
+      it('should have the expression attribute values of the literal', () => {
         expect(deleteAction.expressionAttributeValues).toEqual({
           ':literalSet': { NS: ['1', '2', '3'] },
         });

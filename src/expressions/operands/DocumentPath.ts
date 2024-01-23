@@ -131,6 +131,10 @@ export class DocumentPath extends Operand {
     return UpdateAction.setValue(this, value);
   }
 
+  public setValueIfNotExists(value: Operand): UpdateAction {
+    return UpdateAction.setValue(this, this.ifNotExists(value));
+  }
+
   public increment(value: Operand): UpdateAction {
     return UpdateAction.increment(this, value);
   }
