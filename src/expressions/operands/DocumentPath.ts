@@ -140,4 +140,8 @@ export class DocumentPath extends Operand {
   public remove(): UpdateAction {
     return UpdateAction.remove(this);
   }
+
+  public delete(elements: Operand): UpdateAction {
+    return UpdateAction.delete(this, elements);
+  }
 }

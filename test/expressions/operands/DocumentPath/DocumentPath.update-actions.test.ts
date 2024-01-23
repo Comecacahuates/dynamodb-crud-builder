@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
-describe('setting value', () => {
+describe('set value', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value "string" named "String"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue('string', 'String');
@@ -33,7 +33,7 @@ describe('setting value', () => {
   });
 });
 
-describe('incrementing', () => {
+describe('increment', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
@@ -64,7 +64,7 @@ describe('incrementing', () => {
   });
 });
 
-describe('decrementing', () => {
+describe('decrement', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
@@ -95,7 +95,7 @@ describe('decrementing', () => {
   });
 });
 
-describe('appending items', () => {
+describe('append items', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value [1, 2, 3] named "List"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue([1, 2, 3], 'List');
@@ -126,7 +126,7 @@ describe('appending items', () => {
   });
 });
 
-describe('adding', () => {
+describe('add', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
     const literal = Literal.fromValue(1, 'Number');
@@ -157,7 +157,7 @@ describe('adding', () => {
   });
 });
 
-describe('removing', () => {
+describe('remove', () => {
   describe('given document path "attrA[0].attrB.attrC[1][2]"', () => {
     const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
 
@@ -178,6 +178,37 @@ describe('removing', () => {
 
       it('should return a remove action with no expression attribute values', () => {
         expect(removeAction.expressionAttributeValues).toEqual({});
+      });
+    });
+  });
+});
+
+describe('delete', () => {
+  describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value {1, 2, 3} named "Set"', () => {
+    const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+    const literal = Literal.fromValue(new Set([1, 2, 3]), 'Set');
+
+    describe('when deleting', () => {
+      const deleteAction = documentPath.delete(literal);
+
+      it('should return a delete action with statement "#attrA[0].#attrB.#attrC[1][2] :literalSet"', () => {
+        expect(deleteAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] :literalSet',
+        );
+      });
+
+      it('should return a delete action with the expression attribute names of the document path', () => {
+        expect(deleteAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+        });
+      });
+
+      it('should return a delete action with the expression attribute values of the literal', () => {
+        expect(deleteAction.expressionAttributeValues).toEqual({
+          ':literalSet': { NS: ['1', '2', '3'] },
+        });
       });
     });
   });
