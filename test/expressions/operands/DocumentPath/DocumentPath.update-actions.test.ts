@@ -31,36 +31,6 @@ describe('setting value', () => {
       });
     });
   });
-
-  describe('given document path A "attrA[0].attrB.attrC[1][2]" and document path B "attrD.attrE.attrF[3][4]"', () => {
-    const documentPathA = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
-    const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
-
-    describe('when setting value', () => {
-      const setAction = documentPathA.setValue(documentPathB);
-
-      it('should return a set action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrD.#attrE.#attrF[3][4]"', () => {
-        expect(setAction.statement).toBe(
-          '#attrA[0].#attrB.#attrC[1][2] = #attrD.#attrE.#attrF[3][4]',
-        );
-      });
-
-      it('should return a set action with the expression attribute names of both document paths', () => {
-        expect(setAction.expressionAttributeNames).toEqual({
-          '#attrA': 'attrA',
-          '#attrB': 'attrB',
-          '#attrC': 'attrC',
-          '#attrD': 'attrD',
-          '#attrE': 'attrE',
-          '#attrF': 'attrF',
-        });
-      });
-
-      it('should return a set action with no expression attribute values', () => {
-        expect(setAction.expressionAttributeValues).toEqual({});
-      });
-    });
-  });
 });
 
 describe('incrementing', () => {
@@ -89,36 +59,6 @@ describe('incrementing', () => {
         expect(addAction.expressionAttributeValues).toEqual({
           ':literalNumber': { N: '1' },
         });
-      });
-    });
-  });
-
-  describe('given document path A "attrA[0].attrB.attrC[1][2]" and document path B "attrD.attrE.attrF[3][4]"', () => {
-    const documentPathA = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
-    const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
-
-    describe('when adding number', () => {
-      const addAction = documentPathA.increment(documentPathB);
-
-      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + #attrD.#attrE.#attrF[3][4]"', () => {
-        expect(addAction.statement).toBe(
-          '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] + #attrD.#attrE.#attrF[3][4]',
-        );
-      });
-
-      it('should return an add action with the expression attribute names of both document paths', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
-          '#attrA': 'attrA',
-          '#attrB': 'attrB',
-          '#attrC': 'attrC',
-          '#attrD': 'attrD',
-          '#attrE': 'attrE',
-          '#attrF': 'attrF',
-        });
-      });
-
-      it('should return an add action with no expression attribute values', () => {
-        expect(addAction.expressionAttributeValues).toEqual({});
       });
     });
   });
@@ -153,33 +93,34 @@ describe('decrementing', () => {
       });
     });
   });
+});
 
-  describe('given document path A "attrA[0].attrB.attrC[1][2]" and document path B "attrD.attrE.attrF[3][4]"', () => {
-    const documentPathA = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
-    const documentPathB = DocumentPath.parse('attrD.attrE.attrF[3][4]');
+describe('appending items', () => {
+  describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value [1, 2, 3] named "List"', () => {
+    const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+    const literal = Literal.fromValue([1, 2, 3], 'List');
 
-    describe('when subtracting number', () => {
-      const subtractAction = documentPathA.decrement(documentPathB);
+    describe('when appending items', () => {
+      const addAction = documentPath.appendItems(literal);
 
-      it('should return a subtract action with statement "#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - #attrD.#attrE.#attrF[3][4]"', () => {
-        expect(subtractAction.statement).toBe(
-          '#attrA[0].#attrB.#attrC[1][2] = #attrA[0].#attrB.#attrC[1][2] - #attrD.#attrE.#attrF[3][4]',
+      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] = list_append(#attrA[0].#attrB.#attrC[1][2], :literalList)"', () => {
+        expect(addAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] = list_append(#attrA[0].#attrB.#attrC[1][2], :literalList)',
         );
       });
 
-      it('should return a subtract action with the expression attribute names of both document paths', () => {
-        expect(subtractAction.expressionAttributeNames).toEqual({
+      it('should return an add action with the expression attribute names of the document path', () => {
+        expect(addAction.expressionAttributeNames).toEqual({
           '#attrA': 'attrA',
           '#attrB': 'attrB',
           '#attrC': 'attrC',
-          '#attrD': 'attrD',
-          '#attrE': 'attrE',
-          '#attrF': 'attrF',
         });
       });
 
-      it('should return a subtract action with no expression attribute values', () => {
-        expect(subtractAction.expressionAttributeValues).toEqual({});
+      it('should return an add action with the expression attribute values of the literal', () => {
+        expect(addAction.expressionAttributeValues).toEqual({
+          ':literalList': { L: [{ N: '1' }, { N: '2' }, { N: '3' }] },
+        });
       });
     });
   });

@@ -128,4 +128,8 @@ export class DocumentPath extends Operand {
   public decrement(value: Operand): UpdateAction {
     return UpdateAction.decrement(this, value);
   }
+
+  public appendItems(items: Operand): UpdateAction {
+    return UpdateAction.appendItems(this, items);
+  }
 }
