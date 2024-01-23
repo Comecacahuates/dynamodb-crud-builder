@@ -150,5 +150,29 @@ describe('functions', () => {
         });
       });
     });
+
+    describe('when getting default value if attribute not exists', () => {
+      const operand = documentPath.ifNotExists(literal);
+
+      it('should return an operand with symbolic value "if_not_exists(#a[0].#b.#c[1][2], :literalValue)"', () => {
+        expect(operand.symbolicValue).toBe(
+          'if_not_exists(#a[0].#b.#c[1][2], :literalValue)',
+        );
+      });
+
+      it('should return an operand with the same expression attribute names', () => {
+        expect(operand.expressionAttributeNames).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should return an operand with the same expression attribute values', () => {
+        expect(operand.expressionAttributeValues).toEqual({
+          ':literalValue': { S: 'value' },
+        });
+      });
+    });
   });
 });

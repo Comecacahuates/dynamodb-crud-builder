@@ -117,6 +117,16 @@ export class DocumentPath extends Operand {
     );
   }
 
+  public ifNotExists(operand: Operand): Operand {
+    const symbolicValue = `if_not_exists(${this.symbolicValue}, ${operand.symbolicValue})`;
+
+    return new Operand(
+      symbolicValue,
+      mergeExpressionAttributeNames([this, operand]),
+      mergeExpressionAttributeValues([this, operand]),
+    );
+  }
+
   public setValue(value: Operand): UpdateAction {
     return UpdateAction.setValue(this, value);
   }
