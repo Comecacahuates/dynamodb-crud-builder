@@ -156,3 +156,29 @@ describe('adding', () => {
     });
   });
 });
+
+describe('removing', () => {
+  describe('given document path "attrA[0].attrB.attrC[1][2]"', () => {
+    const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+
+    describe('when removing', () => {
+      const removeAction = documentPath.remove();
+
+      it('should return a remove action with statement "#attrA[0].#attrB.#attrC[1][2]"', () => {
+        expect(removeAction.statement).toBe('#attrA[0].#attrB.#attrC[1][2]');
+      });
+
+      it('should return a remove action with the expression attribute names of the document path', () => {
+        expect(removeAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+        });
+      });
+
+      it('should return a remove action with no expression attribute values', () => {
+        expect(removeAction.expressionAttributeValues).toEqual({});
+      });
+    });
+  });
+});

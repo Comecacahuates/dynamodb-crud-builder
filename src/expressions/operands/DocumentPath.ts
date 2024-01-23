@@ -136,4 +136,8 @@ export class DocumentPath extends Operand {
   public add(operand: Operand): UpdateAction {
     return UpdateAction.add(this, operand);
   }
+
+  public remove(): UpdateAction {
+    return UpdateAction.remove(this);
+  }
 }
