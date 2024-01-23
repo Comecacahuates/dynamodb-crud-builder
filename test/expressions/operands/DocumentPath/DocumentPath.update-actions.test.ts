@@ -125,3 +125,34 @@ describe('appending items', () => {
     });
   });
 });
+
+describe('adding', () => {
+  describe('given document path "attrA[0].attrB.attrC[1][2]" and literal value 1 named "Number"', () => {
+    const documentPath = DocumentPath.parse('attrA[0].attrB.attrC[1][2]');
+    const literal = Literal.fromValue(1, 'Number');
+
+    describe('when adding', () => {
+      const addAction = documentPath.add(literal);
+
+      it('should return an add action with statement "#attrA[0].#attrB.#attrC[1][2] :literalNumber"', () => {
+        expect(addAction.statement).toBe(
+          '#attrA[0].#attrB.#attrC[1][2] :literalNumber',
+        );
+      });
+
+      it('should return an add action with the expression attribute names of the document path', () => {
+        expect(addAction.expressionAttributeNames).toEqual({
+          '#attrA': 'attrA',
+          '#attrB': 'attrB',
+          '#attrC': 'attrC',
+        });
+      });
+
+      it('should return an add action with the expression attribute values of the literal', () => {
+        expect(addAction.expressionAttributeValues).toEqual({
+          ':literalNumber': { N: '1' },
+        });
+      });
+    });
+  });
+});

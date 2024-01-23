@@ -132,4 +132,8 @@ export class DocumentPath extends Operand {
   public appendItems(items: Operand): UpdateAction {
     return UpdateAction.appendItems(this, items);
   }
+
+  public add(operand: Operand): UpdateAction {
+    return UpdateAction.add(this, operand);
+  }
 }
