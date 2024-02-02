@@ -33,4 +33,14 @@ export class Expression {
     );
     return merge({}, ...allExpressionAttributeNames);
   }
+
+  public mergeExpressionAttributeValues(
+    ...otherExpressions: Array<Expression>
+  ): ExpressionAttributeValues {
+    const allExpressions = [this, ...otherExpressions];
+    const allExpressionAttributeValues = allExpressions.map(
+      (expression) => expression.expressionAttributeValues,
+    );
+    return merge({}, ...allExpressionAttributeValues);
+  }
 }

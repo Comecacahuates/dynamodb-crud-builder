@@ -72,6 +72,63 @@ describe('merging expression attribute names', () => {
           '#c': 'attribute',
         });
       });
+
+      it('should return a new object', () => {
+        expect(mergedExpressionAttributeNames).not.toBe(
+          expressionA.getExpressionAttributeNames(),
+        );
+        expect(mergedExpressionAttributeNames).not.toBe(
+          expressionB.getExpressionAttributeNames(),
+        );
+        expect(mergedExpressionAttributeNames).not.toBe(
+          expressionC.getExpressionAttributeNames(),
+        );
+      });
+    });
+  });
+});
+
+describe('merging expression attribute values', () => {
+  describe('given three expressions', () => {
+    const expressionA = new Expression(
+      '#a = :a',
+      { '#a': 'attribute' },
+      { ':a': { S: 'a-value' } },
+    );
+    const expressionB = new Expression(
+      '#b = :b',
+      { '#b': 'attribute' },
+      { ':b': { S: 'b-value' } },
+    );
+    const expressionC = new Expression(
+      '#c = :c',
+      { '#c': 'attribute' },
+      { ':c': { S: 'c-value' } },
+    );
+
+    describe('when merging their expression attribute values', () => {
+      const mergedExpressionAttributeValues =
+        expressionA.mergeExpressionAttributeValues(expressionB, expressionC);
+
+      it('should return the merged expression attribute values', () => {
+        expect(mergedExpressionAttributeValues).toEqual({
+          ':a': { S: 'a-value' },
+          ':b': { S: 'b-value' },
+          ':c': { S: 'c-value' },
+        });
+      });
+
+      it('should return a new object', () => {
+        expect(mergedExpressionAttributeValues).not.toBe(
+          expressionA.getExpressionAttributeValues(),
+        );
+        expect(mergedExpressionAttributeValues).not.toBe(
+          expressionB.getExpressionAttributeValues(),
+        );
+        expect(mergedExpressionAttributeValues).not.toBe(
+          expressionC.getExpressionAttributeValues(),
+        );
+      });
     });
   });
 });
