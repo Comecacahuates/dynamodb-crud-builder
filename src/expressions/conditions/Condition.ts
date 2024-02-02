@@ -7,11 +7,15 @@ import {
 
 export class Condition extends Expression {
   public constructor(
-    expression: string,
+    expressionString: string,
     expressionAttributeNames: ExpressionAttributeNames = {},
     expressionAttributeValues: ExpressionAttributeValues = {},
   ) {
-    super(expression, expressionAttributeNames, expressionAttributeValues);
+    super(
+      expressionString,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 
   public and(...otherConditions: Array<Condition>): Condition {
@@ -39,8 +43,10 @@ export class Condition extends Expression {
   }
 
   public not(): Condition {
+    const expressionString = `(NOT ${this.expressionString})`;
+
     return new Condition(
-      `(NOT ${this.expressionString})`,
+      expressionString,
       copy(this.expressionAttributeNames),
       copy(this.expressionAttributeValues),
     );
