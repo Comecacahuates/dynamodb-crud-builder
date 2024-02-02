@@ -6,7 +6,6 @@ import { Literal } from './Literal.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { mergeExpressionAttributeNames } from '../../expressions/index.js';
 import { mergeExpressionAttributeValues } from '../../expressions/index.js';
-import { UpdateAction } from '../updates/UpdateAction.js';
 
 export class DocumentPath extends Operand {
   private constructor(public readonly items: Array<DocumentPathItem>) {
@@ -119,37 +118,5 @@ export class DocumentPath extends Operand {
       mergeExpressionAttributeNames([this, operand]),
       mergeExpressionAttributeValues([this, operand]),
     );
-  }
-
-  public setValue(value: Operand): UpdateAction {
-    return UpdateAction.setValue(this, value);
-  }
-
-  public setValueIfNotExists(value: Operand): UpdateAction {
-    return UpdateAction.setValue(this, this.ifNotExists(value));
-  }
-
-  public increment(value: Operand): UpdateAction {
-    return UpdateAction.increment(this, value);
-  }
-
-  public decrement(value: Operand): UpdateAction {
-    return UpdateAction.decrement(this, value);
-  }
-
-  public appendItems(items: Operand): UpdateAction {
-    return UpdateAction.appendItems(this, items);
-  }
-
-  public add(operand: Operand): UpdateAction {
-    return UpdateAction.add(this, operand);
-  }
-
-  public remove(): UpdateAction {
-    return UpdateAction.remove(this);
-  }
-
-  public delete(elements: Operand): UpdateAction {
-    return UpdateAction.delete(this, elements);
   }
 }
