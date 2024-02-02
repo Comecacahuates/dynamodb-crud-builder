@@ -45,6 +45,20 @@ export class UpdateAction extends Expression {
     );
   }
 
+  public static createSetValueIfNotExists(
+    documentPath: DocumentPath,
+    value: Operand,
+  ): UpdateAction {
+    const expressionString = `${documentPath.getExpressionString()} = if_not_exists(${documentPath.getExpressionString()}, ${value.getExpressionString()})`;
+
+    return new UpdateAction(
+      UpdateActionType.SET,
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(value),
+      documentPath.mergeExpressionAttributeValues(value),
+    );
+  }
+
   public static createIncrement(
     documentPath: DocumentPath,
     value: Operand,

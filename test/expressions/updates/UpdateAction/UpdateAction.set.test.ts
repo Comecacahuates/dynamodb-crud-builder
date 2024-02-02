@@ -11,21 +11,21 @@ describe('creating update action to set value', () => {
     const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
     const value = Literal.fromValue(1, 'Number');
 
-    describe('when creating a set action', () => {
-      const setAction = UpdateAction.createSetValue(documentPath, value);
+    describe('when creating a `set value` action', () => {
+      const updateAction = UpdateAction.createSetValue(documentPath, value);
 
       it('should have the type "SET"', () => {
-        expect(setAction.getType()).toBe(UpdateActionType.SET);
+        expect(updateAction.getType()).toBe(UpdateActionType.SET);
       });
 
       it('should have the expression string "#a[0].#b.#c[1][2] = :literalNumber"', () => {
-        expect(setAction.getExpressionString()).toBe(
+        expect(updateAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = :literalNumber',
         );
       });
 
       it('should have the expression attribute names of the document path', () => {
-        expect(setAction.getExpressionAttributeNames()).toEqual({
+        expect(updateAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -33,7 +33,38 @@ describe('creating update action to set value', () => {
       });
 
       it('should have the expression attribute values of the literal', () => {
-        expect(setAction.getExpressionAttributeValues()).toEqual({
+        expect(updateAction.getExpressionAttributeValues()).toEqual({
+          ':literalNumber': { N: '1' },
+        });
+      });
+    });
+
+    describe('when creating a `set value if not exists` action', () => {
+      const updateAction = UpdateAction.createSetValueIfNotExists(
+        documentPath,
+        value,
+      );
+
+      it('should have the type "SET"', () => {
+        expect(updateAction.getType()).toBe(UpdateActionType.SET);
+      });
+
+      it('should have the expression string "#a[0].#b.#c[1][2] = if_not_exists(#a[0].#b.#c[1][2], :literalNumber)"', () => {
+        expect(updateAction.getExpressionString()).toBe(
+          '#a[0].#b.#c[1][2] = if_not_exists(#a[0].#b.#c[1][2], :literalNumber)',
+        );
+      });
+
+      it('should have the expression attribute names of the document path', () => {
+        expect(updateAction.getExpressionAttributeNames()).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should have the expression attribute values of the literal', () => {
+        expect(updateAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
