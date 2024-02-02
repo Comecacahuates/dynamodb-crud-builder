@@ -7,9 +7,9 @@ export type ExpressionAttributeValues = Record<string, AttributeValue>;
 
 export class Expression {
   public constructor(
-    private readonly expressionString: string,
-    private readonly expressionAttributeNames: ExpressionAttributeNames = {},
-    private readonly expressionAttributeValues: ExpressionAttributeValues = {},
+    protected readonly expressionString: string,
+    protected readonly expressionAttributeNames: ExpressionAttributeNames = {},
+    protected readonly expressionAttributeValues: ExpressionAttributeValues = {},
   ) {}
 
   public getExpressionString(): string {
