@@ -18,11 +18,13 @@ describe('comparisons', () => {
       const comparison = opA.equalTo(opB);
 
       it('should return a condition with expression :opA = :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 = :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 = :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -30,7 +32,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -40,11 +42,13 @@ describe('comparisons', () => {
       const comparison = opA.notEqualTo(opB);
 
       it('should return a condition with expression :opA <> :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <> :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 <> :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -52,7 +56,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -62,11 +66,13 @@ describe('comparisons', () => {
       const comparison = opA.lessThan(opB);
 
       it('should return a condition with expression :opA < :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 < :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 < :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -74,7 +80,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -84,11 +90,13 @@ describe('comparisons', () => {
       const comparison = opA.lessThanOrEqualTo(opB);
 
       it('should return a condition with expression :opA <= :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 <= :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 <= :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -96,7 +104,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -106,11 +114,13 @@ describe('comparisons', () => {
       const comparison = opA.greaterThan(opB);
 
       it('should return a condition with expression :opA > :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 > :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 > :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -118,7 +128,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -128,11 +138,13 @@ describe('comparisons', () => {
       const comparison = opA.greaterThanOrEqualTo(opB);
 
       it('should return a condition with expression :opA >= :opB', () => {
-        expect(comparison.expression).toBe('#opA.#attr0[1][2].#attr1 >= :opB');
+        expect(comparison.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 >= :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -140,7 +152,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -164,13 +176,13 @@ describe('comparisons', () => {
       const comparison = opA.between(opB, opC);
 
       it('should return a condition with expression :opA BETWEEN :opB AND :opC', () => {
-        expect(comparison.expression).toBe(
+        expect(comparison.getExpressionString()).toBe(
           '#opA.#attr0[1][2].#attr1 BETWEEN :opB AND :opC',
         );
       });
 
       it('should return a condition with expression attribute names of all operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -178,7 +190,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of all operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
           ':opC': { N: '2' },
         });
@@ -206,13 +218,13 @@ describe('comparisons', () => {
       const comparison = opA.in(...operandsList);
 
       it('should return a condition with expression :opA IN (:opB, :opC, :opD)', () => {
-        expect(comparison.expression).toBe(
+        expect(comparison.getExpressionString()).toBe(
           '#opA.#attr0[1][2].#attr1 IN (:opB, :opC, :opD)',
         );
       });
 
       it('should return a condition with expression attribute names of all operands', () => {
-        expect(comparison.expressionAttributeNames).toEqual({
+        expect(comparison.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -220,7 +232,7 @@ describe('comparisons', () => {
       });
 
       it('should return a condition with expression attribute values of all operands', () => {
-        expect(comparison.expressionAttributeValues).toEqual({
+        expect(comparison.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
           ':opC': { N: '2' },
           ':opD': { N: '3' },

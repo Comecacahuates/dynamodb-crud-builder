@@ -18,11 +18,13 @@ describe('sum', () => {
       const sum = opA.plus(opB);
 
       it('should return a condition with expression :opA + :opB', () => {
-        expect(sum.symbolicValue).toBe('#opA.#attr0[1][2].#attr1 + :opB');
+        expect(sum.getExpressionString()).toBe(
+          '#opA.#attr0[1][2].#attr1 + :opB',
+        );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(sum.expressionAttributeNames).toEqual({
+        expect(sum.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -30,7 +32,7 @@ describe('sum', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(sum.expressionAttributeValues).toEqual({
+        expect(sum.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -55,13 +57,13 @@ describe('difference', () => {
       const difference = opA.minus(opB);
 
       it('should return a condition with expression :opA - :opB', () => {
-        expect(difference.symbolicValue).toBe(
+        expect(difference.getExpressionString()).toBe(
           '#opA.#attr0[1][2].#attr1 - :opB',
         );
       });
 
       it('should return a condition with expression attribute names of both operands', () => {
-        expect(difference.expressionAttributeNames).toEqual({
+        expect(difference.getExpressionAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
@@ -69,7 +71,7 @@ describe('difference', () => {
       });
 
       it('should return a condition with expression attribute values of both operands', () => {
-        expect(difference.expressionAttributeValues).toEqual({
+        expect(difference.getExpressionAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
