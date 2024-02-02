@@ -15,15 +15,17 @@ describe('creating update action to set value', () => {
       const setAction = UpdateAction.setValue(documentPath, value);
 
       it('should have the type "SET"', () => {
-        expect(setAction.type).toBe(UpdateActionType.SET);
+        expect(setAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = :literalNumber"', () => {
-        expect(setAction.statement).toBe('#a[0].#b.#c[1][2] = :literalNumber');
+      it('should have the expression string "#a[0].#b.#c[1][2] = :literalNumber"', () => {
+        expect(setAction.getExpressionString()).toBe(
+          '#a[0].#b.#c[1][2] = :literalNumber',
+        );
       });
 
       it('should have the expression attribute names of the document path', () => {
-        expect(setAction.expressionAttributeNames).toEqual({
+        expect(setAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -31,7 +33,7 @@ describe('creating update action to set value', () => {
       });
 
       it('should have the expression attribute values of the literal', () => {
-        expect(setAction.expressionAttributeValues).toEqual({
+        expect(setAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -46,17 +48,17 @@ describe('creating update action to set value', () => {
       const setAction = UpdateAction.setValue(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
-        expect(setAction.type).toBe(UpdateActionType.SET);
+        expect(setAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3]"', () => {
-        expect(setAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3]"', () => {
+        expect(setAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = #d[0].#e.#f[1][3]',
         );
       });
 
       it('should have the expression attribute names of document paths', () => {
-        expect(setAction.expressionAttributeNames).toEqual({
+        expect(setAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -67,7 +69,7 @@ describe('creating update action to set value', () => {
       });
 
       it('should have no expression attribute values', () => {
-        expect(setAction.expressionAttributeValues).toEqual({});
+        expect(setAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });
@@ -82,17 +84,17 @@ describe('creating update action to increment value', () => {
       const addAction = UpdateAction.increment(documentPath, value);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + :literalNumber"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + :literalNumber"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + :literalNumber',
         );
       });
 
       it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -100,7 +102,7 @@ describe('creating update action to increment value', () => {
       });
 
       it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.expressionAttributeValues).toEqual({
+        expect(addAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -115,17 +117,17 @@ describe('creating update action to increment value', () => {
       const addAction = UpdateAction.increment(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + #d[0].#e.#f[1][3]"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + #d[0].#e.#f[1][3]"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] + #d[0].#e.#f[1][3]',
         );
       });
 
       it('should have the expression attribute names of document paths', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -136,7 +138,7 @@ describe('creating update action to increment value', () => {
       });
 
       it('should have no expression attribute values', () => {
-        expect(addAction.expressionAttributeValues).toEqual({});
+        expect(addAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });
@@ -151,17 +153,17 @@ describe('creating update action to decrement value', () => {
       const addAction = UpdateAction.decrement(documentPath, value);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - :literalNumber"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - :literalNumber"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - :literalNumber',
         );
       });
 
       it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -169,7 +171,7 @@ describe('creating update action to decrement value', () => {
       });
 
       it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.expressionAttributeValues).toEqual({
+        expect(addAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -184,17 +186,17 @@ describe('creating update action to decrement value', () => {
       const addAction = UpdateAction.decrement(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - #d[0].#e.#f[1][3]"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - #d[0].#e.#f[1][3]"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = #a[0].#b.#c[1][2] - #d[0].#e.#f[1][3]',
         );
       });
 
       it('should have the expression attribute names of document paths', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -205,7 +207,7 @@ describe('creating update action to decrement value', () => {
       });
 
       it('should have no expression attribute values', () => {
-        expect(addAction.expressionAttributeValues).toEqual({});
+        expect(addAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });
@@ -220,17 +222,17 @@ describe('creating update action to append items', () => {
       const addAction = UpdateAction.appendItems(documentPath, value);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], :literalNumber)"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], :literalNumber)"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], :literalNumber)',
         );
       });
 
       it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -238,7 +240,7 @@ describe('creating update action to append items', () => {
       });
 
       it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.expressionAttributeValues).toEqual({
+        expect(addAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -253,17 +255,17 @@ describe('creating update action to append items', () => {
       const addAction = UpdateAction.appendItems(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
-        expect(addAction.type).toBe(UpdateActionType.SET);
+        expect(addAction.getType()).toBe(UpdateActionType.SET);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], #d[0].#e.#f[1][3])"', () => {
-        expect(addAction.statement).toBe(
+      it('should have the expression string "#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], #d[0].#e.#f[1][3])"', () => {
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] = list_append(#a[0].#b.#c[1][2], #d[0].#e.#f[1][3])',
         );
       });
 
       it('should have the expression attribute names of document paths', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -274,7 +276,7 @@ describe('creating update action to append items', () => {
       });
 
       it('should have no expression attribute values', () => {
-        expect(addAction.expressionAttributeValues).toEqual({});
+        expect(addAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });

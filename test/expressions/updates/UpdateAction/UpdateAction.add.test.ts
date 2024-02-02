@@ -15,15 +15,17 @@ describe('creating update action to add a value', () => {
       const addAction = UpdateAction.add(documentPath, literal);
 
       it('should have the type "ADD"', () => {
-        expect(addAction.type).toBe(UpdateActionType.ADD);
+        expect(addAction.getType()).toBe(UpdateActionType.ADD);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] :literalNumber"', () => {
-        expect(addAction.statement).toBe('#a[0].#b.#c[1][2] :literalNumber');
+      it('should have the expression string "#a[0].#b.#c[1][2] :literalNumber"', () => {
+        expect(addAction.getExpressionString()).toBe(
+          '#a[0].#b.#c[1][2] :literalNumber',
+        );
       });
 
       it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -31,7 +33,7 @@ describe('creating update action to add a value', () => {
       });
 
       it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.expressionAttributeValues).toEqual({
+        expect(addAction.getExpressionAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -46,15 +48,17 @@ describe('creating update action to add a value', () => {
       const addAction = UpdateAction.add(documentPathA, documentPathB);
 
       it('should have the type "ADD"', () => {
-        expect(addAction.type).toBe(UpdateActionType.ADD);
+        expect(addAction.getType()).toBe(UpdateActionType.ADD);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]"', () => {
-        expect(addAction.statement).toBe('#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]');
+      it('should have the expression string "#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]"', () => {
+        expect(addAction.getExpressionString()).toBe(
+          '#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]',
+        );
       });
 
       it('should have the expression attribute names of document paths', () => {
-        expect(addAction.expressionAttributeNames).toEqual({
+        expect(addAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -65,7 +69,7 @@ describe('creating update action to add a value', () => {
       });
 
       it('should have the expression attribute values of document paths', () => {
-        expect(addAction.expressionAttributeValues).toEqual({});
+        expect(addAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });

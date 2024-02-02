@@ -13,15 +13,15 @@ describe('creating update action to remove attribute', () => {
       const removeAction = UpdateAction.remove(documentPath);
 
       it('should have the type "REMOVE"', () => {
-        expect(removeAction.type).toBe(UpdateActionType.REMOVE);
+        expect(removeAction.getType()).toBe(UpdateActionType.REMOVE);
       });
 
-      it('should have the statement "#a[0].#b.#c[1][2]"', () => {
-        expect(removeAction.statement).toBe('#a[0].#b.#c[1][2]');
+      it('should have the expression string "#a[0].#b.#c[1][2]"', () => {
+        expect(removeAction.getExpressionString()).toBe('#a[0].#b.#c[1][2]');
       });
 
       it('should have the expression attribute names of the document path', () => {
-        expect(removeAction.expressionAttributeNames).toEqual({
+        expect(removeAction.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -29,7 +29,7 @@ describe('creating update action to remove attribute', () => {
       });
 
       it('should have no expression attribute values', () => {
-        expect(removeAction.expressionAttributeValues).toEqual({});
+        expect(removeAction.getExpressionAttributeValues()).toEqual({});
       });
     });
   });

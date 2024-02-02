@@ -1,12 +1,10 @@
-import clone from 'just-clone';
-import { type DocumentPath } from '../operands/DocumentPath.js';
-import { type Operand } from '../operands/Operand.js';
+import copy from '@stdlib/utils-copy';
+import { type DocumentPath, type Operand } from '../operands/index.js';
 import {
+  Expression,
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
-} from '../types.js';
-import { mergeExpressionAttributeNames } from '../expression-attribute-names.js';
-import { mergeExpressionAttributeValues } from '../expression-attribute-values.js';
+} from '../Expression.js';
 
 export enum UpdateActionType {
   SET,
@@ -15,28 +13,35 @@ export enum UpdateActionType {
   DELETE,
 }
 
-export class UpdateAction {
+export class UpdateAction extends Expression {
   public constructor(
-    public readonly type: UpdateActionType,
-    public readonly statement: string,
-    public readonly expressionAttributeNames: ExpressionAttributeNames,
-    public readonly expressionAttributeValues: ExpressionAttributeValues,
+    private readonly type: UpdateActionType,
+    expressionString: string,
+    expressionAttributeNames: ExpressionAttributeNames,
+    expressionAttributeValues: ExpressionAttributeValues,
   ) {
-    this.expressionAttributeNames = clone(expressionAttributeNames);
-    this.expressionAttributeValues = clone(expressionAttributeValues);
+    super(
+      expressionString,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
+  }
+
+  public getType(): UpdateActionType {
+    return this.type;
   }
 
   public static setValue(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
-    const statement = `${documentPath.symbolicValue} = ${value.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()} = ${value.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.SET,
-      statement,
-      mergeExpressionAttributeNames([documentPath, value]),
-      mergeExpressionAttributeValues([documentPath, value]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(value),
+      documentPath.mergeExpressionAttributeValues(value),
     );
   }
 
@@ -44,13 +49,13 @@ export class UpdateAction {
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
-    const statement = `${documentPath.symbolicValue} = ${documentPath.symbolicValue} + ${value.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()} = ${documentPath.getExpressionString()} + ${value.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.SET,
-      statement,
-      mergeExpressionAttributeNames([documentPath, value]),
-      mergeExpressionAttributeValues([documentPath, value]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(value),
+      documentPath.mergeExpressionAttributeValues(value),
     );
   }
 
@@ -58,13 +63,13 @@ export class UpdateAction {
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
-    const statement = `${documentPath.symbolicValue} = ${documentPath.symbolicValue} - ${value.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()} = ${documentPath.getExpressionString()} - ${value.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.SET,
-      statement,
-      mergeExpressionAttributeNames([documentPath, value]),
-      mergeExpressionAttributeValues([documentPath, value]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(value),
+      documentPath.mergeExpressionAttributeValues(value),
     );
   }
 
@@ -72,35 +77,35 @@ export class UpdateAction {
     documentPath: DocumentPath,
     items: Operand,
   ): UpdateAction {
-    const statement = `${documentPath.symbolicValue} = list_append(${documentPath.symbolicValue}, ${items.symbolicValue})`;
+    const expressionString = `${documentPath.getExpressionString()} = list_append(${documentPath.getExpressionString()}, ${items.getExpressionString()})`;
 
     return new UpdateAction(
       UpdateActionType.SET,
-      statement,
-      mergeExpressionAttributeNames([documentPath, items]),
-      mergeExpressionAttributeValues([documentPath, items]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(items),
+      documentPath.mergeExpressionAttributeValues(items),
     );
   }
 
   public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
-    const statement = `${documentPath.symbolicValue} ${value.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()} ${value.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.ADD,
-      statement,
-      mergeExpressionAttributeNames([documentPath, value]),
-      mergeExpressionAttributeValues([documentPath, value]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(value),
+      documentPath.mergeExpressionAttributeValues(value),
     );
   }
 
   public static remove(documentPath: DocumentPath): UpdateAction {
-    const statement = `${documentPath.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.REMOVE,
-      statement,
-      documentPath.expressionAttributeNames,
-      documentPath.expressionAttributeValues,
+      expressionString,
+      copy(documentPath.getExpressionAttributeNames()),
+      copy(documentPath.getExpressionAttributeValues()),
     );
   }
 
@@ -108,13 +113,13 @@ export class UpdateAction {
     documentPath: DocumentPath,
     elements: Operand,
   ): UpdateAction {
-    const statement = `${documentPath.symbolicValue} ${elements.symbolicValue}`;
+    const expressionString = `${documentPath.getExpressionString()} ${elements.getExpressionString()}`;
 
     return new UpdateAction(
       UpdateActionType.DELETE,
-      statement,
-      mergeExpressionAttributeNames([documentPath, elements]),
-      mergeExpressionAttributeValues([documentPath, elements]),
+      expressionString,
+      documentPath.mergeExpressionAttributeNames(elements),
+      documentPath.mergeExpressionAttributeValues(elements),
     );
   }
 }
