@@ -9,17 +9,17 @@ describe('creating literal from value', () => {
     describe('when creating a literal', () => {
       const literal = Literal.fromValue(value, name);
 
-      it('should have a symbolic value :literalName', () => {
-        expect(literal.symbolicValue).toBe(':literalName');
+      it('should have a expression string :literalName', () => {
+        expect(literal.getExpressionString()).toBe(':literalName');
       });
 
       it('should have empty expression attribute names', () => {
-        expect(literal.expressionAttributeNames).toEqual({});
+        expect(literal.getExpressionAttributeNames()).toEqual({});
       });
 
       it('should have expression attribute values', () => {
-        expect(literal.expressionAttributeValues).toEqual({
-          [literal.symbolicValue]: { S: 'value' },
+        expect(literal.getExpressionAttributeValues()).toEqual({
+          [literal.getExpressionString()]: { S: 'value' },
         });
       });
     });

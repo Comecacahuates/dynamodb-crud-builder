@@ -8,24 +8,28 @@ import { generateRandomAlphanumericString } from '../../utils/strings.js';
 
 export class Literal extends Operand {
   private constructor(
-    symbolicValue: string,
+    expressionString: string,
     expressionAttributeNames: undefined,
     expressionAttributeValues: ExpressionAttributeValues,
   ) {
-    super(symbolicValue, expressionAttributeNames, expressionAttributeValues);
+    super(
+      expressionString,
+      expressionAttributeNames,
+      expressionAttributeValues,
+    );
   }
 
   public static fromValue(value: NativeAttributeValue, name?: string): Literal {
     const attributeValue = convertToAttr(value);
     const randomName = generateRandomAlphanumericString(10);
 
-    const symbolicValue = `:literal${name || randomName}`;
+    const expressionString = `:literal${name || randomName}`;
     const expressionAttributeNames = undefined;
     const expressionAttributeValues: ExpressionAttributeValues = {
-      [symbolicValue]: attributeValue,
+      [expressionString]: attributeValue,
     };
     return new Literal(
-      symbolicValue,
+      expressionString,
       expressionAttributeNames,
       expressionAttributeValues,
     );
