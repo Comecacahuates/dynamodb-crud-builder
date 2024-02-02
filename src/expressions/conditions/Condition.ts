@@ -1,78 +1,48 @@
+import copy from '@stdlib/utils-copy';
 import {
+  Expression,
   type ExpressionAttributeNames,
   type ExpressionAttributeValues,
-} from '../types.js';
+} from '../Expression.js';
 
-export class Condition {
+export class Condition extends Expression {
   public constructor(
-    public readonly expression: string,
-    public readonly expressionAttributeNames: ExpressionAttributeNames = {},
-    public readonly expressionAttributeValues: ExpressionAttributeValues = {},
-  ) {}
-
-  private static mergeExpressionAttributeNames(conditions: Array<Condition>) {
-    return conditions.reduce(
-      (expressionAttributeNames, condition) => ({
-        ...expressionAttributeNames,
-        ...condition.expressionAttributeNames,
-      }),
-      {},
-    );
+    expression: string,
+    expressionAttributeNames: ExpressionAttributeNames = {},
+    expressionAttributeValues: ExpressionAttributeValues = {},
+  ) {
+    super(expression, expressionAttributeNames, expressionAttributeValues);
   }
 
-  private static mergeExpressionAttributeValues(conditions: Array<Condition>) {
-    return conditions.reduce(
-      (expressionAttributeValues, condition) => ({
-        ...expressionAttributeValues,
-        ...condition.expressionAttributeValues,
-      }),
-      {},
-    );
-  }
-
-  public and(...conditions: Array<Condition>): Condition {
-    const allConditions = [this, ...conditions];
-    const conjunctionExpression = allConditions
-      .map((condition) => condition.expression)
+  public and(...otherConditions: Array<Condition>): Condition {
+    const expressionString = [this, ...otherConditions]
+      .map((condition) => condition.expressionString)
       .join(' AND ');
 
-    const expressionAttributeNames =
-      Condition.mergeExpressionAttributeNames(allConditions);
-
-    const expressionAttributeValues =
-      Condition.mergeExpressionAttributeValues(allConditions);
-
     return new Condition(
-      `(${conjunctionExpression})`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      `(${expressionString})`,
+      this.mergeExpressionAttributeNames(...otherConditions),
+      this.mergeExpressionAttributeValues(...otherConditions),
     );
   }
 
-  public or(...conditions: Array<Condition>): Condition {
-    const allConditions = [this, ...conditions];
-    const disjunctionExpression = allConditions
-      .map((condition) => condition.expression)
+  public or(...otherConditions: Array<Condition>): Condition {
+    const expressionString = [this, ...otherConditions]
+      .map((condition) => condition.expressionString)
       .join(' OR ');
 
-    const expressionAttributeNames =
-      Condition.mergeExpressionAttributeNames(allConditions);
-
-    const expressionAttributeValues =
-      Condition.mergeExpressionAttributeValues(allConditions);
-
     return new Condition(
-      `(${disjunctionExpression})`,
-      expressionAttributeNames,
-      expressionAttributeValues,
+      `(${expressionString})`,
+      this.mergeExpressionAttributeNames(...otherConditions),
+      this.mergeExpressionAttributeValues(...otherConditions),
     );
   }
 
   public not(): Condition {
     return new Condition(
-      `(NOT ${this.expression})`,
-      this.expressionAttributeNames,
-      this.expressionAttributeValues,
+      `(NOT ${this.expressionString})`,
+      copy(this.expressionAttributeNames),
+      copy(this.expressionAttributeValues),
     );
   }
 }
