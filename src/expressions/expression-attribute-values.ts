@@ -10,7 +10,7 @@ export function mergeExpressionAttributeValues(
   return operandsAndConditions.reduce(
     (mergedExpressionAttributeValues, operandOrCondition) => ({
       ...mergedExpressionAttributeValues,
-      ...operandOrCondition.expressionAttributeValues,
+      ...operandOrCondition.attributeValues,
     }),
     {},
   );

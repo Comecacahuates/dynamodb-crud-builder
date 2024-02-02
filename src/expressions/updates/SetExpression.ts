@@ -41,8 +41,8 @@ export class SetExpression extends Expression {
 
     return new SetExpression(
       expressionString,
-      firstSetAction!.mergeExpressionAttributeNames(...otherSetActions),
-      firstSetAction!.mergeExpressionAttributeValues(...otherSetActions),
+      firstSetAction!.mergeAttributeNames(...otherSetActions),
+      firstSetAction!.mergeAttributeValues(...otherSetActions),
     );
   }
 }

@@ -8,38 +8,38 @@ export type ExpressionAttributeValues = Record<string, AttributeValue>;
 export class Expression {
   public constructor(
     protected readonly expressionString: string,
-    protected readonly expressionAttributeNames: ExpressionAttributeNames = {},
-    protected readonly expressionAttributeValues: ExpressionAttributeValues = {},
+    protected readonly attributeNames: ExpressionAttributeNames = {},
+    protected readonly attributeValues: ExpressionAttributeValues = {},
   ) {}
 
   public getExpressionString(): string {
     return this.expressionString;
   }
 
-  public getExpressionAttributeNames(): ExpressionAttributeNames {
-    return this.expressionAttributeNames;
+  public getAttributeNames(): ExpressionAttributeNames {
+    return this.attributeNames;
   }
 
-  public getExpressionAttributeValues(): ExpressionAttributeValues {
-    return this.expressionAttributeValues;
+  public getAttributeValues(): ExpressionAttributeValues {
+    return this.attributeValues;
   }
 
-  public mergeExpressionAttributeNames(
+  public mergeAttributeNames(
     ...otherExpressions: Array<Expression>
   ): ExpressionAttributeNames {
     const allExpressions = [this, ...otherExpressions];
     const allExpressionAttributeNames = allExpressions.map(
-      (expression) => expression.expressionAttributeNames,
+      (expression) => expression.attributeNames,
     );
     return merge({}, ...allExpressionAttributeNames);
   }
 
-  public mergeExpressionAttributeValues(
+  public mergeAttributeValues(
     ...otherExpressions: Array<Expression>
   ): ExpressionAttributeValues {
     const allExpressions = [this, ...otherExpressions];
     const allExpressionAttributeValues = allExpressions.map(
-      (expression) => expression.expressionAttributeValues,
+      (expression) => expression.attributeValues,
     );
     return merge({}, ...allExpressionAttributeValues);
   }

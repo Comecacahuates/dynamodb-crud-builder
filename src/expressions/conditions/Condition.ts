@@ -25,8 +25,8 @@ export class Condition extends Expression {
 
     return new Condition(
       `(${expressionString})`,
-      this.mergeExpressionAttributeNames(...otherConditions),
-      this.mergeExpressionAttributeValues(...otherConditions),
+      this.mergeAttributeNames(...otherConditions),
+      this.mergeAttributeValues(...otherConditions),
     );
   }
 
@@ -37,8 +37,8 @@ export class Condition extends Expression {
 
     return new Condition(
       `(${expressionString})`,
-      this.mergeExpressionAttributeNames(...otherConditions),
-      this.mergeExpressionAttributeValues(...otherConditions),
+      this.mergeAttributeNames(...otherConditions),
+      this.mergeAttributeValues(...otherConditions),
     );
   }
 
@@ -47,8 +47,8 @@ export class Condition extends Expression {
 
     return new Condition(
       expressionString,
-      copy(this.expressionAttributeNames),
-      copy(this.expressionAttributeValues),
+      copy(this.attributeNames),
+      copy(this.attributeValues),
     );
   }
 }

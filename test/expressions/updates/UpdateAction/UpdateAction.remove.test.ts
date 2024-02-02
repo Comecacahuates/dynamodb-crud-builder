@@ -20,16 +20,16 @@ describe('creating update action to remove attribute', () => {
         expect(removeAction.getExpressionString()).toBe('#a[0].#b.#c[1][2]');
       });
 
-      it('should have the expression attribute names of the document path', () => {
-        expect(removeAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of the document path', () => {
+        expect(removeAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(removeAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(removeAction.getAttributeValues()).toEqual({});
       });
     });
   });

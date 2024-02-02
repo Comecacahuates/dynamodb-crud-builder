@@ -21,15 +21,15 @@ describe('conjunction', () => {
         expect(conjunction.getExpressionString()).toBe('(A AND B)');
       });
 
-      it('should return a new condition with expression attribute names of all conditions', () => {
-        expect(conjunction.getExpressionAttributeNames()).toEqual({
+      it('should return a new condition with attribute names of all conditions', () => {
+        expect(conjunction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
-      it('should return a new condition with expression attribute values of all conditions', () => {
-        expect(conjunction.getExpressionAttributeValues()).toEqual({
+      it('should return a new condition with attribute values of all conditions', () => {
+        expect(conjunction.getAttributeValues()).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
         });
@@ -58,8 +58,8 @@ describe('conjunction', () => {
         expect(conjunction.getExpressionString()).toBe('(A AND B AND C AND D)');
       });
 
-      it('should return a new with expression attribute names of all conditions', () => {
-        expect(conjunction.getExpressionAttributeNames()).toEqual({
+      it('should return a new with attribute names of all conditions', () => {
+        expect(conjunction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -67,8 +67,8 @@ describe('conjunction', () => {
         });
       });
 
-      it('should return a new with expression attribute values of all conditions', () => {
-        expect(conjunction.getExpressionAttributeValues()).toEqual({
+      it('should return a new with attribute values of all conditions', () => {
+        expect(conjunction.getAttributeValues()).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
           ':cc': { N: '3' },
@@ -99,15 +99,15 @@ describe('disjunction', () => {
         expect(disjunction.getExpressionString()).toBe('(A OR B)');
       });
 
-      it('should return a new condition with expression attribute names of all conditions', () => {
-        expect(disjunction.getExpressionAttributeNames()).toEqual({
+      it('should return a new condition with attribute names of all conditions', () => {
+        expect(disjunction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
-      it('should return a new condition with expression attribute values of all conditions', () => {
-        expect(disjunction.getExpressionAttributeValues()).toEqual({
+      it('should return a new condition with attribute values of all conditions', () => {
+        expect(disjunction.getAttributeValues()).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
         });
@@ -136,8 +136,8 @@ describe('disjunction', () => {
         expect(disjunction.getExpressionString()).toBe('(A OR B OR C OR D)');
       });
 
-      it('should return a new condition with expression attribute names of all conditions of all conditions', () => {
-        expect(disjunction.getExpressionAttributeNames()).toEqual({
+      it('should return a new condition with attribute names of all conditions of all conditions', () => {
+        expect(disjunction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -145,8 +145,8 @@ describe('disjunction', () => {
         });
       });
 
-      it('should return a new condition with expression attribute values of all conditions of all conditions', () => {
-        expect(disjunction.getExpressionAttributeValues()).toEqual({
+      it('should return a new condition with attribute values of all conditions of all conditions', () => {
+        expect(disjunction.getAttributeValues()).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
           ':cc': { N: '3' },
@@ -176,14 +176,14 @@ describe('negation', () => {
         expect(negation.getExpressionString()).toBe('(NOT A)');
       });
 
-      it('should return a new condition with expression attribute names of all conditions', () => {
-        expect(negation.getExpressionAttributeNames()).toEqual({
+      it('should return a new condition with attribute names of all conditions', () => {
+        expect(negation.getAttributeNames()).toEqual({
           '#a': 'a',
         });
       });
 
-      it('should return a new condition with expression attribute values of all conditions', () => {
-        expect(negation.getExpressionAttributeValues()).toEqual({
+      it('should return a new condition with attribute values of all conditions', () => {
+        expect(negation.getAttributeValues()).toEqual({
           ':aa': { N: '1' },
         });
       });

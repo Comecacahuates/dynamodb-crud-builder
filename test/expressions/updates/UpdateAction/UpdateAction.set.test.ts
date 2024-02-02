@@ -24,16 +24,16 @@ describe('creating update action to set value', () => {
         );
       });
 
-      it('should have the expression attribute names of the document path', () => {
-        expect(updateAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of the document path', () => {
+        expect(updateAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of the literal', () => {
-        expect(updateAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of the literal', () => {
+        expect(updateAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -55,16 +55,16 @@ describe('creating update action to set value', () => {
         );
       });
 
-      it('should have the expression attribute names of the document path', () => {
-        expect(updateAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of the document path', () => {
+        expect(updateAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of the literal', () => {
-        expect(updateAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of the literal', () => {
+        expect(updateAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -91,8 +91,8 @@ describe('creating update action to set value', () => {
         );
       });
 
-      it('should have the expression attribute names of document paths', () => {
-        expect(setAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document paths', () => {
+        expect(setAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -102,8 +102,8 @@ describe('creating update action to set value', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(setAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(setAction.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -127,16 +127,16 @@ describe('creating update action to increment value', () => {
         );
       });
 
-      it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document path and value', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of document path and value', () => {
+        expect(addAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -163,8 +163,8 @@ describe('creating update action to increment value', () => {
         );
       });
 
-      it('should have the expression attribute names of document paths', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document paths', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -174,8 +174,8 @@ describe('creating update action to increment value', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(addAction.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -199,16 +199,16 @@ describe('creating update action to decrement value', () => {
         );
       });
 
-      it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document path and value', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of document path and value', () => {
+        expect(addAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -235,8 +235,8 @@ describe('creating update action to decrement value', () => {
         );
       });
 
-      it('should have the expression attribute names of document paths', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document paths', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -246,8 +246,8 @@ describe('creating update action to decrement value', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(addAction.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -271,16 +271,16 @@ describe('creating update action to append items', () => {
         );
       });
 
-      it('should have the expression attribute names of document path and value', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document path and value', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of document path and value', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of document path and value', () => {
+        expect(addAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -307,8 +307,8 @@ describe('creating update action to append items', () => {
         );
       });
 
-      it('should have the expression attribute names of document paths', () => {
-        expect(addAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document paths', () => {
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -318,8 +318,8 @@ describe('creating update action to append items', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(addAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(addAction.getAttributeValues()).toEqual({});
       });
     });
   });

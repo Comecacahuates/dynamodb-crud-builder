@@ -23,8 +23,8 @@ export class Operand extends Expression {
 
     return new Operand(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -33,8 +33,8 @@ export class Operand extends Expression {
 
     return new Operand(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -43,8 +43,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -53,8 +53,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -63,8 +63,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -73,8 +73,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -83,8 +83,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -93,8 +93,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(anotherOperand),
-      this.mergeExpressionAttributeValues(anotherOperand),
+      this.mergeAttributeNames(anotherOperand),
+      this.mergeAttributeValues(anotherOperand),
     );
   }
 
@@ -103,8 +103,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(lowerBound, upperBound),
-      this.mergeExpressionAttributeValues(lowerBound, upperBound),
+      this.mergeAttributeNames(lowerBound, upperBound),
+      this.mergeAttributeValues(lowerBound, upperBound),
     );
   }
 
@@ -115,8 +115,8 @@ export class Operand extends Expression {
 
     return new Condition(
       expressionString,
-      this.mergeExpressionAttributeNames(...operands),
-      this.mergeExpressionAttributeValues(...operands),
+      this.mergeAttributeNames(...operands),
+      this.mergeAttributeValues(...operands),
     );
   }
 }

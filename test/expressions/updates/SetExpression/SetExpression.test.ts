@@ -22,15 +22,15 @@ describe('creating set expression', () => {
         );
       });
 
-      it('should have expression attribute names', () => {
-        expect(setExpression.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names', () => {
+        expect(setExpression.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values', () => {
-        expect(setExpression.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values', () => {
+        expect(setExpression.getAttributeValues()).toEqual({
           ':literalValueA': { N: '1' },
         });
       });
@@ -64,8 +64,8 @@ describe('creating set expression', () => {
         );
       });
 
-      it('should have expression attribute names', () => {
-        expect(setExpression.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names', () => {
+        expect(setExpression.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -75,8 +75,8 @@ describe('creating set expression', () => {
         });
       });
 
-      it('should have expression attribute values', () => {
-        expect(setExpression.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values', () => {
+        expect(setExpression.getAttributeValues()).toEqual({
           ':literalValueA': { N: '1' },
           ':literalValueB': { N: '2' },
           ':literalValueC': { N: '3' },
@@ -93,12 +93,12 @@ describe('creating set expression', () => {
         expect(setExpression.getExpressionString()).toBe('');
       });
 
-      it('should have expression attribute names', () => {
-        expect(setExpression.getExpressionAttributeNames()).toEqual({});
+      it('should have attribute names', () => {
+        expect(setExpression.getAttributeNames()).toEqual({});
       });
 
-      it('should have expression attribute values', () => {
-        expect(setExpression.getExpressionAttributeValues()).toEqual({});
+      it('should have attribute values', () => {
+        expect(setExpression.getAttributeValues()).toEqual({});
       });
     });
   });

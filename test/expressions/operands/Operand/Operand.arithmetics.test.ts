@@ -23,16 +23,16 @@ describe('sum', () => {
         );
       });
 
-      it('should return a condition with expression attribute names of both operands', () => {
-        expect(sum.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with attribute names of both operands', () => {
+        expect(sum.getAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should return a condition with expression attribute values of both operands', () => {
-        expect(sum.getExpressionAttributeValues()).toEqual({
+      it('should return a condition with attribute values of both operands', () => {
+        expect(sum.getAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });
@@ -62,16 +62,16 @@ describe('difference', () => {
         );
       });
 
-      it('should return a condition with expression attribute names of both operands', () => {
-        expect(difference.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with attribute names of both operands', () => {
+        expect(difference.getAttributeNames()).toEqual({
           '#opA': 'opA',
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should return a condition with expression attribute values of both operands', () => {
-        expect(difference.getExpressionAttributeValues()).toEqual({
+      it('should return a condition with attribute values of both operands', () => {
+        expect(difference.getAttributeValues()).toEqual({
           ':opB': { N: '1' },
         });
       });

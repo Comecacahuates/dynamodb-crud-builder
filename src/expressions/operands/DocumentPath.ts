@@ -47,8 +47,8 @@ export class DocumentPath extends Operand {
 
     return new Condition(
       expressionString,
-      this.expressionAttributeNames,
-      this.expressionAttributeValues,
+      this.attributeNames,
+      this.attributeValues,
     );
   }
 
@@ -57,8 +57,8 @@ export class DocumentPath extends Operand {
 
     return new Condition(
       expressionString,
-      this.expressionAttributeNames,
-      this.expressionAttributeValues,
+      this.attributeNames,
+      this.attributeValues,
     );
   }
 
@@ -67,8 +67,8 @@ export class DocumentPath extends Operand {
 
     return new Operand(
       expressionString,
-      this.expressionAttributeNames,
-      this.expressionAttributeValues,
+      this.attributeNames,
+      this.attributeValues,
     );
   }
 

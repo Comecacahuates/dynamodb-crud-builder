@@ -40,8 +40,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.SET,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(value),
-      documentPath.mergeExpressionAttributeValues(value),
+      documentPath.mergeAttributeNames(value),
+      documentPath.mergeAttributeValues(value),
     );
   }
 
@@ -54,8 +54,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.SET,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(value),
-      documentPath.mergeExpressionAttributeValues(value),
+      documentPath.mergeAttributeNames(value),
+      documentPath.mergeAttributeValues(value),
     );
   }
 
@@ -68,8 +68,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.SET,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(value),
-      documentPath.mergeExpressionAttributeValues(value),
+      documentPath.mergeAttributeNames(value),
+      documentPath.mergeAttributeValues(value),
     );
   }
 
@@ -82,8 +82,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.SET,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(value),
-      documentPath.mergeExpressionAttributeValues(value),
+      documentPath.mergeAttributeNames(value),
+      documentPath.mergeAttributeValues(value),
     );
   }
 
@@ -96,8 +96,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.SET,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(items),
-      documentPath.mergeExpressionAttributeValues(items),
+      documentPath.mergeAttributeNames(items),
+      documentPath.mergeAttributeValues(items),
     );
   }
 
@@ -110,8 +110,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.ADD,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(value),
-      documentPath.mergeExpressionAttributeValues(value),
+      documentPath.mergeAttributeNames(value),
+      documentPath.mergeAttributeValues(value),
     );
   }
 
@@ -121,8 +121,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.REMOVE,
       expressionString,
-      copy(documentPath.getExpressionAttributeNames()),
-      copy(documentPath.getExpressionAttributeValues()),
+      copy(documentPath.getAttributeNames()),
+      copy(documentPath.getAttributeValues()),
     );
   }
 
@@ -135,8 +135,8 @@ export class UpdateAction extends Expression {
     return new UpdateAction(
       UpdateActionType.DELETE,
       expressionString,
-      documentPath.mergeExpressionAttributeNames(elements),
-      documentPath.mergeExpressionAttributeValues(elements),
+      documentPath.mergeAttributeNames(elements),
+      documentPath.mergeAttributeValues(elements),
     );
   }
 }

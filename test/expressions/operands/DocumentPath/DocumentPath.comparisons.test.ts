@@ -16,8 +16,8 @@ describe('equal to', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -25,8 +25,8 @@ describe('equal to', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -44,15 +44,15 @@ describe('equal to', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -74,8 +74,8 @@ describe('not equal to', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -83,8 +83,8 @@ describe('not equal to', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -102,15 +102,15 @@ describe('not equal to', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -132,8 +132,8 @@ describe('less than', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -141,8 +141,8 @@ describe('less than', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -160,15 +160,15 @@ describe('less than', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -190,8 +190,8 @@ describe('less than or equal to', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -199,8 +199,8 @@ describe('less than or equal to', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -218,15 +218,15 @@ describe('less than or equal to', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -248,8 +248,8 @@ describe('greater than', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -257,8 +257,8 @@ describe('greater than', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -276,15 +276,15 @@ describe('greater than', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -306,8 +306,8 @@ describe('greater than or equal to', () => {
         );
       });
 
-      it('should have expression attribute names of both document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of both document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -315,8 +315,8 @@ describe('greater than or equal to', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -334,15 +334,15 @@ describe('greater than or equal to', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of literal', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of literal', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalString': { S: 'string' },
         });
       });
@@ -365,8 +365,8 @@ describe('between', () => {
         );
       });
 
-      it('should have expression attribute names of all document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of all document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr2': 'attr2',
@@ -376,8 +376,8 @@ describe('between', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -396,15 +396,15 @@ describe('between', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of both literals', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of both literals', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalLowerBound': { S: 'stringA' },
           ':literalUpperBound': { S: 'stringB' },
         });
@@ -428,8 +428,8 @@ describe('in', () => {
         );
       });
 
-      it('should have expression attribute names of all document paths', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of all document paths', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
           '#attr3': 'attr3',
@@ -439,8 +439,8 @@ describe('in', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -459,15 +459,15 @@ describe('in', () => {
         );
       });
 
-      it('should have expression attribute names of document path', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should have attribute names of document path', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#attr0': 'attr0',
           '#attr1': 'attr1',
         });
       });
 
-      it('should have expression attribute values of both literals', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values of both literals', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalStringA': { S: 'stringA' },
           ':literalStringB': { S: 'stringB' },
         });

@@ -24,16 +24,16 @@ describe('creating update action to delete elements from set', () => {
         );
       });
 
-      it('should have the expression attribute names of document path and value', () => {
-        expect(deleteAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document path and value', () => {
+        expect(deleteAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should have the expression attribute values of document path and value', () => {
-        expect(deleteAction.getExpressionAttributeValues()).toEqual({
+      it('should have the attribute values of document path and value', () => {
+        expect(deleteAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -60,8 +60,8 @@ describe('creating update action to delete elements from set', () => {
         );
       });
 
-      it('should have the expression attribute names of document paths', () => {
-        expect(deleteAction.getExpressionAttributeNames()).toEqual({
+      it('should have the attribute names of document paths', () => {
+        expect(deleteAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -71,8 +71,8 @@ describe('creating update action to delete elements from set', () => {
         });
       });
 
-      it('should have no expression attribute values', () => {
-        expect(deleteAction.getExpressionAttributeValues()).toEqual({});
+      it('should have no attribute values', () => {
+        expect(deleteAction.getAttributeValues()).toEqual({});
       });
     });
   });

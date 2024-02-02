@@ -15,16 +15,16 @@ describe('functions', () => {
         );
       });
 
-      it('should return a condition with the same expression attribute names', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with the same attribute names', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return a condition with the same expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should return a condition with the same attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
 
@@ -37,16 +37,16 @@ describe('functions', () => {
         );
       });
 
-      it('should return a condition with the same expression attribute names', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with the same attribute names', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return a condition with the same expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({});
+      it('should return a condition with the same attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({});
       });
     });
 
@@ -57,16 +57,16 @@ describe('functions', () => {
         expect(operand.getExpressionString()).toBe('size(#a[0].#b.#c[1][2])');
       });
 
-      it('should return an operand with the same expression attribute names', () => {
-        expect(operand.getExpressionAttributeNames()).toEqual({
+      it('should return an operand with the same attribute names', () => {
+        expect(operand.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return an operand with the same expression attribute values', () => {
-        expect(operand.getExpressionAttributeValues()).toEqual({});
+      it('should return an operand with the same attribute values', () => {
+        expect(operand.getAttributeValues()).toEqual({});
       });
     });
   });
@@ -84,16 +84,16 @@ describe('functions', () => {
         );
       });
 
-      it('should return a condition with the same expression attribute names', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with the same attribute names', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return a condition with the same expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should return a condition with the same attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalType': { S: 'type' },
         });
       });
@@ -113,16 +113,16 @@ describe('functions', () => {
         );
       });
 
-      it('should return a condition with the same expression attribute names', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with the same attribute names', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return a condition with the same expression attribute values', () => {
-        expect(condition.getExpressionAttributeValues()).toEqual({
+      it('should return a condition with the same attribute values', () => {
+        expect(condition.getAttributeValues()).toEqual({
           ':literalPrefix': { S: 'prefix' },
         });
       });
@@ -142,8 +142,8 @@ describe('functions', () => {
         );
       });
 
-      it('should return a condition with the same expression attribute names', () => {
-        expect(condition.getExpressionAttributeNames()).toEqual({
+      it('should return a condition with the same attribute names', () => {
+        expect(condition.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -160,16 +160,16 @@ describe('functions', () => {
         );
       });
 
-      it('should return an operand with the same expression attribute names', () => {
-        expect(operand.getExpressionAttributeNames()).toEqual({
+      it('should return an operand with the same attribute names', () => {
+        expect(operand.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
         });
       });
 
-      it('should return an operand with the same expression attribute values', () => {
-        expect(operand.getExpressionAttributeValues()).toEqual({
+      it('should return an operand with the same attribute values', () => {
+        expect(operand.getAttributeValues()).toEqual({
           ':literalValue': { S: 'value' },
         });
       });

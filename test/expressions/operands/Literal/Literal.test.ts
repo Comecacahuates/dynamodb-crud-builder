@@ -13,12 +13,12 @@ describe('creating literal from value', () => {
         expect(literal.getExpressionString()).toBe(':literalName');
       });
 
-      it('should have empty expression attribute names', () => {
-        expect(literal.getExpressionAttributeNames()).toEqual({});
+      it('should have empty attribute names', () => {
+        expect(literal.getAttributeNames()).toEqual({});
       });
 
-      it('should have expression attribute values', () => {
-        expect(literal.getExpressionAttributeValues()).toEqual({
+      it('should have attribute values', () => {
+        expect(literal.getAttributeValues()).toEqual({
           [literal.getExpressionString()]: { S: 'value' },
         });
       });

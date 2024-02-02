@@ -6,7 +6,7 @@ import {
 } from '../../src/expressions/Expression.js';
 
 describe('creating expression', () => {
-  describe('given an expression string, expression attribute names and expression attribute values', () => {
+  describe('given an expression string, attribute names and attribute values', () => {
     const expressionString = '#a.#b = :c';
     const expressionAttributeNames: ExpressionAttributeNames = {
       '#a': 'attribute',
@@ -27,15 +27,15 @@ describe('creating expression', () => {
         expect(expression.getExpressionString()).toBe('#a.#b = :c');
       });
 
-      it('should expose its expression attribute names', () => {
-        expect(expression.getExpressionAttributeNames()).toEqual({
+      it('should expose its attribute names', () => {
+        expect(expression.getAttributeNames()).toEqual({
           '#a': 'attribute',
           '#b': 'value',
         });
       });
 
-      it('should expose its expression attribute values', () => {
-        expect(expression.getExpressionAttributeValues()).toEqual({
+      it('should expose its attribute values', () => {
+        expect(expression.getAttributeValues()).toEqual({
           ':c': { S: 'c-value' },
         });
       });
@@ -43,7 +43,7 @@ describe('creating expression', () => {
   });
 });
 
-describe('merging expression attribute names', () => {
+describe('merging attribute names', () => {
   describe('given three expressions', () => {
     const expressionA = new Expression(
       '#a = :a',
@@ -61,11 +61,13 @@ describe('merging expression attribute names', () => {
       { ':c': { S: 'c-value' } },
     );
 
-    describe('when merging their expression attribute names', () => {
-      const mergedExpressionAttributeNames =
-        expressionA.mergeExpressionAttributeNames(expressionB, expressionC);
+    describe('when merging their attribute names', () => {
+      const mergedExpressionAttributeNames = expressionA.mergeAttributeNames(
+        expressionB,
+        expressionC,
+      );
 
-      it('should return the merged expression attribute names', () => {
+      it('should return the merged attribute names', () => {
         expect(mergedExpressionAttributeNames).toEqual({
           '#a': 'attribute',
           '#b': 'attribute',
@@ -75,20 +77,20 @@ describe('merging expression attribute names', () => {
 
       it('should return a new object', () => {
         expect(mergedExpressionAttributeNames).not.toBe(
-          expressionA.getExpressionAttributeNames(),
+          expressionA.getAttributeNames(),
         );
         expect(mergedExpressionAttributeNames).not.toBe(
-          expressionB.getExpressionAttributeNames(),
+          expressionB.getAttributeNames(),
         );
         expect(mergedExpressionAttributeNames).not.toBe(
-          expressionC.getExpressionAttributeNames(),
+          expressionC.getAttributeNames(),
         );
       });
     });
   });
 });
 
-describe('merging expression attribute values', () => {
+describe('merging attribute values', () => {
   describe('given three expressions', () => {
     const expressionA = new Expression(
       '#a = :a',
@@ -106,11 +108,13 @@ describe('merging expression attribute values', () => {
       { ':c': { S: 'c-value' } },
     );
 
-    describe('when merging their expression attribute values', () => {
-      const mergedExpressionAttributeValues =
-        expressionA.mergeExpressionAttributeValues(expressionB, expressionC);
+    describe('when merging their attribute values', () => {
+      const mergedExpressionAttributeValues = expressionA.mergeAttributeValues(
+        expressionB,
+        expressionC,
+      );
 
-      it('should return the merged expression attribute values', () => {
+      it('should return the merged attribute values', () => {
         expect(mergedExpressionAttributeValues).toEqual({
           ':a': { S: 'a-value' },
           ':b': { S: 'b-value' },
@@ -120,13 +124,13 @@ describe('merging expression attribute values', () => {
 
       it('should return a new object', () => {
         expect(mergedExpressionAttributeValues).not.toBe(
-          expressionA.getExpressionAttributeValues(),
+          expressionA.getAttributeValues(),
         );
         expect(mergedExpressionAttributeValues).not.toBe(
-          expressionB.getExpressionAttributeValues(),
+          expressionB.getAttributeValues(),
         );
         expect(mergedExpressionAttributeValues).not.toBe(
-          expressionC.getExpressionAttributeValues(),
+          expressionC.getAttributeValues(),
         );
       });
     });
