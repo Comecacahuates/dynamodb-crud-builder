@@ -1,10 +1,9 @@
 import { describe, it, expect } from '@jest/globals';
-import { type AttributeType } from '../../../../src/types.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
 describe('creating literal from value', () => {
   describe('given a value and the name "Name"', () => {
-    const value: AttributeType = 'value';
+    const value = 'value';
     const name = 'Name';
 
     describe('when creating a literal', () => {
