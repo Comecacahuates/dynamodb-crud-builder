@@ -14,7 +14,7 @@ export enum UpdateActionType {
 }
 
 export class UpdateAction extends Expression {
-  public constructor(
+  private constructor(
     private readonly type: UpdateActionType,
     expressionString: string,
     expressionAttributeNames: ExpressionAttributeNames,
@@ -31,7 +31,7 @@ export class UpdateAction extends Expression {
     return this.type;
   }
 
-  public static setValue(
+  public static createSetValue(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
@@ -45,7 +45,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static increment(
+  public static createIncrement(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
@@ -59,7 +59,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static decrement(
+  public static createDecrement(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
@@ -73,7 +73,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static appendItems(
+  public static createAppendItems(
     documentPath: DocumentPath,
     items: Operand,
   ): UpdateAction {
@@ -87,7 +87,10 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
+  public static createAdd(
+    documentPath: DocumentPath,
+    value: Operand,
+  ): UpdateAction {
     const expressionString = `${documentPath.getExpressionString()} ${value.getExpressionString()}`;
 
     return new UpdateAction(
@@ -98,7 +101,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static remove(documentPath: DocumentPath): UpdateAction {
+  public static createRemove(documentPath: DocumentPath): UpdateAction {
     const expressionString = `${documentPath.getExpressionString()}`;
 
     return new UpdateAction(
@@ -109,7 +112,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static delete(
+  public static createDelete(
     documentPath: DocumentPath,
     elements: Operand,
   ): UpdateAction {

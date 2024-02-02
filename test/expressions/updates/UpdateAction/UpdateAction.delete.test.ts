@@ -12,7 +12,7 @@ describe('creating update action to delete elements from set', () => {
     const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating a delete action', () => {
-      const deleteAction = UpdateAction.delete(documentPath, literal);
+      const deleteAction = UpdateAction.createDelete(documentPath, literal);
 
       it('should have the type "DELETE"', () => {
         expect(deleteAction.getType()).toBe(UpdateActionType.DELETE);
@@ -45,7 +45,10 @@ describe('creating update action to delete elements from set', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating a delete action', () => {
-      const deleteAction = UpdateAction.delete(documentPathA, documentPathB);
+      const deleteAction = UpdateAction.createDelete(
+        documentPathA,
+        documentPathB,
+      );
 
       it('should have the type "DELETE"', () => {
         expect(deleteAction.getType()).toBe(UpdateActionType.DELETE);

@@ -12,7 +12,7 @@ describe('creating update action to set value', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating a set action', () => {
-      const setAction = UpdateAction.setValue(documentPath, value);
+      const setAction = UpdateAction.createSetValue(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(setAction.getType()).toBe(UpdateActionType.SET);
@@ -45,7 +45,10 @@ describe('creating update action to set value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating a set action', () => {
-      const setAction = UpdateAction.setValue(documentPathA, documentPathB);
+      const setAction = UpdateAction.createSetValue(
+        documentPathA,
+        documentPathB,
+      );
 
       it('should have the type "SET"', () => {
         expect(setAction.getType()).toBe(UpdateActionType.SET);
@@ -81,7 +84,7 @@ describe('creating update action to increment value', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.increment(documentPath, value);
+      const addAction = UpdateAction.createIncrement(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -114,7 +117,10 @@ describe('creating update action to increment value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.increment(documentPathA, documentPathB);
+      const addAction = UpdateAction.createIncrement(
+        documentPathA,
+        documentPathB,
+      );
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -150,7 +156,7 @@ describe('creating update action to decrement value', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.decrement(documentPath, value);
+      const addAction = UpdateAction.createDecrement(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -183,7 +189,10 @@ describe('creating update action to decrement value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.decrement(documentPathA, documentPathB);
+      const addAction = UpdateAction.createDecrement(
+        documentPathA,
+        documentPathB,
+      );
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -219,7 +228,7 @@ describe('creating update action to append items', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.appendItems(documentPath, value);
+      const addAction = UpdateAction.createAppendItems(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -252,7 +261,10 @@ describe('creating update action to append items', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.appendItems(documentPathA, documentPathB);
+      const addAction = UpdateAction.createAppendItems(
+        documentPathA,
+        documentPathB,
+      );
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
