@@ -3103,6 +3103,7 @@ __metadata:
     "@jest/globals": ^29.7.0
     "@shelf/jest-dynamodb": ^3.4.2
     "@stdlib/random": 0.1.1
+    "@stdlib/utils-copy": ^0.1.0
     "@stdlib/utils-merge": ^0.1.0
     "@types/node": ^20.7.2
     "@typescript-eslint/eslint-plugin": ^6.7.2
