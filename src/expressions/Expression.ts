@@ -1,4 +1,5 @@
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
+import merge from '@stdlib/utils-merge';
 
 export type ExpressionAttributeNames = Record<string, string>;
 
@@ -21,5 +22,15 @@ export class Expression {
 
   public getExpressionAttributeValues(): ExpressionAttributeValues {
     return this.expressionAttributeValues;
+  }
+
+  public mergeExpressionAttributeNames(
+    ...otherExpressions: Array<Expression>
+  ): ExpressionAttributeNames {
+    const allExpressions = [this, ...otherExpressions];
+    const allExpressionAttributeNames = allExpressions.map(
+      (expression) => expression.expressionAttributeNames,
+    );
+    return merge({}, ...allExpressionAttributeNames);
   }
 }

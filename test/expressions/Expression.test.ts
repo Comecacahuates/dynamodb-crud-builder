@@ -42,3 +42,36 @@ describe('creating expression', () => {
     });
   });
 });
+
+describe('merging expression attribute names', () => {
+  describe('given three expressions', () => {
+    const expressionA = new Expression(
+      '#a = :a',
+      { '#a': 'attribute' },
+      { ':a': { S: 'a-value' } },
+    );
+    const expressionB = new Expression(
+      '#b = :b',
+      { '#b': 'attribute' },
+      { ':b': { S: 'b-value' } },
+    );
+    const expressionC = new Expression(
+      '#c = :c',
+      { '#c': 'attribute' },
+      { ':c': { S: 'c-value' } },
+    );
+
+    describe('when merging their expression attribute names', () => {
+      const mergedExpressionAttributeNames =
+        expressionA.mergeExpressionAttributeNames(expressionB, expressionC);
+
+      it('should return the merged expression attribute names', () => {
+        expect(mergedExpressionAttributeNames).toEqual({
+          '#a': 'attribute',
+          '#b': 'attribute',
+          '#c': 'attribute',
+        });
+      });
+    });
+  });
+});
