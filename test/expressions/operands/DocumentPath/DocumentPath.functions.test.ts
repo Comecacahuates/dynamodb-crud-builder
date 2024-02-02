@@ -10,13 +10,13 @@ describe('functions', () => {
       const condition = documentPath.attributeExists();
 
       it('should return a condition with expression "attribute_exists(#a[0].#b.#c[1][2])"', () => {
-        expect(condition.expression).toBe(
+        expect(condition.getExpressionString()).toBe(
           'attribute_exists(#a[0].#b.#c[1][2])',
         );
       });
 
       it('should return a condition with the same expression attribute names', () => {
-        expect(condition.expressionAttributeNames).toEqual({
+        expect(condition.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -24,7 +24,7 @@ describe('functions', () => {
       });
 
       it('should return a condition with the same expression attribute values', () => {
-        expect(condition.expressionAttributeValues).toEqual({});
+        expect(condition.getExpressionAttributeValues()).toEqual({});
       });
     });
 
@@ -32,13 +32,13 @@ describe('functions', () => {
       const condition = documentPath.attributeNotExists();
 
       it('should return a condition with expression "attribute_not_exists(#a[0].#b.#c[1][2])"', () => {
-        expect(condition.expression).toBe(
+        expect(condition.getExpressionString()).toBe(
           'attribute_not_exists(#a[0].#b.#c[1][2])',
         );
       });
 
       it('should return a condition with the same expression attribute names', () => {
-        expect(condition.expressionAttributeNames).toEqual({
+        expect(condition.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -46,7 +46,7 @@ describe('functions', () => {
       });
 
       it('should return a condition with the same expression attribute values', () => {
-        expect(condition.expressionAttributeValues).toEqual({});
+        expect(condition.getExpressionAttributeValues()).toEqual({});
       });
     });
 
@@ -54,11 +54,11 @@ describe('functions', () => {
       const operand = documentPath.size();
 
       it('should return an operand with symbolic value "size(#a[0].#b.#c[1][2])"', () => {
-        expect(operand.symbolicValue).toBe('size(#a[0].#b.#c[1][2])');
+        expect(operand.getExpressionString()).toBe('size(#a[0].#b.#c[1][2])');
       });
 
       it('should return an operand with the same expression attribute names', () => {
-        expect(operand.expressionAttributeNames).toEqual({
+        expect(operand.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -66,7 +66,7 @@ describe('functions', () => {
       });
 
       it('should return an operand with the same expression attribute values', () => {
-        expect(operand.expressionAttributeValues).toEqual({});
+        expect(operand.getExpressionAttributeValues()).toEqual({});
       });
     });
   });
@@ -79,13 +79,13 @@ describe('functions', () => {
       const condition = documentPath.type(literal);
 
       it('should return a condition with expression "attribute_type(#a[0].#b.#c[1][2], :literalType)', () => {
-        expect(condition.expression).toBe(
+        expect(condition.getExpressionString()).toBe(
           'attribute_type(#a[0].#b.#c[1][2], :literalType)',
         );
       });
 
       it('should return a condition with the same expression attribute names', () => {
-        expect(condition.expressionAttributeNames).toEqual({
+        expect(condition.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -93,7 +93,7 @@ describe('functions', () => {
       });
 
       it('should return a condition with the same expression attribute values', () => {
-        expect(condition.expressionAttributeValues).toEqual({
+        expect(condition.getExpressionAttributeValues()).toEqual({
           ':literalType': { S: 'type' },
         });
       });
@@ -108,13 +108,13 @@ describe('functions', () => {
       const condition = documentPath.beginsWith(literal);
 
       it('should return a condition with expression "begins_with(#a[0].#b.#c[1][2], :literalPrefix)"', () => {
-        expect(condition.expression).toBe(
+        expect(condition.getExpressionString()).toBe(
           'begins_with(#a[0].#b.#c[1][2], :literalPrefix)',
         );
       });
 
       it('should return a condition with the same expression attribute names', () => {
-        expect(condition.expressionAttributeNames).toEqual({
+        expect(condition.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -122,7 +122,7 @@ describe('functions', () => {
       });
 
       it('should return a condition with the same expression attribute values', () => {
-        expect(condition.expressionAttributeValues).toEqual({
+        expect(condition.getExpressionAttributeValues()).toEqual({
           ':literalPrefix': { S: 'prefix' },
         });
       });
@@ -137,13 +137,13 @@ describe('functions', () => {
       const condition = documentPath.contains(literal);
 
       it('should return a condition with expression "contains(#a[0].#b.#c[1][2], :literalValue)"', () => {
-        expect(condition.expression).toBe(
+        expect(condition.getExpressionString()).toBe(
           'contains(#a[0].#b.#c[1][2], :literalValue)',
         );
       });
 
       it('should return a condition with the same expression attribute names', () => {
-        expect(condition.expressionAttributeNames).toEqual({
+        expect(condition.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -155,13 +155,13 @@ describe('functions', () => {
       const operand = documentPath.ifNotExists(literal);
 
       it('should return an operand with symbolic value "if_not_exists(#a[0].#b.#c[1][2], :literalValue)"', () => {
-        expect(operand.symbolicValue).toBe(
+        expect(operand.getExpressionString()).toBe(
           'if_not_exists(#a[0].#b.#c[1][2], :literalValue)',
         );
       });
 
       it('should return an operand with the same expression attribute names', () => {
-        expect(operand.expressionAttributeNames).toEqual({
+        expect(operand.getExpressionAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -169,7 +169,7 @@ describe('functions', () => {
       });
 
       it('should return an operand with the same expression attribute values', () => {
-        expect(operand.expressionAttributeValues).toEqual({
+        expect(operand.getExpressionAttributeValues()).toEqual({
           ':literalValue': { S: 'value' },
         });
       });

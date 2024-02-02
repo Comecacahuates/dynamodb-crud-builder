@@ -1,41 +1,27 @@
+import merge from '@stdlib/utils-merge';
 import { Operand } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
 import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
-import { type ExpressionAttributeNames } from '../../expressions/index.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { mergeExpressionAttributeNames } from '../../expressions/index.js';
 import { mergeExpressionAttributeValues } from '../../expressions/index.js';
 import { UpdateAction } from '../updates/UpdateAction.js';
 
 export class DocumentPath extends Operand {
-  private constructor(
-    public readonly documentPathItems: Array<DocumentPathItem>,
-  ) {
-    const symbolicValue = DocumentPath.buildSymbolicValue(documentPathItems);
-    const expressionAttributeNames =
-      DocumentPath.buildExpressionAttributeNames(documentPathItems);
-    const expressionAttributeValues = undefined;
+  private constructor(public readonly items: Array<DocumentPathItem>) {
+    const expressionString = items
+      .map((item) => `#${item.toString()}`)
+      .join('.');
 
-    super(symbolicValue, expressionAttributeNames, expressionAttributeValues);
-  }
-
-  private static buildSymbolicValue(
-    documentPathItems: Array<DocumentPathItem>,
-  ): string {
-    return documentPathItems.map((item) => `#${item.toString()}`).join('.');
-  }
-
-  private static buildExpressionAttributeNames(
-    documentPathItems: Array<DocumentPathItem>,
-  ): ExpressionAttributeNames {
-    return documentPathItems.reduce(
-      (expressionAttributeNames, documentPathItem) => ({
-        ...expressionAttributeNames,
-        [`#${documentPathItem.attributeName}`]: documentPathItem.attributeName,
-      }),
+    const expressionAttributeNames = merge(
       {},
+      ...items.map((item) => ({
+        [`#${item.attributeName}`]: item.attributeName,
+      })),
     );
+
+    super(expressionString, expressionAttributeNames);
   }
 
   public static parse(documentPathString: string): DocumentPath {
@@ -54,74 +40,82 @@ export class DocumentPath extends Operand {
   }
 
   public override toString(): string {
-    return this.documentPathItems.map((item) => item.toString()).join('.');
+    return this.items.map((item) => item.toString()).join('.');
   }
 
   public attributeExists(): Condition {
-    const conditionExpression = `attribute_exists(${this.symbolicValue})`;
+    const expressionString = `attribute_exists(${this.expressionString})`;
 
     return new Condition(
-      conditionExpression,
+      expressionString,
       this.expressionAttributeNames,
       this.expressionAttributeValues,
     );
   }
 
   public attributeNotExists(): Condition {
-    const conditionExpression = `attribute_not_exists(${this.symbolicValue})`;
+    const expressionString = `attribute_not_exists(${this.expressionString})`;
 
     return new Condition(
-      conditionExpression,
+      expressionString,
       this.expressionAttributeNames,
       this.expressionAttributeValues,
     );
   }
 
   public size(): Operand {
-    const symbolicValue = `size(${this.symbolicValue})`;
+    const expressionString = `size(${this.expressionString})`;
 
     return new Operand(
-      symbolicValue,
+      expressionString,
       this.expressionAttributeNames,
       this.expressionAttributeValues,
     );
   }
 
   public type(type: Literal): Condition {
-    const conditionExpression = `attribute_type(${this.symbolicValue}, ${type.symbolicValue})`;
+    const expressionString = `attribute_type(${
+      this.expressionString
+    }, ${type.getExpressionString()})`;
 
     return new Condition(
-      conditionExpression,
+      expressionString,
       mergeExpressionAttributeNames([this, type]),
       mergeExpressionAttributeValues([this, type]),
     );
   }
 
   public beginsWith(prefix: Literal): Condition {
-    const conditionExpression = `begins_with(${this.symbolicValue}, ${prefix.symbolicValue})`;
+    const expressionString = `begins_with(${
+      this.expressionString
+    }, ${prefix.getExpressionString()})`;
 
     return new Condition(
-      conditionExpression,
+      expressionString,
       mergeExpressionAttributeNames([this, prefix]),
       mergeExpressionAttributeValues([this, prefix]),
     );
   }
 
   public contains(operand: Operand): Condition {
-    const conditionExpression = `contains(${this.symbolicValue}, ${operand.symbolicValue})`;
+    const expressionString = `contains(${
+      this.expressionString
+    }, ${operand.getExpressionString()})`;
 
     return new Condition(
-      conditionExpression,
+      expressionString,
       mergeExpressionAttributeNames([this, operand]),
       mergeExpressionAttributeValues([this, operand]),
     );
   }
 
   public ifNotExists(operand: Operand): Operand {
-    const symbolicValue = `if_not_exists(${this.symbolicValue}, ${operand.symbolicValue})`;
+    const expressionString = `if_not_exists(${
+      this.expressionString
+    }, ${operand.getExpressionString()})`;
 
     return new Operand(
-      symbolicValue,
+      expressionString,
       mergeExpressionAttributeNames([this, operand]),
       mergeExpressionAttributeValues([this, operand]),
     );

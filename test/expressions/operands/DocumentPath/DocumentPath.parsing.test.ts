@@ -10,12 +10,12 @@ describe('parsing document path string', () => {
       const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with one item', () => {
-        expect(documentPath.documentPathItems).toHaveLength(1);
+        expect(documentPath.items).toHaveLength(1);
       });
 
       test('document path item 0 should be attr0', () => {
-        expect(documentPath.documentPathItems[0]!.attributeName).toBe('attr0');
-        expect(documentPath.documentPathItems[0]!.indexes).toHaveLength(0);
+        expect(documentPath.items[0]!.attributeName).toBe('attr0');
+        expect(documentPath.items[0]!.indexes).toHaveLength(0);
       });
     });
   });
@@ -27,12 +27,12 @@ describe('parsing document path string', () => {
       const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with one item', () => {
-        expect(documentPath.documentPathItems).toHaveLength(1);
+        expect(documentPath.items).toHaveLength(1);
       });
 
       test('document path item 0 should be attr0[1][2]', () => {
-        expect(documentPath.documentPathItems[0]!.attributeName).toBe('attr0');
-        expect(documentPath.documentPathItems[0]!.indexes).toEqual([1, 2]);
+        expect(documentPath.items[0]!.attributeName).toBe('attr0');
+        expect(documentPath.items[0]!.indexes).toEqual([1, 2]);
       });
     });
   });
@@ -44,22 +44,22 @@ describe('parsing document path string', () => {
       const documentPath = DocumentPath.parse(documentPathString)!;
 
       it('should return a document path with three items', () => {
-        expect(documentPath.documentPathItems).toHaveLength(3);
+        expect(documentPath.items).toHaveLength(3);
       });
 
       test('document path item 0 should be attr0[1]', () => {
-        expect(documentPath.documentPathItems[0]!.attributeName).toBe('attr0');
-        expect(documentPath.documentPathItems[0]!.indexes).toEqual([1]);
+        expect(documentPath.items[0]!.attributeName).toBe('attr0');
+        expect(documentPath.items[0]!.indexes).toEqual([1]);
       });
 
       test('document path item 1 should be attr1', () => {
-        expect(documentPath.documentPathItems[1]!.attributeName).toBe('attr1');
-        expect(documentPath.documentPathItems[1]!.indexes).toEqual([]);
+        expect(documentPath.items[1]!.attributeName).toBe('attr1');
+        expect(documentPath.items[1]!.indexes).toEqual([]);
       });
 
       test('document path item 2 should be attr2[2][3]', () => {
-        expect(documentPath.documentPathItems[2]!.attributeName).toBe('attr2');
-        expect(documentPath.documentPathItems[2]!.indexes).toEqual([2, 3]);
+        expect(documentPath.items[2]!.attributeName).toBe('attr2');
+        expect(documentPath.items[2]!.indexes).toEqual([2, 3]);
       });
     });
   });
