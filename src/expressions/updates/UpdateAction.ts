@@ -73,7 +73,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createDecrement(
+  public static decrement(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {

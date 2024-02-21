@@ -181,7 +181,7 @@ describe('creating update action to decrement value', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.createDecrement(documentPath, value);
+      const addAction = UpdateAction.decrement(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -214,10 +214,7 @@ describe('creating update action to decrement value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.createDecrement(
-        documentPathA,
-        documentPathB,
-      );
+      const addAction = UpdateAction.decrement(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
