@@ -12,7 +12,7 @@ describe('creating update action to set value', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating a `set value` action', () => {
-      const updateAction = UpdateAction.createSetValue(documentPath, value);
+      const updateAction = UpdateAction.setValue(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(updateAction.getType()).toBe(UpdateActionType.SET);
@@ -76,10 +76,7 @@ describe('creating update action to set value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating a set action', () => {
-      const setAction = UpdateAction.createSetValue(
-        documentPathA,
-        documentPathB,
-      );
+      const setAction = UpdateAction.setValue(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
         expect(setAction.getType()).toBe(UpdateActionType.SET);

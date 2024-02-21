@@ -8,7 +8,7 @@ import {
 
 describe('creating set expression', () => {
   describe('given one set action statements', () => {
-    const setAction = UpdateAction.createSetValue(
+    const setAction = UpdateAction.setValue(
       DocumentPath.parse('attr0[0].attr1'),
       Literal.fromValue(1, 'ValueA'),
     );
@@ -38,11 +38,11 @@ describe('creating set expression', () => {
   });
 
   describe('given multiple set action statements', () => {
-    const setActionA = UpdateAction.createSetValue(
+    const setActionA = UpdateAction.setValue(
       DocumentPath.parse('attr0[0].attr1'),
       Literal.fromValue(1, 'ValueA'),
     );
-    const setActionB = UpdateAction.createSetValue(
+    const setActionB = UpdateAction.setValue(
       DocumentPath.parse('attr2.attr3'),
       Literal.fromValue(2, 'ValueB'),
     );

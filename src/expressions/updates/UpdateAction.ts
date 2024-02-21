@@ -31,7 +31,7 @@ export class UpdateAction extends Expression {
     return this.type;
   }
 
-  public static createSetValue(
+  public static setValue(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
