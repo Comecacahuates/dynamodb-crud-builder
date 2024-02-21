@@ -123,7 +123,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createDelete(
+  public static delete(
     documentPath: DocumentPath,
     elements: Operand,
   ): UpdateAction {
