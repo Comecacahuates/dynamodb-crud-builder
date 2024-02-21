@@ -46,7 +46,7 @@ describe('creating set expression', () => {
       DocumentPath.parse('attr2.attr3'),
       Literal.fromValue(2, 'ValueB'),
     );
-    const setActionC = UpdateAction.createSetValueIfNotExists(
+    const setActionC = UpdateAction.setValueIfNotExists(
       DocumentPath.parse('attr4.attr5'),
       Literal.fromValue(3, 'ValueC'),
     );

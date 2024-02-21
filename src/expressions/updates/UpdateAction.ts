@@ -45,7 +45,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createSetValueIfNotExists(
+  public static setValueIfNotExists(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {

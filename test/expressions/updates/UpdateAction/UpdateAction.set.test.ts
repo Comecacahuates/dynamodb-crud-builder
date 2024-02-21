@@ -40,7 +40,7 @@ describe('creating update action to set value', () => {
     });
 
     describe('when creating a `set value if not exists` action', () => {
-      const updateAction = UpdateAction.createSetValueIfNotExists(
+      const updateAction = UpdateAction.setValueIfNotExists(
         documentPath,
         value,
       );
