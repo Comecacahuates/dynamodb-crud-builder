@@ -101,10 +101,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createAdd(
-    documentPath: DocumentPath,
-    value: Operand,
-  ): UpdateAction {
+  public static add(documentPath: DocumentPath, value: Operand): UpdateAction {
     const expressionString = `${documentPath.getExpressionString()} ${value.getExpressionString()}`;
 
     return new UpdateAction(

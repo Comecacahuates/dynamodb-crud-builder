@@ -12,7 +12,7 @@ describe('creating update action to add a value', () => {
     const literal = Literal.fromValue(1, 'Number');
 
     describe('when creating an add action', () => {
-      const addAction = UpdateAction.createAdd(documentPath, literal);
+      const addAction = UpdateAction.add(documentPath, literal);
 
       it('should have the type "ADD"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.ADD);
@@ -45,7 +45,7 @@ describe('creating update action to add a value', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an add action', () => {
-      const addAction = UpdateAction.createAdd(documentPathA, documentPathB);
+      const addAction = UpdateAction.add(documentPathA, documentPathB);
 
       it('should have the type "ADD"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.ADD);
