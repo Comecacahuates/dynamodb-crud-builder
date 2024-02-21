@@ -59,7 +59,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createIncrement(
+  public static increment(
     documentPath: DocumentPath,
     value: Operand,
   ): UpdateAction {
