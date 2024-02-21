@@ -10,7 +10,7 @@ describe('creating update action to remove attribute', () => {
     const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
 
     describe('when creating a remove action', () => {
-      const removeAction = UpdateAction.createRemove(documentPath);
+      const removeAction = UpdateAction.remove(documentPath);
 
       it('should have the type "REMOVE"', () => {
         expect(removeAction.getType()).toBe(UpdateActionType.REMOVE);

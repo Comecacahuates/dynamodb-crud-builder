@@ -112,7 +112,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createRemove(documentPath: DocumentPath): UpdateAction {
+  public static remove(documentPath: DocumentPath): UpdateAction {
     const expressionString = `${documentPath.getExpressionString()}`;
 
     return new UpdateAction(
