@@ -87,7 +87,7 @@ export class UpdateAction extends Expression {
     );
   }
 
-  public static createAppendItems(
+  public static appendItems(
     documentPath: DocumentPath,
     items: Operand,
   ): UpdateAction {

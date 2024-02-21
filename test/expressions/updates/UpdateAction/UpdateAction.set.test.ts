@@ -250,7 +250,7 @@ describe('creating update action to append items', () => {
     const value = Literal.fromValue(1, 'Number');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.createAppendItems(documentPath, value);
+      const addAction = UpdateAction.appendItems(documentPath, value);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
@@ -283,10 +283,7 @@ describe('creating update action to append items', () => {
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
     describe('when creating an set action', () => {
-      const addAction = UpdateAction.createAppendItems(
-        documentPathA,
-        documentPathB,
-      );
+      const addAction = UpdateAction.appendItems(documentPathA, documentPathB);
 
       it('should have the type "SET"', () => {
         expect(addAction.getType()).toBe(UpdateActionType.SET);
