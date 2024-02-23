@@ -9,3 +9,7 @@ export function isNull(value: unknown): value is null {
 export function isString(value: unknown): value is string {
   return typeof value === 'string';
 }
+
+export function isArray(value: unknown): value is Array<unknown> {
+  return Array.isArray(value);
+}
