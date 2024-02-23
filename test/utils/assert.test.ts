@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { isEmptyArray, isNull } from '../../src/utils/assert.js';
+import { isEmptyArray, isNull, isString } from '../../src/utils/assert.js';
 
 describe('assert array is empty', () => {
   describe('given an empty array', () => {
@@ -40,6 +40,28 @@ describe('assert null', () => {
     describe('when checking if it is null', () => {
       it('should return false', () => {
         expect(isNull(nonNullValue)).toBe(false);
+      });
+    });
+  });
+});
+
+describe('assert string', () => {
+  describe('given a string value', () => {
+    const stringValue = 'string';
+
+    describe('when checking if it is a string', () => {
+      it('should return true', () => {
+        expect(isString(stringValue)).toBe(true);
+      });
+    });
+  });
+
+  describe('given a non-string value', () => {
+    const nonStringValue = 1;
+
+    describe('when checking if it is a string', () => {
+      it('should return false', () => {
+        expect(isString(nonStringValue)).toBe(false);
       });
     });
   });

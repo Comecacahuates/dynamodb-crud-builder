@@ -5,3 +5,7 @@ export function isEmptyArray(value: unknown): value is [] {
 export function isNull(value: unknown): value is null {
   return value === null;
 }
+
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
