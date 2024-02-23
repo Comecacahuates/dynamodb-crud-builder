@@ -2,30 +2,30 @@ import { describe, it, expect } from '@jest/globals';
 import {
   UpdateAction,
   UpdateActionType,
-} from '../../../../src/expressions/updates/UpdateAction.js';
+} from '../../../../src/expressions/update-expressions/UpdateAction.js';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
 
-describe('creating update action to delete elements from set', () => {
+describe('creating update action to add a value', () => {
   describe('given document path "a[0].b.c[1][2]" and literal number 1 named "Number"', () => {
     const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
     const literal = Literal.fromValue(1, 'Number');
 
-    describe('when creating a delete action', () => {
-      const deleteAction = UpdateAction.delete(documentPath, literal);
+    describe('when creating an add action', () => {
+      const addAction = UpdateAction.add(documentPath, literal);
 
-      it('should have the type "DELETE"', () => {
-        expect(deleteAction.getType()).toBe(UpdateActionType.DELETE);
+      it('should have the type "ADD"', () => {
+        expect(addAction.getType()).toBe(UpdateActionType.ADD);
       });
 
       it('should have the expression string "#a[0].#b.#c[1][2] :literalNumber"', () => {
-        expect(deleteAction.getExpressionString()).toBe(
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] :literalNumber',
         );
       });
 
       it('should have the attribute names of document path and value', () => {
-        expect(deleteAction.getAttributeNames()).toEqual({
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -33,7 +33,7 @@ describe('creating update action to delete elements from set', () => {
       });
 
       it('should have the attribute values of document path and value', () => {
-        expect(deleteAction.getAttributeValues()).toEqual({
+        expect(addAction.getAttributeValues()).toEqual({
           ':literalNumber': { N: '1' },
         });
       });
@@ -44,21 +44,21 @@ describe('creating update action to delete elements from set', () => {
     const documentPathA = DocumentPath.parse('a[0].b.c[1][2]');
     const documentPathB = DocumentPath.parse('d[0].e.f[1][3]');
 
-    describe('when creating a delete action', () => {
-      const deleteAction = UpdateAction.delete(documentPathA, documentPathB);
+    describe('when creating an add action', () => {
+      const addAction = UpdateAction.add(documentPathA, documentPathB);
 
-      it('should have the type "DELETE"', () => {
-        expect(deleteAction.getType()).toBe(UpdateActionType.DELETE);
+      it('should have the type "ADD"', () => {
+        expect(addAction.getType()).toBe(UpdateActionType.ADD);
       });
 
       it('should have the expression string "#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]"', () => {
-        expect(deleteAction.getExpressionString()).toBe(
+        expect(addAction.getExpressionString()).toBe(
           '#a[0].#b.#c[1][2] #d[0].#e.#f[1][3]',
         );
       });
 
       it('should have the attribute names of document paths', () => {
-        expect(deleteAction.getAttributeNames()).toEqual({
+        expect(addAction.getAttributeNames()).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -68,8 +68,8 @@ describe('creating update action to delete elements from set', () => {
         });
       });
 
-      it('should have no attribute values', () => {
-        expect(deleteAction.getAttributeValues()).toEqual({});
+      it('should have the attribute values of document paths', () => {
+        expect(addAction.getAttributeValues()).toEqual({});
       });
     });
   });
