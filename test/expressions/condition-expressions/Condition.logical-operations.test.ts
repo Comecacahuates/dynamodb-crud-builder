@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { Condition } from '../../../src/expressions/conditions/Condition.js';
+import { Condition } from '../../../src/expressions/condition-expressions/Condition.js';
 
 describe('conjunction', () => {
   describe('given the conditions A and B', () => {

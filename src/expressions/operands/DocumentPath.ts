@@ -1,7 +1,7 @@
 import merge from '@stdlib/utils-merge';
 import { Operand } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
-import { Condition } from '../conditions/Condition.js';
+import { Condition } from '../condition-expressions/Condition.js';
 import { Literal } from './Literal.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 

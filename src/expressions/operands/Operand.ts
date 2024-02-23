@@ -1,4 +1,4 @@
-import { Condition } from '../conditions/Condition.js';
+import { Condition } from '../condition-expressions/Condition.js';
 import {
   Expression,
   type ExpressionAttributeNames,
