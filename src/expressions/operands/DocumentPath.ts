@@ -4,8 +4,6 @@ import { DocumentPathItem } from './DocumentPathItem.js';
 import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
-import { mergeExpressionAttributeNames } from '../../expressions/index.js';
-import { mergeExpressionAttributeValues } from '../../expressions/index.js';
 
 export class DocumentPath extends Operand {
   private constructor(public readonly items: Array<DocumentPathItem>) {
@@ -79,8 +77,8 @@ export class DocumentPath extends Operand {
 
     return new Condition(
       expressionString,
-      mergeExpressionAttributeNames([this, type]),
-      mergeExpressionAttributeValues([this, type]),
+      this.mergeAttributeNames(type),
+      this.mergeAttributeValues(type),
     );
   }
 
@@ -91,8 +89,8 @@ export class DocumentPath extends Operand {
 
     return new Condition(
       expressionString,
-      mergeExpressionAttributeNames([this, prefix]),
-      mergeExpressionAttributeValues([this, prefix]),
+      this.mergeAttributeNames(prefix),
+      this.mergeAttributeValues(prefix),
     );
   }
 
@@ -103,8 +101,8 @@ export class DocumentPath extends Operand {
 
     return new Condition(
       expressionString,
-      mergeExpressionAttributeNames([this, operand]),
-      mergeExpressionAttributeValues([this, operand]),
+      this.mergeAttributeNames(operand),
+      this.mergeAttributeValues(operand),
     );
   }
 
@@ -115,8 +113,8 @@ export class DocumentPath extends Operand {
 
     return new Operand(
       expressionString,
-      mergeExpressionAttributeNames([this, operand]),
-      mergeExpressionAttributeValues([this, operand]),
+      this.mergeAttributeNames(operand),
+      this.mergeAttributeValues(operand),
     );
   }
 }
