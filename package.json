@@ -49,9 +49,13 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.501.0",
     "@aws-sdk/util-dynamodb": "3.501.0",
+    "@stdlib/assert-is-object": "0.2.1",
     "@stdlib/random": "0.1.1",
     "@stdlib/utils-copy": "^0.1.0",
+    "@stdlib/utils-entries": "0.2.0",
+    "@stdlib/utils-from-entries": "0.2.1",
     "@stdlib/utils-merge": "^0.1.0",
+    "@stdlib/utils-zip": "^0.2.1",
     "just-clone": "^6.2.0",
     "just-memoize": "^2.2.0",
     "just-typeof": "^3.2.0",
