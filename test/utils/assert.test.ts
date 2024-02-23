@@ -4,6 +4,7 @@ import {
   isNull,
   isString,
   isArray,
+  isUndefined,
 } from '../../src/utils/assert.js';
 
 describe('assert array is empty', () => {
@@ -89,6 +90,28 @@ describe('assert array', () => {
     describe('when checking if it is an array', () => {
       it('should return false', () => {
         expect(isArray(nonArrayValue)).toBe(false);
+      });
+    });
+  });
+});
+
+describe('assert undefined', () => {
+  describe('given an undefined value', () => {
+    const undefinedValue = undefined;
+
+    describe('when checking if it is undefined', () => {
+      it('should return true', () => {
+        expect(isUndefined(undefinedValue)).toBe(true);
+      });
+    });
+  });
+
+  describe('given a non-undefined value', () => {
+    const nonUndefinedValue = 1;
+
+    describe('when checking if it is undefined', () => {
+      it('should return false', () => {
+        expect(isUndefined(nonUndefinedValue)).toBe(false);
       });
     });
   });
