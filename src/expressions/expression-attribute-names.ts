@@ -1,4 +1,3 @@
-import { type ExpressionAttributeNames } from './types.js';
 import {
   type DocumentPath,
   formatDocumentPathItem,
@@ -10,18 +9,4 @@ export function buildExpressionAttributeNamePlaceholder(
   return documentPath
     .map((documentPathItem) => `#${formatDocumentPathItem(documentPathItem)}`)
     .join('.');
-}
-
-export function buildExpressionAttributeNames(
-  documentPath: DocumentPath,
-): ExpressionAttributeNames {
-  return documentPath
-    .map((documentPathItem) => documentPathItem.attributeName)
-    .reduce(
-      (expressionAttributeNames, attributeName) => ({
-        ...expressionAttributeNames,
-        [`#${attributeName}`]: attributeName,
-      }),
-      {} as ExpressionAttributeNames,
-    );
 }
