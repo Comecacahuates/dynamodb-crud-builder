@@ -1,46 +1,11 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { type AttributeValue } from '@aws-sdk/client-dynamodb';
 import {
-  mergeExpressionAttributeValues,
   buildExpressionAttributeValuePlaceholder,
   buildExpressionAttributeValue,
 } from '../../src/expressions/expression-attribute-values.js';
 import { type ExpressionAttributeValues } from '../../src/expressions/index.js';
 import { type DocumentPath as OldDocumentPath } from '../../src/document-path/index.js';
-import { DocumentPath } from '../../src/expressions/operands/DocumentPath.js';
-import { Literal } from '../../src/expressions/operands/Literal.js';
-import { Condition } from '../../src/expressions/conditions/Condition.js';
-
-describe('Merging expression attribute values', () => {
-  describe('given document path a[0].b.c[1][2], a literal and a condition', () => {
-    const documentPath = DocumentPath.parse('a[0].b.c[1][2]');
-    const literal = Literal.fromValue('value', 'A');
-    const condition = new Condition(
-      'type(#z, :type)',
-      { '#z': 'z' },
-      { ':type': { S: 'N' } },
-    );
-
-    describe('when merging expression attribute values', () => {
-      let mergedExpressionAttributeValues: ExpressionAttributeValues;
-
-      beforeEach(() => {
-        mergedExpressionAttributeValues = mergeExpressionAttributeValues([
-          documentPath,
-          literal,
-          condition,
-        ]);
-      });
-
-      it('should have all expression attribute values', () => {
-        expect(mergedExpressionAttributeValues).toEqual({
-          ':literalA': { S: 'value' },
-          ':type': { S: 'N' },
-        });
-      });
-    });
-  });
-});
 
 describe('Building placeholder', () => {
   type TestCase = {
