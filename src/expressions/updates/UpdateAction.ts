@@ -7,11 +7,13 @@ import {
 } from '../Expression.js';
 
 export enum UpdateActionType {
-  SET,
-  REMOVE,
-  ADD,
-  DELETE,
+  SET = 'SET',
+  REMOVE = 'REMOVE',
+  ADD = 'ADD',
+  DELETE = 'DELETE',
 }
+
+export const UPDATE_ACTION_TYPES = Object.values(UpdateActionType);
 
 export class UpdateAction extends Expression {
   private constructor(
