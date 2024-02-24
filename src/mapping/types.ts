@@ -4,7 +4,3 @@ export type MappingSchema = {
     nestedMappingSchema?: MappingSchema;
   };
 };
-
-export type ItemMappingOptions = {
-  readonly strict?: boolean;
-};
