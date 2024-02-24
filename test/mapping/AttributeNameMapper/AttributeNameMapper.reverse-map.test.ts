@@ -10,9 +10,9 @@ describe('reverse map attribute names', () => {
       ia: true,
     };
     const reverseAttributeNameMapper = new AttributeNameMapper({
-      name: { mapsTo: 'n' },
-      age: { mapsTo: 'a' },
-      isActive: { mapsTo: 'ia' },
+      name: { mappedName: 'n' },
+      age: { mappedName: 'a' },
+      isActive: { mappedName: 'ia' },
     }).getReverseMapper();
 
     describe('when reverse mapping attribute names', () => {
@@ -49,44 +49,44 @@ describe('reverse map attribute names', () => {
       tup: ['value-0', { obj: 2 }, { an: { att0: false } }],
     };
     const reverseAttributeNameMapper = new AttributeNameMapper({
-      name: { mapsTo: 'n' },
-      age: { mapsTo: 'a' },
-      isActive: { mapsTo: 'ia' },
+      name: { mappedName: 'n' },
+      age: { mappedName: 'a' },
+      isActive: { mappedName: 'ia' },
       address: {
-        mapsTo: 'ad',
+        mappedName: 'ad',
         nestedMappingSchema: {
-          street: { mapsTo: 's' },
-          city: { mapsTo: 'c' },
-          state: { mapsTo: 'st' },
-          zip: { mapsTo: 'z' },
+          street: { mappedName: 's' },
+          city: { mappedName: 'c' },
+          state: { mappedName: 'st' },
+          zip: { mappedName: 'z' },
           nested: {
-            mapsTo: 'ne',
+            mappedName: 'ne',
             nestedMappingSchema: {
-              attribute1: { mapsTo: 'a1' },
-              attribute2: { mapsTo: 'a2' },
+              attribute1: { mappedName: 'a1' },
+              attribute2: { mappedName: 'a2' },
             },
           },
         },
       },
-      groups: { mapsTo: 'g' },
+      groups: { mappedName: 'g' },
       addresses: {
-        mapsTo: 'ads',
+        mappedName: 'ads',
         nestedMappingSchema: {
-          street: { mapsTo: 'str' },
-          state: { mapsTo: 'sta' },
+          street: { mappedName: 'str' },
+          state: { mappedName: 'sta' },
         },
       },
       tuple: {
-        mapsTo: 'tup',
+        mappedName: 'tup',
         nestedMappingSchema: [
           null,
           {
-            object: { mapsTo: 'obj' },
+            object: { mappedName: 'obj' },
           },
           {
             another: {
-              mapsTo: 'an',
-              nestedMappingSchema: { attribute0: { mapsTo: 'att0' } },
+              mappedName: 'an',
+              nestedMappingSchema: { attribute0: { mappedName: 'att0' } },
             },
           },
         ],

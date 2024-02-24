@@ -14,32 +14,21 @@ import {
 } from '../types.js';
 import { isArray, isNull, isUndefined } from '../utils/assert.js';
 
-export type AttributeNameMappingSchema = {
+export type MappingSchema = {
   [attributeName: AttributeName]: {
-    mapsTo: string;
-    nestedMappingSchema?:
-      | AttributeNameMappingSchema
-      | Array<AttributeNameMappingSchema | null>; // for tuples
+    mappedName: string;
+    nestedMappingSchema?: MappingSchema | Array<MappingSchema | null>; // for tuples
   };
 };
-type TupleAttributeNameMappingSchema = Array<AttributeNameMappingSchema | null>;
-type NestedAttributeNameMappingSchema =
-  | AttributeNameMappingSchema
-  | TupleAttributeNameMappingSchema;
+type TupleMappingSchema = Array<MappingSchema | null>;
+type NestedMappingSchema = MappingSchema | TupleMappingSchema;
 
-type AttributeNameMapping = AttributeNameMappingSchema[string];
-type AttributeNameMappingSchemaEntry = [AttributeName, AttributeNameMapping];
-type AttributeNameMappingSchemaEntries = Array<AttributeNameMappingSchemaEntry>;
-
-type AttributeNameMappingResult = {
-  readonly mappedName: string;
-  readonly nestedMappingSchema?:
-    | AttributeNameMappingSchema
-    | TupleAttributeNameMappingSchema;
-};
+type MappingResult = MappingSchema[AttributeName];
+type MappingSchemaEntry = [AttributeName, MappingSchema[AttributeName]];
+type MappingSchemaEntries = Array<MappingSchemaEntry>;
 
 export class AttributeNameMapper {
-  public constructor(private readonly schema: AttributeNameMappingSchema) {}
+  public constructor(private readonly schema: MappingSchema) {}
 
   public map(item: DatabaseItem): DatabaseItem {
     const attributes = this.getItemAttributes(item);
@@ -78,7 +67,7 @@ export class AttributeNameMapper {
 
   private mapAttribute(
     attribute: DatabaseItemAttribute,
-    schema: AttributeNameMappingSchema,
+    schema: MappingSchema,
   ): DatabaseItemAttribute {
     const [name, value] = attribute;
     const { mappedName, nestedMappingSchema: nestedSchema } =
@@ -91,11 +80,8 @@ export class AttributeNameMapper {
     return [mappedName, mappedValue];
   }
 
-  private mapAttributeName(
-    name: string,
-    schema: AttributeNameMappingSchema,
-  ): AttributeNameMappingResult {
-    const mappedName = schema[name]?.mapsTo ?? name;
+  private mapAttributeName(name: string, schema: MappingSchema): MappingResult {
+    const mappedName = schema[name]?.mappedName ?? name;
     const nestedMappingSchema = schema[name]?.nestedMappingSchema;
 
     return { mappedName, nestedMappingSchema };
@@ -103,7 +89,7 @@ export class AttributeNameMapper {
 
   private mapAttributeValue(
     value: NativeAttributeValue,
-    schema: AttributeNameMappingSchema | TupleAttributeNameMappingSchema,
+    schema: MappingSchema | TupleMappingSchema,
   ): NativeAttributeValue {
     if (isArray(value)) {
       return this.mapArray(value, schema);
@@ -118,7 +104,7 @@ export class AttributeNameMapper {
 
   private mapArray(
     array: NativeArrayAttributeValue,
-    schema: AttributeNameMappingSchema | TupleAttributeNameMappingSchema,
+    schema: MappingSchema | TupleMappingSchema,
   ): NativeArrayAttributeValue {
     if (isArray(schema)) {
       return this.mapTuple(array, schema);
@@ -129,9 +115,9 @@ export class AttributeNameMapper {
 
   private mapTuple(
     tuple: NativeTupleAttributeValue,
-    schema: TupleAttributeNameMappingSchema,
+    schema: TupleMappingSchema,
   ): NativeTupleAttributeValue {
-    return this.zipTupleWithMappingSchema(tuple, schema).map(
+    return this.zipTupleWithSchema(tuple, schema).map(
       ([eachItem, eachSchema]) =>
         isNull(eachSchema) || isUndefined(eachSchema)
           ? eachItem
@@ -141,7 +127,7 @@ export class AttributeNameMapper {
 
   private mapObject(
     object: NativeObjectAttributeValue,
-    schema: AttributeNameMappingSchema,
+    schema: MappingSchema,
   ): NativeObjectAttributeValue {
     const attributes = this.getObjectAttributes(object);
     const mappedAttributes = attributes.map((eachAttribute) =>
@@ -150,23 +136,21 @@ export class AttributeNameMapper {
     return this.buildObjectFromAttributes(mappedAttributes);
   }
 
-  private zipTupleWithMappingSchema(
+  private zipTupleWithSchema(
     tuple: NativeTupleAttributeValue,
-    schema: TupleAttributeNameMappingSchema,
-  ): Array<[NativeAttributeValue, AttributeNameMappingSchema | null]> {
+    schema: TupleMappingSchema,
+  ): Array<[NativeAttributeValue, MappingSchema | null]> {
     const zipOptions =
       tuple.length < schema.length
         ? { trunc: true }
         : { trunc: false, fill: null };
 
     return zip(tuple, schema, zipOptions) as Array<
-      [NativeAttributeValue, AttributeNameMappingSchema | null]
+      [NativeAttributeValue, MappingSchema | null]
     >;
   }
 
-  private reverseSchema(
-    schema: AttributeNameMappingSchema,
-  ): AttributeNameMappingSchema {
+  private reverseSchema(schema: MappingSchema): MappingSchema {
     const entries = this.getSchemaEntries(schema);
     const reversedEntries = entries.map((eachEntry) =>
       this.reverseSchemaEntry(eachEntry),
@@ -174,25 +158,17 @@ export class AttributeNameMapper {
     return this.buildSchemaFromEntries(reversedEntries);
   }
 
-  private getSchemaEntries(
-    mappingSchema: AttributeNameMappingSchema,
-  ): AttributeNameMappingSchemaEntries {
+  private getSchemaEntries(mappingSchema: MappingSchema): MappingSchemaEntries {
     return objectEntries(mappingSchema);
   }
 
-  private buildSchemaFromEntries(
-    entries: AttributeNameMappingSchemaEntries,
-  ): AttributeNameMappingSchema {
+  private buildSchemaFromEntries(entries: MappingSchemaEntries): MappingSchema {
     return objectFromEntries(entries);
   }
 
-  private reverseSchemaEntry(
-    entry: AttributeNameMappingSchemaEntry,
-  ): AttributeNameMappingSchemaEntry {
-    const [
-      originalName,
-      { mapsTo: mappedName, nestedMappingSchema: nestedSchema },
-    ] = entry;
+  private reverseSchemaEntry(entry: MappingSchemaEntry): MappingSchemaEntry {
+    const [originalName, { mappedName, nestedMappingSchema: nestedSchema }] =
+      entry;
 
     const reversedNestedSchema = isUndefined(nestedSchema)
       ? undefined
@@ -201,15 +177,15 @@ export class AttributeNameMapper {
     return [
       mappedName,
       {
-        mapsTo: originalName,
+        mappedName: originalName,
         nestedMappingSchema: reversedNestedSchema,
       },
     ];
   }
 
   private reverseNestedSchema(
-    schema: NestedAttributeNameMappingSchema,
-  ): NestedAttributeNameMappingSchema {
+    schema: NestedMappingSchema,
+  ): NestedMappingSchema {
     if (isArray(schema)) {
       return this.reverseTupleSchema(schema);
     }
@@ -217,9 +193,7 @@ export class AttributeNameMapper {
     return this.reverseSchema(schema);
   }
 
-  private reverseTupleSchema(
-    schema: TupleAttributeNameMappingSchema,
-  ): TupleAttributeNameMappingSchema {
+  private reverseTupleSchema(schema: TupleMappingSchema): TupleMappingSchema {
     return schema.map((eachSchema) =>
       isNull(eachSchema) ? null : this.reverseSchema(eachSchema),
     );
