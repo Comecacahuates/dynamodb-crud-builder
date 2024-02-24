@@ -3,7 +3,7 @@
   "description": "Objects that help you building DynamoDB commands",
   "version": "0.1.1",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
-  "packageManager": "yarn@3.6.3",
+  "packageManager": "yarn@4.1.0",
   "type": "module",
   "main": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
