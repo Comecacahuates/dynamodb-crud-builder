@@ -5,8 +5,8 @@ import {
 } from '../../../src/mapping/AttributeNameMapper.js';
 import { type DatabaseItem } from '../../../src/types.js';
 
-describe('attribute names mapping', () => {
-  describe('given a one nesting level database item and a mapping schema', () => {
+describe('map attribute names', () => {
+  describe('given a one-level nesting database item and a mapping schema', () => {
     const databaseItem: DatabaseItem = {
       name: 'John Smith',
       age: 33,
@@ -31,7 +31,7 @@ describe('attribute names mapping', () => {
     });
   });
 
-  describe('given a three nesting level database item and a mapping schema', () => {
+  describe('given a three-level nesting database item and a mapping schema', () => {
     const databaseItem: DatabaseItem = {
       name: 'John Smith',
       age: 33,
@@ -53,14 +53,14 @@ describe('attribute names mapping', () => {
       isActive: { mapsTo: 'ia' },
       address: {
         mapsTo: 'ad',
-        nestedMapping: {
+        nestedMappingSchema: {
           street: { mapsTo: 's' },
           city: { mapsTo: 'c' },
           state: { mapsTo: 'st' },
           zip: { mapsTo: 'z' },
           nested: {
             mapsTo: 'ne',
-            nestedMapping: {
+            nestedMappingSchema: {
               attribute1: { mapsTo: 'a1' },
               attribute2: { mapsTo: 'a2' },
             },
@@ -127,7 +127,7 @@ describe('attribute names mapping', () => {
     const mappingSchema: AttributeNameMappingSchema = {
       addresses: {
         mapsTo: 'a',
-        nestedMapping: {
+        nestedMappingSchema: {
           street: { mapsTo: 's' },
           state: { mapsTo: 'st' },
         },
@@ -155,7 +155,7 @@ describe('attribute names mapping', () => {
     const mappingSchema: AttributeNameMappingSchema = {
       tuple: {
         mapsTo: 't',
-        nestedMapping: [null, { object: { mapsTo: 'o' } }],
+        nestedMappingSchema: [null, { object: { mapsTo: 'o' } }],
       },
     };
 
@@ -177,7 +177,7 @@ describe('attribute names mapping', () => {
     const mappingSchema: AttributeNameMappingSchema = {
       tuple: {
         mapsTo: 't',
-        nestedMapping: [
+        nestedMappingSchema: [
           {
             item1: { mapsTo: 'i1' },
           },
@@ -203,7 +203,7 @@ describe('attribute names mapping', () => {
     const mappingSchema: AttributeNameMappingSchema = {
       tuple: {
         mapsTo: 't',
-        nestedMapping: [
+        nestedMappingSchema: [
           {
             item1: { mapsTo: 'i1' },
           },
@@ -270,14 +270,14 @@ describe('attribute names mapping', () => {
       isActive: { mapsTo: 'ia' },
       address: {
         mapsTo: 'ad',
-        nestedMapping: {
+        nestedMappingSchema: {
           street: { mapsTo: 's' },
           city: { mapsTo: 'c' },
           state: { mapsTo: 'st' },
           zip: { mapsTo: 'z' },
           nested: {
             mapsTo: 'ne',
-            nestedMapping: {
+            nestedMappingSchema: {
               attribute1: { mapsTo: 'a1' },
               attribute2: { mapsTo: 'a2' },
             },
@@ -287,14 +287,14 @@ describe('attribute names mapping', () => {
       groups: { mapsTo: 'g' },
       addresses: {
         mapsTo: 'ads',
-        nestedMapping: {
+        nestedMappingSchema: {
           street: { mapsTo: 'str' },
           state: { mapsTo: 'sta' },
         },
       },
       tuple: {
         mapsTo: 'tup',
-        nestedMapping: [
+        nestedMappingSchema: [
           null,
           {
             object: { mapsTo: 'obj' },
@@ -302,7 +302,7 @@ describe('attribute names mapping', () => {
           {
             another: {
               mapsTo: 'an',
-              nestedMapping: { attribute0: { mapsTo: 'att0' } },
+              nestedMappingSchema: { attribute0: { mapsTo: 'att0' } },
             },
           },
         ],
