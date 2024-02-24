@@ -47,8 +47,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "3.501.0",
-    "@aws-sdk/util-dynamodb": "3.501.0",
+    "@aws-sdk/client-dynamodb": "3.521.0",
+    "@aws-sdk/util-dynamodb": "3.521.0",
     "@stdlib/assert-is-object": "0.2.1",
     "@stdlib/random": "0.1.1",
     "@stdlib/utils-copy": "^0.1.0",
