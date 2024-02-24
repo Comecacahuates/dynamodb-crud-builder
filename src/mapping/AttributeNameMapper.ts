@@ -17,7 +17,7 @@ import { isArray, isNull, isUndefined } from '../utils/assert.js';
 export type MappingSchema = {
   [attributeName: AttributeName]: {
     mappedName: string;
-    nestedMappingSchema?: MappingSchema | Array<MappingSchema | null>; // for tuples
+    mappingSchema?: MappingSchema | Array<MappingSchema | null>;
   };
 };
 type TupleMappingSchema = Array<MappingSchema | null>;
@@ -70,21 +70,17 @@ export class AttributeNameMapper {
     schema: MappingSchema,
   ): DatabaseItemAttribute {
     const [name, value] = attribute;
-    const { mappedName, nestedMappingSchema: nestedSchema } =
-      this.mapAttributeName(name, schema);
+    const { mappedName, mappingSchema } = this.mapAttributeName(name, schema);
 
-    const mappedValue = isUndefined(nestedSchema)
+    const mappedValue = isUndefined(mappingSchema)
       ? value
-      : this.mapAttributeValue(value, nestedSchema);
+      : this.mapAttributeValue(value, mappingSchema);
 
     return [mappedName, mappedValue];
   }
 
   private mapAttributeName(name: string, schema: MappingSchema): MappingResult {
-    const mappedName = schema[name]?.mappedName ?? name;
-    const nestedMappingSchema = schema[name]?.nestedMappingSchema;
-
-    return { mappedName, nestedMappingSchema };
+    return isUndefined(schema[name]) ? { mappedName: name } : schema[name]!;
   }
 
   private mapAttributeValue(
@@ -167,19 +163,15 @@ export class AttributeNameMapper {
   }
 
   private reverseSchemaEntry(entry: MappingSchemaEntry): MappingSchemaEntry {
-    const [originalName, { mappedName, nestedMappingSchema: nestedSchema }] =
-      entry;
+    const [originalName, { mappedName, mappingSchema }] = entry;
 
-    const reversedNestedSchema = isUndefined(nestedSchema)
+    const reversedSchema = isUndefined(mappingSchema)
       ? undefined
-      : this.reverseNestedSchema(nestedSchema);
+      : this.reverseNestedSchema(mappingSchema);
 
     return [
       mappedName,
-      {
-        mappedName: originalName,
-        nestedMappingSchema: reversedNestedSchema,
-      },
+      { mappedName: originalName, mappingSchema: reversedSchema },
     ];
   }
 

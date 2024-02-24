@@ -53,14 +53,14 @@ describe('map attribute names', () => {
       isActive: { mappedName: 'ia' },
       address: {
         mappedName: 'ad',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 's' },
           city: { mappedName: 'c' },
           state: { mappedName: 'st' },
           zip: { mappedName: 'z' },
           nested: {
             mappedName: 'ne',
-            nestedMappingSchema: {
+            mappingSchema: {
               attribute1: { mappedName: 'a1' },
               attribute2: { mappedName: 'a2' },
             },
@@ -127,7 +127,7 @@ describe('map attribute names', () => {
     const mappingSchema: MappingSchema = {
       addresses: {
         mappedName: 'a',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 's' },
           state: { mappedName: 'st' },
         },
@@ -155,7 +155,7 @@ describe('map attribute names', () => {
     const mappingSchema: MappingSchema = {
       tuple: {
         mappedName: 't',
-        nestedMappingSchema: [null, { object: { mappedName: 'o' } }],
+        mappingSchema: [null, { object: { mappedName: 'o' } }],
       },
     };
 
@@ -177,7 +177,7 @@ describe('map attribute names', () => {
     const mappingSchema: MappingSchema = {
       tuple: {
         mappedName: 't',
-        nestedMappingSchema: [
+        mappingSchema: [
           {
             item1: { mappedName: 'i1' },
           },
@@ -203,7 +203,7 @@ describe('map attribute names', () => {
     const mappingSchema: MappingSchema = {
       tuple: {
         mappedName: 't',
-        nestedMappingSchema: [
+        mappingSchema: [
           {
             item1: { mappedName: 'i1' },
           },
@@ -270,14 +270,14 @@ describe('map attribute names', () => {
       isActive: { mappedName: 'ia' },
       address: {
         mappedName: 'ad',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 's' },
           city: { mappedName: 'c' },
           state: { mappedName: 'st' },
           zip: { mappedName: 'z' },
           nested: {
             mappedName: 'ne',
-            nestedMappingSchema: {
+            mappingSchema: {
               attribute1: { mappedName: 'a1' },
               attribute2: { mappedName: 'a2' },
             },
@@ -287,14 +287,14 @@ describe('map attribute names', () => {
       groups: { mappedName: 'g' },
       addresses: {
         mappedName: 'ads',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 'str' },
           state: { mappedName: 'sta' },
         },
       },
       tuple: {
         mappedName: 'tup',
-        nestedMappingSchema: [
+        mappingSchema: [
           null,
           {
             object: { mappedName: 'obj' },
@@ -302,7 +302,7 @@ describe('map attribute names', () => {
           {
             another: {
               mappedName: 'an',
-              nestedMappingSchema: { attribute0: { mappedName: 'att0' } },
+              mappingSchema: { attribute0: { mappedName: 'att0' } },
             },
           },
         ],

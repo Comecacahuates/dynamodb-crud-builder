@@ -54,14 +54,14 @@ describe('reverse map attribute names', () => {
       isActive: { mappedName: 'ia' },
       address: {
         mappedName: 'ad',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 's' },
           city: { mappedName: 'c' },
           state: { mappedName: 'st' },
           zip: { mappedName: 'z' },
           nested: {
             mappedName: 'ne',
-            nestedMappingSchema: {
+            mappingSchema: {
               attribute1: { mappedName: 'a1' },
               attribute2: { mappedName: 'a2' },
             },
@@ -71,14 +71,14 @@ describe('reverse map attribute names', () => {
       groups: { mappedName: 'g' },
       addresses: {
         mappedName: 'ads',
-        nestedMappingSchema: {
+        mappingSchema: {
           street: { mappedName: 'str' },
           state: { mappedName: 'sta' },
         },
       },
       tuple: {
         mappedName: 'tup',
-        nestedMappingSchema: [
+        mappingSchema: [
           null,
           {
             object: { mappedName: 'obj' },
@@ -86,7 +86,7 @@ describe('reverse map attribute names', () => {
           {
             another: {
               mappedName: 'an',
-              nestedMappingSchema: { attribute0: { mappedName: 'att0' } },
+              mappingSchema: { attribute0: { mappedName: 'att0' } },
             },
           },
         ],
