@@ -30,7 +30,7 @@ type MappingSchemaEntries = Array<MappingSchemaEntry>;
 export class AttributeNameMapper {
   public constructor(private readonly schema: MappingSchema) {}
 
-  public map(item: DatabaseItem): DatabaseItem {
+  public mapItem(item: DatabaseItem): DatabaseItem {
     const attributes = this.getItemAttributes(item);
     const mappedAttributes = attributes.map((eachAttribute) =>
       this.mapAttribute(eachAttribute, this.schema),

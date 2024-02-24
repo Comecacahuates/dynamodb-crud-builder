@@ -17,7 +17,7 @@ describe('reverse map attribute names', () => {
 
     describe('when reverse mapping attribute names', () => {
       it('should have reverse mapped attribute names', () => {
-        expect(reverseAttributeNameMapper.map(databaseItem)).toEqual({
+        expect(reverseAttributeNameMapper.mapItem(databaseItem)).toEqual({
           name: 'John Smith',
           age: 33,
           isActive: true,
@@ -95,7 +95,7 @@ describe('reverse map attribute names', () => {
 
     describe('when reverse mapping attribute names', () => {
       it('should have reverse mapped attribute names', () => {
-        expect(reverseAttributeNameMapper.map(databaseItem)).toEqual({
+        expect(reverseAttributeNameMapper.mapItem(databaseItem)).toEqual({
           name: 'John Smith',
           age: 33,
           isActive: true,

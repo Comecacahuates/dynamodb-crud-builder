@@ -22,7 +22,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           n: 'John Smith',
           a: 33,
           ia: true,
@@ -73,7 +73,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           n: 'John Smith',
           a: 33,
           ia: true,
@@ -104,7 +104,7 @@ describe('map attribute names', () => {
       const databaseItemMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(databaseItemMapper.map(databaseItem)).toEqual({
+        expect(databaseItemMapper.mapItem(databaseItem)).toEqual({
           g: ['group-00', 'group-00'],
         });
       });
@@ -138,7 +138,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           a: [
             { s: '123 Main St', st: 'CA' },
             { s: '456 Elm St', st: 'AC' },
@@ -163,7 +163,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           t: ['value-0', { o: 2 }],
         });
       });
@@ -189,7 +189,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should not map attribute names not defined in the mapping schema', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           t: [{ i1: 1 }, { item2: 2 }],
         });
       });
@@ -221,7 +221,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should map only attribute names in database item', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           t: [{ i1: 1 }, { i2: 2 }],
         });
       });
@@ -313,7 +313,7 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should have mapped attribute names', () => {
-        expect(attributeNameMapper.map(databaseItem)).toEqual({
+        expect(attributeNameMapper.mapItem(databaseItem)).toEqual({
           n: 'John Smith',
           a: 33,
           ia: true,
@@ -351,13 +351,13 @@ describe('map attribute names', () => {
       const attributeNameMapper = new AttributeNameMapper(mappingSchema);
 
       it('should not map attribute names not defined in the mapping schema', () => {
-        expect(attributeNameMapper.map(databaseItem)).toMatchObject({
+        expect(attributeNameMapper.mapItem(databaseItem)).toMatchObject({
           name: 'John Smith',
         });
       });
 
       it('should map attribute names defined in the mapping schema', () => {
-        expect(attributeNameMapper.map(databaseItem)).toMatchObject({
+        expect(attributeNameMapper.mapItem(databaseItem)).toMatchObject({
           a: 10,
         });
       });
