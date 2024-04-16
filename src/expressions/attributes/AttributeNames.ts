@@ -5,6 +5,14 @@ export class AttributeNames {
 
   public constructor() {}
 
+  public static merge(attributeNames: AttributeNames[]): AttributeNames {
+    return attributeNames.reduce(
+      (attributeNames, eachAttributeNames) =>
+        attributeNames.merge(eachAttributeNames),
+      new AttributeNames(),
+    );
+  }
+
   public getExpressionAttributeNames(): ExpressionAttributeNames {
     return this.expressionAttributeNames;
   }
