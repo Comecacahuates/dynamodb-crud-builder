@@ -2,7 +2,7 @@ import {
   type NativeAttributeValue,
   convertToAttr,
 } from '@aws-sdk/util-dynamodb';
-import { type ExpressionAttributeValues } from './ExpressionAttributeValues.js';
+import { type ExpressionAttributeValues } from '../ExpressionAttributeValues.js';
 
 export class AttributeValues {
   private expressionAttributeValues: ExpressionAttributeValues = {};

@@ -1,4 +1,4 @@
-import { type ExpressionAttributeNames } from './ExpressionAttributeNames.js';
+import { type ExpressionAttributeNames } from '../ExpressionAttributeNames.js';
 
 export class AttributeNames {
   private expressionAttributeNames: ExpressionAttributeNames = {};
