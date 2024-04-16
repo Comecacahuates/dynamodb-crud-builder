@@ -13,4 +13,12 @@ export class AttributeNames {
     this.expressionAttributeNames[placeholder] = name;
     return this;
   }
+
+  public merge(attributeNames: AttributeNames): AttributeNames {
+    this.expressionAttributeNames = {
+      ...this.expressionAttributeNames,
+      ...attributeNames.getExpressionAttributeNames(),
+    };
+    return this;
+  }
 }
