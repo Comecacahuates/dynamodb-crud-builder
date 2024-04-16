@@ -71,7 +71,7 @@ export class Condition implements Expression {
   }
 
   private buildNegationStringExpression(condition: Condition): string {
-    return `(NOT ${condition.getString()})`;
+    return `(NOT ${condition.stringExpression})`;
   }
 
   private mergeAttributeNames(conditions: Conditions): AttributeNames {
