@@ -9,6 +9,14 @@ export class AttributeValues {
 
   public constructor() {}
 
+  public static merge(attributeValues: AttributeValues[]): AttributeValues {
+    return attributeValues.reduce(
+      (attributeValues, eachAttributeValues) =>
+        attributeValues.merge(eachAttributeValues),
+      new AttributeValues(),
+    );
+  }
+
   public getExpressionAttributeValues(): ExpressionAttributeValues {
     return this.expressionAttributeValues;
   }
