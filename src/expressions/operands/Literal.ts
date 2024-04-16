@@ -1,37 +1,21 @@
-import {
-  convertToAttr,
-  type NativeAttributeValue,
-} from '@aws-sdk/util-dynamodb';
+import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
 import { Operand } from './Operand.js';
-import { type ExpressionAttributeValues } from '../types.js';
+import { AttributeValues } from '../attributes/index.js';
 import { generateRandomAlphanumericString } from '../../utils/strings.js';
 
 export class Literal extends Operand {
   private constructor(
     expressionString: string,
-    expressionAttributeNames: undefined,
-    expressionAttributeValues: ExpressionAttributeValues,
+    attributeValues: AttributeValues = new AttributeValues(),
   ) {
-    super(
-      expressionString,
-      expressionAttributeNames,
-      expressionAttributeValues,
-    );
+    super(expressionString, undefined, attributeValues);
   }
 
   public static fromValue(value: NativeAttributeValue, name?: string): Literal {
-    const attributeValue = convertToAttr(value);
-    const randomName = generateRandomAlphanumericString(10);
+    const randomName = generateRandomAlphanumericString(10),
+      stringExpression = `:literal${name || randomName}`,
+      attributeValues = new AttributeValues().add(stringExpression, value);
 
-    const expressionString = `:literal${name || randomName}`;
-    const expressionAttributeNames = undefined;
-    const expressionAttributeValues: ExpressionAttributeValues = {
-      [expressionString]: attributeValue,
-    };
-    return new Literal(
-      expressionString,
-      expressionAttributeNames,
-      expressionAttributeValues,
-    );
+    return new Literal(stringExpression, attributeValues);
   }
 }
