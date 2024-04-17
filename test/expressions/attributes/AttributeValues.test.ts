@@ -13,7 +13,7 @@ describe('attribute values', () => {
         .add(':val3', new Set(['10', '20']));
 
       it('should return expression attribute values', () => {
-        expect(attributeValues.getExpressionAttributeValues()).toEqual({
+        expect(attributeValues.toExpressionAttributeValues()).toEqual({
           ':val0': { S: 'value-0' },
           ':val1': { N: '10' },
           ':val2': { BOOL: true },
@@ -37,7 +37,7 @@ describe('attribute values', () => {
         .merge(attributeValues1);
 
       it('should return expression attribute values', () => {
-        expect(mergedAttributeValues.getExpressionAttributeValues()).toEqual({
+        expect(mergedAttributeValues.toExpressionAttributeValues()).toEqual({
           ':val0': { S: 'value-0' },
           ':val1': { N: '10' },
           ':val2': { BOOL: true },

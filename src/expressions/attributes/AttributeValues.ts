@@ -17,7 +17,7 @@ export class AttributeValues {
     );
   }
 
-  public getExpressionAttributeValues(): ExpressionAttributeValues {
+  public toExpressionAttributeValues(): ExpressionAttributeValues {
     return this.expressionAttributeValues;
   }
 
@@ -32,7 +32,7 @@ export class AttributeValues {
   public merge(attributeValues: AttributeValues): AttributeValues {
     this.expressionAttributeValues = {
       ...this.expressionAttributeValues,
-      ...attributeValues.getExpressionAttributeValues(),
+      ...attributeValues.toExpressionAttributeValues(),
     };
     return this;
   }
