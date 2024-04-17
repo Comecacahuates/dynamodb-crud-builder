@@ -1,19 +1,21 @@
 import {
-  type DynamoDBClient,
   type PutItemInput,
+  type PutItemOutput,
   PutItemCommand,
   type TransactWriteItem,
+  type WriteRequest,
+  type DynamoDBClient,
 } from '@aws-sdk/client-dynamodb';
 import { NativeAttributeValue, marshall } from '@aws-sdk/util-dynamodb';
 
 export class PutItem {
-  private putItemInput: PutItemInput = {
-    TableName: undefined,
-    Item: {},
-  };
+  private putItemInput: PutItemInput;
 
   public constructor(item: Record<string, NativeAttributeValue>) {
-    this.putItemInput.Item = marshall(item);
+    this.putItemInput = {
+      Item: marshall(item),
+      TableName: undefined,
+    };
   }
 
   public intoTable(tableName: string): PutItem {
@@ -25,12 +27,17 @@ export class PutItem {
     return new PutItemCommand(this.putItemInput);
   }
 
-  public toTransactionItem(): TransactWriteItem {
+  public toTransactWriteItem(): TransactWriteItem {
     return { Put: this.putItemInput };
   }
 
-  public async commit(dynamodbClient: DynamoDBClient): Promise<void> {
-    const putItemCommand = this.toCommand();
-    await dynamodbClient.send(putItemCommand);
+  public toBatchWriteRequestItem(): Record<string, WriteRequest> {
+    const tableName = this.putItemInput.TableName!;
+    const item = this.putItemInput.Item;
+    return { [tableName]: { PutRequest: { Item: item } } };
+  }
+
+  public async commit(dynamodbClient: DynamoDBClient): Promise<PutItemOutput> {
+    return await dynamodbClient.send(this.toCommand());
   }
 }
