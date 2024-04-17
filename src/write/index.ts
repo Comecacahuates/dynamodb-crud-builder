@@ -1,3 +1,2 @@
-export * from './PutItemBuilder.js';
-export * from './DeleteItemBuilder.js';
-export * from './UpdateItemBuilder.js';
+export * from './PutItem.js';
+export * from './DeleteItem.js';
