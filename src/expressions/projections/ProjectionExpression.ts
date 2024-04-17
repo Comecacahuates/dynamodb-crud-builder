@@ -5,14 +5,14 @@ import {
   type DocumentPath,
 } from '../operands/DocumentPath.js';
 
-export class Projection implements Expression {
+export class ProjectionExpression implements Expression {
   private attributeNames = new AttributeNames();
   private attributeValues = new AttributeValues();
   private documentPaths: DocumentPaths = [];
 
   public constructor() {}
 
-  public add(documentPath: DocumentPath): Projection {
+  public add(documentPath: DocumentPath): ProjectionExpression {
     this.documentPaths.push(documentPath);
     this.attributeNames.merge(documentPath.getAttributeNames());
     return this;

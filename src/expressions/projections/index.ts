@@ -1,1 +1,1 @@
-export * from './Projection.js';
+export * from './ProjectionExpression.js';
