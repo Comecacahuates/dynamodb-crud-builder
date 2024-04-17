@@ -8,13 +8,13 @@ export type Operands = Operand[];
 
 export class Operand implements Expression {
   public constructor(
-    private stringExpression: string,
+    private expressionString: string,
     private attributeNames: AttributeNames = new AttributeNames(),
     private attributeValues: AttributeValues = new AttributeValues(),
   ) {}
 
   public getString(): string {
-    return this.stringExpression;
+    return this.expressionString;
   }
 
   public getAttributeNames(): ExpressionAttributeNames {
@@ -26,75 +26,75 @@ export class Operand implements Expression {
   }
 
   public plus(anotherOperand: Operand): Operand {
-    const stringExpression = `${this.stringExpression} + ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} + ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildOperand(stringExpression, operands);
+    return this.buildOperand(expressionString, operands);
   }
 
   public minus(anotherOperand: Operand): Operand {
-    const stringExpression = `${this.stringExpression} - ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} - ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildOperand(stringExpression, operands);
+    return this.buildOperand(expressionString, operands);
   }
 
   public equalTo(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} = ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} = ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public notEqualTo(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} <> ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} <> ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public lessThan(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} < ${anotherOperand.stringExpression}`;
+    const expressionString = `${this.expressionString} < ${anotherOperand.expressionString}`;
     const operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public lessThanOrEqualTo(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} <= ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} <= ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public greaterThan(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} > ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} > ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public greaterThanOrEqualTo(anotherOperand: Operand): Condition {
-    const stringExpression = `${this.stringExpression} >= ${anotherOperand.stringExpression}`,
+    const expressionString = `${this.expressionString} >= ${anotherOperand.expressionString}`,
       operands = [this, anotherOperand];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public between(lowerBound: Operand, upperBound: Operand): Condition {
-    const stringExpression = `${this.stringExpression} BETWEEN ${lowerBound.stringExpression} AND ${upperBound.stringExpression}`,
+    const expressionString = `${this.expressionString} BETWEEN ${lowerBound.expressionString} AND ${upperBound.expressionString}`,
       operands = [this, lowerBound, upperBound];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   public in(list: Array<Operand>): Condition {
-    const stringExpression = `${this.stringExpression} IN (${list
-        .map((operand) => operand.stringExpression)
+    const expressionString = `${this.expressionString} IN (${list
+        .map((operand) => operand.expressionString)
         .join(', ')})`,
       operands = [this, ...list];
 
-    return this.buildCondition(stringExpression, operands);
+    return this.buildCondition(expressionString, operands);
   }
 
   private mergeAttributeNames(operands: Operands): AttributeNames {
@@ -111,20 +111,23 @@ export class Operand implements Expression {
     return AttributeValues.merge(allAttributeValues);
   }
 
-  private buildOperand(stringExpression: string, operands: Operands): Operand {
+  protected buildOperand(
+    expressionString: string,
+    operands: Operands,
+  ): Operand {
     return new Operand(
-      stringExpression,
+      expressionString,
       this.mergeAttributeNames(operands),
       this.mergeAttributeValues(operands),
     );
   }
 
-  private buildCondition(
-    stringExpression: string,
+  protected buildCondition(
+    expressionString: string,
     operands: Operands,
   ): Condition {
     return new Condition(
-      stringExpression,
+      expressionString,
       this.mergeAttributeNames(operands),
       this.mergeAttributeValues(operands),
     );

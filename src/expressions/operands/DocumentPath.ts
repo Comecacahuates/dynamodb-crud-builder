@@ -1,9 +1,9 @@
-import merge from '@stdlib/utils-merge';
 import { Operand } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
-import { Condition } from '../condition-expressions/Condition.js';
+import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
+import { AttributeNames } from '../attributes/index.js';
 
 export class DocumentPath extends Operand {
   private constructor(public readonly items: Array<DocumentPathItem>) {
@@ -11,14 +11,12 @@ export class DocumentPath extends Operand {
       .map((item) => `#${item.toString()}`)
       .join('.');
 
-    const expressionAttributeNames = merge(
-      {},
-      ...items.map((item) => ({
-        [`#${item.attributeName}`]: item.attributeName,
-      })),
+    const attributeNames = new AttributeNames();
+    items.forEach((eachItem) =>
+      attributeNames.add(`#${eachItem.attributeName}`, eachItem.attributeName),
     );
 
-    super(expressionString, expressionAttributeNames);
+    super(expressionString, attributeNames);
   }
 
   public static parse(documentPathString: string): DocumentPath {
@@ -40,81 +38,52 @@ export class DocumentPath extends Operand {
     return this.items.map((item) => item.toString()).join('.');
   }
 
-  public attributeExists(): Condition {
-    const expressionString = `attribute_exists(${this.expressionString})`;
+  public exists(): Condition {
+    const expressionString = `attribute_exists(${this.getString()})`,
+      operands = [this];
 
-    return new Condition(
-      expressionString,
-      this.attributeNames,
-      this.attributeValues,
-    );
+    return this.buildCondition(expressionString, operands);
   }
 
-  public attributeNotExists(): Condition {
-    const expressionString = `attribute_not_exists(${this.expressionString})`;
+  public notExists(): Condition {
+    const expressionString = `attribute_not_exists(${this.getString()})`,
+      operands = [this];
 
-    return new Condition(
-      expressionString,
-      this.attributeNames,
-      this.attributeValues,
-    );
+    return this.buildCondition(expressionString, operands);
   }
 
   public size(): Operand {
-    const expressionString = `size(${this.expressionString})`;
+    const expressionString = `size(${this.getString()})`,
+      operands = [this];
 
-    return new Operand(
-      expressionString,
-      this.attributeNames,
-      this.attributeValues,
-    );
+    return this.buildOperand(expressionString, operands);
   }
 
   public type(type: Literal): Condition {
-    const expressionString = `attribute_type(${
-      this.expressionString
-    }, ${type.getExpressionString()})`;
+    const expressionString = `attribute_type(${this.getString()}, ${type.getString()})`,
+      operands = [this, type];
 
-    return new Condition(
-      expressionString,
-      this.mergeAttributeNames(type),
-      this.mergeAttributeValues(type),
-    );
+    return this.buildCondition(expressionString, operands);
   }
 
   public beginsWith(prefix: Literal): Condition {
-    const expressionString = `begins_with(${
-      this.expressionString
-    }, ${prefix.getExpressionString()})`;
+    const expressionString = `begins_with(${this.getString()}, ${prefix.getString()})`,
+      operands = [this, prefix];
 
-    return new Condition(
-      expressionString,
-      this.mergeAttributeNames(prefix),
-      this.mergeAttributeValues(prefix),
-    );
+    return this.buildCondition(expressionString, operands);
   }
 
   public contains(operand: Operand): Condition {
-    const expressionString = `contains(${
-      this.expressionString
-    }, ${operand.getExpressionString()})`;
+    const expressionString = `contains(${this.getString()}, ${operand.getString()})`,
+      operands = [this, operand];
 
-    return new Condition(
-      expressionString,
-      this.mergeAttributeNames(operand),
-      this.mergeAttributeValues(operand),
-    );
+    return this.buildCondition(expressionString, operands);
   }
 
   public ifNotExists(operand: Operand): Operand {
-    const expressionString = `if_not_exists(${
-      this.expressionString
-    }, ${operand.getExpressionString()})`;
+    const expressionString = `if_not_exists(${this.getString()}, ${operand.getString()})`,
+      operands = [this, operand];
 
-    return new Operand(
-      expressionString,
-      this.mergeAttributeNames(operand),
-      this.mergeAttributeValues(operand),
-    );
+    return this.buildOperand(expressionString, operands);
   }
 }
