@@ -95,14 +95,14 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, operands);
   }
 
-  private mergeAttributeNames(operands: Operands): AttributeNames {
+  protected mergeAttributeNames(operands: Operands): AttributeNames {
     const allAttributeNames = operands.map(
       (eachOperand) => eachOperand.attributeNames,
     );
     return AttributeNames.merge(allAttributeNames);
   }
 
-  private mergeAttributeValues(operands: Operands): AttributeValues {
+  protected mergeAttributeValues(operands: Operands): AttributeValues {
     const allAttributeValues = operands.map(
       (eachOperand) => eachOperand.attributeValues,
     );
