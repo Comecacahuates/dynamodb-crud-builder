@@ -5,6 +5,8 @@ import { Literal } from './Literal.js';
 import { DocumentPathParsingError } from '../../errors/index.js';
 import { AttributeNames } from '../attributes/index.js';
 
+export type DocumentPaths = DocumentPath[];
+
 export class DocumentPath extends Operand {
   private constructor(public readonly items: Array<DocumentPathItem>) {
     const expressionString = items
