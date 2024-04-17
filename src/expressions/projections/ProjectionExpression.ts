@@ -12,7 +12,7 @@ export class ProjectionExpression implements Expression {
 
   public constructor() {}
 
-  public add(documentPath: DocumentPath): ProjectionExpression {
+  public addAttribute(documentPath: DocumentPath): ProjectionExpression {
     this.documentPaths.push(documentPath);
     this.attributeNames.merge(documentPath.getAttributeNames());
     return this;
