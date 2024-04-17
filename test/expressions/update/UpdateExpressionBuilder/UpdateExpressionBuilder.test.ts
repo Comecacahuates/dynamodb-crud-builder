@@ -1,8 +1,8 @@
 import { describe, it, expect } from '@jest/globals';
-import { UpdateAction } from '../../../../src/expressions/update-expressions/UpdateAction.js';
+import { UpdateAction } from '../../../../src/expressions/update/UpdateAction.js';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
 import { Literal } from '../../../../src/expressions/operands/Literal.js';
-import { UpdateExpressionBuilder } from '../../../../src/expressions/update-expressions/UpdateExpressionBuilder.js';
+import { UpdateExpressionBuilder } from '../../../../src/expressions/update/UpdateExpressionBuilder.js';
 
 describe('build update expression', () => {
   describe('given a `set` action', () => {

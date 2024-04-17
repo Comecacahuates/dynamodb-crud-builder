@@ -2,7 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import {
   UpdateAction,
   UpdateActionType,
-} from '../../../src/expressions/update-expressions/UpdateAction.js';
+} from '../../../src/expressions/update/UpdateAction.js';
 import {
   AttributeNames,
   AttributeValues,

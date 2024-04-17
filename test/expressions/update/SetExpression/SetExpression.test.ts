@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
-import { SetExpression } from '../../../../src/expressions/update-expressions/SetExpression.js';
-import { UpdateAction } from '../../../../src/expressions/update-expressions/UpdateAction.js';
+import { SetExpression } from '../../../../src/expressions/update/SetExpression.js';
+import { UpdateAction } from '../../../../src/expressions/update/UpdateAction.js';
 import {
   DocumentPath,
   Literal,
