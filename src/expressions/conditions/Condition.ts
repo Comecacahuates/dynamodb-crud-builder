@@ -5,13 +5,13 @@ export type Conditions = Condition[];
 
 export class Condition implements Expression {
   public constructor(
-    private stringExpression: string,
+    private expressionString: string,
     private attributeNames: AttributeNames = new AttributeNames(),
     private attributeValues: AttributeValues = new AttributeValues(),
   ) {}
 
   public getString(): string {
-    return this.stringExpression;
+    return this.expressionString;
   }
 
   public getAttributeNames(): AttributeNames {
@@ -23,53 +23,30 @@ export class Condition implements Expression {
   }
 
   public and(...otherConditions: Conditions): Condition {
-    const conditions = [this, ...otherConditions];
+    const conditions = [this, ...otherConditions],
+      eachStringExpression = conditions.map((eachCondition) =>
+        eachCondition.getString(),
+      ),
+      expressionString = eachStringExpression.join(' AND ');
 
-    return new Condition(
-      this.buildConjunctionStringExpression(conditions),
-      this.mergeAttributeNames(conditions),
-      this.mergeAttributeValues(conditions),
-    );
+    return this.buildCondition(`(${expressionString})`, conditions);
   }
 
   public or(...otherConditions: Array<Condition>): Condition {
-    const conditions = [this, ...otherConditions];
+    const conditions = [this, ...otherConditions],
+      eachStringExpression = conditions.map((eachCondition) =>
+        eachCondition.getString(),
+      ),
+      expressionString = eachStringExpression.join(' OR ');
 
-    return new Condition(
-      this.buildDisjunctionStringExpression(conditions),
-      this.mergeAttributeNames(conditions),
-      this.mergeAttributeValues(conditions),
-    );
+    return this.buildCondition(`(${expressionString})`, conditions);
   }
 
   public not(): Condition {
-    return new Condition(
-      this.buildNegationStringExpression(this),
-      this.mergeAttributeNames([this]),
-      this.mergeAttributeValues([this]),
-    );
-  }
+    const conditions = [this],
+      expressionString = `NOT ${this.getString()}`;
 
-  private buildConjunctionStringExpression(conditions: Conditions): string {
-    const eachStringExpression = conditions.map((eachCondition) =>
-      eachCondition.getString(),
-    );
-    const stringExpression = eachStringExpression.join(' AND ');
-
-    return `(${stringExpression})`;
-  }
-
-  private buildDisjunctionStringExpression(conditions: Conditions): string {
-    const eachStringExpression = conditions.map((eachCondition) =>
-      eachCondition.getString(),
-    );
-    const stringExpression = eachStringExpression.join(' OR ');
-
-    return `(${stringExpression})`;
-  }
-
-  private buildNegationStringExpression(condition: Condition): string {
-    return `(NOT ${condition.stringExpression})`;
+    return this.buildCondition(`(${expressionString})`, conditions);
   }
 
   private mergeAttributeNames(conditions: Conditions): AttributeNames {
@@ -84,5 +61,16 @@ export class Condition implements Expression {
       (eachCondition) => eachCondition.attributeValues,
     );
     return AttributeValues.merge(allAttributeValues);
+  }
+
+  protected buildCondition(
+    expressionString: string,
+    conditions: Conditions,
+  ): Condition {
+    return new Condition(
+      expressionString,
+      this.mergeAttributeNames(conditions),
+      this.mergeAttributeValues(conditions),
+    );
   }
 }
