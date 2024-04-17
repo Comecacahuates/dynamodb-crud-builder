@@ -13,7 +13,7 @@ export class AttributeNames {
     );
   }
 
-  public getExpressionAttributeNames(): ExpressionAttributeNames {
+  public toExpressionAttributeNames(): ExpressionAttributeNames {
     return this.expressionAttributeNames;
   }
 
@@ -25,7 +25,7 @@ export class AttributeNames {
   public merge(attributeNames: AttributeNames): AttributeNames {
     this.expressionAttributeNames = {
       ...this.expressionAttributeNames,
-      ...attributeNames.getExpressionAttributeNames(),
+      ...attributeNames.toExpressionAttributeNames(),
     };
     return this;
   }

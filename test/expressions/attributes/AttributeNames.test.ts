@@ -12,7 +12,7 @@ describe('attribute names', () => {
         .add('#attr2', 'attribute2');
 
       it('should return expression attribute names', () => {
-        expect(attributeNames.getExpressionAttributeNames()).toEqual({
+        expect(attributeNames.toExpressionAttributeNames()).toEqual({
           '#attr0': 'attribute0',
           '#attr1': 'attribute1',
           '#attr2': 'attribute2',
@@ -35,7 +35,7 @@ describe('attribute names', () => {
         .merge(attributeNames1);
 
       it('should return expression attribute names', () => {
-        expect(mergedAttributeNames.getExpressionAttributeNames()).toEqual({
+        expect(mergedAttributeNames.toExpressionAttributeNames()).toEqual({
           '#attr0': 'attribute0',
           '#attr1': 'attribute1',
           '#attr2': 'attribute2',
