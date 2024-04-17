@@ -2660,6 +2660,7 @@ __metadata:
     "@babel/preset-typescript": "npm:7.23.3"
     "@jest/globals": "npm:29.7.0"
     "@shelf/jest-dynamodb": "npm:^3.4.2"
+    "@smithy/types": "npm:2.12.0"
     "@stdlib/assert-is-object": "npm:0.2.1"
     "@stdlib/random": "npm:0.2.1"
     "@stdlib/utils-copy": "npm:^0.1.0"
@@ -3997,6 +3998,15 @@ __metadata:
     "@smithy/util-stream": "npm:^2.1.2"
     tslib: "npm:^2.5.0"
   checksum: 10c0/ae34805b2e3018e4706697ab050371774e6a6e2802e9e50abacd100dcea47d83b7c430faa4610a1a9416ca65d5826dcd6d3ab7829c852a8708f2f16aad4456ac
+  languageName: node
+  linkType: hard
+
+"@smithy/types@npm:2.12.0":
+  version: 2.12.0
+  resolution: "@smithy/types@npm:2.12.0"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c0/3530ba5b4f4e52a4028679f73e133af928cf6ea22a16d29669b8c67ea540ed46ab15dc6d391598fbdfd476884cdc57881c480168e2dbe7c5bb007f5afad01531
   languageName: node
   linkType: hard
 
@@ -11572,7 +11582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.5.0":
+"tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.5.0, tslib@npm:^2.6.2":
   version: 2.6.2
   resolution: "tslib@npm:2.6.2"
   checksum: 10c0/e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
