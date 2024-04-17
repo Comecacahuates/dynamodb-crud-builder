@@ -30,9 +30,7 @@ export class GetItem {
     return this;
   }
 
-  public withProjectionExpression(
-    projectionExpression: ProjectionExpression,
-  ): GetItem {
+  public withProjection(projectionExpression: ProjectionExpression): GetItem {
     this.getItemInput.ProjectionExpression = projectionExpression.getString();
 
     this.mergeAttributeNames(projectionExpression);

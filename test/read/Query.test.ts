@@ -14,7 +14,9 @@ describe('query', () => {
       tableName = 'table-00',
       indexName = 'index-00',
       filterExpression = attribute0.equalTo(literal0),
-      projection = new ProjectionExpression().addAttribute(attribute0),
+      projectionExpression = new ProjectionExpression().addAttribute(
+        attribute0,
+      ),
       startKey = { id: 'id-00', name: 'name-01' },
       limit = 10;
 
@@ -23,7 +25,7 @@ describe('query', () => {
         .fromTable(tableName)
         .byIndex(indexName)
         .filteringBy(filterExpression)
-        .withProjection(projection)
+        .withProjection(projectionExpression)
         .startingAt(startKey)
         .limitTo(limit)
         .inDescendingOrder()

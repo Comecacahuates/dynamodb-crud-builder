@@ -17,7 +17,7 @@ describe('get item', () => {
     describe('when building get item command', () => {
       const command = new GetItem(key)
         .fromTable(tableName)
-        .withProjectionExpression(projectionExpression)
+        .withProjection(projectionExpression)
         .toCommand();
 
       it('should have table name', () => {
