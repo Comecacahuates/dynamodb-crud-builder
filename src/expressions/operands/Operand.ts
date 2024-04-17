@@ -1,7 +1,5 @@
 import { Condition } from '../conditions/Condition.js';
 import { type Expression } from '../Expression.js';
-import { type ExpressionAttributeNames } from '../ExpressionAttributeNames.js';
-import { type ExpressionAttributeValues } from '../ExpressionAttributeValues.js';
 import { AttributeNames, AttributeValues } from '../attributes/index.js';
 
 export type Operands = Operand[];
@@ -17,12 +15,12 @@ export class Operand implements Expression {
     return this.expressionString;
   }
 
-  public getAttributeNames(): ExpressionAttributeNames {
-    return this.attributeNames.getExpressionAttributeNames();
+  public getAttributeNames(): AttributeNames {
+    return this.attributeNames;
   }
 
-  getAttributeValues(): ExpressionAttributeValues {
-    return this.attributeValues.getExpressionAttributeValues();
+  public getAttributeValues(): AttributeValues {
+    return this.attributeValues;
   }
 
   public plus(anotherOperand: Operand): Operand {

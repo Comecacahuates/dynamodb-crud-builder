@@ -29,13 +29,13 @@ describe('arithmetic expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(sum.getAttributeNames()).toEqual({
+        expect(sum.getAttributeNames().toExpressionAttributeNames()).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(sum.getAttributeValues()).toEqual({
+        expect(sum.getAttributeValues().toExpressionAttributeValues()).toEqual({
           ':b': { N: '10' },
         });
       });
@@ -55,13 +55,13 @@ describe('arithmetic expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(sub.getAttributeNames()).toEqual({
+        expect(sub.getAttributeNames().toExpressionAttributeNames()).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(sub.getAttributeValues()).toEqual({
+        expect(sub.getAttributeValues().toExpressionAttributeValues()).toEqual({
           ':b': { N: '10' },
         });
       });
@@ -95,13 +95,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(equality.getAttributeNames()).toEqual({
+        expect(
+          equality.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(equality.getAttributeValues()).toEqual({
+        expect(
+          equality.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':b': { N: '10' },
         });
       });
@@ -119,13 +123,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(inequality.getAttributeNames()).toEqual({
+        expect(
+          inequality.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(inequality.getAttributeValues()).toEqual({
+        expect(
+          inequality.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':c': { N: '20' },
         });
       });
@@ -143,13 +151,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(lessThan.getAttributeNames()).toEqual({
+        expect(
+          lessThan.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(lessThan.getAttributeValues()).toEqual({
+        expect(
+          lessThan.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':c': { N: '20' },
         });
       });
@@ -167,13 +179,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(lessThanOrEqualTo.getAttributeNames()).toEqual({
+        expect(
+          lessThanOrEqualTo.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(lessThanOrEqualTo.getAttributeValues()).toEqual({
+        expect(
+          lessThanOrEqualTo.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':c': { N: '20' },
         });
       });
@@ -191,13 +207,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(greaterThan.getAttributeNames()).toEqual({
+        expect(
+          greaterThan.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(greaterThan.getAttributeValues()).toEqual({
+        expect(
+          greaterThan.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':c': { N: '20' },
         });
       });
@@ -215,13 +235,19 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(greaterThanOrEqualTo.getAttributeNames()).toEqual({
+        expect(
+          greaterThanOrEqualTo.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of both operands', () => {
-        expect(greaterThanOrEqualTo.getAttributeValues()).toEqual({
+        expect(
+          greaterThanOrEqualTo
+            .getAttributeValues()
+            .toExpressionAttributeValues(),
+        ).toEqual({
           ':c': { N: '20' },
         });
       });
@@ -239,13 +265,17 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of all operands', () => {
-        expect(between.getAttributeNames()).toEqual({
+        expect(
+          between.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of all operands', () => {
-        expect(between.getAttributeValues()).toEqual({
+        expect(
+          between.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':b': { N: '10' },
           ':c': { N: '20' },
         });
@@ -264,13 +294,13 @@ describe('comparisson expressions', () => {
       });
 
       it('should have attribute names of both operands', () => {
-        expect(_in.getAttributeNames()).toEqual({
+        expect(_in.getAttributeNames().toExpressionAttributeNames()).toEqual({
           '#a': 'a',
         });
       });
 
       it('should have attribute values of all operands', () => {
-        expect(_in.getAttributeValues()).toEqual({
+        expect(_in.getAttributeValues().toExpressionAttributeValues()).toEqual({
           ':b': { N: '10' },
           ':c': { N: '20' },
         });
