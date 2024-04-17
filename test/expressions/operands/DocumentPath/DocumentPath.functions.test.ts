@@ -21,14 +21,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(existsFunction.getAttributeNames()).toEqual({
+        expect(
+          existsFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(existsFunction.getAttributeValues()).toEqual({});
+        expect(
+          existsFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({});
       });
     });
 
@@ -46,14 +50,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(notExistsFunction.getAttributeNames()).toEqual({
+        expect(
+          notExistsFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(notExistsFunction.getAttributeValues()).toEqual({});
+        expect(
+          notExistsFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({});
       });
     });
 
@@ -69,14 +77,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(sizeFunction.getAttributeNames()).toEqual({
+        expect(
+          sizeFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(sizeFunction.getAttributeValues()).toEqual({});
+        expect(
+          sizeFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({});
       });
     });
 
@@ -94,14 +106,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(typeFunction.getAttributeNames()).toEqual({
+        expect(
+          typeFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(typeFunction.getAttributeValues()).toEqual({
+        expect(
+          typeFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':literalValue': { S: 'value' },
         });
       });
@@ -121,14 +137,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(beginsWithFunction.getAttributeNames()).toEqual({
+        expect(
+          beginsWithFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(beginsWithFunction.getAttributeValues()).toEqual({
+        expect(
+          beginsWithFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':literalValue': { S: 'value' },
         });
       });
@@ -148,14 +168,18 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(containsFunction.getAttributeNames()).toEqual({
+        expect(
+          containsFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(containsFunction.getAttributeValues()).toEqual({
+        expect(
+          containsFunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':literalValue': { S: 'value' },
         });
       });
@@ -175,14 +199,20 @@ describe('functions', () => {
       });
 
       it('should have attribute names', () => {
-        expect(ifNotExistsFunction.getAttributeNames()).toEqual({
+        expect(
+          ifNotExistsFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
         });
       });
 
       it('should have attribute values', () => {
-        expect(ifNotExistsFunction.getAttributeValues()).toEqual({
+        expect(
+          ifNotExistsFunction
+            .getAttributeValues()
+            .toExpressionAttributeValues(),
+        ).toEqual({
           ':literalValue': { S: 'value' },
         });
       });
