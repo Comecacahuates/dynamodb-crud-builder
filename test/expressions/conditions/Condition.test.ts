@@ -39,7 +39,9 @@ describe('logical operations', () => {
       });
 
       it('should have attribute names of all conditions', () => {
-        expect(conjunction.getAttributeNames()).toEqual({
+        expect(
+          conjunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -47,7 +49,9 @@ describe('logical operations', () => {
       });
 
       it('should have attribute values of all conditions', () => {
-        expect(conjunction.getAttributeValues()).toEqual({
+        expect(
+          conjunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
           ':cc': { N: '3' },
@@ -71,7 +75,9 @@ describe('logical operations', () => {
       });
 
       it('should have attribute names of all conditions', () => {
-        expect(disjunction.getAttributeNames()).toEqual({
+        expect(
+          disjunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
           '#a': 'a',
           '#b': 'b',
           '#c': 'c',
@@ -79,7 +85,9 @@ describe('logical operations', () => {
       });
 
       it('should have attribute values of all conditions', () => {
-        expect(disjunction.getAttributeValues()).toEqual({
+        expect(
+          disjunction.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({
           ':aa': { N: '1' },
           ':bb': { N: '2' },
           ':cc': { N: '3' },
@@ -99,11 +107,15 @@ describe('logical operations', () => {
       });
 
       it('should have attribute names of all conditions', () => {
-        expect(negation.getAttributeNames()).toEqual({ '#a': 'a' });
+        expect(
+          negation.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({ '#a': 'a' });
       });
 
       it('should have attribute values of all conditions', () => {
-        expect(negation.getAttributeValues()).toEqual({ ':aa': { N: '1' } });
+        expect(
+          negation.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({ ':aa': { N: '1' } });
       });
     });
   });

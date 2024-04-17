@@ -1,6 +1,4 @@
 import { type Expression } from '../Expression.js';
-import { type ExpressionAttributeNames } from '../ExpressionAttributeNames.js';
-import { type ExpressionAttributeValues } from '../ExpressionAttributeValues.js';
 import { AttributeNames, AttributeValues } from '../attributes/index.js';
 
 export type Conditions = Condition[];
@@ -16,12 +14,12 @@ export class Condition implements Expression {
     return this.stringExpression;
   }
 
-  public getAttributeNames(): ExpressionAttributeNames {
-    return this.attributeNames.getExpressionAttributeNames();
+  public getAttributeNames(): AttributeNames {
+    return this.attributeNames;
   }
 
-  getAttributeValues(): ExpressionAttributeValues {
-    return this.attributeValues.getExpressionAttributeValues();
+  getAttributeValues(): AttributeValues {
+    return this.attributeValues;
   }
 
   public and(...otherConditions: Conditions): Condition {
