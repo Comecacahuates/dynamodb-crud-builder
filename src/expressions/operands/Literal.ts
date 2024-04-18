@@ -1,34 +1,29 @@
 import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
-import { Operand } from './Operand.js';
-import { AttributeValues } from '../attributes/index.js';
+import { Expression } from '../Expression.js';
+import { AttributeNames, AttributeValues } from '../attributes/index.js';
 import { generateRandomAlphanumericString } from '../../utils/strings.js';
 
-export type LiteralLike = Literal | NativeAttributeValue;
+export class Literal implements Expression {
+  private expressionString: string;
+  private attributeNames = new AttributeNames();
+  private attributeValues = new AttributeValues();
 
-export class Literal extends Operand {
-  private constructor(
-    expressionString: string,
-    attributeValues: AttributeValues = new AttributeValues(),
-  ) {
-    super(expressionString, undefined, attributeValues);
+  public constructor(value: NativeAttributeValue) {
+    const randomName = generateRandomAlphanumericString(10);
+    this.expressionString = `:literal${randomName}`;
+
+    this.attributeValues.add(this.expressionString, value);
   }
 
-  public static fromValue(value: NativeAttributeValue, name?: string): Literal {
-    const randomName = generateRandomAlphanumericString(10),
-      stringExpression = `:literal${name || randomName}`,
-      attributeValues = new AttributeValues().add(stringExpression, value);
-
-    return new Literal(stringExpression, attributeValues);
+  public getString(): string {
+    return this.expressionString;
   }
 
-  public static fromLiteralLike(
-    literalLike: LiteralLike,
-    name?: string,
-  ): Literal {
-    if (literalLike instanceof Literal) {
-      return literalLike;
-    }
+  public getAttributeNames(): AttributeNames {
+    return this.attributeNames;
+  }
 
-    return Literal.fromValue(literalLike, name);
+  public getAttributeValues(): AttributeValues {
+    return this.attributeValues;
   }
 }

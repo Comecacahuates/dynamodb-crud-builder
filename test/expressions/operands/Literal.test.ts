@@ -2,74 +2,33 @@ import { describe, it, expect } from '@jest/globals';
 import { Literal } from '../../../src/expressions/operands/Literal.js';
 
 describe('creating from value', () => {
-  describe('given a value and the name "Name"', () => {
+  describe('given a string value', () => {
     const value = 'value';
-    const name = 'Name';
 
     describe('when creating a literal', () => {
-      const literal = Literal.fromValue(value, name);
+      const literal = new Literal(value);
 
-      it('should have a expression string :literalName', () => {
-        expect(literal.getString()).toBe(':literalName');
+      it('should have a expression string', () => {
+        expect(literal.getString()).toMatch(/:literal\w{10}/);
       });
 
-      it('should have empty attribute names', () => {
+      it('should have no attribute names', () => {
         expect(
           literal.getAttributeNames().toExpressionAttributeNames(),
         ).toEqual({});
       });
 
       it('should have attribute values', () => {
-        expect(
-          literal.getAttributeValues().toExpressionAttributeValues(),
-        ).toEqual({
-          ':literalName': { S: 'value' },
-        });
-      });
-    });
-  });
-});
+        const expressionAttributeValues = literal
+            .getAttributeValues()
+            .toExpressionAttributeValues(),
+          keys = Object.keys(expressionAttributeValues),
+          values = Object.values(expressionAttributeValues);
 
-describe('creating from literal-like', () => {
-  describe('given a literal string value and a name', () => {
-    const value = 'value';
-    const name = 'Value';
-
-    describe('when creating a literal', () => {
-      const literal = Literal.fromLiteralLike(value, name);
-
-      it('should return a new literal object', () => {
-        expect(literal).toBeInstanceOf(Literal);
-      });
-
-      it('should have a expression string :literalValue', () => {
-        expect(literal.getString()).toBe(':literalValue');
-      });
-
-      it('should have attribute names', () => {
-        expect(
-          literal.getAttributeNames().toExpressionAttributeNames(),
-        ).toEqual({});
-      });
-
-      it('should have attribute values', () => {
-        expect(
-          literal.getAttributeValues().toExpressionAttributeValues(),
-        ).toEqual({
-          ':literalValue': { S: 'value' },
-        });
-      });
-    });
-  });
-
-  describe('given a literal object', () => {
-    const literal = Literal.fromValue('value', 'Value');
-
-    describe('when creating a literal', () => {
-      const newLiteral = Literal.fromLiteralLike(literal);
-
-      it('should return the same object', () => {
-        expect(newLiteral).toBe(literal);
+        expect(keys).toHaveLength(1);
+        expect(keys[0]).toMatch(/:literal\w{10}/);
+        expect(values).toHaveLength(1);
+        expect(values[0]).toEqual({ S: 'value' });
       });
     });
   });
