@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
   "packageManager": "yarn@4.1.0",
   "type": "module",
@@ -47,6 +47,7 @@
     "@shelf/jest-dynamodb": "^3.4.2",
     "@smithy/types": "2.12.0",
     "@types/node": "20.11.20",
+    "@types/randomstring": "^1",
     "@typescript-eslint/eslint-plugin": "7.0.2",
     "@typescript-eslint/parser": "7.0.2",
     "aws-sdk-client-mock": "3.0.1",
@@ -63,6 +64,6 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.521.0",
     "@aws-sdk/util-dynamodb": "3.521.0",
-    "@stdlib/random": "0.2.1"
+    "randomstring": "1.3.0"
   }
 }
