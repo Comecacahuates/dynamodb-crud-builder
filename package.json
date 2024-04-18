@@ -35,7 +35,8 @@
     "clean": "rm -rf dist",
     "compile-esm": "tsc -p tsconfig.build.json",
     "compile-cjs": "babel --config-file ./babel.config.build.cjs ./dist/esm --out-dir ./dist/cjs --out-file-extension .cjs --source-maps",
-    "build": "yarn clean && yarn compile-esm && yarn compile-cjs"
+    "build-pack": "mkdir -p ./artifacts && yarn pack --out ./artifacts/%s-%v.tgz",
+    "build": "yarn clean && yarn compile-esm && yarn compile-cjs && yarn build-pack"
   },
   "devDependencies": {
     "@babel/cli": "7.23.9",
@@ -62,7 +63,6 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.521.0",
     "@aws-sdk/util-dynamodb": "3.521.0",
-    "@stdlib/random": "0.2.1",
-    "@stdlib/utils-entries": "0.2.1"
+    "@stdlib/random": "0.2.1"
   }
 }
