@@ -4,6 +4,10 @@
   "version": "0.2.1",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
   "packageManager": "yarn@4.1.0",
+  "keywords": [
+    "dynamodb",
+    "aws"
+  ],
   "type": "module",
   "main": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
@@ -28,6 +32,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Comecacahuates/dynamodb-crud-builder"
+  },
   "scripts": {
     "test": "jest",
     "lint": "eslint",
