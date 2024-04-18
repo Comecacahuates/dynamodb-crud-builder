@@ -2648,45 +2648,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@comecacahuates/dynamodb@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@comecacahuates/dynamodb@workspace:."
-  dependencies:
-    "@aws-sdk/client-dynamodb": "npm:3.521.0"
-    "@aws-sdk/util-dynamodb": "npm:3.521.0"
-    "@babel/cli": "npm:7.23.9"
-    "@babel/core": "npm:7.23.9"
-    "@babel/preset-env": "npm:7.23.9"
-    "@babel/preset-typescript": "npm:7.23.3"
-    "@jest/globals": "npm:29.7.0"
-    "@shelf/jest-dynamodb": "npm:^3.4.2"
-    "@smithy/types": "npm:2.12.0"
-    "@stdlib/assert-is-object": "npm:0.2.1"
-    "@stdlib/random": "npm:0.2.1"
-    "@stdlib/utils-copy": "npm:^0.1.0"
-    "@stdlib/utils-entries": "npm:0.2.1"
-    "@stdlib/utils-from-entries": "npm:0.2.1"
-    "@stdlib/utils-merge": "npm:0.2.1"
-    "@stdlib/utils-zip": "npm:0.2.1"
-    "@types/node": "npm:20.11.20"
-    "@typescript-eslint/eslint-plugin": "npm:7.0.2"
-    "@typescript-eslint/parser": "npm:7.0.2"
-    aws-sdk-client-mock: "npm:3.0.1"
-    aws-sdk-client-mock-jest: "npm:3.0.1"
-    babel-jest: "npm:29.7.0"
-    babel-plugin-replace-import-extension: "npm:1.1.4"
-    esbuild: "npm:0.20.1"
-    eslint: "npm:8.57.0"
-    eslint-config-prettier: "npm:9.1.0"
-    jest: "npm:29.7.0"
-    just-clone: "npm:6.2.0"
-    prettier: "npm:3.2.5"
-    ts-pattern: "npm:5.0.8"
-    typescript: "npm:5.3.3"
-    zod: "npm:3.22.4"
-  languageName: unknown
-  linkType: soft
-
 "@esbuild/aix-ppc64@npm:0.20.1":
   version: 0.20.1
   resolution: "@esbuild/aix-ppc64@npm:0.20.1"
@@ -8423,6 +8384,45 @@ __metadata:
   checksum: 10c0/c96bdccabe9d62ab6fea9399fdff04a66e6563c1d6fb3a3a063e8d53c3bb136ba63e84250bbf63d00086a769ad53aef92d2bd483f03f837fc97b71cbee6b2520
   languageName: node
   linkType: hard
+
+"dynamodb-crud-builder@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "dynamodb-crud-builder@workspace:."
+  dependencies:
+    "@aws-sdk/client-dynamodb": "npm:3.521.0"
+    "@aws-sdk/util-dynamodb": "npm:3.521.0"
+    "@babel/cli": "npm:7.23.9"
+    "@babel/core": "npm:7.23.9"
+    "@babel/preset-env": "npm:7.23.9"
+    "@babel/preset-typescript": "npm:7.23.3"
+    "@jest/globals": "npm:29.7.0"
+    "@shelf/jest-dynamodb": "npm:^3.4.2"
+    "@smithy/types": "npm:2.12.0"
+    "@stdlib/assert-is-object": "npm:0.2.1"
+    "@stdlib/random": "npm:0.2.1"
+    "@stdlib/utils-copy": "npm:^0.1.0"
+    "@stdlib/utils-entries": "npm:0.2.1"
+    "@stdlib/utils-from-entries": "npm:0.2.1"
+    "@stdlib/utils-merge": "npm:0.2.1"
+    "@stdlib/utils-zip": "npm:0.2.1"
+    "@types/node": "npm:20.11.20"
+    "@typescript-eslint/eslint-plugin": "npm:7.0.2"
+    "@typescript-eslint/parser": "npm:7.0.2"
+    aws-sdk-client-mock: "npm:3.0.1"
+    aws-sdk-client-mock-jest: "npm:3.0.1"
+    babel-jest: "npm:29.7.0"
+    babel-plugin-replace-import-extension: "npm:1.1.4"
+    esbuild: "npm:0.20.1"
+    eslint: "npm:8.57.0"
+    eslint-config-prettier: "npm:9.1.0"
+    jest: "npm:29.7.0"
+    just-clone: "npm:6.2.0"
+    prettier: "npm:3.2.5"
+    ts-pattern: "npm:5.0.8"
+    typescript: "npm:5.3.3"
+    zod: "npm:3.22.4"
+  languageName: unknown
+  linkType: soft
 
 "dynamodb-local@npm:0.0.32":
   version: 0.0.32

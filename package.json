@@ -12,6 +12,18 @@
       "require": "./dist/cjs/index.cjs",
       "import": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
+    },
+    "./expressions": {
+      "import": "./dist/esm/expressions/index.js",
+      "types": "./dist/types/expressions/index.d.ts"
+    },
+    "./read": {
+      "import": "./dist/esm/read/index.js",
+      "types": "./dist/types/read/index.d.ts"
+    },
+    "./write": {
+      "import": "./dist/esm/write/index.js",
+      "types": "./dist/types/write/index.d.ts"
     }
   },
   "files": [
@@ -22,8 +34,9 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "clean": "rm -rf dist",
-    "compile": "tsc -p tsconfig.build.json && babel --config-file ./babel.config.build.cjs ./dist/esm --out-dir ./dist/cjs --out-file-extension .cjs --source-maps",
-    "build": "yarn clean && yarn compile"
+    "compile-esm": "tsc -p tsconfig.build.json",
+    "compile-cjs": "babel --config-file ./babel.config.build.cjs ./dist/esm --out-dir ./dist/cjs --out-file-extension .cjs --source-maps",
+    "build": "yarn clean && yarn compile-esm && yarn compile-cjs"
   },
   "devDependencies": {
     "@babel/cli": "7.23.9",
