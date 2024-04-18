@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
   "packageManager": "yarn@4.1.0",
   "type": "module",
@@ -9,7 +9,6 @@
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.cjs",
       "import": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
     },
