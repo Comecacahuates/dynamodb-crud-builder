@@ -1,5 +1,5 @@
 {
-  "name": "@comecacahuates/dynamodb",
+  "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
   "version": "0.1.1",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
