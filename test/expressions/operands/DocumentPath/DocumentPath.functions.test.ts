@@ -6,8 +6,8 @@ import { Operand } from '../../../../src/expressions/operands/Operand.js';
 
 describe('functions', () => {
   describe('given a document path and an operand', () => {
-    const documentPath = DocumentPath.parse('a[0].b');
-    const operand = Literal.fromValue('value', 'Value');
+    const documentPath = DocumentPath.parse('a[0].b'),
+      operand = Literal.fromValue('value', 'Value');
 
     describe('when building exists function expression', () => {
       const existsFunction = documentPath.exists();
@@ -215,6 +215,47 @@ describe('functions', () => {
         ).toEqual({
           ':literalValue': { S: 'value' },
         });
+      });
+    });
+  });
+
+  describe('given a document path and a literal number value', () => {
+    const documentPath = DocumentPath.parse('a[0].b'),
+      value = 10;
+
+    describe('when building contains function', () => {
+      const containsFunction = documentPath.contains(value);
+
+      it('should return a condition', () => {
+        expect(containsFunction).toBeInstanceOf(Condition);
+      });
+
+      it('should have expression string', () => {
+        expect(containsFunction.getString()).toMatch(
+          'contains(#a[0].#b, :literal',
+        );
+      });
+
+      it('should have attribute names', () => {
+        expect(
+          containsFunction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+        });
+      });
+
+      it('should have attribute values', () => {
+        const expressionAttributeValues = containsFunction
+          .getAttributeValues()
+          .toExpressionAttributeValues();
+        const keys = Object.keys(expressionAttributeValues);
+        const values = Object.values(expressionAttributeValues);
+
+        expect(keys).toHaveLength(1);
+        expect(keys[0]).toMatch(':literal');
+        expect(values).toHaveLength(1);
+        expect(values[0]).toEqual({ N: '10' });
       });
     });
   });

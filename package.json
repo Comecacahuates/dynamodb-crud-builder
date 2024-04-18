@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Adrián Juárez <comecacahuates@yahoo.com>",
   "packageManager": "yarn@4.1.0",
   "keywords": [

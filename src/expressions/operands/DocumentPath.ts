@@ -1,3 +1,4 @@
+import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
 import { Operand, type Operands } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
 import { AttributeNames } from '../attributes/index.js';
@@ -62,35 +63,45 @@ export class DocumentPath extends Operand {
     return super.buildOperand(expressionString, operands);
   }
 
-  public type(type: Literal): Condition {
+  public type(type: Literal | NativeAttributeValue): Condition {
+    type = this.normalizeOperand(type);
+
     const expressionString = `attribute_type(${this.getString()}, ${type.getString()})`,
       operands = [this, type];
 
     return super.buildCondition(expressionString, operands);
   }
 
-  public beginsWith(prefix: Literal): Condition {
+  public beginsWith(prefix: Literal | NativeAttributeValue): Condition {
+    prefix = this.normalizeOperand(prefix);
+
     const expressionString = `begins_with(${this.getString()}, ${prefix.getString()})`,
       operands = [this, prefix];
 
     return super.buildCondition(expressionString, operands);
   }
 
-  public contains(operand: Operand): Condition {
+  public contains(operand: Operand | NativeAttributeValue): Condition {
+    operand = this.normalizeOperand(operand);
+
     const expressionString = `contains(${this.getString()}, ${operand.getString()})`,
       operands = [this, operand];
 
     return super.buildCondition(expressionString, operands);
   }
 
-  public ifNotExists(operand: Operand): Operand {
+  public ifNotExists(operand: Operand | NativeAttributeValue): Operand {
+    operand = this.normalizeOperand(operand);
+
     const expressionString = `if_not_exists(${this.getString()}, ${operand.getString()})`,
       operands = [this, operand];
 
     return super.buildOperand(expressionString, operands);
   }
 
-  public setValue(value: Operand): UpdateAction {
+  public setValue(value: Operand | NativeAttributeValue): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} = ${value.getString()}`,
       operands = [this, value];
 
@@ -101,7 +112,11 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public setValueIfNotExists(value: Operand): UpdateAction {
+  public setValueIfNotExists(
+    value: Operand | NativeAttributeValue,
+  ): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} = if_not_exists(${this.getString()}, ${value.getString()})`,
       operands = [this, value];
 
@@ -112,7 +127,9 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public increment(value: Operand): UpdateAction {
+  public increment(value: Operand | NativeAttributeValue): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} = ${this.getString()} + ${value.getString()}`,
       operands = [this, value];
 
@@ -123,7 +140,9 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public decrement(value: Operand): UpdateAction {
+  public decrement(value: Operand | NativeAttributeValue): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} = ${this.getString()} - ${value.getString()}`,
       operands = [this, value];
 
@@ -134,7 +153,9 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public append(items: Operand): UpdateAction {
+  public append(items: Operand | NativeAttributeValue): UpdateAction {
+    items = this.normalizeOperand(items);
+
     const expressionString = `${this.getString()} = list_append(${this.getString()}, ${items.getString()})`,
       operands = [this, items];
 
@@ -145,7 +166,9 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public add(value: Operand): UpdateAction {
+  public add(value: Operand | NativeAttributeValue): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} ${value.getString()}`,
       operands = [this, value];
 
@@ -156,7 +179,9 @@ export class DocumentPath extends Operand {
     );
   }
 
-  public delete(value: Operand): UpdateAction {
+  public delete(value: Operand | NativeAttributeValue): UpdateAction {
+    value = this.normalizeOperand(value);
+
     const expressionString = `${this.getString()} ${value.getString()}`,
       operands = [this, value];
 
@@ -178,7 +203,7 @@ export class DocumentPath extends Operand {
     );
   }
 
-  protected buildUpdateAction(
+  private buildUpdateAction(
     type: UpdateActionType,
     expressionString: string,
     operands: Operands,
@@ -189,5 +214,13 @@ export class DocumentPath extends Operand {
       super.mergeAttributeNames(operands),
       super.mergeAttributeValues(operands),
     );
+  }
+
+  private normalizeOperand(operand: Operand | NativeAttributeValue): Operand {
+    if (operand instanceof Operand) {
+      return operand;
+    }
+
+    return Literal.fromValue(operand);
   }
 }
