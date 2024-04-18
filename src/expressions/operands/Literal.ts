@@ -3,6 +3,8 @@ import { Operand } from './Operand.js';
 import { AttributeValues } from '../attributes/index.js';
 import { generateRandomAlphanumericString } from '../../utils/strings.js';
 
+export type LiteralLike = Literal | NativeAttributeValue;
+
 export class Literal extends Operand {
   private constructor(
     expressionString: string,
@@ -17,5 +19,16 @@ export class Literal extends Operand {
       attributeValues = new AttributeValues().add(stringExpression, value);
 
     return new Literal(stringExpression, attributeValues);
+  }
+
+  public static fromLiteralLike(
+    literalLike: LiteralLike,
+    name?: string,
+  ): Literal {
+    if (literalLike instanceof Literal) {
+      return literalLike;
+    }
+
+    return Literal.fromValue(literalLike, name);
   }
 }
