@@ -49,20 +49,20 @@ export class Query {
     return this;
   }
 
-  public filteringBy(filter: Expression): Query {
-    this.queryInput.FilterExpression = filter.getString();
+  public filteringBy(filterExpression: Expression): Query {
+    this.queryInput.FilterExpression = filterExpression.getString();
 
-    this.mergeAttributeNames(filter);
-    this.mergeAttributeValues(filter);
+    this.mergeAttributeNames(filterExpression);
+    this.mergeAttributeValues(filterExpression);
 
     return this;
   }
 
-  public withProjection(projection: ProjectionExpression): Query {
-    this.queryInput.ProjectionExpression = projection.getString();
+  public withProjection(projectionExpression: ProjectionExpression): Query {
+    this.queryInput.ProjectionExpression = projectionExpression.getString();
 
-    this.mergeAttributeNames(projection);
-    this.mergeAttributeValues(projection);
+    this.mergeAttributeNames(projectionExpression);
+    this.mergeAttributeValues(projectionExpression);
 
     return this;
   }
