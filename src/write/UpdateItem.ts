@@ -1,19 +1,21 @@
 import {
-  type DynamoDBClient,
   type UpdateItemInput,
   type UpdateItemOutput,
+  UpdateItemCommand,
   type Update,
   type TransactWriteItem,
-  UpdateItemCommand,
+  type DynamoDBClient,
 } from '@aws-sdk/client-dynamodb';
 import { type NativeAttributeValue, marshall } from '@aws-sdk/util-dynamodb';
-import { type UpdateExpression } from '../expressions/update/index.js';
-import { type Condition } from '../expressions/conditions/index.js';
 import {
   AttributeNames,
   AttributeValues,
 } from '../expressions/attributes/index.js';
-import { type Expression } from '../expressions/index.js';
+import {
+  type Expression,
+  type UpdateExpression,
+  type Condition,
+} from '../expressions/index.js';
 
 export class UpdateItem {
   private updateItemInput: UpdateItemInput;
@@ -36,7 +38,7 @@ export class UpdateItem {
     return this;
   }
 
-  public withUpdateExpression(updateExpression: UpdateExpression): UpdateItem {
+  public applying(updateExpression: UpdateExpression): UpdateItem {
     this.updateItemInput.UpdateExpression = updateExpression.getString();
 
     this.mergeAttributeNames(updateExpression);
@@ -45,7 +47,7 @@ export class UpdateItem {
     return this;
   }
 
-  public withCondition(condition: Condition): UpdateItem {
+  public onlyIf(condition: Condition): UpdateItem {
     this.updateItemInput.ConditionExpression = condition.getString();
 
     this.mergeAttributeNames(condition);

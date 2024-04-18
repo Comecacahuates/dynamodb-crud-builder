@@ -25,12 +25,18 @@ describe('update item', () => {
     describe('when building update item command', () => {
       const command = new UpdateItem(key)
         .inTable(tableName)
-        .withUpdateExpression(updateExpression)
-        .withCondition(condition)
+        .applying(updateExpression)
+        .onlyIf(condition)
         .toCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe('table-name');
+      });
+
+      it('should have key', () => {
+        expect(command.input.Key).toEqual({
+          id: { S: 'id-00' },
+        });
       });
 
       it('should have update expression', () => {
