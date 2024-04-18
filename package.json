@@ -36,6 +36,7 @@
     "type": "git",
     "url": "https://github.com/Comecacahuates/dynamodb-crud-builder"
   },
+  "homepage": "https://github.com/Comecacahuates/dynamodb-crud-builder",
   "scripts": {
     "test": "jest",
     "lint": "eslint",
