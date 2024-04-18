@@ -10,6 +10,6 @@
 # !.yarn/cache
 .pnp.*
 
-**/node_modules
-**/dist
-**/types
+node_modules
+dist
+artifacts
