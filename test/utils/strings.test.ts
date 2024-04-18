@@ -3,22 +3,22 @@ import { generateRandomAlphanumericString } from '../../src/utils/strings.js';
 
 describe('random alphanumeric string', () => {
   type TestCase = {
-    scenarioDescriptions: string;
+    scenarioDescription: string;
     length: number;
   };
 
   const testCases: Array<TestCase> = [
     {
-      scenarioDescriptions: 'given length 10',
+      scenarioDescription: 'given length 10',
       length: 10,
     },
     {
-      scenarioDescriptions: 'given length 20',
+      scenarioDescription: 'given length 20',
       length: 20,
     },
   ];
 
-  describe.each(testCases)('$scenarioDescriptions', ({ length }) => {
+  describe.each(testCases)('$scenarioDescription', ({ length }) => {
     describe('when generating a random alphanumeric string', () => {
       let randomString: string;
 
@@ -39,7 +39,7 @@ describe('random alphanumeric string', () => {
         it.each(tenTimes)(
           'should return a string with only alphanumeric characters',
           () => {
-            expect(randomString).toMatch(/^[a-z0-9]+$/);
+            expect(randomString).toMatch(/^[a-zA-Z0-9]+$/);
           },
         );
       });
