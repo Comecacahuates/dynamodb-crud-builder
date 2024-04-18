@@ -3,11 +3,8 @@ import { DocumentPathItem } from './DocumentPathItem.js';
 import { AttributeNames } from '../attributes/index.js';
 import { Condition } from '../conditions/Condition.js';
 import { Literal } from './Literal.js';
-import {
-  UpdateAction,
-  UpdateActionType,
-} from '../update/UpdateAction.js';
-import { DocumentPathParsingError } from '../../errors/index.js';
+import { UpdateAction, UpdateActionType } from '../update/UpdateAction.js';
+import { DocumentPathParsingError } from './DocumentPathParsingError.js';
 
 export type DocumentPaths = DocumentPath[];
 

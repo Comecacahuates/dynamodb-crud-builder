@@ -1,6 +1,6 @@
 import { describe, it, test, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
-import { DocumentPathParsingError } from '../../../../src/errors/index.js';
+import { DocumentPathParsingError } from '../../../../src/expressions/operands/DocumentPathParsingError.js';
 
 describe('parsing document path string', () => {
   describe('given the string "attr0"', () => {
