@@ -1,44 +1,32 @@
 import { describe, it, expect } from '@jest/globals';
 import { DocumentPath } from '../../../src/expressions/operands/DocumentPath.js';
-import { Literal } from '../../../src/expressions/operands/Literal.js';
 import { UpdateExpression } from '../../../src/expressions/update/UpdateExpression.js';
 
 describe('build update expression', () => {
   describe('given multiple update actions', () => {
-    const documentPathA = DocumentPath.parse('a');
-    const documentPathB = DocumentPath.parse('b');
-    const documentPathC = DocumentPath.parse('c');
-    const documentPathD = DocumentPath.parse('d');
-    const documentPathE = DocumentPath.parse('e');
-    const documentPathF = DocumentPath.parse('f');
-    const documentPathG = DocumentPath.parse('g');
-    const documentPathH = DocumentPath.parse('h');
-    const literalString = Literal.fromValue('string', 'String');
-    const literalNumber = Literal.fromValue(1, 'Number');
-    const literalSet = Literal.fromValue(new Set([1, 2, 3]), 'Set');
-    const setValue = documentPathA.setValue(literalString);
-    const increment = documentPathB.increment(literalNumber);
-    const remove1 = documentPathC.remove();
-    const remove2 = documentPathD.remove();
-    const addNumber = documentPathE.add(literalNumber);
-    const addElements = documentPathF.add(literalSet);
-    const deleteElements1 = documentPathG.delete(literalSet);
-    const deleteElements2 = documentPathH.delete(literalSet);
+    const attributeA = DocumentPath.parse('a'),
+      attributeB = DocumentPath.parse('b'),
+      attributeC = DocumentPath.parse('c'),
+      attributeD = DocumentPath.parse('d'),
+      attributeE = DocumentPath.parse('e'),
+      attributeF = DocumentPath.parse('f'),
+      attributeG = DocumentPath.parse('g'),
+      attributeH = DocumentPath.parse('h');
 
     describe('when building update expression', () => {
       const updateExpression = new UpdateExpression()
-        .addAction(setValue)
-        .addAction(increment)
-        .addAction(remove1)
-        .addAction(remove2)
-        .addAction(addNumber)
-        .addAction(addElements)
-        .addAction(deleteElements1)
-        .addAction(deleteElements2);
+        .addAction(attributeA.set('string'))
+        .addAction(attributeB.increment(1))
+        .addAction(attributeC.remove())
+        .addAction(attributeD.remove())
+        .addAction(attributeE.add(10))
+        .addAction(attributeF.add(new Set<number>([1, 2, 3])))
+        .addAction(attributeG.delete(attributeA))
+        .addAction(attributeH.delete(new Set<number>([1, 2, 3])));
 
       it('should have expression string with `set` statements', () => {
-        expect(updateExpression.getString()).toContain(
-          'SET #a = :literalString, #b = #b + :literalNumber',
+        expect(updateExpression.getString()).toMatch(
+          /SET #a = :literal\w{10}, #b = #b \+ :literal\w{10}/,
         );
       });
 
@@ -47,14 +35,14 @@ describe('build update expression', () => {
       });
 
       it('should have expression string with `add` statements', () => {
-        expect(updateExpression.getString()).toContain(
-          'ADD #e :literalNumber, #f :literalSet',
+        expect(updateExpression.getString()).toMatch(
+          /ADD #e :literal\w{10}, #f :literal\w{10}/,
         );
       });
 
       it('should have expression string with `delete` statements', () => {
-        expect(updateExpression.getString()).toContain(
-          'DELETE #g :literalSet, #h :literalSet',
+        expect(updateExpression.getString()).toMatch(
+          /DELETE #g #a, #h :literal\w{10}/,
         );
       });
 
@@ -73,14 +61,24 @@ describe('build update expression', () => {
         });
       });
 
-      it('should have expression attribute values', () => {
-        expect(
-          updateExpression.getAttributeValues().toExpressionAttributeValues(),
-        ).toEqual({
-          ':literalString': { S: 'string' },
-          ':literalNumber': { N: '1' },
-          ':literalSet': { NS: ['1', '2', '3'] },
+      it('should have attribute values', () => {
+        const expressionAttributeValues = updateExpression
+          .getAttributeValues()
+          .toExpressionAttributeValues();
+        const keys = Object.keys(expressionAttributeValues);
+        const values = Object.values(expressionAttributeValues);
+
+        expect(keys).toHaveLength(5);
+        keys.forEach((eachKey) => {
+          expect(eachKey).toMatch(/:literal\w{10}/);
         });
+
+        expect(values).toHaveLength(5);
+        expect(values[0]).toEqual({ S: 'string' });
+        expect(values[1]).toEqual({ N: '1' });
+        expect(values[2]).toEqual({ N: '10' });
+        expect(values[3]).toEqual({ NS: ['1', '2', '3'] });
+        expect(values[4]).toEqual({ NS: ['1', '2', '3'] });
       });
     });
   });
