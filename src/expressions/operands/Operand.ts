@@ -1,7 +1,7 @@
 import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
 import { type Expression, type Expressions } from '../Expression.js';
 import { Literal } from './Literal.js';
-import { Condition } from '../conditions/Condition.js';
+import { ConditionExpression } from '../conditions/ConditionExpression.js';
 import { AttributeNames, AttributeValues } from '../attributes/index.js';
 
 export type Operands = Operand[];
@@ -42,7 +42,7 @@ export class Operand implements Expression {
     return this.buildOperand(expressionString, involvedExpressions);
   }
 
-  public equalTo(operand: OperandLike): Condition {
+  public equalTo(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} = ${operandExpression.getString()}`,
       involvedExpressions = [this, operandExpression];
@@ -50,7 +50,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public notEqualTo(operand: OperandLike): Condition {
+  public notEqualTo(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} <> ${operandExpression.getString()}`,
       involvedExpressions = [this, operandExpression];
@@ -58,7 +58,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public lessThan(operand: OperandLike): Condition {
+  public lessThan(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} < ${operandExpression.getString()}`;
     const operandExpressions = [this, operandExpression];
@@ -66,7 +66,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, operandExpressions);
   }
 
-  public lessThanOrEqualTo(operand: OperandLike): Condition {
+  public lessThanOrEqualTo(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} <= ${operandExpression.getString()}`,
       involvedExpressions = [this, operandExpression];
@@ -74,7 +74,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public greaterThan(operand: OperandLike): Condition {
+  public greaterThan(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} > ${operandExpression.getString()}`,
       involvedExpressions = [this, operandExpression];
@@ -82,7 +82,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public greaterThanOrEqualTo(operand: OperandLike): Condition {
+  public greaterThanOrEqualTo(operand: OperandLike): ConditionExpression {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} >= ${operandExpression.getString()}`,
       involvedExpressions = [this, operandExpression];
@@ -90,7 +90,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public between(lowerBound: OperandLike, upperBound: OperandLike): Condition {
+  public between(lowerBound: OperandLike, upperBound: OperandLike): ConditionExpression {
     const lowerBoundExpression = this.operandToExpression(lowerBound),
       upperBoundExpression = this.operandToExpression(upperBound),
       expressionString = `${this.getString()} BETWEEN ${lowerBoundExpression.getString()} AND ${upperBoundExpression.getString()}`,
@@ -99,7 +99,7 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public in(list: OperandLike[]): Condition {
+  public in(list: OperandLike[]): ConditionExpression {
     const operandExpressionList = list.map((operand) =>
         this.operandToExpression(operand),
       ),
@@ -139,8 +139,8 @@ export class Operand implements Expression {
   protected buildCondition(
     expressionString: string,
     involvedExpressions: Expressions,
-  ): Condition {
-    return new Condition(
+  ): ConditionExpression {
+    return new ConditionExpression(
       expressionString,
       this.mergeAttributeNames(involvedExpressions),
       this.mergeAttributeValues(involvedExpressions),

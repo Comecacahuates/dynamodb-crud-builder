@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { Operand } from '../../../src/expressions/operands/Operand.js';
-import { Condition } from '../../../src/expressions/conditions/Condition.js';
+import { ConditionExpression } from '../../../src/expressions/conditions/ConditionExpression.js';
 import {
   AttributeNames,
   AttributeValues,
@@ -161,8 +161,8 @@ describe('comparison expressions', () => {
     describe('when building equality expression', () => {
       const equality = operandA.equalTo(operandB);
 
-      it('should return a condition', () => {
-        expect(equality).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(equality).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -189,8 +189,8 @@ describe('comparison expressions', () => {
     describe('when building inequality expression', () => {
       const inequality = operandA.notEqualTo(operandC);
 
-      it('should return a condition', () => {
-        expect(inequality).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(inequality).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -217,8 +217,8 @@ describe('comparison expressions', () => {
     describe('when building less than expression', () => {
       const lessThan = operandA.lessThan(operandC);
 
-      it('should return a condition', () => {
-        expect(lessThan).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(lessThan).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -245,8 +245,8 @@ describe('comparison expressions', () => {
     describe('when building less than or equal to expression', () => {
       const lessThanOrEqualTo = operandA.lessThanOrEqualTo(operandC);
 
-      it('should return a condition', () => {
-        expect(lessThanOrEqualTo).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(lessThanOrEqualTo).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -273,8 +273,8 @@ describe('comparison expressions', () => {
     describe('when building greater than expression', () => {
       const greaterThan = operandA.greaterThan(operandC);
 
-      it('should return a condition', () => {
-        expect(greaterThan).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(greaterThan).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -301,8 +301,8 @@ describe('comparison expressions', () => {
     describe('when building greater than or equal to expression', () => {
       const greaterThanOrEqualTo = operandA.greaterThanOrEqualTo(operandC);
 
-      it('should return a condition', () => {
-        expect(greaterThanOrEqualTo).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(greaterThanOrEqualTo).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -331,8 +331,8 @@ describe('comparison expressions', () => {
     describe('when building between expression', () => {
       const between = operandA.between(operandB, operandC);
 
-      it('should return a condition', () => {
-        expect(between).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(between).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -360,8 +360,8 @@ describe('comparison expressions', () => {
     describe('when building in expression', () => {
       const _in = operandA.in([operandB, operandC]);
 
-      it('should return a condition', () => {
-        expect(_in).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(_in).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -391,8 +391,8 @@ describe('comparison expressions', () => {
     describe('when building equality expression', () => {
       const equality = operand.equalTo(valueA);
 
-      it('should return a condition', () => {
-        expect(equality).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(equality).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -424,8 +424,8 @@ describe('comparison expressions', () => {
     describe('when building inequality expression', () => {
       const inequality = operand.notEqualTo(valueA);
 
-      it('should return a condition', () => {
-        expect(inequality).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(inequality).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -457,8 +457,8 @@ describe('comparison expressions', () => {
     describe('when building less than expression', () => {
       const lessThan = operand.lessThan(valueA);
 
-      it('should return a condition', () => {
-        expect(lessThan).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(lessThan).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -490,8 +490,8 @@ describe('comparison expressions', () => {
     describe('when building less than or equal to expression', () => {
       const lessThanOrEqualTo = operand.lessThanOrEqualTo(valueA);
 
-      it('should return a condition', () => {
-        expect(lessThanOrEqualTo).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(lessThanOrEqualTo).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -523,8 +523,8 @@ describe('comparison expressions', () => {
     describe('when building greater than expression', () => {
       const greaterThan = operand.greaterThan(valueA);
 
-      it('should return a condition', () => {
-        expect(greaterThan).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(greaterThan).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -556,8 +556,8 @@ describe('comparison expressions', () => {
     describe('when building greater than or equal to expression', () => {
       const greaterThanOrEqualTo = operand.greaterThanOrEqualTo(valueA);
 
-      it('should return a condition', () => {
-        expect(greaterThanOrEqualTo).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(greaterThanOrEqualTo).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -591,8 +591,8 @@ describe('comparison expressions', () => {
     describe('when building between expression', () => {
       const between = operand.between(valueA, valueB);
 
-      it('should return a condition', () => {
-        expect(between).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(between).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -628,8 +628,8 @@ describe('comparison expressions', () => {
     describe('when building in expression', () => {
       const _in = operand.in([valueA, valueB]);
 
-      it('should return a condition', () => {
-        expect(_in).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(_in).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -669,8 +669,8 @@ describe('comparison expressions', () => {
     describe('when building between expression', () => {
       const between = operandA.between(operandB, value);
 
-      it('should return a condition', () => {
-        expect(between).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(between).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {
@@ -703,8 +703,8 @@ describe('comparison expressions', () => {
     describe('when building in expression', () => {
       const _in = operandA.in([operandB, value]);
 
-      it('should return a condition', () => {
-        expect(_in).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(_in).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have string expression', () => {

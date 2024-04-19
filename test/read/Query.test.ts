@@ -4,11 +4,11 @@ import { DocumentPath } from '../../src/expressions/operands/index.js';
 import { ProjectionExpression } from '../../src/expressions/projections/index.js';
 
 describe('query', () => {
-  describe('given a key condition, a table name, an index name, a filter expression, a start key and a limit', () => {
+  describe('given a key condition expression, a table name, an index name, a filter expression, a start key and a limit', () => {
     const keyDocumentPath = DocumentPath.parse('id'),
       attribute0 = DocumentPath.parse('attr0');
 
-    const keyCondition = keyDocumentPath.equalTo('key-value'),
+    const keyConditionExpression = keyDocumentPath.equalTo('key-value'),
       tableName = 'table-00',
       indexName = 'index-00',
       filterExpression = attribute0.equalTo(10),
@@ -19,7 +19,7 @@ describe('query', () => {
       limit = 10;
 
     describe('when building query command', () => {
-      const command = new Query(keyCondition)
+      const command = new Query(keyConditionExpression)
         .fromTable(tableName)
         .byIndex(indexName)
         .filteringBy(filterExpression)

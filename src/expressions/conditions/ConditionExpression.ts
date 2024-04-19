@@ -1,9 +1,9 @@
 import { type Expression } from '../Expression.js';
 import { AttributeNames, AttributeValues } from '../attributes/index.js';
 
-export type Conditions = Condition[];
+export type ConditionExpressions = ConditionExpression[];
 
-export class Condition implements Expression {
+export class ConditionExpression implements Expression {
   public constructor(
     private expressionString: string,
     private attributeNames: AttributeNames = new AttributeNames(),
@@ -22,7 +22,7 @@ export class Condition implements Expression {
     return this.attributeValues;
   }
 
-  public and(...otherConditions: Conditions): Condition {
+  public and(...otherConditions: ConditionExpressions): ConditionExpression {
     const conditions = [this, ...otherConditions],
       eachStringExpression = conditions.map((eachCondition) =>
         eachCondition.getString(),
@@ -32,7 +32,9 @@ export class Condition implements Expression {
     return this.buildCondition(`(${expressionString})`, conditions);
   }
 
-  public or(...otherConditions: Array<Condition>): Condition {
+  public or(
+    ...otherConditions: Array<ConditionExpression>
+  ): ConditionExpression {
     const conditions = [this, ...otherConditions],
       eachStringExpression = conditions.map((eachCondition) =>
         eachCondition.getString(),
@@ -42,21 +44,25 @@ export class Condition implements Expression {
     return this.buildCondition(`(${expressionString})`, conditions);
   }
 
-  public not(): Condition {
+  public not(): ConditionExpression {
     const conditions = [this],
       expressionString = `NOT ${this.getString()}`;
 
     return this.buildCondition(`(${expressionString})`, conditions);
   }
 
-  private mergeAttributeNames(conditions: Conditions): AttributeNames {
+  private mergeAttributeNames(
+    conditions: ConditionExpressions,
+  ): AttributeNames {
     const allAttributeNames = conditions.map(
       (eachCondition) => eachCondition.attributeNames,
     );
     return AttributeNames.merge(allAttributeNames);
   }
 
-  private mergeAttributeValues(conditions: Conditions): AttributeValues {
+  private mergeAttributeValues(
+    conditions: ConditionExpressions,
+  ): AttributeValues {
     const allAttributeValues = conditions.map(
       (eachCondition) => eachCondition.attributeValues,
     );
@@ -65,9 +71,9 @@ export class Condition implements Expression {
 
   protected buildCondition(
     expressionString: string,
-    conditions: Conditions,
-  ): Condition {
-    return new Condition(
+    conditions: ConditionExpressions,
+  ): ConditionExpression {
+    return new ConditionExpression(
       expressionString,
       this.mergeAttributeNames(conditions),
       this.mergeAttributeValues(conditions),

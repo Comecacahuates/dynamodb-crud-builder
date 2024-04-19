@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { DocumentPath } from '../../../../src/expressions/operands/DocumentPath.js';
-import { Condition } from '../../../../src/expressions/conditions/Condition.js';
+import { ConditionExpression } from '../../../../src/expressions/conditions/ConditionExpression.js';
 import { Operand } from '../../../../src/expressions/operands/Operand.js';
 import { AttributeNames } from '../../../../src/expressions/attributes/index.js';
 
@@ -11,8 +11,8 @@ describe('functions', () => {
     describe('when building exists function expression', () => {
       const existsFunction = documentPath.exists();
 
-      it('should return a condition', () => {
-        expect(existsFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(existsFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -38,8 +38,8 @@ describe('functions', () => {
     describe('when building not exists function expression', () => {
       const notExistsFunction = documentPath.notExists();
 
-      it('should return a condition', () => {
-        expect(notExistsFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(notExistsFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -99,8 +99,8 @@ describe('functions', () => {
     describe('when building type function', () => {
       const typeFunction = documentPath.type(operand);
 
-      it('should return a condition', () => {
-        expect(typeFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(typeFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -127,8 +127,8 @@ describe('functions', () => {
     describe('when building begins with function', () => {
       const beginsWithFunction = documentPath.beginsWith(operand);
 
-      it('should return a condition', () => {
-        expect(beginsWithFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(beginsWithFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -157,8 +157,8 @@ describe('functions', () => {
     describe('when building contains function', () => {
       const containsFunction = documentPath.contains(operand);
 
-      it('should return a condition', () => {
-        expect(containsFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(containsFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -222,8 +222,8 @@ describe('functions', () => {
     describe('when building type function', () => {
       const typeFunction = documentPath.type(value);
 
-      it('should return a condition', () => {
-        expect(typeFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(typeFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -258,8 +258,8 @@ describe('functions', () => {
     describe('when building begins with function', () => {
       const beginsWithFunction = documentPath.beginsWith(value);
 
-      it('should return a condition', () => {
-        expect(beginsWithFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(beginsWithFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {
@@ -294,8 +294,8 @@ describe('functions', () => {
     describe('when building contains function', () => {
       const containsFunction = documentPath.contains(value);
 
-      it('should return a condition', () => {
-        expect(containsFunction).toBeInstanceOf(Condition);
+      it('should return a condition expression', () => {
+        expect(containsFunction).toBeInstanceOf(ConditionExpression);
       });
 
       it('should have expression string', () => {

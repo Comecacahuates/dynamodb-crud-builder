@@ -14,7 +14,7 @@ import {
 import {
   type Expression,
   type UpdateExpression,
-  type Condition,
+  type ConditionExpression,
 } from '../expressions/index.js';
 
 export class UpdateItem {
@@ -47,11 +47,11 @@ export class UpdateItem {
     return this;
   }
 
-  public onlyIf(condition: Condition): UpdateItem {
-    this.updateItemInput.ConditionExpression = condition.getString();
+  public onlyIf(conditionExpression: ConditionExpression): UpdateItem {
+    this.updateItemInput.ConditionExpression = conditionExpression.getString();
 
-    this.mergeAttributeNames(condition);
-    this.mergeAttributeValues(condition);
+    this.mergeAttributeNames(conditionExpression);
+    this.mergeAttributeValues(conditionExpression);
 
     return this;
   }

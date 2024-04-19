@@ -4,7 +4,7 @@ import { DocumentPath } from '../../src/expressions/operands/index.js';
 import { UpdateExpression } from '../../src/expressions/update/index.js';
 
 describe('update item', () => {
-  describe('given a key, table name, an update expression and a condition', () => {
+  describe('given a key, table name, an update expression and a condition expression', () => {
     const attributeA = DocumentPath.parse('a.b'),
       attributeB = DocumentPath.parse('c[0]'),
       attributeC = DocumentPath.parse('d.e[1]'),
@@ -16,13 +16,13 @@ describe('update item', () => {
         .addAction(attributeA.increment(10))
         .addAction(attributeB.set('value-00'))
         .addAction(attributeC.add(new Set([20]))),
-      condition = attributeA.exists().and(attributeD.equalTo(true));
+      conditionExpression = attributeA.exists().and(attributeD.equalTo(true));
 
     describe('when building update item command', () => {
       const command = new UpdateItem(key)
         .inTable(tableName)
         .applying(updateExpression)
-        .onlyIf(condition)
+        .onlyIf(conditionExpression)
         .toCommand();
 
       it('should have table name', () => {

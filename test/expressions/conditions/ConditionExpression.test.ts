@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { Condition } from '../../../src/expressions/conditions/Condition.js';
+import { ConditionExpression } from '../../../src/expressions/conditions/ConditionExpression.js';
 import {
   AttributeValues,
   AttributeNames,
@@ -7,17 +7,17 @@ import {
 
 describe('logical operations', () => {
   describe('given three conditions', () => {
-    const conditionA = new Condition(
+    const conditionA = new ConditionExpression(
       '#a = :aa',
       new AttributeNames().add('#a', 'a'),
       new AttributeValues().add(':aa', 1),
     );
-    const conditionB = new Condition(
+    const conditionB = new ConditionExpression(
       '#b <> :bb',
       new AttributeNames().add('#b', 'b'),
       new AttributeValues().add(':bb', 2),
     );
-    const conditionC = new Condition(
+    const conditionC = new ConditionExpression(
       '#c < :cc',
       new AttributeNames().add('#c', 'c'),
       new AttributeValues().add(':cc', 3),

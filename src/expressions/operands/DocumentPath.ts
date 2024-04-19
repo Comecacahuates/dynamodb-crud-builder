@@ -3,7 +3,7 @@ import { type Expressions } from '../Expression.js';
 import { Operand, type OperandLike } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
 import { AttributeNames } from '../attributes/index.js';
-import { Condition } from '../conditions/Condition.js';
+import { ConditionExpression } from '../conditions/ConditionExpression.js';
 import { UpdateAction, UpdateActionType } from '../update/UpdateAction.js';
 import { DocumentPathParsingError } from './DocumentPathParsingError.js';
 
@@ -42,14 +42,14 @@ export class DocumentPath extends Operand {
     return this.items.map((item) => item.toString()).join('.');
   }
 
-  public exists(): Condition {
+  public exists(): ConditionExpression {
     const expressionString = `attribute_exists(${this.getString()})`,
       involvedExpressions = [this];
 
     return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public notExists(): Condition {
+  public notExists(): ConditionExpression {
     const expressionString = `attribute_not_exists(${this.getString()})`,
       involvedExpressions = [this];
 
@@ -63,7 +63,7 @@ export class DocumentPath extends Operand {
     return super.buildOperand(expressionString, operandExpressions);
   }
 
-  public type(type: NativeAttributeValue): Condition {
+  public type(type: NativeAttributeValue): ConditionExpression {
     const typeExpression = super.operandToExpression(type),
       expressionString = `attribute_type(${this.getString()}, ${typeExpression.getString()})`,
       involvedExpressions = [this, typeExpression];
@@ -71,7 +71,7 @@ export class DocumentPath extends Operand {
     return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public beginsWith(prefix: NativeAttributeValue): Condition {
+  public beginsWith(prefix: NativeAttributeValue): ConditionExpression {
     const prefixExpression = super.operandToExpression(prefix),
       expressionString = `begins_with(${this.getString()}, ${prefixExpression.getString()})`,
       involvedExpressions = [this, prefixExpression];
@@ -79,7 +79,7 @@ export class DocumentPath extends Operand {
     return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public contains(operand: OperandLike): Condition {
+  public contains(operand: OperandLike): ConditionExpression {
     const operandExpression = super.operandToExpression(operand),
       expressionString = `contains(${this.getString()}, ${operandExpression.getString()})`,
       involvedExpressions = [this, operandExpression];
