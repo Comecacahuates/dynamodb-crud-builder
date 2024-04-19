@@ -23,11 +23,11 @@ export class PutItem {
     return this;
   }
 
-  public toCommand(): PutItemCommand {
+  public asCommand(): PutItemCommand {
     return new PutItemCommand(this.putItemInput);
   }
 
-  public toTransactWriteItem(): TransactWriteItem {
+  public asTransactWriteItem(): TransactWriteItem {
     return { Put: this.putItemInput };
   }
 
@@ -38,6 +38,6 @@ export class PutItem {
   }
 
   public async commit(dynamodbClient: DynamoDBClient): Promise<PutItemOutput> {
-    return await dynamodbClient.send(this.toCommand());
+    return await dynamodbClient.send(this.asCommand());
   }
 }

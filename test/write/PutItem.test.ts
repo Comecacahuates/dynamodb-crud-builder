@@ -18,7 +18,7 @@ describe('put item', () => {
       tableName = 'table-name';
 
     describe('when building put item command', () => {
-      const command = new PutItem(item).intoTable(tableName).toCommand();
+      const command = new PutItem(item).intoTable(tableName).asCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe(tableName);
