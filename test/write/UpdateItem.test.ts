@@ -1,26 +1,22 @@
 import { describe, it, expect } from '@jest/globals';
 import { UpdateItem } from '../../src/write/UpdateItem.js';
-import { DocumentPath, Literal } from '../../src/expressions/operands/index.js';
+import { DocumentPath } from '../../src/expressions/operands/index.js';
 import { UpdateExpression } from '../../src/expressions/update/index.js';
 
 describe('update item', () => {
   describe('given a key, table name, an update expression and a condition', () => {
-    const documentPath0 = DocumentPath.parse('a.b'),
-      documentPath1 = DocumentPath.parse('c[0]'),
-      documentPath2 = DocumentPath.parse('d.e[1]'),
-      documentPath3 = DocumentPath.parse('f'),
-      literal0 = Literal.fromValue(10, '0'),
-      literal1 = Literal.fromValue('value-00', '1'),
-      literal2 = Literal.fromValue(new Set([20]), '2'),
-      literal3 = Literal.fromValue(true, '3');
+    const attributeA = DocumentPath.parse('a.b'),
+      attributeB = DocumentPath.parse('c[0]'),
+      attributeC = DocumentPath.parse('d.e[1]'),
+      attributeD = DocumentPath.parse('f');
 
     const key = { id: 'id-00' },
       tableName = 'table-name',
       updateExpression = new UpdateExpression()
-        .addAction(documentPath0.increment(literal0))
-        .addAction(documentPath1.setValue(literal1))
-        .addAction(documentPath2.add(literal2)),
-      condition = documentPath0.exists().and(documentPath3.equalTo(literal3));
+        .addAction(attributeA.increment(10))
+        .addAction(attributeB.set('value-00'))
+        .addAction(attributeC.add(new Set([20]))),
+      condition = attributeA.exists().and(attributeD.equalTo(true));
 
     describe('when building update item command', () => {
       const command = new UpdateItem(key)
@@ -40,21 +36,21 @@ describe('update item', () => {
       });
 
       it('should have update expression', () => {
-        expect(command.input.UpdateExpression).toContain(
-          'SET #a.#b = #a.#b + :literal0, #c[0] = :literal1',
+        expect(command.input.UpdateExpression).toMatch(
+          /SET #a\.#b = #a\.#b \+ :literal\w{10}, #c\[0\] = :literal\w{10}/,
         );
-        expect(command.input.UpdateExpression).toContain(
-          'ADD #d.#e[1] :literal2',
+        expect(command.input.UpdateExpression).toMatch(
+          /ADD #d\.#e\[1\] :literal\w{10}/,
         );
       });
 
       it('should have condition expression', () => {
-        expect(command.input.ConditionExpression).toBe(
-          '(attribute_exists(#a.#b) AND #f = :literal3)',
+        expect(command.input.ConditionExpression).toMatch(
+          /\(attribute_exists\(#a\.#b\) AND #f = :literal\w{10}\)/,
         );
       });
 
-      it('should have expression attribute names', () => {
+      it('should have attribute names', () => {
         expect(command.input.ExpressionAttributeNames).toEqual({
           '#a': 'a',
           '#b': 'b',
@@ -65,13 +61,22 @@ describe('update item', () => {
         });
       });
 
-      it('should have expression attribute values', () => {
-        expect(command.input.ExpressionAttributeValues).toEqual({
-          ':literal0': { N: '10' },
-          ':literal1': { S: 'value-00' },
-          ':literal2': { NS: ['20'] },
-          ':literal3': { BOOL: true },
+      it('should have attribute values', () => {
+        const expressionAttributeValues =
+          command.input.ExpressionAttributeValues!;
+        const keys = Object.keys(expressionAttributeValues);
+        const values = Object.values(expressionAttributeValues);
+
+        expect(keys).toHaveLength(4);
+        keys.forEach((eachKey) => {
+          expect(eachKey).toMatch(/:literal\w{10}/);
         });
+
+        expect(values).toHaveLength(4);
+        expect(values[0]).toEqual({ N: '10' });
+        expect(values[1]).toEqual({ S: 'value-00' });
+        expect(values[2]).toEqual({ NS: ['20'] });
+        expect(values[3]).toEqual({ BOOL: true });
       });
     });
   });
