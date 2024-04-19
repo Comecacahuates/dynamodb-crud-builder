@@ -7,7 +7,7 @@ describe('delete item', () => {
       tableName = 'table-name';
 
     describe('when building delete item command', () => {
-      const command = new DeleteItem(key).fromTable(tableName).toCommand();
+      const command = new DeleteItem(key).fromTable(tableName).asCommand();
 
       it('should have key', () => {
         expect(command.input.Key).toEqual({

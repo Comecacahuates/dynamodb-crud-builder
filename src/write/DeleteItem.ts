@@ -23,7 +23,7 @@ export class DeleteItem {
     return this;
   }
 
-  public toCommand(): DeleteItemCommand {
+  public asCommand(): DeleteItemCommand {
     return new DeleteItemCommand(this.deleteItemInput);
   }
 
@@ -31,7 +31,7 @@ export class DeleteItem {
     return { Delete: this.deleteItemInput };
   }
 
-  public toBatchWriteRequestItem(): Record<string, WriteRequest> {
+  public asBatchWriteRequestItem(): Record<string, WriteRequest> {
     const tableName = this.deleteItemInput.TableName!;
     const key = this.deleteItemInput.Key;
     return { [tableName]: { DeleteRequest: { Key: key } } };
@@ -40,6 +40,6 @@ export class DeleteItem {
   public async commit(
     dynamodbClient: DynamoDBClient,
   ): Promise<DeleteItemOutput> {
-    return await dynamodbClient.send(this.toCommand());
+    return await dynamodbClient.send(this.asCommand());
   }
 }
