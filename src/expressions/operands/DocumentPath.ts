@@ -1,9 +1,9 @@
 import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
-import { Operand, type Operands } from './Operand.js';
+import { type Expressions } from '../Expression.js';
+import { Operand, type OperandLike } from './Operand.js';
 import { DocumentPathItem } from './DocumentPathItem.js';
 import { AttributeNames } from '../attributes/index.js';
 import { Condition } from '../conditions/Condition.js';
-import { Literal } from './Literal.js';
 import { UpdateAction, UpdateActionType } from '../update/UpdateAction.js';
 import { DocumentPathParsingError } from './DocumentPathParsingError.js';
 
@@ -44,183 +44,162 @@ export class DocumentPath extends Operand {
 
   public exists(): Condition {
     const expressionString = `attribute_exists(${this.getString()})`,
-      operands = [this];
+      involvedExpressions = [this];
 
-    return super.buildCondition(expressionString, operands);
+    return super.buildCondition(expressionString, involvedExpressions);
   }
 
   public notExists(): Condition {
     const expressionString = `attribute_not_exists(${this.getString()})`,
-      operands = [this];
+      involvedExpressions = [this];
 
-    return super.buildCondition(expressionString, operands);
+    return super.buildCondition(expressionString, involvedExpressions);
   }
 
   public size(): Operand {
     const expressionString = `size(${this.getString()})`,
-      operands = [this];
+      operandExpressions = [this];
 
-    return super.buildOperand(expressionString, operands);
+    return super.buildOperand(expressionString, operandExpressions);
   }
 
-  public type(type: Literal | NativeAttributeValue): Condition {
-    type = this.normalizeOperand(type);
+  public type(type: NativeAttributeValue): Condition {
+    const typeExpression = super.operandToExpression(type),
+      expressionString = `attribute_type(${this.getString()}, ${typeExpression.getString()})`,
+      involvedExpressions = [this, typeExpression];
 
-    const expressionString = `attribute_type(${this.getString()}, ${type.getString()})`,
-      operands = [this, type];
-
-    return super.buildCondition(expressionString, operands);
+    return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public beginsWith(prefix: Literal | NativeAttributeValue): Condition {
-    prefix = this.normalizeOperand(prefix);
+  public beginsWith(prefix: NativeAttributeValue): Condition {
+    const prefixExpression = super.operandToExpression(prefix),
+      expressionString = `begins_with(${this.getString()}, ${prefixExpression.getString()})`,
+      involvedExpressions = [this, prefixExpression];
 
-    const expressionString = `begins_with(${this.getString()}, ${prefix.getString()})`,
-      operands = [this, prefix];
-
-    return super.buildCondition(expressionString, operands);
+    return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public contains(operand: Operand | NativeAttributeValue): Condition {
-    operand = this.normalizeOperand(operand);
+  public contains(operand: OperandLike): Condition {
+    const operandExpression = super.operandToExpression(operand),
+      expressionString = `contains(${this.getString()}, ${operandExpression.getString()})`,
+      involvedExpressions = [this, operandExpression];
 
-    const expressionString = `contains(${this.getString()}, ${operand.getString()})`,
-      operands = [this, operand];
-
-    return super.buildCondition(expressionString, operands);
+    return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public ifNotExists(operand: Operand | NativeAttributeValue): Operand {
-    operand = this.normalizeOperand(operand);
+  public ifNotExists(operand: OperandLike): Operand {
+    const operandExpression = super.operandToExpression(operand),
+      expressionString = `if_not_exists(${this.getString()}, ${operandExpression.getString()})`,
+      involvedExpressions = [this, operandExpression];
 
-    const expressionString = `if_not_exists(${this.getString()}, ${operand.getString()})`,
-      operands = [this, operand];
-
-    return super.buildOperand(expressionString, operands);
+    return super.buildOperand(expressionString, involvedExpressions);
   }
 
-  public setValue(value: Operand | NativeAttributeValue): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} = ${value.getString()}`,
-      operands = [this, value];
+  public set(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} = ${valueExpression.getString()}`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public setValueIfNotExists(
-    value: Operand | NativeAttributeValue,
-  ): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} = if_not_exists(${this.getString()}, ${value.getString()})`,
-      operands = [this, value];
+  public setIfNotExists(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} = if_not_exists(${this.getString()}, ${valueExpression.getString()})`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public increment(value: Operand | NativeAttributeValue): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} = ${this.getString()} + ${value.getString()}`,
-      operands = [this, value];
+  public increment(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} = ${this.getString()} + ${valueExpression.getString()}`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public decrement(value: Operand | NativeAttributeValue): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} = ${this.getString()} - ${value.getString()}`,
-      operands = [this, value];
+  public decrement(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} = ${this.getString()} - ${valueExpression.getString()}`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public append(items: Operand | NativeAttributeValue): UpdateAction {
-    items = this.normalizeOperand(items);
-
-    const expressionString = `${this.getString()} = list_append(${this.getString()}, ${items.getString()})`,
-      operands = [this, items];
+  public append(items: OperandLike): UpdateAction {
+    const itemsExpression = super.operandToExpression(items),
+      expressionString = `${this.getString()} = list_append(${this.getString()}, ${itemsExpression.getString()})`,
+      involvedExpressions = [this, itemsExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public add(value: Operand | NativeAttributeValue): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} ${value.getString()}`,
-      operands = [this, value];
+  public add(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} ${valueExpression.getString()}`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.ADD,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
-  public delete(value: Operand | NativeAttributeValue): UpdateAction {
-    value = this.normalizeOperand(value);
-
-    const expressionString = `${this.getString()} ${value.getString()}`,
-      operands = [this, value];
+  public delete(value: OperandLike): UpdateAction {
+    const valueExpression = super.operandToExpression(value),
+      expressionString = `${this.getString()} ${valueExpression.getString()}`,
+      involvedExpressions = [this, valueExpression];
 
     return this.buildUpdateAction(
       UpdateActionType.DELETE,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
   public remove(): UpdateAction {
     const expressionString = this.getString(),
-      operands = [this];
+      involvedExpressions = [this];
 
     return this.buildUpdateAction(
       UpdateActionType.REMOVE,
       expressionString,
-      operands,
+      involvedExpressions,
     );
   }
 
   private buildUpdateAction(
     type: UpdateActionType,
     expressionString: string,
-    operands: Operands,
+    involvedExpressions: Expressions,
   ): UpdateAction {
     return new UpdateAction(
       type,
       expressionString,
-      super.mergeAttributeNames(operands),
-      super.mergeAttributeValues(operands),
+      super.mergeAttributeNames(involvedExpressions),
+      super.mergeAttributeValues(involvedExpressions),
     );
-  }
-
-  private normalizeOperand(operand: Operand | NativeAttributeValue): Operand {
-    if (operand instanceof Operand) {
-      return operand;
-    }
-
-    return Literal.fromValue(operand);
   }
 }

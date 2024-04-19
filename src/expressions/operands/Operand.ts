@@ -29,74 +29,74 @@ export class Operand implements Expression {
   public plus(operand: OperandLike): Operand {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} + ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildOperand(expressionString, operands);
+    return this.buildOperand(expressionString, involvedExpressions);
   }
 
   public minus(operand: OperandLike): Operand {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} - ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildOperand(expressionString, operands);
+    return this.buildOperand(expressionString, involvedExpressions);
   }
 
   public equalTo(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} = ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public notEqualTo(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} <> ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public lessThan(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} < ${operandExpression.getString()}`;
-    const operands = [this, operandExpression];
+    const operandExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, operandExpressions);
   }
 
   public lessThanOrEqualTo(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} <= ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public greaterThan(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} > ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public greaterThanOrEqualTo(operand: OperandLike): Condition {
     const operandExpression = this.operandToExpression(operand),
       expressionString = `${this.getString()} >= ${operandExpression.getString()}`,
-      operands = [this, operandExpression];
+      involvedExpressions = [this, operandExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public between(lowerBound: OperandLike, upperBound: OperandLike): Condition {
     const lowerBoundExpression = this.operandToExpression(lowerBound),
       upperBoundExpression = this.operandToExpression(upperBound),
       expressionString = `${this.getString()} BETWEEN ${lowerBoundExpression.getString()} AND ${upperBoundExpression.getString()}`,
-      operands = [this, lowerBoundExpression, upperBoundExpression];
+      involvedExpressions = [this, lowerBoundExpression, upperBoundExpression];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   public in(list: OperandLike[]): Condition {
@@ -106,9 +106,9 @@ export class Operand implements Expression {
       expressionString = `${this.getString()} IN (${operandExpressionList
         .map((eachOperandExpression) => eachOperandExpression.getString())
         .join(', ')})`,
-      operands = [this, ...operandExpressionList];
+      involvedExpressions = [this, ...operandExpressionList];
 
-    return this.buildCondition(expressionString, operands);
+    return this.buildCondition(expressionString, involvedExpressions);
   }
 
   protected mergeAttributeNames(expressions: Expressions): AttributeNames {
@@ -127,29 +127,27 @@ export class Operand implements Expression {
 
   protected buildOperand(
     expressionString: string,
-    operands: Expressions,
+    involvedExpressions: Expressions,
   ): Operand {
     return new Operand(
       expressionString,
-      this.mergeAttributeNames(operands),
-      this.mergeAttributeValues(operands),
+      this.mergeAttributeNames(involvedExpressions),
+      this.mergeAttributeValues(involvedExpressions),
     );
   }
 
   protected buildCondition(
     expressionString: string,
-    operands: Expressions,
+    involvedExpressions: Expressions,
   ): Condition {
     return new Condition(
       expressionString,
-      this.mergeAttributeNames(operands),
-      this.mergeAttributeValues(operands),
+      this.mergeAttributeNames(involvedExpressions),
+      this.mergeAttributeValues(involvedExpressions),
     );
   }
 
-  protected operandToExpression(
-    operand: Operand | NativeAttributeValue,
-  ): Expression {
+  protected operandToExpression(operand: OperandLike): Expression {
     if (operand instanceof Operand) {
       return operand;
     }
