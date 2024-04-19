@@ -4,14 +4,14 @@ import { UpdateExpression } from '../../../src/expressions/update/UpdateExpressi
 
 describe('build update expression', () => {
   describe('given multiple update actions', () => {
-    const attributeA = DocumentPath.parse('a'),
-      attributeB = DocumentPath.parse('b'),
-      attributeC = DocumentPath.parse('c'),
-      attributeD = DocumentPath.parse('d'),
-      attributeE = DocumentPath.parse('e'),
-      attributeF = DocumentPath.parse('f'),
-      attributeG = DocumentPath.parse('g'),
-      attributeH = DocumentPath.parse('h');
+    const attributeA = new DocumentPath('a'),
+      attributeB = new DocumentPath('b'),
+      attributeC = new DocumentPath('c'),
+      attributeD = new DocumentPath('d'),
+      attributeE = new DocumentPath('e'),
+      attributeF = new DocumentPath('f'),
+      attributeG = new DocumentPath('g'),
+      attributeH = new DocumentPath('h');
 
     describe('when building update expression', () => {
       const updateExpression = new UpdateExpression()

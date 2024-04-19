@@ -6,7 +6,7 @@ import { AttributeNames } from '../../../../src/expressions/attributes/index.js'
 
 describe('functions', () => {
   describe('given a document path', () => {
-    const documentPath = DocumentPath.parse('a[0].b');
+    const documentPath = new DocumentPath('a[0].b');
 
     describe('when building exists function expression', () => {
       const existsFunction = documentPath.exists();
@@ -93,7 +93,7 @@ describe('functions', () => {
   });
 
   describe('given a document path and an operand', () => {
-    const documentPath = DocumentPath.parse('a[0].b'),
+    const documentPath = new DocumentPath('a[0].b'),
       operand = new Operand('#c', new AttributeNames().add('#c', 'c'));
 
     describe('when building type function', () => {
@@ -216,7 +216,7 @@ describe('functions', () => {
   });
 
   describe('given a document path and a literal value', () => {
-    const documentPath = DocumentPath.parse('a[0].b'),
+    const documentPath = new DocumentPath('a[0].b'),
       value = 10;
 
     describe('when building type function', () => {

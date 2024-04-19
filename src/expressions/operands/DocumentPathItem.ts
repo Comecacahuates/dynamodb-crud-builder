@@ -1,3 +1,5 @@
+export type DocumentPathItems = DocumentPathItem[];
+
 export class DocumentPathItem {
   private constructor(
     public readonly attributeName: string,

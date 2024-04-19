@@ -5,8 +5,8 @@ import { DocumentPath } from '../../src/expressions/operands/index.js';
 
 describe('get item', () => {
   describe('given a key, table name and a projection expression', () => {
-    const documentPath0 = DocumentPath.parse('a.b'),
-      documentPath1 = DocumentPath.parse('c.d');
+    const documentPath0 = new DocumentPath('a.b'),
+      documentPath1 = new DocumentPath('c.d');
 
     const key = { id: 'id-00' },
       tableName = 'tableName',

@@ -9,7 +9,7 @@ import { AttributeNames } from '../../../../src/expressions/attributes/index.js'
 
 describe('update actions', () => {
   describe('given a document path', () => {
-    const documentPath = DocumentPath.parse('a[0].b');
+    const documentPath = new DocumentPath('a[0].b');
 
     describe('when creating action to remove', () => {
       const updateAction = documentPath.remove();
@@ -44,7 +44,7 @@ describe('update actions', () => {
   });
 
   describe('given a document path and an operand', () => {
-    const documentPath = DocumentPath.parse('a[0].b'),
+    const documentPath = new DocumentPath('a[0].b'),
       operand = new Operand('#c', new AttributeNames().add('#c', 'c'));
 
     describe('when creating action to set value', () => {
@@ -277,7 +277,7 @@ describe('update actions', () => {
   });
 
   describe('given a document path and a literal value', () => {
-    const documentPath = DocumentPath.parse('a[0].b'),
+    const documentPath = new DocumentPath('a[0].b'),
       value = 10;
 
     describe('when creating action to set value', () => {
@@ -518,8 +518,6 @@ describe('update actions', () => {
       });
     });
 
-    describe('when creating action to delete', () => { 
-      
-    })
+    describe('when creating action to delete', () => {});
   });
 });

@@ -1,41 +1,46 @@
 import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
 import { type Expressions } from '../Expression.js';
 import { Operand, type OperandLike } from './Operand.js';
-import { DocumentPathItem } from './DocumentPathItem.js';
+import {
+  DocumentPathItem,
+  type DocumentPathItems,
+} from './DocumentPathItem.js';
 import { AttributeNames } from '../attributes/index.js';
 import { ConditionExpression } from '../conditions/ConditionExpression.js';
 import { UpdateAction, UpdateActionType } from '../update/UpdateAction.js';
 import { DocumentPathParsingError } from './DocumentPathParsingError.js';
+import { isNull, isUndefined } from '../../utils/assert.js';
 
 export type DocumentPaths = DocumentPath[];
 
 export class DocumentPath extends Operand {
-  private constructor(public readonly items: Array<DocumentPathItem>) {
-    const expressionString = items
-      .map((item) => `#${item.toString()}`)
-      .join('.');
+  private items: DocumentPathItems = [];
 
-    const attributeNames = new AttributeNames();
-    items.forEach((eachItem) =>
-      attributeNames.add(`#${eachItem.attributeName}`, eachItem.attributeName),
-    );
-
-    super(expressionString, attributeNames);
-  }
-
-  public static parse(documentPathString: string): DocumentPath {
-    const documentPathItems = documentPathString
+  public constructor(documentPathString: string) {
+    const items = documentPathString
       .split('.')
       .map((documentPathItemString) =>
         DocumentPathItem.parse(documentPathItemString),
       );
 
-    const invalidDocumentPathItems = documentPathItems.includes(null);
-    if (invalidDocumentPathItems) {
+    if (!isUndefined(items.find(isNull))) {
       throw new DocumentPathParsingError(documentPathString);
     }
 
-    return new DocumentPath(documentPathItems as Array<DocumentPathItem>);
+    const expressionString = items
+      .map((eachItem) => `#${eachItem!.toString()}`)
+      .join('.');
+
+    const attributeNames = new AttributeNames();
+    items.forEach((eachItem) =>
+      attributeNames.add(
+        `#${eachItem!.attributeName}`,
+        eachItem!.attributeName,
+      ),
+    );
+
+    super(expressionString, attributeNames);
+    this.items = items as DocumentPathItems;
   }
 
   public override toString(): string {

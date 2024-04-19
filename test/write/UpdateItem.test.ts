@@ -5,10 +5,10 @@ import { UpdateExpression } from '../../src/expressions/update/index.js';
 
 describe('update item', () => {
   describe('given a key, table name, an update expression and a condition expression', () => {
-    const attributeA = DocumentPath.parse('a.b'),
-      attributeB = DocumentPath.parse('c[0]'),
-      attributeC = DocumentPath.parse('d.e[1]'),
-      attributeD = DocumentPath.parse('f');
+    const attributeA = new DocumentPath('a.b'),
+      attributeB = new DocumentPath('c[0]'),
+      attributeC = new DocumentPath('d.e[1]'),
+      attributeD = new DocumentPath('f');
 
     const key = { id: 'id-00' },
       tableName = 'table-name',

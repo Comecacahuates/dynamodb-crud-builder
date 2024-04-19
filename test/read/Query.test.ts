@@ -5,8 +5,8 @@ import { ProjectionExpression } from '../../src/expressions/projections/index.js
 
 describe('query', () => {
   describe('given a key condition expression, a table name, an index name, a filter expression, a start key and a limit', () => {
-    const keyDocumentPath = DocumentPath.parse('id'),
-      attribute0 = DocumentPath.parse('attr0');
+    const keyDocumentPath = new DocumentPath('id'),
+      attribute0 = new DocumentPath('attr0');
 
     const keyConditionExpression = keyDocumentPath.equalTo('key-value'),
       tableName = 'table-00',

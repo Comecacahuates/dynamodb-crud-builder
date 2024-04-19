@@ -5,9 +5,9 @@ import { DocumentPath } from '../../../src/expressions/operands/DocumentPath.js'
 describe('projection', () => {
   describe('given a list of document paths', () => {
     const documentPaths = [
-      DocumentPath.parse('a.b'),
-      DocumentPath.parse('c[2].d'),
-      DocumentPath.parse('c.d[4].e'),
+      new DocumentPath('a.b'),
+      new DocumentPath('c[2].d'),
+      new DocumentPath('c.d[4].e'),
     ];
 
     describe('when building a projection', () => {
