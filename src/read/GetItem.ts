@@ -38,18 +38,18 @@ export class GetItem {
     return this;
   }
 
-  public toCommand(): GetItemCommand {
+  public asCommand(): GetItemCommand {
     return new GetItemCommand(this.getItemInput);
   }
 
-  public toTransactGetItem(): TransactGetItem {
+  public asTransactGetItem(): TransactGetItem {
     return {
       Get: this.getItemInput,
     };
   }
 
   public async commit(dynamodbClient: DynamoDBClient): Promise<GetItemOutput> {
-    return await dynamodbClient.send(this.toCommand());
+    return await dynamodbClient.send(this.asCommand());
   }
 
   private mergeAttributeNames(expression: Expression): void {

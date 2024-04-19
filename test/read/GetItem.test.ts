@@ -18,7 +18,7 @@ describe('get item', () => {
       const command = new GetItem(key)
         .fromTable(tableName)
         .withProjection(projectionExpression)
-        .toCommand();
+        .asCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe(tableName);
