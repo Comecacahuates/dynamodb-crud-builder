@@ -1,19 +1,17 @@
 import { describe, it, expect } from '@jest/globals';
 import { Query } from '../../src/read/Query.js';
-import { DocumentPath, Literal } from '../../src/expressions/operands/index.js';
+import { DocumentPath } from '../../src/expressions/operands/index.js';
 import { ProjectionExpression } from '../../src/expressions/projections/index.js';
 
 describe('query', () => {
   describe('given a key condition, a table name, an index name, a filter expression, a start key and a limit', () => {
     const keyDocumentPath = DocumentPath.parse('id'),
-      keyValue = Literal.fromValue('key', 'Key'),
-      attribute0 = DocumentPath.parse('attr0'),
-      literal0 = Literal.fromValue(10, '10');
+      attribute0 = DocumentPath.parse('attr0');
 
-    const keyCondition = keyDocumentPath.equalTo(keyValue),
+    const keyCondition = keyDocumentPath.equalTo('key-value'),
       tableName = 'table-00',
       indexName = 'index-00',
-      filterExpression = attribute0.equalTo(literal0),
+      filterExpression = attribute0.equalTo(10),
       projectionExpression = new ProjectionExpression().addAttribute(
         attribute0,
       ),
@@ -36,7 +34,9 @@ describe('query', () => {
       });
 
       it('should have key condition expression', () => {
-        expect(command.input.KeyConditionExpression).toBe('#id = :literalKey');
+        expect(command.input.KeyConditionExpression).toMatch(
+          /#id = :literal\w{10}/,
+        );
       });
 
       it('should have index name', () => {
@@ -44,7 +44,9 @@ describe('query', () => {
       });
 
       it('should have filter expression', () => {
-        expect(command.input.FilterExpression).toBe('#attr0 = :literal10');
+        expect(command.input.FilterExpression).toMatch(
+          /#attr0 = :literal\w{10}/,
+        );
       });
 
       it('should have projection expression', () => {
@@ -74,10 +76,19 @@ describe('query', () => {
       });
 
       it('should have expression attribute values', () => {
-        expect(command.input.ExpressionAttributeValues).toEqual({
-          ':literalKey': { S: 'key' },
-          ':literal10': { N: '10' },
+        const expressionAttributeValues =
+          command.input.ExpressionAttributeValues!;
+        const keys = Object.keys(expressionAttributeValues);
+        const values = Object.values(expressionAttributeValues);
+
+        expect(keys).toHaveLength(2);
+        keys.forEach((eachKey) => {
+          expect(eachKey).toMatch(/:literal\w{10}/);
         });
+
+        expect(values).toHaveLength(2);
+        expect(values[0]).toEqual({ S: 'key-value' });
+        expect(values[1]).toEqual({ N: '10' });
       });
     });
   });
