@@ -27,7 +27,7 @@ describe('query', () => {
         .startingAt(startKey)
         .limitTo(limit)
         .inDescendingOrder()
-        .toCommand();
+        .asCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe(tableName);

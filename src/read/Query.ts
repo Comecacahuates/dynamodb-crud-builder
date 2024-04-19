@@ -4,6 +4,7 @@ import {
   QueryCommand,
   type DynamoDBClient,
   paginateQuery,
+  type DynamoDBPaginationConfiguration,
 } from '@aws-sdk/client-dynamodb';
 import { type NativeAttributeValue, marshall } from '@aws-sdk/util-dynamodb';
 import { type Paginator } from '@smithy/types';
@@ -82,16 +83,18 @@ export class Query {
     return this;
   }
 
-  public toCommand(): QueryCommand {
+  public asCommand(): QueryCommand {
     return new QueryCommand(this.queryInput);
   }
 
-  public async commit(dynamodbClient: DynamoDBClient): Promise<QueryOutput> {
-    return await dynamodbClient.send(this.toCommand());
+  public getPaginator(
+    configuration: DynamoDBPaginationConfiguration,
+  ): Paginator<QueryOutput> {
+    return paginateQuery(configuration, this.queryInput);
   }
 
-  public toPages(dynamodbClient: DynamoDBClient): Paginator<QueryOutput> {
-    return paginateQuery({ client: dynamodbClient }, this.queryInput);
+  public async commit(dynamodbClient: DynamoDBClient): Promise<QueryOutput> {
+    return await dynamodbClient.send(this.asCommand());
   }
 
   private mergeAttributeNames(expression: Expression): void {
