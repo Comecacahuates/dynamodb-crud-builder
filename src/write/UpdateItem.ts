@@ -56,11 +56,11 @@ export class UpdateItem {
     return this;
   }
 
-  public toCommand(): UpdateItemCommand {
+  public asCommand(): UpdateItemCommand {
     return new UpdateItemCommand(this.updateItemInput);
   }
 
-  public toTransactWriteItem(): TransactWriteItem {
+  public asTransactWriteItem(): TransactWriteItem {
     return {
       Update: this.updateItemInput as Update,
     };
@@ -69,7 +69,7 @@ export class UpdateItem {
   public async commit(
     dynamodbClient: DynamoDBClient,
   ): Promise<UpdateItemOutput> {
-    return await dynamodbClient.send(this.toCommand());
+    return await dynamodbClient.send(this.asCommand());
   }
 
   private mergeAttributeNames(expression: Expression): void {

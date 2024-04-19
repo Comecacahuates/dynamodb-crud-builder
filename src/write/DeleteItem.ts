@@ -27,7 +27,7 @@ export class DeleteItem {
     return new DeleteItemCommand(this.deleteItemInput);
   }
 
-  public toTransactWriteItem(): TransactWriteItem {
+  public asTransactWriteItem(): TransactWriteItem {
     return { Delete: this.deleteItemInput };
   }
 

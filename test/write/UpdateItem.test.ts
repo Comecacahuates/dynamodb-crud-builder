@@ -23,7 +23,7 @@ describe('update item', () => {
         .inTable(tableName)
         .applying(updateExpression)
         .onlyIf(conditionExpression)
-        .toCommand();
+        .asCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe('table-name');
