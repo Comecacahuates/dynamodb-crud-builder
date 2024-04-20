@@ -1,8 +1,9 @@
 import { describe, it, expect } from '@jest/globals';
 import { PutItem } from '../../src/write/PutItem.js';
+import { DocumentPath } from '../../src/expressions/operands/index.js';
 
 describe('put item', () => {
-  describe('given a dynamodb item and a table name', () => {
+  describe('given a dynamodb item, a table name and a condition expression', () => {
     const item = {
         attr0: null,
         attr1: 'test',
@@ -15,10 +16,15 @@ describe('put item', () => {
         attr8: ['value1', 'value2'],
         attr9: { key1: 'value1', key2: 'value2' },
       },
-      tableName = 'table-name';
+      tableName = 'table-name',
+      attr0 = new DocumentPath('attr0'),
+      conditionExpression = attr0.notExists();
 
     describe('when building put item command', () => {
-      const command = new PutItem(item).intoTable(tableName).asCommand();
+      const command = new PutItem(item)
+        .intoTable(tableName)
+        .onlyIf(conditionExpression)
+        .asCommand();
 
       it('should have table name', () => {
         expect(command.input.TableName).toBe(tableName);
@@ -37,6 +43,12 @@ describe('put item', () => {
           attr8: { L: [{ S: 'value1' }, { S: 'value2' }] },
           attr9: { M: { key1: { S: 'value1' }, key2: { S: 'value2' } } },
         });
+      });
+
+      it('should have condition expression', () => {
+        expect(command.input.ConditionExpression).toBe(
+          'attribute_not_exists(#attr0)',
+        );
       });
     });
   });
