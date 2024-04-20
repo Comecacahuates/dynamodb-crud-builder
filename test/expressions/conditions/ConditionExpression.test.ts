@@ -34,7 +34,7 @@ describe('logical operations', () => {
 
       it('should have string expression', () => {
         expect(conjunction.getString()).toBe(
-          '(#a = :aa AND #b <> :bb AND #c < :cc)',
+          '((#a = :aa) AND (#b <> :bb) AND (#c < :cc))',
         );
       });
 
@@ -70,7 +70,7 @@ describe('logical operations', () => {
 
       it('should have string expression', () => {
         expect(disjunction.getString()).toBe(
-          '(#a = :aa OR #b <> :bb OR #c < :cc)',
+          '((#a = :aa) OR (#b <> :bb) OR (#c < :cc))',
         );
       });
 
@@ -103,7 +103,7 @@ describe('logical operations', () => {
       });
 
       it('should have string expression', () => {
-        expect(negation.getString()).toBe('(NOT #a = :aa)');
+        expect(negation.getString()).toBe('(NOT (#a = :aa))');
       });
 
       it('should have attribute names of all conditions', () => {

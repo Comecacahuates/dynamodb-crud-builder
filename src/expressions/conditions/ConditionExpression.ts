@@ -24,8 +24,8 @@ export class ConditionExpression implements Expression {
 
   public and(...otherConditions: ConditionExpressions): ConditionExpression {
     const conditions = [this, ...otherConditions],
-      eachStringExpression = conditions.map((eachCondition) =>
-        eachCondition.getString(),
+      eachStringExpression = conditions.map(
+        (eachCondition) => `(${eachCondition.getString()})`,
       ),
       expressionString = eachStringExpression.join(' AND ');
 
@@ -36,8 +36,8 @@ export class ConditionExpression implements Expression {
     ...otherConditions: Array<ConditionExpression>
   ): ConditionExpression {
     const conditions = [this, ...otherConditions],
-      eachStringExpression = conditions.map((eachCondition) =>
-        eachCondition.getString(),
+      eachStringExpression = conditions.map(
+        (eachCondition) => `(${eachCondition.getString()})`,
       ),
       expressionString = eachStringExpression.join(' OR ');
 
@@ -46,7 +46,7 @@ export class ConditionExpression implements Expression {
 
   public not(): ConditionExpression {
     const conditions = [this],
-      expressionString = `NOT ${this.getString()}`;
+      expressionString = `NOT (${this.getString()})`;
 
     return this.buildCondition(`(${expressionString})`, conditions);
   }

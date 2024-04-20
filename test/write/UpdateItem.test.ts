@@ -46,7 +46,7 @@ describe('update item', () => {
 
       it('should have condition expression', () => {
         expect(command.input.ConditionExpression).toMatch(
-          /\(attribute_exists\(#a\.#b\) AND #f = :literal\w{10}\)/,
+          /\(\(attribute_exists\(#a\.#b\)\) AND \(#f = :literal\w{10}\)\)/,
         );
       });
 
