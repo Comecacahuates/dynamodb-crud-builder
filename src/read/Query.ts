@@ -83,6 +83,11 @@ export class Query {
     return this;
   }
 
+  public inAscendingOrder(): Query {
+    this.queryInput.ScanIndexForward = true;
+    return this;
+  }
+
   public asCommand(): QueryCommand {
     return new QueryCommand(this.queryInput);
   }
