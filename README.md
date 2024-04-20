@@ -3,9 +3,9 @@
 This library helps you to create DynamoDB operations without dealing with
 expressions, expression attribute values or expression attribute names.
 It does not perform any data type validations or mapping, but it could
-be used as a base to build more complex tools like an ORM.
+be used to build more complex tools like an ORM.
 
-## Usage
+## Expressions
 
 ### Document paths
 
@@ -237,10 +237,11 @@ const attrA = new DocumentPath('attrA'),
   attrB = new DocumentPath('attrB'),
   attrC = new DocumentPath('attrC');
 
-const projectionExpression = new ProjectionExpression()
-  .addAttribute(attrA)
-  .addAttribute(attrB)
-  .addAttribute(attrC);
+const projectionExpression = new ProjectionExpression().addAttributes(
+  attrA,
+  attrB,
+  attrC,
+);
 // #attrA, #attrB, #attrC
 ```
 
@@ -251,7 +252,11 @@ const projectionExpression = new ProjectionExpression()
 ```typescript
 import { PutItem } from 'dynamodb-crud-builder/write';
 import { DocumentPath } from 'dynamodb-crud-builder/expressions';
-import { PutItemCommand, TransactWriteItem } from '@aws-sdk/client-dynamodb';
+import {
+  PutItemCommand,
+  TransactWriteItem,
+  PutItemOutput,
+} from '@aws-sdk/client-dynamodb';
 
 const item = {
   pk: 'pk',
@@ -268,14 +273,18 @@ const putItem = new PutItem(item)
 const putItemCommand: PutItemCommand = putItem.asCommand();
 const transactWriteItem: TransactWriteItem = putItem.asTransactWriteItem();
 
-await putItem.commit(dynamodbClient);
+const output: PutItemOutput = await putItem.commit(dynamodbClient);
 ```
 
 ### Delete item
 
 ```typescript
 import { DeleteItem } from 'dynamodb-crud-builder/write';
-import { DeleteItemCommand, TransactWriteItem } from '@aws-sdk/client-dynamodb';
+import {
+  DeleteItemCommand,
+  TransactWriteItem,
+  DeleteItemOutput,
+} from '@aws-sdk/client-dynamodb';
 
 const key = {
   pk: 'pk',
@@ -291,7 +300,7 @@ const deleteItem = new DeleteItem(key)
 const deleteItemCommand: DeleteItemCommand = deleteItem.asCommand();
 const transactWriteItem: TransactWriteItem = deleteItem.asTransactWriteItem();
 
-await deleteItem.commit(dynamodbClient);
+const output: DeleteItemOutput = await deleteItem.commit(dynamodbClient);
 ```
 
 ### Update item
@@ -302,7 +311,11 @@ import {
   DocumentPath,
   UpdateExpression,
 } from 'dynamodb-crud-builder/expressions';
-import { UpdateItemCommand, TransactWriteItem } from '@aws-sdk/client-dynamodb';
+import {
+  UpdateItemCommand,
+  TransactWriteItem,
+  UpdateItemOutput,
+} from '@aws-sdk/client-dynamodb';
 
 const key = {
   pk: 'pk',
@@ -311,10 +324,7 @@ const key = {
 
 const attr0 = new DocumentPath('attr0');
 
-const updateExpression = new UpdateExpression().addActions(
-  attr0.set('value'),
-  attr1.increment(10),
-);
+const updateExpression = new UpdateExpression().addActions(attr0.set('value'));
 
 const updateItem = new UpdateItem(key)
   .inTable('table-00')
@@ -324,5 +334,77 @@ const updateItem = new UpdateItem(key)
 const updateItemCommand: UpdateItemCommand = updateItem.asCommand();
 const transactWriteItem: TransactWriteItem = updateItem.asTransactWriteItem();
 
-await updateItem.commit(dynamodbClient);
+const output: UpdateItemOutput = await updateItem.commit(dynamodbClient);
+```
+
+## Read
+
+### Get item
+
+```typescript
+import { GetItem } from 'dynamodb-crud-builder/read';
+import {
+  DocumentPath,
+  ProjectionExpression,
+} from 'dynamodb-crud-builder/expressions';
+import {
+  GetItemCommand,
+  TransactGetItem,
+  GetItemOutput,
+} from '@aws-sdk/client-dynamodb';
+
+const key = {
+  pk: 'pk',
+  sk: 'sk',
+};
+
+const attr0 = new DocumentPath('attr0');
+
+const projectionExpression = new ProjectionExpression().addAttribute(attr0);
+
+const getItem = new GetItem(key)
+  .fromTable('table-00')
+  .withProjection(projectionExpression);
+
+const getItemCommand: GetItemCommand = getItem.asCommand();
+const transactGetItem: TransactGetItem = getItem.asTransactGetItem();
+
+const output: GetItemOutput = await getItem.commit(dynamodbClient);
+```
+
+### Query
+
+```typescript
+import { Query } from 'dynamodb-crud-builder/read';
+import {
+  DocumentPath,
+  ProjectionExpression,
+} from 'dynamodb-crud-builder/expressions';
+import { QueryCommand, QueryOutput } from '@aws-sdk/client-dynamodb';
+import { Paginator } from '@smithy/types';
+
+const pk = new DocumentPath('pk'),
+  sk = new DocumentPath('sk'),
+  attr0 = new DocumentPath('attr0');
+
+const keyConditionExpression = pk.equalTo('pk-00').and(sk.between(10, 20)),
+  projectionExpression = new ProjectionExpression().addAttribute(attr0);
+
+const startKey = { pk: 'pk-00', sk: 15 };
+
+const query = new Query(keyConditionExpression)
+  .fromTable('table-00')
+  .byIndex('index-00')
+  .filteringBy(attr0.lessThan(30))
+  .withProjection(projectionExpression)
+  .startingAt(startKey)
+  .limitTo(10)
+  .inDescendingOrder();
+
+const queryCommand: QueryCommand = getItem.asCommand();
+const paginator: Paginator<QueryOutput> = getItem.getPaginator({
+  client: dynamodbClient,
+});
+
+const output: QueryOutput = await getItem.commit(dynamodbClient);
 ```
