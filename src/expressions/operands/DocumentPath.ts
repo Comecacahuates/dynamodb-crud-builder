@@ -84,14 +84,6 @@ export class DocumentPath extends Operand {
     return super.buildCondition(expressionString, involvedExpressions);
   }
 
-  public contains(operand: OperandLike): ConditionExpression {
-    const operandExpression = super.operandToExpression(operand),
-      expressionString = `contains(${this.getString()}, ${operandExpression.getString()})`,
-      involvedExpressions = [this, operandExpression];
-
-    return super.buildCondition(expressionString, involvedExpressions);
-  }
-
   public ifNotExists(operand: OperandLike): Operand {
     const operandExpression = super.operandToExpression(operand),
       expressionString = `if_not_exists(${this.getString()}, ${operandExpression.getString()})`,

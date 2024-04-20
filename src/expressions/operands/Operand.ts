@@ -90,7 +90,10 @@ export class Operand implements Expression {
     return this.buildCondition(expressionString, involvedExpressions);
   }
 
-  public between(lowerBound: OperandLike, upperBound: OperandLike): ConditionExpression {
+  public between(
+    lowerBound: OperandLike,
+    upperBound: OperandLike,
+  ): ConditionExpression {
     const lowerBoundExpression = this.operandToExpression(lowerBound),
       upperBoundExpression = this.operandToExpression(upperBound),
       expressionString = `${this.getString()} BETWEEN ${lowerBoundExpression.getString()} AND ${upperBoundExpression.getString()}`,
@@ -107,6 +110,14 @@ export class Operand implements Expression {
         .map((eachOperandExpression) => eachOperandExpression.getString())
         .join(', ')})`,
       involvedExpressions = [this, ...operandExpressionList];
+
+    return this.buildCondition(expressionString, involvedExpressions);
+  }
+
+  public contains(operand: OperandLike): ConditionExpression {
+    const operandExpression = this.operandToExpression(operand),
+      expressionString = `contains(${this.getString()}, ${operandExpression.getString()})`,
+      involvedExpressions = [this, operandExpression];
 
     return this.buildCondition(expressionString, involvedExpressions);
   }

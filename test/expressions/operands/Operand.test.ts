@@ -144,7 +144,7 @@ describe('arithmetic expressions', () => {
   });
 });
 
-describe('comparison expressions', () => {
+describe('condition expressions', () => {
   describe('given three operands', () => {
     const operandA = new Operand('#a', new AttributeNames().add('#a', 'a')),
       operandB = new Operand(
@@ -720,6 +720,39 @@ describe('comparison expressions', () => {
 
       it('should have attribute values', () => {
         const expressionAttributeValues = _in
+            .getAttributeValues()
+            .toExpressionAttributeValues(),
+          keys = Object.keys(expressionAttributeValues),
+          values = Object.values(expressionAttributeValues);
+
+        expect(keys.length).toBe(1);
+        expect(keys[0]).toMatch(/:literal\w{10}/);
+        expect(values.length).toBe(1);
+        expect(values[0]).toEqual({ N: '10' });
+      });
+    });
+
+    describe('when building contains expression', () => {
+      const contains = operandA.contains(value);
+
+      it('should return a condition expression', () => {
+        expect(contains).toBeInstanceOf(ConditionExpression);
+      });
+
+      it('should have string expression', () => {
+        expect(contains.getString()).toMatch(/contains\(#a, :literal\w{10}\)/);
+      });
+
+      it('should have attribute names', () => {
+        expect(
+          contains.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
+          '#a': 'a',
+        });
+      });
+
+      it('should have attribute values', () => {
+        const expressionAttributeValues = contains
             .getAttributeValues()
             .toExpressionAttributeValues(),
           keys = Object.keys(expressionAttributeValues),

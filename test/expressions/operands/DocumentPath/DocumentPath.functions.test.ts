@@ -154,34 +154,6 @@ describe('functions', () => {
       });
     });
 
-    describe('when building contains function', () => {
-      const containsFunction = documentPath.contains(operand);
-
-      it('should return a condition expression', () => {
-        expect(containsFunction).toBeInstanceOf(ConditionExpression);
-      });
-
-      it('should have expression string', () => {
-        expect(containsFunction.getString()).toBe('contains(#a[0].#b, #c)');
-      });
-
-      it('should have attribute names', () => {
-        expect(
-          containsFunction.getAttributeNames().toExpressionAttributeNames(),
-        ).toEqual({
-          '#a': 'a',
-          '#b': 'b',
-          '#c': 'c',
-        });
-      });
-
-      it('should have attribute values', () => {
-        expect(
-          containsFunction.getAttributeValues().toExpressionAttributeValues(),
-        ).toEqual({});
-      });
-    });
-
     describe('when building if not exists function', () => {
       const ifNotExistsFunction = documentPath.ifNotExists(operand);
 
