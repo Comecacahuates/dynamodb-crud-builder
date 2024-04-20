@@ -10,6 +10,8 @@ export enum UpdateActionType {
 
 export const UPDATE_ACTION_TYPES = Object.values(UpdateActionType);
 
+export type UpdateActions = UpdateAction[];
+
 export class UpdateAction implements Expression {
   public constructor(
     private readonly type: UpdateActionType,
