@@ -3,14 +3,17 @@
   "description": "Objects that help you building DynamoDB commands",
   "version": "0.4.0",
   "license": "MIT",
-  "author": "Adrián Juárez <comecacahuates@yahoo.com>",
+  "author": {
+    "name": "Adrián Juárez",
+    "email": "comecacahuates@yahoo.com"
+  },
   "packageManager": "yarn@4.1.0",
   "keywords": [
     "dynamodb",
     "aws"
   ],
   "type": "module",
-  "main": "dist/esm/index.js",
+  "main": "dist/esm/index.js",  
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
