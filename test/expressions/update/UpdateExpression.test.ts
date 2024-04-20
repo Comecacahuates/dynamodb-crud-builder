@@ -15,13 +15,15 @@ describe('build update expression', () => {
 
     describe('when building update expression', () => {
       const updateExpression = new UpdateExpression()
-        .addAction(attributeA.set('string'))
-        .addAction(attributeB.increment(1))
-        .addAction(attributeC.remove())
-        .addAction(attributeD.remove())
-        .addAction(attributeE.add(10))
-        .addAction(attributeF.add(new Set<number>([1, 2, 3])))
-        .addAction(attributeG.delete(attributeA))
+        .addActions(
+          attributeA.set('string'),
+          attributeB.increment(1),
+          attributeC.remove(),
+          attributeD.remove(),
+          attributeE.add(10),
+          attributeF.add(new Set<number>([1, 2, 3])),
+          attributeG.delete(attributeA),
+        )
         .addAction(attributeH.delete(new Set<number>([1, 2, 3])));
 
       it('should have expression string with `set` statements', () => {
