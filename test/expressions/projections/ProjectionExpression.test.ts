@@ -12,8 +12,7 @@ describe('projection', () => {
 
     describe('when building a projection', () => {
       const projectionExpression = new ProjectionExpression()
-        .addAttribute(documentPaths[0]!)
-        .addAttribute(documentPaths[1]!)
+        .addAttributes(documentPaths[0]!, documentPaths[1]!)
         .addAttribute(documentPaths[2]!);
 
       it('should have expression string', () => {

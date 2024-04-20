@@ -18,6 +18,13 @@ export class ProjectionExpression implements Expression {
     return this;
   }
 
+  public addAttributes(...documentPaths: DocumentPaths): ProjectionExpression {
+    documentPaths.forEach((eachDocumentPath) =>
+      this.addAttribute(eachDocumentPath),
+    );
+    return this;
+  }
+
   getString(): string {
     return this.documentPaths
       .map((eachDocumentPath) => eachDocumentPath.getString())
