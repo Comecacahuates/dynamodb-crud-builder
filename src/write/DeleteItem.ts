@@ -22,7 +22,7 @@ export class DeleteItem {
 
   public constructor(key: Record<string, NativeAttributeValue>) {
     this.deleteItemInput = {
-      Key: marshall(key),
+      Key: marshall(key, { removeUndefinedValues: true }),
       TableName: undefined,
       ConditionExpression: undefined,
     };

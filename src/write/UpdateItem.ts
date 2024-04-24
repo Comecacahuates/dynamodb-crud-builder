@@ -24,7 +24,7 @@ export class UpdateItem {
 
   public constructor(key: Record<string, NativeAttributeValue>) {
     this.updateItemInput = {
-      Key: marshall(key),
+      Key: marshall(key, { removeUndefinedValues: true }),
       TableName: undefined,
       UpdateExpression: undefined,
       ConditionExpression: undefined,

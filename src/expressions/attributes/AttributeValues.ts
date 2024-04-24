@@ -25,7 +25,9 @@ export class AttributeValues {
     placeholder: string,
     value: NativeAttributeValue,
   ): AttributeValues {
-    this.expressionAttributeValues[placeholder] = convertToAttr(value);
+    this.expressionAttributeValues[placeholder] = convertToAttr(value, {
+      removeUndefinedValues: true,
+    });
     return this;
   }
 

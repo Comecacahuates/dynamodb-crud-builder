@@ -69,7 +69,9 @@ export class Query {
   }
 
   public startingAt(startKey: Record<string, NativeAttributeValue>): Query {
-    this.queryInput.ExclusiveStartKey = marshall(startKey);
+    this.queryInput.ExclusiveStartKey = marshall(startKey, {
+      removeUndefinedValues: true,
+    });
     return this;
   }
 

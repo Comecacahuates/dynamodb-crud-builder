@@ -18,7 +18,7 @@ export class GetItem {
 
   public constructor(key: Record<string, NativeAttributeValue>) {
     this.getItemInput = {
-      Key: marshall(key),
+      Key: marshall(key, { removeUndefinedValues: true }),
       TableName: undefined,
       ProjectionExpression: undefined,
       ExpressionAttributeNames: undefined,

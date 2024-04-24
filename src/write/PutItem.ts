@@ -23,7 +23,7 @@ export class PutItem {
 
   public constructor(item: Record<string, NativeAttributeValue>) {
     this.putItemInput = {
-      Item: marshall(item),
+      Item: marshall(item, { removeUndefinedValues: true }),
       TableName: undefined,
       ConditionExpression: undefined,
     };
