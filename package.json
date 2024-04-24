@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "license": "MIT",
   "author": {
     "name": "Adrián Juárez",
@@ -13,7 +13,7 @@
     "aws"
   ],
   "type": "module",
-  "main": "dist/esm/index.js",
+  "main": "dist/cjs/index.cjs",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
