@@ -29,6 +29,32 @@ describe('parsing document path string', () => {
     });
   });
 
+  describe('given the string "_et"', () => {
+    const documentPathString = '_et';
+
+    describe('when parsing document path string', () => {
+      const documentPath = new DocumentPath(documentPathString);
+
+      it('should have expression string', () => {
+        expect(documentPath.getString()).toBe('#_et');
+      });
+
+      it('should have attribute names', () => {
+        expect(
+          documentPath.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
+          '#_et': '_et',
+        });
+      });
+
+      it('should have empty attribute values', () => {
+        expect(
+          documentPath.getAttributeValues().toExpressionAttributeValues(),
+        ).toEqual({});
+      });
+    });
+  });
+
   describe('given the string "attr0[1][2]"', () => {
     const documentPathString = 'attr0[1][2]';
 

@@ -14,6 +14,18 @@ describe('checking if document path item string is parsable', () => {
     });
   });
 
+  describe('given the string "_et"', () => {
+    const documentPathItemString = '_et';
+
+    describe('when checking if it is parsable', () => {
+      const isValid = DocumentPathItem.isParsable(documentPathItemString);
+
+      it('should return false', () => {
+        expect(isValid).toBe(true);
+      });
+    });
+  });
+
   describe('given the string "attr0[1][2]"', () => {
     const documentPathItemString = 'attr0[1][2]';
 
@@ -62,6 +74,20 @@ describe('parsing attribute name', () => {
 
       it('should return "a"', () => {
         expect(attributeName).toBe('a');
+      });
+    });
+  });
+
+  describe('given the string "_et"', () => {
+    const documentPathItemString = '_et';
+
+    describe('when parsing attribute name', () => {
+      const attributeName = DocumentPathItem.parseAttributeName(
+        documentPathItemString,
+      );
+
+      it('should return "_et"', () => {
+        expect(attributeName).toBe('_et');
       });
     });
   });

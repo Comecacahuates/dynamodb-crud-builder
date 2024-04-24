@@ -20,14 +20,14 @@ export class DocumentPathItem {
   }
 
   public static isParsable(documentPathItemString: string): boolean {
-    const validDocumentPathItemRegex = /^[a-zA-Z]\w*(\[\d+\])*$/;
+    const validDocumentPathItemRegex = /^[_a-zA-Z]\w*(\[\d+\])*$/;
     return validDocumentPathItemRegex.test(documentPathItemString);
   }
 
   public static parseAttributeName(
     documentPathItemString: string,
   ): string | null {
-    const attributeNameRegex = /^[a-zA-Z]\w*/;
+    const attributeNameRegex = /^[_a-zA-Z]\w*/;
     const match = documentPathItemString.match(attributeNameRegex);
 
     return match ? match[0] : null;
