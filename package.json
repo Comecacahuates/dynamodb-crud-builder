@@ -1,7 +1,7 @@
 {
   "name": "dynamodb-crud-builder",
   "description": "Objects that help you building DynamoDB commands",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "license": "MIT",
   "author": {
     "name": "Adrián Juárez",

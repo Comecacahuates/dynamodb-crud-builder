@@ -1,6 +1,7 @@
 import { type NativeAttributeValue } from '@aws-sdk/util-dynamodb';
 import { type Expressions } from '../Expression.js';
 import { Operand, type OperandLike } from './Operand.js';
+import { Literal } from './Literal.js';
 import {
   DocumentPathItem,
   type DocumentPathItems,
@@ -144,6 +145,19 @@ export class DocumentPath extends Operand {
     const itemsExpression = super.operandToExpression(items),
       expressionString = `${this.getString()} = list_append(${this.getString()}, ${itemsExpression.getString()})`,
       involvedExpressions = [this, itemsExpression];
+
+    return this.buildUpdateAction(
+      UpdateActionType.SET,
+      expressionString,
+      involvedExpressions,
+    );
+  }
+
+  public appendIfNotExists(items: OperandLike): UpdateAction {
+    const emptyList = new Literal([]);
+    const itemsExpression = super.operandToExpression(items),
+      expressionString = `${this.getString()} = list_append(if_not_exists(${this.getString()}, ${emptyList.getString()}), ${itemsExpression.getString()})`,
+      involvedExpressions = [this, itemsExpression, emptyList];
 
     return this.buildUpdateAction(
       UpdateActionType.SET,

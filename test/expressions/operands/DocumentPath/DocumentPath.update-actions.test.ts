@@ -211,6 +211,48 @@ describe('update actions', () => {
       });
     });
 
+    describe('when creating action to append if not exists', () => {
+      const updateAction = documentPath.appendIfNotExists(operand);
+
+      it('should return an update action', () => {
+        expect(updateAction).toBeInstanceOf(UpdateAction);
+      });
+
+      it('should have SET type', () => {
+        expect(updateAction.getType()).toBe(UpdateActionType.SET);
+      });
+
+      it('should have expression string', () => {
+        expect(updateAction.getString()).toMatch(
+          /^#a\[0]\.#b = list_append\(if_not_exists\(#a\[0\]\.#b, :literal.{10}\), #c\)/,
+        );
+      });
+
+      it('should have attribute names', () => {
+        expect(
+          updateAction.getAttributeNames().toExpressionAttributeNames(),
+        ).toEqual({
+          '#a': 'a',
+          '#b': 'b',
+          '#c': 'c',
+        });
+      });
+
+      it('should have attribute values', () => {
+        const expressionAttributeValues = updateAction
+          .getAttributeValues()
+          .toExpressionAttributeValues();
+        const keys = Object.keys(expressionAttributeValues);
+        const values = Object.values(expressionAttributeValues);
+
+
+        expect(keys).toHaveLength(1);
+        expect(keys[0]).toMatch(/^:literal.{10}$/);
+        expect(values).toHaveLength(1);
+        expect(values[0]).toEqual({ L: [] });
+      });
+    });
+
     describe('when creating action to add', () => {
       const updateAction = documentPath.add(operand);
 
